@@ -4,7 +4,8 @@ from __future__ import unicode_literals
 
 AUTHOR = u'IxDay'
 SITENAME = u'Not today...'
-SITEURL = ''
+FOOTER_TEXT = u'Done with love... and beer'
+
 
 PATH = 'content'
 
@@ -18,16 +19,29 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
-
-# Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
+LINKS = (('Github', 'https://github.com/IxDay/'),)
 
 DEFAULT_PAGINATION = 10
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
+
+EXTRA_PATH_METADATA = {
+    'extras/favicon.ico': {'path': 'favicon.ico'},
+}
+
+STATIC_PATHS = [
+    'images',
+    'extras'
+]
+
+THEME = "pelican-chunk"
+
+GOOGLE_ANALYTICS = 'UA-38228870-1'
+
+FAVICON_URL = '/favicon.ico'
+
+SINGLE_AUTHOR = True
+MINT = False
+
+DISQUS_SITENAME = 'IxDay'
