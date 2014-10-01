@@ -1,7 +1,7 @@
 Title: HTML5 Boilerplate
 Date: 2014-09-30
 Category: Snippet
-Tags: Bash, Dev
+Tags: bash, web
 
 Sometimes we only need to have a boilerplate quickly to test it through a
 browser. We only want to have the basis, and having it working fine.
@@ -21,12 +21,11 @@ TMPFILE="/tmp/tempfile.$(date +%s)"
 PWD=$(pwd)
 DEST="$1"
 
-# string concatenation
+# here is the link of my configuration, but you can easily create yours
 URL="http://www.initializr.com/builder?h5bp-content&html5shiv&"
 URL="$URL""h5bp-css&h5bp-csshelpers&h5bp-mediaqueryprint&h5bp-mediaqueries&"
-URL="$URL""simplehtmltag&izr-emptyscript"
+URL="$URL""simplehtmltag&izr-emptyscript" # string concatenation example
 
-# here is the link of my configuration, but you can easily create yours
 curl -o "$TMPFILE" "$URL" 2> /dev/null
 
 # if argument is provided, move to the specified directory
