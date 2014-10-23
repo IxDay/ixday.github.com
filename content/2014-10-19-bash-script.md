@@ -144,7 +144,7 @@ here is the simple way to perform that
 ```bash
 #!/bin/bash
 
-if $(grep "toto" /dev/null)
+if grep "toto" /dev/null
 then
   echo "Command succeed"
 else
