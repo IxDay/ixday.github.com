@@ -102,7 +102,7 @@ file change. For this purpose I will use `fswatch` because I use MacOS
 First, check the changes on my working directory:
 
 ```bash
-fswatch -e fswatch -e .git/ -e .pyc -e $(pwd)/static .
+fswatch -e .git/ -e .pyc -e $(pwd)/static .
 ```
 
 Here I use `$(pwd)` in order to not catch the `/static` folder at the root of 
@@ -124,7 +124,7 @@ cd local/folder
 
 remote_loc="my.url.com:/home/username/remote_folder"
 
-fswatch -0 -o -e fswatch -e .git/ -e .pyc -e $(pwd)/static | \
+fswatch -0 -o -e .git/ -e .pyc -e $(pwd)/static . | \
 xargs -0 -I {} rsync -avz -e "ssh" . $remote_loc --exclude-from 'exclude.txt'
 ```
 
