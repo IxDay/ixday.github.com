@@ -20,23 +20,23 @@ fabric.env.jinja = jinja2.Environment(
     loader=jinja2.PackageLoader('fabfile', 'templates')
 )
 
-DEPLOY_PATH = env.deploy_path
+DEPLOY_PATH = fabric.env.deploy_path
 
 
 def clean():
     if os.path.isdir(DEPLOY_PATH):
-        local('rm -rf {deploy_path}'.format(**env))
-        local('mkdir {deploy_path}'.format(**env))
+        fabric.local('rm -rf {deploy_path}'.format(**env))
+        fabric.local('mkdir {deploy_path}'.format(**env))
 
 def build():
-    local('pelican -s pelicanconf.py')
+    fabric.local('pelican -s pelicanconf.py')
 
 def rebuild():
     clean()
     build()
 
 def regenerate():
-    local('pelican -r -s pelicanconf.py')
+    fabric.local('pelican -r -s pelicanconf.py')
 
 def serve(*args):
     port = args[0] if len(args) > 0 else 8000
@@ -45,6 +45,7 @@ def serve(*args):
         print(colors.red('Port must be an integer between 1024 and 65535...'))
         return
 
+    build()
     server = livereload.Server()
     server.watch(fabric.env.content_path, build)
     server.serve(port=port, root=fabric.env.deploy_path)
@@ -52,9 +53,6 @@ def serve(*args):
 def reserve():
     build()
     serve()
-
-def preview():
-    local('pelican -s publishconf.py')
 
 def new_post(*args):
     title = args[0] if len(args) > 0 else fabric.prompt('New post title?')
@@ -69,4 +67,8 @@ def new_post(*args):
      .stream(title=title)
      .dump(filename, 'utf8'))
 
+def publish():
+    build()
+    fabric.local('ghp-import {0}'.format(fabric.env.deploy_path))
+    fabric.local('git push origin -f gh-pages:master')
 
