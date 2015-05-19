@@ -1,6 +1,6 @@
 Title: Systemd-nspawn
 Category: Tuto
-Tags: systemd, adminsys
+Tags: systemd, admin
 
 I am a huge fan of docker for my dev environments, it helps me keeping things
 clear and understanding what are the ressources needed for a project.
