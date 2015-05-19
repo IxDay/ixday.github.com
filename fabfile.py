@@ -1,22 +1,26 @@
-from fabric.api import *
+from __future__ import unicode_literals
+
+import livereload
+import fabric.colors as colors
 import fabric.contrib.project as project
+import fabric.contrib.files as files
+import fabric.api as fabric
+import jinja2
+import pelican.utils as utils
+
+import datetime
 import os
+import os.path
 import sys
-import SimpleHTTPServer
-import SocketServer
 
 # Local path configuration (can be absolute or relative to fabfile)
-env.deploy_path = 'output'
+fabric.env.deploy_path = 'output'
+fabric.env.content_path = 'content'
+fabric.env.jinja = jinja2.Environment(
+    loader=jinja2.PackageLoader('fabfile', 'templates')
+)
+
 DEPLOY_PATH = env.deploy_path
-
-# Remote server configuration
-production = 'root@localhost:22'
-dest_path = '/var/www'
-
-# Rackspace Cloud Files configuration settings
-env.cloudfiles_username = 'my_rackspace_username'
-env.cloudfiles_api_key = 'my_rackspace_api_key'
-env.cloudfiles_container = 'my_cloudfiles_container'
 
 
 def clean():
@@ -34,17 +38,16 @@ def rebuild():
 def regenerate():
     local('pelican -r -s pelicanconf.py')
 
-def serve():
-    os.chdir(env.deploy_path)
+def serve(*args):
+    port = args[0] if len(args) > 0 else 8000
 
-    PORT = 8000
-    class AddressReuseTCPServer(SocketServer.TCPServer):
-        allow_reuse_address = True
+    if not isinstance(port, int) or port < 1024 or port > 65535:
+        print(colors.red('Port must be an integer between 1024 and 65535...'))
+        return
 
-    server = AddressReuseTCPServer(('', PORT), SimpleHTTPServer.SimpleHTTPRequestHandler)
-
-    sys.stderr.write('Serving on port {0} ...\n'.format(PORT))
-    server.serve_forever()
+    server = livereload.Server()
+    server.watch(fabric.env.content_path, build)
+    server.serve(port=port, root=fabric.env.deploy_path)
 
 def reserve():
     build()
@@ -53,21 +56,17 @@ def reserve():
 def preview():
     local('pelican -s publishconf.py')
 
-def cf_upload():
-    rebuild()
-    local('cd {deploy_path} && '
-          'swift -v -A https://auth.api.rackspacecloud.com/v1.0 '
-          '-U {cloudfiles_username} '
-          '-K {cloudfiles_api_key} '
-          'upload -c {cloudfiles_container} .'.format(**env))
+def new_post(*args):
+    title = args[0] if len(args) > 0 else fabric.prompt('New post title?')
+    title = unicode(title, 'utf8')
 
-@hosts(production)
-def publish():
-    local('pelican -s publishconf.py')
-    project.rsync_project(
-        remote_dir=dest_path,
-        exclude=".DS_Store",
-        local_dir=DEPLOY_PATH.rstrip('/') + '/',
-        delete=True,
-        extra_opts='-c',
-    )
+    date = datetime.date.today().isoformat()
+    filename = '.'.join([date, utils.slugify(title), 'md'])
+    filename = os.path.join(fabric.env.content_path, filename)
+    print(' '.join([colors.green('[create new post]'), filename]))
+
+    (fabric.env.jinja.get_template('new_post.tplt')
+     .stream(title=title)
+     .dump(filename, 'utf8'))
+
+
