@@ -1,0 +1,15 @@
+<html>
+<head>
+  <title>Directory listing for {{directory}}</title>
+</head>
+<body>
+  <h2>Directory listing for {{directory}}</h2>
+  <hr>
+  <ul>
+  {% for link in links %}
+    <li><a href="{{ link }}">{{ link }}</a></li>
+  {% endfor %}
+  </ul>
+  <hr>
+</body>
+</html>

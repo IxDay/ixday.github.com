@@ -2,4 +2,5 @@ pelican
 markdown
 ghp-import
 fabric
+path.py
 livereload
