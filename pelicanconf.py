@@ -30,6 +30,16 @@ EXTRA_PATH_METADATA = {
     'extras/favicon.ico': {'path': 'favicon.ico'},
 }
 
+PLUGIN_PATHS = ['plugins']
+PLUGINS = ['image_process']
+
+IMAGE_PROCESS = {
+    'article-image': {
+        'type': 'image',
+        'ops': ["scale_in 700 700 True"],
+    },
+}
+
 STATIC_PATHS = [
     'images',
     'extras'
@@ -45,3 +55,5 @@ SINGLE_AUTHOR = True
 MINT = False
 
 DISQUS_SITENAME = 'IxDay'
+
+# WRITE_SELECTED = []

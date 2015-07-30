@@ -1,4 +1,6 @@
 pelican
+pillow
+beautifulsoup4
 markdown
 ghp-import
 fabric
