@@ -11,7 +11,8 @@ want. But sometimes, having a snippet in the bash prompt can be needed.
 
 So here is an example:
 
-```bash
+```
+#!bash
 # stop script if something bad happen
 set -e
 

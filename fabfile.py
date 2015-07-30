@@ -20,6 +20,7 @@ import sys
 # Local path configuration (can be absolute or relative to fabfile)
 fabric.env.deploy_path = path.path('output')
 fabric.env.content_path = path.path('content')
+fabric.env.theme_path = path.path('../pelican-chunk')
 fabric.env.jinja = jinja2.Environment(
     loader=jinja2.PackageLoader('fabfile', 'templates')
 )
@@ -115,6 +116,7 @@ def serve(*args):
     build()
     server = Server(application)
     server.watch(fabric.env.content_path, build)
+    server.watch(fabric.env.theme_path, build)
     server.serve(port=port, debug=True)
 
 @fabric.task

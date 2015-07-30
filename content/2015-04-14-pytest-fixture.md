@@ -10,7 +10,8 @@ some of my snippets.
 
 First one the app fixture:
 
-```python
+```
+#!python
 @pytest.fixture(autouse=True)
 def app():
     """Load flask in testing mode"""
@@ -21,16 +22,17 @@ def app():
     return app_test.test_client()
 ```
 
-This create an app fixture which will be used to test the application, it 
+This create an app fixture which will be used to test the application, it
 returns a test client to interact with my Flask application.
 
 It is an adaptation of the documentation [testing skeleton]
 (http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton)
 
-I also replace the json encoder by a custom one (it allows me to dump mock 
+I also replace the json encoder by a custom one (it allows me to dump mock
 object for example).
 
-```python
+```
+#!python
 @pytest.yield_fixture
 def request_context(app):
     """Provide a Flask request context for testing purpose"""
@@ -39,25 +41,26 @@ def request_context(app):
         yield req_context
 ```
 
-This one applies a request context on a testing function, this can be 
+This one applies a request context on a testing function, this can be
 useful if you manipulate werzeug interactions (flask request attribute mostly).
-This has to be use when the 
+This has to be use when the
 `RuntimeError: working outside of application context` error is raised.
 
 In the most common use case you will not need the `req_context` variable during
-your test. To avoid to have an unused argument, you can simply use the 
-`@pytest.mark.usefixtures('request_context')` decorator on your testing 
+your test. To avoid to have an unused argument, you can simply use the
+`@pytest.mark.usefixtures('request_context')` decorator on your testing
 function.
 
-Last one is also an opportunity to talk about 
-[peewee](http://peewee.readthedocs.org/en/latest/) which is a great lightweight 
+Last one is also an opportunity to talk about
+[peewee](http://peewee.readthedocs.org/en/latest/) which is a great lightweight
 ORM. Like a lot of ORM peewee provides a [transaction decorator]
 (http://docs.peewee-orm.com/en/latest/peewee/transactions.html)
 , in unittest you may want to test endpoints without connecting to a db.
-So, here is an example on how you can replace the decorator 
+So, here is an example on how you can replace the decorator
 (or contextmanager) by a dummy one.
 
-```python
+```
+#!python
 import imp
 import contextlib
 import pytest

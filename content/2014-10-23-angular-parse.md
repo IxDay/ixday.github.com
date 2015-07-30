@@ -13,20 +13,20 @@ especially with directive manipulation.
 
 So, we will illustrate with some examples:
 
-```js
-//This notation allow us to stay in pure javascript world
+```
+#!javascript
+// This notation allow us to stay in pure javascript world
 angular.injector(['ng'])
 .invoke(function ($parse, $rootScope) {
 
-  //new clean scope (optionnal, it will work directly on $rootScope)
+  // new clean scope (optionnal, it will work directly on $rootScope)
   var $scope = $rootScope.$new();
 
-  //allocate simple value
+  // allocate simple value
   $scope.foo = 'bar';
 
-  //here the magic
+  // here the magic
   var foo = $parse('foo');
-
   /*
     The function which has been returned look for a context to interpolate the
     value
@@ -49,31 +49,31 @@ angular.injector(['ng'])
 
 Pretty cool uh? But wait there is more
 
-```js
+```
+#!javascript
 angular.injector(['ng'])
 .invoke(function ($parse, $rootScope) {
   var $scope = $rootScope.$new();
 
-  //allocate function
+  // allocate function
   $scope.foo = function (argFoo) {
     return argFoo;
   };
 
-  //allocate value
+  // allocate value
   $scope.someValue = 'foo'
 
   var foo = $parse('foo(someValue)');
 
   console.log(foo($scope));
   // display => foo
-
-
 });
 ```
 
 It also interpolates functions?! But wait there is more
 
-```js
+```
+#!javascript
 angular.injector(['ng'])
 .invoke(function ($parse, $rootScope) {
   var $scope = $rootScope.$new();
@@ -87,7 +87,6 @@ angular.injector(['ng'])
   $scope.someValue = 'foo';
 
   var foo = $parse('foo(someValue)');
-
   /*
     The function returned by the $parse service has a second argument wich will
     override the context in case of conflict
@@ -107,7 +106,8 @@ function handler.
 Here is a simplification with explanation of the ng-click directive
 
 
-```js
+```
+#!javascript
 angular.module('myModule', [])
 .directive('myNgClick', ['$parse', function ($parse) {
   return {

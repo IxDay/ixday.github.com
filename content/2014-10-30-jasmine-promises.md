@@ -13,8 +13,8 @@ idea is here).
 It is pretty simple, but not well known (I checked some stackoverflow threads
 before finding this).
 
-```js
-
+```
+#!javascript
 /*
   We will define the promise helper to be accessible through the this keyword in
   jasmine

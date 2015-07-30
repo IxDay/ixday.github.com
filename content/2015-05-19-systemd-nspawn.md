@@ -14,7 +14,8 @@ so everything has to be done "by hand". First, as long as we do not have any
 registery we need to retrieve an "image" of the distribution we need.
 
 (all the commands are ran on behalf of the root user)
-```bash
+```
+#!bash
 apt-get install debootstrap
 debootstrap --arch=amd64 stable /tmp/my-debian-machine
 ```
@@ -25,7 +26,8 @@ download ;)
 Now, we have a folder containing the debian basic configuration, we can "spawn"
 it.
 
-```bash
+```
+#!bash
 systemd-nspawn -D /tmp/my-debian-machine
 ```
 
@@ -40,7 +42,8 @@ Your machine is now visible if you run `machinectl`.
 Now, we will see a feature that I didn't find in docker, the ability to boot
 your system.
 
-```bash
+```
+#!bash
 systemd-nspawn -D /tmp/my-debian-machine -b
 ```
 
@@ -48,7 +51,8 @@ And a prompt will appear, so to log in just 'type the root password'.
 I'm sure you forget to set that before ;). Just stop your container,
 relaunch it without boot and set the password.
 
-```bash
+```
+#!bash
 # stop the container
 machinectl poweroff my-debian-machine
 # launch without boot
@@ -79,7 +83,8 @@ directory in `/etc/systemd/system` and a file *whatever_name.conf*.
 
 So, I created the dedicated file and put this inside:
 
-```bash
+```
+#!bash
 # /etc/systemd/system/console-getty.service.d/autologin.conf
 [Service]
 ExecStart=

@@ -10,7 +10,8 @@ encountered and how I solved them.
 
 ### Creating a bootable USB key on a Mac
 
-```bash
+```
+#!bash
 # plug your USB key, then find it with
 diskutil list
 
@@ -53,7 +54,8 @@ hand.
 
 First find the partition on which your system has been installed
 
-```bash
+```
+#!bash
 # parted will print you the partition of each device
 parted /dev/sda print
 parted /dev/sdb print
@@ -61,7 +63,8 @@ parted /dev/sdb print
 
 Once the partition is found you have to mount it
 
-```bash
+```
+#!bash
 # create a directory for the mounted partition
 mkdir /mnt/sda1
 
@@ -84,7 +87,8 @@ chroot /mnt/sda1 /bin/bash
 Actualize the file `/etc/apt/sources.list` with the following
 [site](http://debgen.simplylinux.ch/)
 
-```bash
+```
+#!bash
 # update
 apt-get update
 
@@ -111,7 +115,8 @@ First step is done, and you will now be able to boot on your new system
 
 #### Set up the locales
 
-```bash
+```
+#!bash
 
 # install the package
 apt-get install locales
@@ -123,7 +128,8 @@ dpkg-reconfigure locales
 
 #### Set up the keyboard
 
-```bash
+```
+#!bash
 
 # install the package
 apt-get install console-data
@@ -136,14 +142,16 @@ loadkeys fr-latin
 Test if the configuration works for you, then you can save it by adding to
 `/etc/rc.locals`
 
-```bash
+```
+#!bash
 # the path to the keymap is displayed when you use the loadkeys command
 /usr/bin/loadkeys /usr/share/keymaps/i386/azerty/fr-latin9.kmap.gz
 ```
 
 #### <a name="users"></a>Users
 
-```bash
+```
+#!bash
 # install sudo
 apt-get install sudo
 
@@ -163,7 +171,8 @@ Here I will use i3 on top of xorg
 
 #### Init
 
-```bash
+```
+#!bash
 # install xorg and i3
 apt-get install xorg i3
 ```
@@ -181,7 +190,8 @@ Then we want to launch i3. To do that add `exec i3` at any point of the file
 
 To have the correct layout for X add the above commands in your `.xinitrc` file.
 
-```bash
+```
+#!bash
 # reset the options
 setxkbmap -option
 

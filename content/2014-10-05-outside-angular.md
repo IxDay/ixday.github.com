@@ -12,25 +12,26 @@ or use $compile for a simple template.
 It is pretty simple to do that, but it is not clearly explained in the angular
 documentation. So here is an example:
 
-```javascript
-//The module ng must be loaded
+```
+#!javascript
+// The module ng must be loaded
 angular.injector(['ng'])
 
-//Then we just have to load the services needed
+// Then we just have to load the services needed
 .invoke(function ($compile, $rootScope) {
 
-  //We create a simple template and a scope
+  // We create a simple template and a scope
   var tplt = '<div>{{foo}}</div>';
   var scope = $rootScope.$new();
 
-  //Populate the scope
+  // Populate the scope
   scope.foo = 'bar';
 
-  //Compile the template
+  // Compile the template
   var elt = $compile(tplt)(scope);
 
-  //We are outside of angular (no application is running), so we have to run
-  //a $digest cycle
+  // We are outside of angular (no application is running), so we have to run
+  // a $digest cycle
   scope.$apply();
 
   // And it will displays "bar" MAGIC!
@@ -44,9 +45,9 @@ unless...
 
 This also works with your own module
 
-```javascript
-
-//Define your own module
+```
+#!javascript
+// Define your own module
 angular.module('foo', [])
 .service('hello', function () {
   this.sayHello = function () {
@@ -54,7 +55,7 @@ angular.module('foo', [])
   };
 });
 
-//Then load it (module ng is mandatory)
+// Then load it (module ng is mandatory)
 angular.injector(['ng', 'foo']).invoke(function (hello) {
   // And it will display "hello from the angular world" MAGIC!
   hello.sayHello();
@@ -64,8 +65,8 @@ angular.injector(['ng', 'foo']).invoke(function (hello) {
 So, now it will be possible to set up a custom symbol for the interpolate
 service.
 
-```javascript
-
+```
+#!javascript
 angular.module('foo', [])
 .config(function($interpolateProvider) {
   // We change the symbol of the interpolate provider

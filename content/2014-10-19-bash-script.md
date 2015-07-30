@@ -16,7 +16,8 @@ the maintainability of your shell scripts
 Everyone who already used a bash script will tell you to mark every variable
 reading with double quotes:
 
-```bash
+```
+#!bash
 # like this
 echo "$a"
 ```
@@ -24,7 +25,8 @@ echo "$a"
 The question is why do we have to mark them, to show that just a little example,
 run the following script
 
-```bash
+```
+#!bash
 #!/bin/bash
 LS="ls *"
 
@@ -45,7 +47,8 @@ failures.
 
 To display a variable there is two notations
 
-```bash
+```
+#!bash
 #!/bin/bash
 FOO="foo"
 
@@ -59,7 +62,8 @@ This notation is here to clarify an ambiguity, because variables can be used
 in a string interpolation it can lead to a miscomprehension.
 
 
-```bash
+```
+#!bash
 #!/bin/bash
 FO="fo"
 
@@ -79,7 +83,8 @@ script:
 
 * `set -e` Will stop the script if an error occurs
 
-```bash
+```
+#!bash
 #!/bin/bash
 set -e
 
@@ -98,7 +103,8 @@ needed, sometime not.
 
 * `set -x` Will display the line running and evaluate the variables
 
-```bash
+```
+#!bash
 #!/bin/bash
 set -x
 
@@ -109,6 +115,7 @@ BAR="$FOO"
 This will display
 
 ```
+#!bash
 + FOO=foo
 + BAR=foo
 ```
@@ -120,7 +127,8 @@ result
 
 Here is the common way to do that
 
-```bash
+```
+#!bash
 #!/bin/bash
 
 RESULT=$(grep "toto" /dev/null)
@@ -141,7 +149,8 @@ fi
 But if we do not want the result, and just want to test some command return,
 here is the simple way to perform that
 
-```bash
+```
+#!bash
 #!/bin/bash
 
 if grep "toto" /dev/null
