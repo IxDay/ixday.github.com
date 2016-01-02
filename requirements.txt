@@ -3,6 +3,6 @@ pillow
 beautifulsoup4
 markdown
 ghp-import
-fabric
+click
 path.py
 livereload

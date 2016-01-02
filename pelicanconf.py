@@ -45,7 +45,7 @@ STATIC_PATHS = [
     'extras'
 ]
 
-THEME = "pelican-chunk"
+THEME = './theme'
 
 GOOGLE_ANALYTICS = 'UA-38228870-1'
 
