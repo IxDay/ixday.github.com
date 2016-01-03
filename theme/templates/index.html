@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content_title %}
+{% endblock %}
+{% block content %}
+  {% set preview = True %}
+	{% for article in articles_page.object_list %}
+		{% include 'post.html' %}
+	{% endfor %}
+	{% include 'pagination.html' %}
+{% endblock content %}
