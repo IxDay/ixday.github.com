@@ -9,6 +9,7 @@ import path
 import pelican.utils as utils
 
 import datetime
+import logging
 import mimetypes
 import subprocess
 
@@ -20,15 +21,43 @@ OUTPUT = 'output'
 CONTENT = 'content'
 THEME = './theme'
 
+MESSAGE_FORMAT = '%(levelname)s %(message)s'
+
+LEVELS = {
+    'WARNING': click.style('WARN', bold=True, fg='yellow'),
+    'INFO': click.style('INFO', bold=True, fg='blue'),
+    'DEBUG': click.style('DEBUG', bold=True, fg='green'),
+    'CRITICAL': click.style('CRIT', bold=True, fg='magenta'),
+    'ERROR': click.style('ERROR', bold=True, fg='red'),
+}
+
+class Formatter(logging.Formatter):
+
+    def format(self, record):
+        record.levelname = '%s:' % LEVELS.get(record.levelname)
+        return super(Formatter, self).format(record)
+
+class Server(livereload.Server):
+    def _setup_logging(self):
+        super(Server, self)._setup_logging()
+        server_handler = logging.getLogger('livereload').handlers[0]
+        server_handler.setFormatter(Formatter(MESSAGE_FORMAT))
+
+
 class Config(object):
     def __init__(self):
         self.settings = path.path(PELICAN_CONF)
         self.output = path.path(OUTPUT)
         self.content = path.path(CONTENT)
         self.theme = path.path(THEME)
+
         self.jinja = jinja2.Environment(
             loader=jinja2.PackageLoader('ixday', 'templates')
         )
+
+    def set_logging_formatter(self, logger):
+        for handler in logger.handlers:
+            handler.setFormatter(Formatter(MESSAGE_FORMAT))
 
 
 class Application(object):
@@ -130,7 +159,7 @@ def serve(ctx, config, no_debug, no_lr, port):
             click.echo('serving at port %d' % port)
             httpd.serve_forever()
     else:
-        server = livereload.Server(Application(config))
+        server = Server(Application(config))
         server.watch(config.content, inner_build)
         server.watch(config.theme, inner_build)
         server.serve(port=port, debug=debug)
@@ -143,7 +172,7 @@ def new_post(config, title):
     '''Create a new blog entry'''
     date = datetime.date.today().isoformat()
     filename = '.'.join([date, utils.slugify(title), 'md'])
-    filename = config.blog / filename
+    filename = config.content / filename
     click.echo('Create new post: %s' % click.style(filename, fg='green'))
 
     (config.jinja.get_template('new_post.tplt')
