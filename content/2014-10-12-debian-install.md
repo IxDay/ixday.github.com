@@ -1,6 +1,6 @@
 Title: Debian Install
 Date: 2014-10-12
-Category: Tuto
+Category: OS
 Tags: bash, admin
 
 That's a fact: I can not install a new system without getting into troubles!
