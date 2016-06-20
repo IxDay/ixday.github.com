@@ -1,0 +1,18 @@
+baseurl = "http://ixday.github.io/"
+languageCode = "en-us"
+title = "Not today..."
+
+theme = "chunk"
+
+pygmentsuseclasses = true
+PygmentsCodeFences = true
+disqusShortname = "IxDay"
+
+[[menu.links]]
+  name = "github"
+  identifier = "about"
+  url = "https://github.com/IxDay"
+
+[Params]
+	Author = "IxDay"
+	Epitaph = "Done with love... and beer"
