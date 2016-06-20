@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Curl for REST</title>
+  <meta property='og:title' content="Curl for REST - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Jan 7 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/curl_for_rest/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Curl for REST</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+, <a href="/tags/bash ">bash</a>
+
+      </p>
+      
+
+    </header>
+    <p>It has been a long time since the last post. But today, I will just show two
+tools I use for debugging my REST APIs.</p>
+
+<p>First one is the well known <a href="http://curl.haxx.se/docs/manpage.html">curl</a> and
+the second one is <a href="http://stedolan.github.io/jq/manual/">jq</a>.</p>
+
+<p>One important feature of curl is its hability to load external files for datas
+with <code>@</code> before file name:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -d @filepath
+</code></pre></div>
+
+<p>Then you can remove the progress bar by adding <code>-s</code> in the options</p>
+
+<p>Finally, you can use jq for parsing the output with a request syntax, here is
+what the final line looks like:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -s -d @filepath <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</code></pre></div>
+
+<p>It is a small article but I just wanted to show that those tools are really
+great, we do not need complex software for this. I prefer using simple cli
+because it gives a better understanding on what we are doing, and on what we
+are relying on.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/curl_for_rest\/';
+    var disqus_title = 'Curl for REST';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/curl_for_rest\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

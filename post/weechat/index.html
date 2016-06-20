@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - weechat</title>
+  <meta property='og:title' content="weechat - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Thu Jul 16 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/weechat/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>weechat</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+
+      </p>
+      
+
+    </header>
+    
+
+<p><a href="https://weechat.org/">Weechat</a> is an ncurse client for IRC,
+which I use and have tweaked to fit my needs.</p>
+
+<p>But Weechat have one major issue: IT IS NOT USER FRIENDLY.
+The documentation is poor, there is a lot of plugins,
+which documentation is even poorer, and the configuration is a hell.</p>
+
+<p>WELCOME!</p>
+
+<p>First of all the installation, <code>apt-get install weechat</code>
+will be sufficient on a real OS. Then, just type <code>weechat</code> in
+order to launch the client.</p>
+
+<p><a href="{filename}/images/weechat_1.png"><img src="{filename}/images/weechat_1.png" alt="First screen" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<h2 id="install-plugins">Install plugins</h2>
+
+<p>At this point all the configuration can be done inside weechat,
+the command <code>script</code> will install all the plugins you want, just like <code>apt</code>.</p>
+
+<p>First script to install: <code>iset.pl</code>, just type <code>script search iset</code> and a
+selection of available plugins will appears.
+To leave it type <code>q</code> then press enter, if you want to install the script
+type <code>i</code> then press enter (an <code>i</code> will appears in front of the name package,
+type <code>q</code> and press enter to exit).</p>
+
+<p><a href="{filename}/images/weechat_script.png"><img src="{filename}/images/weechat_script.png" alt="script search screen" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<p>If you didn&rsquo;t install the package through <code>script search</code> you can install it
+with the following command: <code>script install iset.pl</code>.</p>
+
+<h2 id="configure">Configure</h2>
+
+<p>We will now be able to configure, just type <code>/iset</code> to enter the iset screen.
+You will now see a list of all the parameters which can be modified.
+If you type something in the input bar, it will look for the pattern in
+the list of variables. If you want to search through the values, put an
+<code>=</code> before the pattern.</p>
+
+<p>To change the value, press <code>Alt + Enter</code> then enter the new value
+(it is possible to navigate through values depending on variable type by
+pressing the <code>Tab</code> key).</p>
+
+<p>For example, I don&rsquo;t like the background color of iset selector.
+On this screenshot I replace the value by <code>darkgray</code>,
+changed values appear in magenta.</p>
+
+<p><a href="{filename}/images/weechat_iset.png"><img src="{filename}/images/weechat_iset.png" alt="iset screen" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<h2 id="the-buffer-list">The buffer list</h2>
+
+<p>When using weechat I like to know on which buffer I am.
+A buffer is the way weechat display informations, for example if I type:
+<code>/iset</code> weechat will open a new buffer to display the informations.
+If I want to close a buffer I just have to type: <code>/close</code>, If I want
+to navigate through buffers I type <code>/buffer +1</code>. The command <code>/buffer list</code>
+will display the buffer list in the first buffer, type: <code>/buffer 1</code> to see it.</p>
+
+<p>There is a convenient plugin to display that: <code>chanlist.rb</code>.
+Sadly this one is not supported and you will need to download it.
+Here is the command to download the script:</p>
+
+<p><code>wget https://weechat.org/files/scripts/unofficial/chanlist.rb ~/.weechat/ruby/autoload/</code></p>
+
+<p>Relauch weechat or type <code>/script load chanlist.rb</code>.
+We now have the buffer list on the left, but there is some commands to run in order to
+have something good.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># It is mandatory and appears in the chanlist documentation.</span>
+/set irc.look.server_buffer independent
+
+<span class="c"># Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).</span>
+/set plugins.var.ruby.chanlist.utf8 on
+
+<span class="c"># Fix chanlist size</span>
+/set weechat.bar.chanlist.size 30
+/set weechat.bar.chanlist.size_max 30
+</code></pre></div>
+
+<p>The two last config fixed the weechat chanlist bar size.</p>
+
+<p>Finally, I do not really like the color which is used for displaying the current
+buffer. I want it magenta, chanlist is not very well developed and I will have to
+modify the source code. Run the following line for changing this:</p>
+
+<p><code>sed -i -- 's/white,red/magenta,default/g' ~/.weechat/ruby/autoload/chanlist.rb</code></p>
+
+<p>Quit and relaunch weechat to see the changes. Here is my current result:</p>
+
+<p><a href="{filename}/images/weechat_chanlist.png"><img src="{filename}/images/weechat_chanlist.png" alt="chanlist screen" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<h2 id="connect-to-a-server-and-a-channel">Connect to a server and a channel</h2>
+
+<p>Now we can visualize the buffers we will connect to a server.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Setup nickname and connect</span>
+/set irc.server_default.nicks <span class="s2">&quot;MaxV, MaxV_, MaxV__&quot;</span>
+/connect freenode
+/join <span class="c">#freenode</span>
+
+<span class="c"># Customize nicklist</span>
+/set irc.look.color_nicks_in_nicklist on
+/set weechat.bar.nicklist.size_max 12
+/set weechat.bar.nicklist.size 12
+</code></pre></div>
+
+<p>Here is the result:</p>
+
+<p><a href="{filename}/images/weechat_nicklist.png"><img src="{filename}/images/weechat_nicklist.png" alt="nicklist screen" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<h2 id="bars">Bars</h2>
+
+<p>I will now customize the bars (because I can :p), this is inspired by
+<a href="http://pascalpoitras.com/my-weechat-configuration/">Pascal Poitras blog entry</a>.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Change original separator (need UTF8 support)</span>
+/set weechat.look.separator_horizontal <span class="s2">&quot;—&quot;</span>
+
+<span class="c"># Create and customize activetitle bar</span>
+/bar add activetitle window top <span class="m">1</span> <span class="m">0</span> buffer_title
+/set weechat.bar.activetitle.priority 500
+/set weechat.bar.activetitle.conditions <span class="s2">&quot;</span><span class="si">${</span><span class="nv">active</span><span class="si">}</span><span class="s2">&quot;</span>
+/set weechat.bar.activetitle.color_fg red
+/set weechat.bar.activetitle.color_bg default
+/set weechat.bar.activetitle.separator on
+
+<span class="c"># Customize the title bar</span>
+/set weechat.bar.title.conditions <span class="s2">&quot;</span><span class="si">${</span><span class="nv">inactive</span><span class="si">}</span><span class="s2">&quot;</span>
+/set weechat.bar.title.color_fg white
+/set weechat.bar.title.color_bg default
+/set weechat.bar.title.separator on
+
+<span class="c"># Remove status bar</span>
+/bar del status
+
+<span class="c"># Create and customize the rootinput bar</span>
+/bar add rootinput root bottom <span class="m">1</span> <span class="m">0</span> <span class="o">[</span>buffer_name<span class="o">]</span>+<span class="o">[</span>input_prompt<span class="o">]</span>+<span class="o">(</span>away<span class="o">)</span>,<span class="se">\</span>
+<span class="o">[</span>input_search<span class="o">]</span>,<span class="o">[</span>input_paste<span class="o">]</span>,input_text
+/set weechat.bar.rootinput.separator on
+
+<span class="c"># Remove the input bar</span>
+/bar del input
+</code></pre></div>
+
+<p>Here is the result:</p>
+
+<p><a href="{filename}/images/weechat_bars.png"><img src="{filename}/images/weechat_bars.png" alt="bars screen" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<h2 id="layout">Layout</h2>
+
+<p>I want to display 4 buffers at a time, I will change the layout to fit my needs.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">/window splith 50
+/window splitv 50
+/window 1
+/window splitv 50
+
+/layout store default
+</code></pre></div>
+
+<p><a href="{filename}/images/weechat_layout.png"><img src="{filename}/images/weechat_layout.png" alt="layout screen" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<h2 id="key-bindings">Key bindings</h2>
+
+<p>I have a few key bindings, at this point it fits my needs,
+maybe I will add some in the future and edit this post accordingly.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Activate the mouse on Alt + x, desactivate by pressing a second time</span>
+/key <span class="nb">bind </span>meta-x /mouse toggle
+
+<span class="c"># Navigate through windows by pressing Alt + right, Alt + left</span>
+/key <span class="nb">bind </span>meta-meta2-C /window +1
+/key <span class="nb">bind </span>meta-meta2-D /window -1
+</code></pre></div>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/weechat\/';
+    var disqus_title = 'weechat';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/weechat\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

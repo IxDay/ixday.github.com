@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Pytest command line</title>
+  <meta property='og:title' content="Pytest command line - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Mar 16 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/pytest_command_line/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Pytest command line</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/tests ">tests</a>
+, <a href="/tags/python ">python</a>
+, <a href="/tags/cli ">cli</a>
+
+      </p>
+      
+
+    </header>
+    
+
+<p>I have recently dug into pytest documentation, and moreover into
+the command line arguments and I finally found a better workflow
+for running tests while I develop.</p>
+
+<p>Here is the command I run when I just made some devs:
+<code>py.test -xvvvs --tb=line --pdb</code></p>
+
+<ul>
+<li><strong>-x</strong> will stop execution on first failue, useful when debugging tests
+in order of appearance (recommended)</li>
+<li><strong>-vvv</strong> will display current test path (reuasable in py.test), the
+path will avoid to rerun all the previous tests before going to the one
+you are currently working on. In addition, the verbose flags will display
+a full diff of the assert error. This will help troubleshoot from where
+the error is coming</li>
+<li><strong>&ndash;tb=line</strong> will only display the last line of the unhandled exception
+which make the test fail. I use this because in general the exception
+trace is not really relevant, as we already know what test is running
+and the name of the error.</li>
+<li><strong>&ndash;pdb</strong> this one is gold, it will enter pdb on fail, and if you have
+<a href="https://pypi.python.org/pypi/pdbpp/">pdbpp</a> installed, this will be
+a real debugger :p</li>
+</ul>
+
+<p>The second command I usually ran is: <code>py.test -v --tb=line --cov=src --cov-report=html</code>.
+This one is my code coverage command. I run it on small changes or after the first
+command described here, in order to check that my coverage has evolved.
+I put a <code>-v</code> for displaying the path of the current test, and <code>--tb=line</code> in order
+to not pollute the screen with stack traces. Those two options are here in the case
+of an error during the coverage. It allows me to be faster on isolating tests to
+debug.</p>
+
+<h2 id="bonus">Bonus</h2>
+
+<p>Here I discussed about the coverage, and py.test commands. I use specific options
+on CI (travis) in coordination with <a href="https://coveralls.io/">coveralls</a>.</p>
+
+<p>My <code>.travis.yml</code> file which run py.test with coverage.</p>
+<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">python</span>
+<span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install coveralls</span>
+<span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">py.test -v -tb=line -cov-report= --cov=src</span>
+<span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">coveralls</span>
+</code></pre></div>
+
+<p>It will just put the report into coveralls and displays the
+same informations as the other command explained above.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/pytest_command_line\/';
+    var disqus_title = 'Pytest command line';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/pytest_command_line\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jasmine on Not today...</title>
+    <link>http://ixday.github.io/tags/jasmine/</link>
+    <description>Recent content in Jasmine on Not today...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Oct 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://ixday.github.io/tags/jasmine/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Test promises with jasmine</title>
+      <link>http://ixday.github.io/post/jasmine_promises/</link>
+      <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/jasmine_promises/</guid>
+      <description>&lt;p&gt;Jasmine is a good testing framework, which I really like, it is really powerfull
+and has just the amount of features to perform a huge variety of tests.&lt;/p&gt;
+
+&lt;p&gt;At some point I had to tests promises, and more generally testing that some
+part of a function is not called (you will have to adapt the snippet but the
+idea is here).&lt;/p&gt;
+
+&lt;p&gt;It is pretty simple, but not well known (I checked some stackoverflow threads
+before finding this).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;  We will define the promise helper to be accessible through the this keyword in&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;  jasmine&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt; */&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;beforeEach&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   The this keyword is accessible in every jasmine tests, and you can populate&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   it, this has been set up in jasmine 2.0 in order to avoid the tricky variable&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   scoping of javascript.&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   */&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;promiseHelper&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;promise&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jasmine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createSpy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;successCallback&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jasmine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createSpy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;failCallback&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     Promises are chainable so we can make some tests before sending the promise&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     to this function, here we just insert the two spies in the&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     */&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;promise&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;then&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;finally&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;](&lt;/span&gt;
+      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;expect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toHaveBeenCalled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;expect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;not&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toHaveBeenCalled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Do not forget to test your code, it will save you a lot of time and debugging in
+the future if tests are correctly done ;)&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

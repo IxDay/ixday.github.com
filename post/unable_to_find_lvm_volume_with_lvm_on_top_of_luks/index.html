@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Unable to find LVM volume... with LVM on top of Luks</title>
+  <meta property='og:title' content="Unable to find LVM volume... with LVM on top of Luks - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Aug 19 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Unable to find LVM volume... with LVM on top of Luks</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+
+      </p>
+      
+
+    </header>
+    <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
+I have LVM on top of Luks for my system.
+When I boot I encounter the following message:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Volume group &quot;vg_ssd&quot; not found
+  Skipping volume group vg_ssd
+Unable to find LVM volume vg_ssd/lv_root
+</code></pre></div>
+
+<p>It appears that LVM is started before I open the crypted partition and display this error.
+To fix this we will manipulate the initramfs \o/.</p>
+
+<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code></p>
+
+<p>which starts like this:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/sh</span>
+
+<span class="nv">PREREQ</span><span class="o">=</span><span class="s2">&quot;cryptroot-prepare&quot;</span>
+
+<span class="c">#</span>
+<span class="c"># Standard initramfs preamble</span>
+<span class="c">#</span>
+prereqs<span class="o">()</span>
+<span class="o">{</span>
+	<span class="c"># Make sure that cryptroot is run last in local-top</span>
+	<span class="k">for</span> req in <span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span>/*<span class="p">;</span> <span class="k">do</span>
+		<span class="nv">script</span><span class="o">=</span><span class="si">${</span><span class="nv">req</span><span class="p">##*/</span><span class="si">}</span>
+		<span class="k">if</span> <span class="o">[</span> <span class="nv">$script</span> !<span class="o">=</span> cryptroot <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+			<span class="nb">echo</span> <span class="nv">$script</span>
+		<span class="k">fi</span>
+	<span class="k">done</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="nv">$1</span> in
+prereqs<span class="o">)</span>
+	prereqs
+	<span class="nb">exit </span>0
+	<span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="c"># source for log_*_msg() functions, see LP: #272301</span>
+. /scripts/functions
+</code></pre></div>
+
+<p>Line 10 to 16 it says that cryptroot is run last, in the same directory there is a <code>lvm2</code>
+script. So, what is happening is that cryptroot is launched after lvm2 which is not what we want.
+To fix this remove lines 10 to 16 and replace them with <code>echo &quot;$PREREQ&quot;</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/sh</span>
+
+<span class="nv">PREREQ</span><span class="o">=</span><span class="s2">&quot;cryptroot-prepare&quot;</span>
+
+<span class="c">#</span>
+<span class="c"># Standard initramfs preamble</span>
+<span class="c">#</span>
+prereqs<span class="o">()</span>
+<span class="o">{</span>
+	<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$PREREQ</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="nv">$1</span> in
+prereqs<span class="o">)</span>
+	prereqs
+	<span class="nb">exit </span>0
+	<span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="c"># source for log_*_msg() functions, see LP: #272301</span>
+. /scripts/functions
+</code></pre></div>
+
+<p>At the init step files are taken in alphabetical order so <code>cryptroot</code> will come before
+<code>lvm2</code> (c &lt; l).</p>
+
+<p>Now we just regenerate the initrd files: <code>update-initramfs -u -k all</code> reboot and voila, it works :D</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/unable_to_find_lvm_volume_with_lvm_on_top_of_luks\/';
+    var disqus_title = 'Unable to find LVM volume... with LVM on top of Luks';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/unable_to_find_lvm_volume_with_lvm_on_top_of_luks\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

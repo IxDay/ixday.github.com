@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Curl utils</title>
+  <meta property='og:title' content="Curl utils - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Tue Jul 19 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/curl_utils/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Curl utils</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/bash ">bash</a>
+
+      </p>
+      
+
+    </header>
+    <p>Here are some options and command I use with <code>curl</code> when dealing with stuff
+I have to develop.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -si &lt;ip&gt; <span class="c"># -s is the silent flag, it removes the progress</span>
+              <span class="c"># -i displays the headers</span>
+
+curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -u <span class="s2">&quot;admin:admin&quot;</span> -d <span class="s1">&#39;{}&#39;</span> &lt;ip&gt;
+<span class="c"># -X set up the http method (here POST)</span>
+<span class="c"># -H set up an header, format is: &quot;header_name: value&quot;</span>
+<span class="c"># -u support for Basic Auth, format is: &quot;user:password&quot;</span>
+<span class="c"># -d set up data to send to the server</span>
+</code></pre></div>
+
+<p>I mostly use those options, the <code>-s</code> is really interesting when you want to
+grep the content.</p>
+
+<p>So, when testing availability of an http service, I use this snippet:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="k">while</span> <span class="nb">true</span><span class="p">;</span> <span class="k">do</span> curl -si &lt;ip&gt;<span class="p">|</span>awk <span class="s1">&#39;NR==1||NR==3&#39;</span><span class="p">;</span> sleep 1<span class="p">;</span> <span class="k">done</span>
+</code></pre></div>
+
+<p>This will do kind of a ping for an http service, displaying this:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:43 GMT
+HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:45 GMT
+HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:46 GMT
+</code></pre></div>
+
+<p>The status of the http call, and the date of the call has been done.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/curl_utils\/';
+    var disqus_title = 'Curl utils';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/curl_utils\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

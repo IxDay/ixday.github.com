@@ -1,0 +1,1686 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Not today...</title>
+    <link>http://ixday.github.io/</link>
+    <description>Recent content on Not today...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 19 Jul 2016 14:24:57 +0200</lastBuildDate>
+    <atom:link href="http://ixday.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Curl utils</title>
+      <link>http://ixday.github.io/post/curl_utils/</link>
+      <pubDate>Tue, 19 Jul 2016 14:24:57 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/curl_utils/</guid>
+      <description>&lt;p&gt;Here are some options and command I use with &lt;code&gt;curl&lt;/code&gt; when dealing with stuff
+I have to develop.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
+              &lt;span class=&#34;c&#34;&gt;# -i displays the headers&lt;/span&gt;
+
+curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -u &lt;span class=&#34;s2&#34;&gt;&amp;quot;admin:admin&amp;quot;&lt;/span&gt; -d &lt;span class=&#34;s1&#34;&gt;&amp;#39;{}&amp;#39;&lt;/span&gt; &amp;lt;ip&amp;gt;
+&lt;span class=&#34;c&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I mostly use those options, the &lt;code&gt;-s&lt;/code&gt; is really interesting when you want to
+grep the content.&lt;/p&gt;
+
+&lt;p&gt;So, when testing availability of an http service, I use this snippet:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep 1&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will do kind of a ping for an http service, displaying this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:43 GMT
+HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:45 GMT
+HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:46 GMT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The status of the http call, and the date of the call has been done.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Libvirt through vagrant</title>
+      <link>http://ixday.github.io/post/libvirt_through_vagrant/</link>
+      <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/libvirt_through_vagrant/</guid>
+      <description>
+
+&lt;p&gt;I will not install VirtualBox! That&amp;rsquo;s all (nor VMWare, don&amp;rsquo;t be ridiculous).
+But I really like &lt;a href=&#34;https://www.vagrantup.com/&#34;&gt;Vagrant&lt;/a&gt;, and use it every time
+I need something closer to a running machine. So, I dig up the internet and
+found that there is an unofficial support of libvirt.&lt;/p&gt;
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;I do not remember where I found the documentation to do this or if I did it by
+myself, so no link here, just what I do in order to make this work. I use a
+debian jessie distribution, so packages name may vary.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install packages&lt;/span&gt;
+apt-get install qemu-kvm libvirt-daemon-system libvirt-dev zlib1g-dev vagrant
+
+&lt;span class=&#34;c&#34;&gt;# Install vagrant plugin&lt;/span&gt;
+vagrant plugin install vagrant-libvirt
+
+&lt;span class=&#34;c&#34;&gt;# Add user to group&lt;/span&gt;
+gpasswd -a user_name libvirt
+
+&lt;span class=&#34;c&#34;&gt;# Reboot in order to load kvm and group change&lt;/span&gt;
+reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now everything is installed and ready to work with the libvirt provider.
+In order to verify that everything works, run:
+&lt;code&gt;vagrant init debian/jessie64; vagrant up --provider libvirt&lt;/code&gt;.
+It must download a debian/jessie image then run it through vagrant.&lt;/p&gt;
+
+&lt;h2 id=&#34;in-action&#34;&gt;In action&lt;/h2&gt;
+
+&lt;p&gt;For this example, I will just run a Coreos image, and show you how you can
+migrate an existing Vagrantfile to the libvirt provider.&lt;/p&gt;
+
+&lt;p&gt;Clone this repo &lt;a href=&#34;https://github.com/coreos/coreos-vagrant&#34;&gt;https://github.com/coreos/coreos-vagrant&lt;/a&gt;, and follow the
+instructions.&lt;/p&gt;
+
+&lt;p&gt;Then according to this PR, I made a modification to the Vagrantfile
+&lt;a href=&#34;https://github.com/coreos/coreos-vagrant/pull/290/files&#34;&gt;https://github.com/coreos/coreos-vagrant/pull/290/files&lt;/a&gt;, I also added
+a valid &lt;code&gt;box_url&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;  &lt;span class=&#34;c1&#34;&gt;# if the provider asked is libvirt&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;provider&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:libvirt&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# change the box to a libvirt compatible one&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;box&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;dongsupark/coreos-%s&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$update_channel&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# this line indicates where the box can be found&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;box_url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://atlas.hashicorp.com/dongsupark/boxes/coreos-%s&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$update_channel&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# change the driver name and pass the parameters needed to comply with&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# specifications&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;driver&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;kvm&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;memory&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$vm_memory&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cpus&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$vm_cpus&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you can do a &lt;code&gt;vagrant up&lt;/code&gt; and it will work (it works on my machine :p).&lt;/p&gt;
+
+&lt;h2 id=&#34;bonus&#34;&gt;Bonus&lt;/h2&gt;
+
+&lt;p&gt;You can migrate Vagrant images to libvirt with another plugin:
+&lt;code&gt;vagrant-mutate&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install the plugin&lt;/span&gt;
+vagrant plugin install vagrant-mutate
+
+&lt;span class=&#34;c&#34;&gt;# Mutate an image&lt;/span&gt;
+vagrant mutate https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.2.2/providers/virtualbox.box libvirt
+
+&lt;span class=&#34;c&#34;&gt;# Now the image is available, you can rename it if needed&lt;/span&gt;
+mv ~/.vagrant.d/boxes/virtualbox ~/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64
+
+&lt;span class=&#34;c&#34;&gt;# Then run it&lt;/span&gt;
+vagrant init debian/jessie64&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; vagrant up --provider libvirt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is no longer really needed as there is more and more images with libvirt
+provider.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gogs &#43; Drone</title>
+      <link>http://ixday.github.io/post/gogs_drone_compose/</link>
+      <pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/gogs_drone_compose/</guid>
+      <description>
+
+&lt;p&gt;Jenkins is everywhere now, but I really don&amp;rsquo;t like it. So I am looking at
+a replacement from day to day. I discovered &lt;a href=&#34;https://gogs.io/&#34;&gt;Gogs&lt;/a&gt; an
+I though that a CI is also a good use case for the Golang language.&lt;/p&gt;
+
+&lt;p&gt;And I finally found &lt;a href=&#34;https://drone.io/&#34;&gt;Drone&lt;/a&gt; (which was not really difficult
+as it is mentionned in
+&lt;a href=&#34;https://github.com/gogits/gogs/issues/1232&#34;&gt;a ticket on gogs github&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;So I decided to make them work together in order to test that.&lt;/p&gt;
+
+&lt;h2 id=&#34;environment&#34;&gt;Environment&lt;/h2&gt;
+
+&lt;p&gt;We want to test them in a temporary location with a simple &amp;ldquo;Hello world&amp;rdquo; test.
+Here is the architecture we will use:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
+  |-- test                  # the git repository with the file to test
+  |   |-- hello.py          # simple python file with a doctest test
+  |-- gogs                  # directory which will be used by gogs to store
+  |                         # datas (sqlite, git, ssh)
+  |-- drone
+      |-- dronerc           # config file
+      |-- var               # directory to store drone data (mostly sqlite)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;test-repo&#34;&gt;Test repo&lt;/h2&gt;
+
+&lt;p&gt;We just use the doctest feature of python here, this allow us to perform a
+simple test without bootstraping a bunch of code&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function&lt;/span&gt;
+
+&lt;span class=&#34;sd&#34;&gt;    Here the test we want to perform&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;gt;&amp;gt;&amp;gt; hello()&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;doctest&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;doctest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;testmod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And this is the run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;python hello.py -v
+Trying:
+    hello&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+Expecting:
+    &lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+ok
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; items had no tests:
+    __main__
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; items passed all tests:
+   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; tests in __main__.hello
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; tests in &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; items.
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; passed and &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; failed.
+Test passed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;gogs&#34;&gt;Gogs&lt;/h2&gt;
+
+&lt;p&gt;This one is really basic, the tutorial is really simple and it works out
+of the box with the docker container provided. I haven&amp;rsquo;t tested it through
+ssh, but there is some disclaimer so I will test this later.&lt;/p&gt;
+
+&lt;p&gt;docs: &lt;a href=&#34;https://github.com/gogits/gogs/tree/master/docker&#34;&gt;https://github.com/gogits/gogs/tree/master/docker&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I choose the sqlite backend, which is easier to configure because there is
+no configuration to do.&lt;/p&gt;
+
+&lt;p&gt;I just run the docker container with the following line:
+&lt;code&gt;docker run --name gogs -p 10022:22 -p 10080:3000 -v $(pwd)/gogs:/data gogs/gogs&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I connect it through the &lt;strong&gt;localhost:10080&lt;/strong&gt; url and use the default config.
+The first user created (through signup) is the administrator of the application.
+Just be sure to replace all the localhost mentions with the address of
+the container (which can be accessed with &lt;code&gt;docker inspect gogs&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;Add a new repository (like you do with github), and push the test project
+described in the previous section to it.&lt;/p&gt;
+
+&lt;p&gt;You now have a working Gogs! (Be careful this is a temporary build, do not
+use this as your day to day git repo).&lt;/p&gt;
+
+&lt;h2 id=&#34;drone&#34;&gt;Drone&lt;/h2&gt;
+
+&lt;p&gt;This one is a bit more complicated, first we have to create a dronerc file
+with the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
+&lt;span class=&#34;nv&#34;&gt;REMOTE_CONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://172.17.0.3:3000
+&lt;span class=&#34;nv&#34;&gt;DEBUG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here I put the application in debug mode, this is not mandatory, but I like
+to have outputs if something goes bad.&lt;/p&gt;
+
+&lt;p&gt;Now we can start the container:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;docker run \
+        --volume $(pwd)/drone/var:/var/lib/drone \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --env-file $(pwd)/drone/dronerc \
+        --restart=always \
+        --publish=80:8000 \
+        --detach=true \
+        --name=drone \
+        drone/drone:0.4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Getting rid of gulp bunch of dependencies</title>
+      <link>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</link>
+      <pubDate>Sun, 10 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</guid>
+      <description>
+
+&lt;p&gt;Recently Nodejs environment broke due the removal from npm
+of a small library (11 SLOC): &lt;code&gt;leftpad&lt;/code&gt;. As it hit the world
+and broke a bunch of projects and CIs, I asked myself if my projects
+contains so much dependencies that if one break, everything collapse.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-problem&#34;&gt;The problem&lt;/h2&gt;
+
+&lt;p&gt;For developing my frontend I use a tool which I really like:
+&lt;a href=&#34;http://gulpjs.com/&#34;&gt;Gulp&lt;/a&gt;. The issue there, is that for working
+with multiple building process involved a lot of glue and third
+party libraries. Here is an example: &lt;a href=&#34;https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md&#34;&gt;https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md&lt;/a&gt;
+Just for using &lt;a href=&#34;http://browserify.org/&#34;&gt;browserify&lt;/a&gt;
+(which is another great tool). Each of those libraries involved other
+dependencies and so on until we download the whole internet to perform the
+most simple tasks.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-solution&#34;&gt;The solution ?&lt;/h2&gt;
+
+&lt;p&gt;According to this, I started looking at those libraries in order to see
+if I can implement them with a reduced number of dependencies and
+lines of code. The answer is: yes, and moreover it is quite simple and
+helps me learned some new things.&lt;/p&gt;
+
+&lt;p&gt;Here is the goal of the exercise:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;rewrite &lt;code&gt;vinyl-source-stream&lt;/code&gt;, &lt;code&gt;merge-stream&lt;/code&gt; and &lt;code&gt;vinyl-buffer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;fix browserify in the gulp environment, according to
+&lt;a href=&#34;http://stackoverflow.com/questions/30077567/browserify-errors-ending-gulp-watch-task&#34;&gt;this issue&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;the-implementation&#34;&gt;The implementation&lt;/h2&gt;
+
+&lt;p&gt;To perform the implementation I will only keep the
+&lt;a href=&#34;https://github.com/rvagg/through2&#34;&gt;through2 module&lt;/a&gt; for better creating
+streams (don&amp;rsquo;t worry as it is a requirements of all the gulp plugins it will
+not add a new dependency)
+and &lt;a href=&#34;https://github.com/gulpjs/gulp-util&#34;&gt;gulp util&lt;/a&gt; which will allow me
+to have some helpers to deal with gulp (as through2 it will not create new
+dependencies as it is a requirements for basically all the gulp plugins).&lt;/p&gt;
+
+&lt;p&gt;I will create a simple &lt;code&gt;utils.js&lt;/code&gt; file aside my &lt;code&gt;gulpfile.js&lt;/code&gt; to store
+those implementations.&lt;/p&gt;
+
+&lt;p&gt;Here is the requirementents of the file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;through2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;gulp-util&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;vinyl-source-stream&#34;&gt;vinyl-source-stream&lt;/h3&gt;
+
+&lt;p&gt;According to its presentation this module only provide a convenient wrapper
+in order to link legacy nodejs streams and gulp implementation of streams
+vinyl.&lt;/p&gt;
+
+&lt;p&gt;Here is the code I use:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// this is basically a stream, I will use the javascript scoping for&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// convenience&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// here is the piping to the previous stream, we need an object stream as we&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// will push a vinyl file in it.&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// The use will be the following:&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// someLegacyStream.pipe(utils.source()).pipe(whateverInGulpWorld);&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// Checks if we have initialized the stream with a vinyl file&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// basically, this just happen once at startup of streaming.&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_ins&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// this is just a convenient way of keeping a state&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// Create a vinyl file and pass &amp;quot;ins&amp;quot; stream as a content,&lt;/span&gt;
+      &lt;span class=&#34;c1&#34;&gt;// and an optional filename&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;File&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}));&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// push the chunk into our new stream in order to unify output&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// as this is asynchronous just notify the system that we handled&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// the chunk&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// close the stream by pushing &amp;quot;null&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Okay, so, we replace a whole module by ~14 SLOC, additionally I get back some
+understanding on how nodejs streams work, and on gulp plugins implementation.&lt;/p&gt;
+
+&lt;p&gt;This is a good start! Let&amp;rsquo;s continue this way&lt;/p&gt;
+
+&lt;h3 id=&#34;merge-streams&#34;&gt;merge-streams&lt;/h3&gt;
+
+&lt;p&gt;This module simply merge multiple streams in a single one, this allow the
+developper to compose with multiple inputs.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// the function treats arguments as a list of streams&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;merge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* streams... */&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep a track of streams merged&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;  &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;noop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// this will be the output,&lt;/span&gt;
+                              &lt;span class=&#34;c1&#34;&gt;// a simple stream which does nothing&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// this function will be called when unpiping and when a source stream ends&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// remove the stream from sources array&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;it&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;it&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!==&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// if it is the last stream opened and if the output is not yet closed,&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// we close it&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;readable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// when a stream is unpiped we remove it&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;unpipe&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// for each stream (arguments is not a regular array this is why we use&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// this syntax)&lt;/span&gt;
+  &lt;span class=&#34;nb&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;prototype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;slice&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;forEach&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// add the stream to our array of sources&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// bind the remove function to the end event of the source&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;once&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// pipe the stream to our output, and let it open (the output)&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// even when the stream ends (in order to handle the others)&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here again we replace an entire module with few lines of code (~15 SLOC).&lt;/p&gt;
+
+&lt;h3 id=&#34;vinyl-buffer&#34;&gt;vinyl-buffer&lt;/h3&gt;
+
+&lt;p&gt;This final module is also part of the vinyl utilitaries. It takes the chunks
+from a stream and return them as a nodejs buffer. Like the others, this
+one is quite simple and only requires to know a bit of node internal
+operations and libraries.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buffer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// like the others we will create a stream object&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep an internal reference of this across js scoping&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// array of buffer we will populate&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// if it is already a buffer or it contains nothing, just push and finish&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isNull&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isBuffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// otherwise we take the content of the stream and we pipe it&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// create a new buffer with data if it is not and push it to our array&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isBuffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// when we have retrieved all the chunks, create a copy of file&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;clone&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// and replace the content with only one huge buffer&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;concat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;// push it and that&amp;#39;s it&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We are still under 20 lines (we start to have a pattern here&amp;hellip; just trolling).
+This part is done !&lt;/p&gt;
+
+&lt;h3 id=&#34;browserify-error-handling-with-gulp&#34;&gt;browserify error handling with gulp&lt;/h3&gt;
+
+&lt;p&gt;As I mentionned it quickly at the beginning I also want to fix an issue I
+have with browserify and gulp.&lt;/p&gt;
+
+&lt;p&gt;I finally found the solution on stack overflow and I am surprised that not a
+lot of people ran in this problem before.&lt;/p&gt;
+
+&lt;p&gt;I also use the &lt;code&gt;gulp.src&lt;/code&gt; syntax to retrieve files instead of loading the
+globbing module which does exactly the same things
+(one dependency removed, Yay \o/).&lt;/p&gt;
+
+&lt;p&gt;Here is how I implemented this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// we need the browserify module&lt;/span&gt;
+&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// we create a utils.browserify kind of plugin here, which can take options&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// initialize browserify with options&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// here we create a stream which will be pluggable through a pipe&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// in order to avoid spending resources we will use it like this&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// gulp.src(&amp;#39;**/*.js&amp;#39;, {read: false}).pipe(utils.browserify()).pipe(whatever)&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// note the &amp;quot;read: false&amp;quot; which will avoid reading file content and only&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// provide vinyl file object (not opened) to the stream&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// here we only retrieve the files provided by the stream&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// and at flush, we bundle the result through browserify&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bundle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// on error we provide a helpful message to the user through gutil.log&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;annotated&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;PluginError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;// and here is the magic not provided before, we notice gulp that&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// the stream as ended, and it can continue to watch our files states&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;emit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// when data is provided by the stream we simply push it into the&lt;/span&gt;
+      &lt;span class=&#34;c1&#34;&gt;// returned one&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// do not forget to pass the end event also&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;emit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This one was quite more complicated but it finally works and I am happy to stay
+in the &amp;ldquo;gulp world&amp;rdquo; and do not provide any tricky thing.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;This experience was really interesting, reducing code dependencies,
+gaining power on underlying nodejs concepts, fixing some bugs also.
+This was not a waste of time and I really enjoyed it.&lt;/p&gt;
+
+&lt;p&gt;I also will not make any comment on node ecosystem because I think everything
+has already been told. But this exercise proved that some libraries are really
+not complicated and can be reimplemented in order to avoid bad surprise in the
+future.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pytest command line</title>
+      <link>http://ixday.github.io/post/pytest_command_line/</link>
+      <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/pytest_command_line/</guid>
+      <description>
+
+&lt;p&gt;I have recently dug into pytest documentation, and moreover into
+the command line arguments and I finally found a better workflow
+for running tests while I develop.&lt;/p&gt;
+
+&lt;p&gt;Here is the command I run when I just made some devs:
+&lt;code&gt;py.test -xvvvs --tb=line --pdb&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;-x&lt;/strong&gt; will stop execution on first failue, useful when debugging tests
+in order of appearance (recommended)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;-vvv&lt;/strong&gt; will display current test path (reuasable in py.test), the
+path will avoid to rerun all the previous tests before going to the one
+you are currently working on. In addition, the verbose flags will display
+a full diff of the assert error. This will help troubleshoot from where
+the error is coming&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&amp;ndash;tb=line&lt;/strong&gt; will only display the last line of the unhandled exception
+which make the test fail. I use this because in general the exception
+trace is not really relevant, as we already know what test is running
+and the name of the error.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&amp;ndash;pdb&lt;/strong&gt; this one is gold, it will enter pdb on fail, and if you have
+&lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt; installed, this will be
+a real debugger :p&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The second command I usually ran is: &lt;code&gt;py.test -v --tb=line --cov=src --cov-report=html&lt;/code&gt;.
+This one is my code coverage command. I run it on small changes or after the first
+command described here, in order to check that my coverage has evolved.
+I put a &lt;code&gt;-v&lt;/code&gt; for displaying the path of the current test, and &lt;code&gt;--tb=line&lt;/code&gt; in order
+to not pollute the screen with stack traces. Those two options are here in the case
+of an error during the coverage. It allows me to be faster on isolating tests to
+debug.&lt;/p&gt;
+
+&lt;h2 id=&#34;bonus&#34;&gt;Bonus&lt;/h2&gt;
+
+&lt;p&gt;Here I discussed about the coverage, and py.test commands. I use specific options
+on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My &lt;code&gt;.travis.yml&lt;/code&gt; file which run py.test with coverage.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
+&lt;span class=&#34;l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
+&lt;span class=&#34;l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
+&lt;span class=&#34;l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It will just put the report into coveralls and displays the
+same informations as the other command explained above.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pdbpp</title>
+      <link>http://ixday.github.io/post/pdbpp/</link>
+      <pubDate>Sun, 28 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/pdbpp/</guid>
+      <description>
+
+&lt;p&gt;I am a huge fan of ipython and its debugger ipdb (I have also done a
+patch on it). Then I discovered &lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt;
+and I found it so great that I no more use ipdb, here is why.&lt;/p&gt;
+
+&lt;h2 id=&#34;more-features&#34;&gt;More features&lt;/h2&gt;
+
+&lt;h3 id=&#34;sticky-mode&#34;&gt;Sticky mode&lt;/h3&gt;
+
+&lt;p&gt;Pdbpp comes with a lot of additional features which are really convenient.
+The first and more well known is the sticky mode:&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;http://ixday.github.io/img/pdbpp_sticky.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;This will display the code currently, executed and shows you with an arrow at
+which exact line you are. Just type &lt;code&gt;sticky&lt;/code&gt; to enable this mode and &amp;ldquo;voila&amp;rdquo; it
+works&lt;/p&gt;
+
+&lt;h3 id=&#34;pdb-disable&#34;&gt;Pdb disable&lt;/h3&gt;
+
+&lt;p&gt;This one is quite usefull when debugging in tests. For example, you have
+a pdb statement in a fixture which is called by a bunch of tests.
+Maybe there is something I do not really understand but when I want
+to exit, I am stuck pressing Ctrl+d Ctrl+c hoping it will stop the tests
+before another fixture call happen.&lt;/p&gt;
+
+&lt;p&gt;Pdbpp extends the pdb command with a disable statement
+(&lt;code&gt;pdb.disable()&lt;/code&gt; in the console), which will ignore subsequent calls to pdb.&lt;/p&gt;
+
+&lt;h3 id=&#34;no-variable-overrides&#34;&gt;No variable overrides&lt;/h3&gt;
+
+&lt;p&gt;When using ipdb, sometimes in the code I use some reserved variables:
+&amp;ldquo;c&amp;rdquo;, &amp;ldquo;rv&amp;rdquo;, &amp;ldquo;args&amp;rdquo;,.. when entering the debugger they are overriden by
+keywords, and I have to change their name and start again to see what they
+contain.&lt;/p&gt;
+
+&lt;p&gt;With pdbpp, this no longer happens, as explained in the documentation, pdbpp
+can infers which variable is currently used and avoid the override.&lt;/p&gt;
+
+&lt;h3 id=&#34;and-many-more&#34;&gt;And many more&lt;/h3&gt;
+
+&lt;p&gt;Just read the documentation and looks at the other features, this library
+is pure gold.&lt;/p&gt;
+
+&lt;h2 id=&#34;just-a-simple-wrapper&#34;&gt;Just a simple wrapper&lt;/h2&gt;
+
+&lt;p&gt;This is just a wrapper around pdb, which means that you can simply call it
+with &lt;code&gt;import pdb; pdb.set_trace()&lt;/code&gt;. And more importantly, when a tool provides
+a postmortem feature (scrapy, pytest) it brings you directly to pdbpp without
+having to dig in the code or documentation (when you wanted to activate ipdb).&lt;/p&gt;
+
+&lt;h2 id=&#34;simple-config&#34;&gt;Simple config&lt;/h2&gt;
+
+&lt;p&gt;Here is my config (a real simple one):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pdb&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DefaultConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# start in sticky mode&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# black&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Linux Mint</title>
+      <link>http://ixday.github.io/post/linux_mint/</link>
+      <pubDate>Mon, 22 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/linux_mint/</guid>
+      <description>
+
+&lt;p&gt;After a long journey, I finally found the distribution which fits
+all my need: &lt;strong&gt;Linux Mint Debian Edition&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;why&#34;&gt;Why ?&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;It is based on debian a distribution which I really like (and not Ubuntu).&lt;/li&gt;
+&lt;li&gt;The default tilling (similar to W7) is really comfortable.&lt;/li&gt;
+&lt;li&gt;Lot of configuration can be done for shortcuts.&lt;/li&gt;
+&lt;li&gt;Support for &lt;code&gt;systemd&lt;/code&gt; (Yay \o/).&lt;/li&gt;
+&lt;li&gt;Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM).&lt;/li&gt;
+&lt;li&gt;And a lot more&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;As I am on Macbook (once upon a time, I was young and dumb), I need a
+particular configuration of the partitions for the installation.&lt;/p&gt;
+
+&lt;p&gt;Here is how my HDD is partitionned:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;First, the &lt;code&gt;/boot/efi&lt;/code&gt; partition with the boot flag is about 200MB&lt;/li&gt;
+&lt;li&gt;Then the Macintosh partition, in hfs+&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;/boot&lt;/code&gt;, partition, as I will use LVM I need to have an external
+partition to hold the initram images, with an ext4 filesystem.&lt;/li&gt;
+&lt;li&gt;Finally, the LVM partition which is subdivided in two partitions:
+
+&lt;ul&gt;
+&lt;li&gt;lvm_root: which will hold the root filesystem&lt;/li&gt;
+&lt;li&gt;lvm_swap: my system swap&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Mount the partitions in the right order into &lt;code&gt;/mnt/target&lt;/code&gt;, follow the
+expert disk partioning in the installation wizard.&lt;/p&gt;
+
+&lt;p&gt;Install LVM into the new system (with chroot), then fillup the fstab file
+to look similar to something like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ordered  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 1
+/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          0	0
+
+proc          /proc	    proc  defaults        0	0
+/dev/sda3     /boot	    ext4  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 2
+/dev/sda2     /boot/efi vfat  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
+
+&lt;p&gt;Now that we have a running distribution there is some small details to fix.
+Here are some piece of configuration I needed to fix to have a satisfying
+install.&lt;/p&gt;
+
+&lt;h3 id=&#34;chromium-as-default&#34;&gt;Chromium as default&lt;/h3&gt;
+
+&lt;p&gt;First, I want to use chromium as the default browser, simply install it with
+the package manager, then just run the &lt;code&gt;Preferred Application&lt;/code&gt; program to
+setup the default.&lt;/p&gt;
+
+&lt;h3 id=&#34;microphone-issue&#34;&gt;Microphone issue&lt;/h3&gt;
+
+&lt;p&gt;As I use a Macbook I have an issue with my mic by default. To fix that, just
+create the &lt;code&gt;/etc/modprobe.d/alsa-base.conf&lt;/code&gt; file, and just past the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;options snd-hda-intel model=mbp101 index=1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Reboot, and tadaaa!&lt;/p&gt;
+
+&lt;h3 id=&#34;systemd&#34;&gt;Systemd&lt;/h3&gt;
+
+&lt;p&gt;By default, on LMDE Betsy (my current installation), the init system is
+still sysvinit.
+I really like systemd and good news the skeleton of it is already present,
+so we just have to explain the system to change.
+And&amp;hellip; it is simpler as I firstly thought, because there is a package for
+that: &lt;code&gt;systemd-sysv&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Just run the installation and you will be good&lt;/p&gt;
+
+&lt;h3 id=&#34;powertop&#34;&gt;Powertop&lt;/h3&gt;
+
+&lt;p&gt;As systemd is already installed, here is the service file:
+&lt;code&gt;/etc/systemd/system/powertop.service&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Powertop tunings&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;[Service]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;Type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;oneshot&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;/usr/sbin/powertop --auto-tune&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;Environment&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;TERM=xterm&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;[Install]&lt;/span&gt;
+&lt;span class=&#34;na&#34;&gt;WantedBy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;multi-user.target&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: I had to install &lt;code&gt;xterm&lt;/code&gt; in order to make the service work, because
+powertop needs a shell at runtime to perform the auto-tune statement.&lt;/p&gt;
+
+&lt;p&gt;It is a systemd service which will be loaded at startup, so just enable it:
+&lt;code&gt;systemctl enable powertop&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;skype&#34;&gt;Skype&lt;/h3&gt;
+
+&lt;p&gt;This one is easy, but I also want my beautiful cinnamon skin on it ;)&lt;/p&gt;
+
+&lt;p&gt;Just download and install the .deb file from
+&lt;a href=&#34;http://www.skype.com/en/download-skype/skype-for-computer/&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enable multiple architecture if you are running x86_64 distribution:
+&lt;code&gt;dpkg --add-architecture i386&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;And now install some complementary packages:
+&lt;code&gt;apt-get install gtk2-engines-murrine:i386 gtk2-engines-pixbuf:i386&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;last-word&#34;&gt;Last word&lt;/h2&gt;
+
+&lt;p&gt;This article will evolve to fit the latest change on my system, stay tuned!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ansible</title>
+      <link>http://ixday.github.io/post/ansible/</link>
+      <pubDate>Sat, 03 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/ansible/</guid>
+      <description>
+
+&lt;p&gt;I have a home media server, and I spent a lot of time configuring,
+testing and installing on it. But I was never really satisfied by
+the way I had to perform the installation (which happens way too often).&lt;/p&gt;
+
+&lt;p&gt;And I recently discovered &lt;a href=&#34;https://www.ansible.com/&#34;&gt;Ansible&lt;/a&gt;, which
+is a tool for doing a lot of stuff with a server
+(configuration, run repetitive command, installation) over ssh.&lt;/p&gt;
+
+&lt;p&gt;I really loved experienced with it, it does not require a lot
+of dependencies on the targeted server, and can be easily run.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-project&#34;&gt;The project&lt;/h2&gt;
+
+&lt;p&gt;I decided to install my home server with it, because it can at
+last allow me to versionned my installation in an easy way
+(which seems too complicated with chef or puppet). It also allows
+me to test this installation against a virtual machine and have
+a reproductible installation.&lt;/p&gt;
+
+&lt;p&gt;For the installation I choose to switch on &lt;a href=&#34;https://www.archlinux.org/&#34;&gt;Archlinux&lt;/a&gt;
+(hipsters for the win), for a lot of reasons, but mainly because I can easily
+install zfs and nvidia drivers (because I also play on
+this computer).&lt;/p&gt;
+
+&lt;p&gt;I decided to create a github organisation in order to push the various git
+projects I created. You can check this out: &lt;a href=&#34;https://github.com/T0rt4nk&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This repository is separated in three sub project which I will explain.&lt;/p&gt;
+
+&lt;h3 id=&#34;development-environment&#34;&gt;Development environment&lt;/h3&gt;
+
+&lt;p&gt;The development environment is based on a VM with Vagrant,
+it also contains the configuration to deploy on the targeted machine.&lt;/p&gt;
+
+&lt;p&gt;You can check the sources here -&amp;gt;
+&lt;a href=&#34;https://github.com/T0rt4nk/ansible-arch&#34;&gt;https://github.com/T0rt4nk/ansible-arch&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;setup-scripts&#34;&gt;Setup scripts&lt;/h3&gt;
+
+&lt;p&gt;When installing on the server we need a basic operating system with
+the ssh service started. I created some scripts which can be retrieved
+easily and setup the default config.&lt;/p&gt;
+
+&lt;p&gt;Check it out here -&amp;gt;
+&lt;a href=&#34;https://github.com/T0rt4nk/setup&#34;&gt;https://github.com/T0rt4nk/setup&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;the-installation&#34;&gt;The installation&lt;/h3&gt;
+
+&lt;p&gt;A really great experience so far, it was reliable and easy, it &amp;ldquo;kind of&amp;rdquo; works
+(ansible is young currently, a lot of things have to be fixed).&lt;/p&gt;
+
+&lt;p&gt;You can look at the code here -&amp;gt;
+&lt;a href=&#34;https://github.com/T0rt4nk/setup&#34;&gt;https://github.com/T0rt4nk/setup&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I tried to follow the best practices but there is a need to involve in this
+technology and I don&amp;rsquo;t have the time right now (it was a side project here).&lt;/p&gt;
+
+&lt;h2 id=&#34;return-on-experience&#34;&gt;Return on experience&lt;/h2&gt;
+
+&lt;p&gt;Ansible was a really good experience and here are some throughts&lt;/p&gt;
+
+&lt;h3 id=&#34;pro&#34;&gt;PRO&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;easy, understandable, it does not require advanced knowledge, nor
+configuration.&lt;/li&gt;
+&lt;li&gt;written in python, this is a language I masterize and it helps me
+a lot when I tried to hack behaviour. I also think that the choice of
+python is really good for this kind of tool. Recently, a sysadmin told
+me that he prefers python over golang because he can hack some code
+even if he does not understand well what is happening.&lt;/li&gt;
+&lt;li&gt;my configuration is versionned (woohoo \o/) and that was the goal of
+this project. I now want to perform any repetitive action with Ansible
+and/or hack the code to make it better.&lt;/li&gt;
+&lt;li&gt;kind of good documentation (this can be hugely improved, but at this moment
+it is still better than many projects).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;cons&#34;&gt;CONS&lt;/h3&gt;
+
+&lt;p&gt;I encountered some issues, some are fixable, some will need evolution on
+Ansible part.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;debug was a bit complicated, as a lot of code is wrapped on client side
+the debugging is hard (I didn&amp;rsquo;t figure how to perform this well). I think
+this one will quickly became a priority for the community.&lt;/li&gt;
+&lt;li&gt;the tool is not fully mature, some behaviours are counter intuitive and
+we have the impression that it is not predicable. This is mostly due
+to the mix of Jinja templates, YAML syntax and python execution.&lt;/li&gt;
+&lt;li&gt;some tools not complete, or not existing (I am looking at you systemd
+support).&lt;/li&gt;
+&lt;li&gt;lack of tests, especially on community modules. Beware of the node effect:
+people creating their own tool instead of improving existant one. This
+bring some regression between versions (migration from 1.4 to 2.0 was a
+real pain)&lt;/li&gt;
+&lt;li&gt;issue with procedural execution, and state management. This is one of the
+most complicated question when coming to issues which tools like Ansible
+tries to solve: which part need to be declarative, which doesn&amp;rsquo;t. I think
+that the use of jinja templates (and python code through plugins in the
+library) is a great idea, but it is not advertised in the documentation
+whereas it could save plenty of time and provide a real&lt;/li&gt;
+&lt;li&gt;issues with state management, this is mostly due to the declarative
+approach. Ansible tries to solve it, but the tool lacks of features and
+extensibility. See previous point for thoughts on how to solve this.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt; This was done during the transition between 1.4 and 2.0, maybe some
+behaviours moved the good way and are now fixed. I will try to write an update
+later when my project will need to evolve.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pop-up with xmobar</title>
+      <link>http://ixday.github.io/post/pop_up_with_xmobar/</link>
+      <pubDate>Mon, 24 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/pop_up_with_xmobar/</guid>
+      <description>
+
+&lt;p&gt;Sometimes I just want to click, even for simple things.
+So I created a little popup to shutdown, restart, suspend my computer,
+which looks like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/xmobar_popup.png&#34;&gt;&lt;img src=&#34;{filename}/images/xmobar_popup.png&#34; alt=&#34;Xmobar popup&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;preparation&#34;&gt;Preparation&lt;/h2&gt;
+
+&lt;p&gt;First of all install &lt;a href=&#34;http://projects.haskell.org/xmobar/&#34;&gt;xmobar&lt;/a&gt;,
+&lt;code&gt;apt-get install xmobar/testing&lt;/code&gt;. Here I will use testing because
+I need the multiple fonts support,
+see &lt;a href=&#34;http://projects.haskell.org/xmobar/releases.html#version-0.23-mar-8-2015&#34;&gt;here&lt;/a&gt;
+for the release note.&lt;/p&gt;
+
+&lt;p&gt;The second thing I will need is an iconic font for the power button.
+&lt;a href=&#34;https://fortawesome.github.io/Font-Awesome/&#34;&gt;Font Awesome&lt;/a&gt; fits my need.
+I downloaded the &lt;code&gt;.ttf&lt;/code&gt; file &lt;a href=&#34;https://github.com/FortAwesome/Font-Awesome/blob/master/fonts/fontawesome-webfont.ttf?raw=true&#34;&gt;here&lt;/a&gt;
+and placed it under &lt;code&gt;~/.local/share/fonts&lt;/code&gt;. I ran &lt;code&gt;fc-cache -vf&lt;/code&gt; in order to
+update the font cache of my machine.&lt;/p&gt;
+
+&lt;p&gt;And that&amp;rsquo;s all, now let&amp;rsquo;s configure&lt;/p&gt;
+
+&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-haskell&#34; data-lang=&#34;haskell&#34;&gt;&lt;span class=&#34;kt&#34;&gt;Config&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;font&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;xft:Droid Sans Mono-10&amp;quot;&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;additionalFonts&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;xft:FontAwesome-10&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;border&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;FullB&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;borderColor&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;#8a8a8a&amp;quot;&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;borderWidth&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bgColor&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;#3c3b37&amp;quot;&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fgColor&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;#ffffff&amp;quot;&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lowerOnStart&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;False&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;position&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Static&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;xpos&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;660&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ypos&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;490&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;width&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;600&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;height&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;template&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;}&amp;lt;fn=1&amp;gt;&amp;lt;/fn&amp;gt;   &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`systemctl poweroff`&amp;gt; Shutdown &amp;lt;/action&amp;gt;    &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`systemctl reboot`&amp;gt;Reboot&amp;lt;/action&amp;gt;    &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`ps -o pid | sed &amp;#39;3q;d&amp;#39; |xargs kill &amp;amp;&amp;amp; systemctl suspend`&amp;gt;&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Suspend&amp;lt;/action&amp;gt;    &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`ps -o pid | sed &amp;#39;3q;d&amp;#39; |xargs kill`&amp;gt;Exit&amp;lt;/action&amp;gt;{&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Explanation line by line:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;line 2: Define the font which will be use, this is my default font for my
+machine, which is available in the package &lt;code&gt;fonts-droid&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;line 3: I declare an additional font which will be used for the icon.&lt;/li&gt;
+&lt;li&gt;line 4: The border style, this will tell xmonad that my border applies on full perimeter.&lt;/li&gt;
+&lt;li&gt;line 5, 6: The border color and width.&lt;/li&gt;
+&lt;li&gt;line 7, 8: The background color and the font color.&lt;/li&gt;
+&lt;li&gt;line 9: Tells xmonad to launch the popup above all windows.&lt;/li&gt;
+&lt;li&gt;line 10: Here is the position of the popup, my screen is 1920x1080,
+I want a popup 600x100, so &lt;code&gt;xpos = (1920 - 600) / 2&lt;/code&gt; and &lt;code&gt;ypos = (1080 - 100) / 2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;line 11 to 16: The template to display, see &lt;a href=&#34;#template&#34;&gt;the template section&lt;/a&gt;
+for a full description&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;the-template-a-name-template-a&#34;&gt;The template &lt;a name=&#34;template&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;}{&lt;/code&gt; symbol describe the text alignment, in a template like this &lt;code&gt;foo}bar{qux&lt;/code&gt;,
+foo will be left align, bar will be centered and qux will be left align.
+Here I just want all the text of the popup centered&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;fn=1&amp;gt;&lt;/code&gt; indicates the use of the font number one in additionals fonts,
+here it will be the &amp;ldquo;Font Awesome&amp;rdquo; font.&lt;/li&gt;
+&lt;li&gt;The curious symbol will appear like &lt;a href=&#34;http://fortawesome.github.io/Font-Awesome/icon/power-off/&#34;&gt;this&lt;/a&gt; if Font Awesome is installed on yout system, like this: Ϳ if not.
+To retrieve a character from font awesome and paste it in a file,
+you can launch the following bash command &lt;code&gt;awk &#39;BEGIN{printf &amp;quot;%c&amp;quot;, 0x00&amp;lt;font_awesome_code&amp;gt;}&#39;&lt;/code&gt;.
+Where &lt;code&gt;font_awesome_code&lt;/code&gt; is the code provided on the icon page of Font Awesome
+(for the power button it will be f011).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;/fn&amp;gt;&lt;/code&gt; indicates that we finished using the Font Awesome font.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;\\&lt;/code&gt; is the way to perform multiline string in Haskell.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;action=\&lt;/code&gt;systemctl poweroff`&amp;gt;` will perform a poweroff when the user
+clicks on the text enclosed in the tag.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Shutdown&lt;/code&gt; the displayed text.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;/action&amp;gt;&lt;/code&gt; close the clickable area.&lt;/li&gt;
+&lt;li&gt;same thing for the reboot section&lt;/li&gt;
+&lt;li&gt;last specificity &lt;code&gt;ps -o pid | sed &#39;3q;d&#39; |xargs kill&lt;/code&gt;, this command line close
+the popup, by killing its process.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bash Expansion</title>
+      <link>http://ixday.github.io/post/bash_expansion/</link>
+      <pubDate>Thu, 20 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/bash_expansion/</guid>
+      <description>&lt;p&gt;A small post just to share a useful bashism the
+&lt;a href=&#34;http://wiki.bash-hackers.org/syntax/expansion/brace&#34;&gt;Brace Expansion&lt;/a&gt;.
+It is really simple to make it works:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;1..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing?
+Ok, now the second feature&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo &lt;/span&gt;something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&amp;gt; something/foo something/bar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Still not amazed, ok now type this one:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It will copy your file
+adding a &lt;code&gt;.old&lt;/code&gt; extension. I do a lot of things like this and it saves me a lot
+of time, so think about it.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Unable to find LVM volume... with LVM on top of Luks</title>
+      <link>http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/</link>
+      <pubDate>Wed, 19 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/</guid>
+      <description>&lt;p&gt;Following &lt;a href=&#34;{filename}/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
+I have LVM on top of Luks for my system.
+When I boot I encounter the following message:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
+  Skipping volume group vg_ssd
+Unable to find LVM volume vg_ssd/lv_root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
+To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
+
+&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;which starts like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c&#34;&gt;# Make sure that cryptroot is run last in local-top&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; req in &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dirname &lt;span class=&#34;nv&#34;&gt;$0&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/*&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+		&lt;span class=&#34;nv&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;req&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;##*/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$script&lt;/span&gt; !&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; cryptroot &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+			&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$script&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt; in
+prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+	prereqs
+	&lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;0
+	&lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;esac&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
+. /scripts/functions
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Line 10 to 16 it says that cryptroot is run last, in the same directory there is a &lt;code&gt;lvm2&lt;/code&gt;
+script. So, what is happening is that cryptroot is launched after lvm2 which is not what we want.
+To fix this remove lines 10 to 16 and replace them with &lt;code&gt;echo &amp;quot;$PREREQ&amp;quot;&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
+
+&lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PREREQ&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt; in
+prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+	prereqs
+	&lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;0
+	&lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;esac&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
+. /scripts/functions
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;At the init step files are taken in alphabetical order so &lt;code&gt;cryptroot&lt;/code&gt; will come before
+&lt;code&gt;lvm2&lt;/code&gt; (c &amp;lt; l).&lt;/p&gt;
+
+&lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Debian Install 3</title>
+      <link>http://ixday.github.io/post/debian_install_3/</link>
+      <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/debian_install_3/</guid>
+      <description>
+
+&lt;p&gt;Today I want to install debian on my personal server.
+And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
+
+&lt;p&gt;I want it to look like that (like this scheme, a lot of reference
+come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;+-----------------------------------------------+ +----------------+
+|Logical volume1        | Logical volume2       | |                |
+|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
+|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
+|                                               | |                |
+|        LUKS encrypted partition               | |                |
+|               /dev/sda2                       | |   /dev/sda1    |
++-----------------------------------------------+ +----------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;prepare-disks&#34;&gt;Prepare disks&lt;/h2&gt;
+
+&lt;p&gt;I use parted for this configuration, I left 1MB at the start of the device
+to be compliant with &lt;code&gt;parted &amp;lt;disk&amp;gt; align-check optimal &amp;lt;partition&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt install cryptsetup lvm2
+
+parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
+parted /dev/sda mkpart primary 201MB 100% &lt;span class=&#34;c&#34;&gt;# lvm partition&lt;/span&gt;
+parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; boot
+parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; lvm
+
+cryptsetup -c aes-xts-plain -y -s &lt;span class=&#34;m&#34;&gt;512&lt;/span&gt; luksFormat /dev/sda2
+&lt;span class=&#34;c&#34;&gt;# enter passphrase&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
+cryptsetup luksOpen /dev/sda2 ssd
+
+lvm pvcreate /dev/mapper/ssd
+lvm vgcreate vg_ssd /dev/mapper/ssd
+
+lvm lvcreate -L 4GB -n swap vg_ssd
+lvm lvcreate -l 100%FREE -n root vg_ssd
+
+&lt;span class=&#34;c&#34;&gt;# now format the partitions&lt;/span&gt;
+mkfs.ext4 /dev/sda1 &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
+mkfs.ext4 /dev/mapper/vg_ssd-lv_root
+mkswap /dev/mapper/vg_ssd-lv_swap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;prepare-base-system&#34;&gt;Prepare base system&lt;/h2&gt;
+
+&lt;p&gt;In order to prepare the base system I will use the &lt;code&gt;debootstrap&lt;/code&gt; tool,
+which will take care of creating base files. Then I will &lt;code&gt;chroot&lt;/code&gt; in the new
+system in order to setup packages and boot initialisation&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
+mount /dev/mapper/&amp;lt;vg_name&amp;gt;-root /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+
+debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /mnt
+
+&lt;span class=&#34;c&#34;&gt;# copy somefiles&lt;/span&gt;
+cp /etc/resolv.conf /mnt/etc/
+cp /etc/network/interfaces /mnt/etc/network
+
+&lt;span class=&#34;c&#34;&gt;# bind and chroot&lt;/span&gt;
+mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/dev
+mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/dev/pts
+mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/proc
+mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /run /mnt/run
+mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /sys /mnt/sys
+
+chroot /mnt/ /bin/bash
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
+
+&lt;p&gt;First install vim! &lt;code&gt;apt-get install vim&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Then create the fstab file, I use the UUID notation for this part.
+Basically, I run two commands in order to get the needed informations&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ls -l /dev/disks/by-uuid
+
+total 0
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
+
+ls -l /dev/mapper
+total 0
+crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root 10, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:37 control
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:51 ssd -&amp;gt; ../dm-0
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 vg_ssd-lv_root -&amp;gt; ../dm-2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Which will give me the following /etc/fstab.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  1
+&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  2
+&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Edit the /etc/apt/sources.list file to set up basic packages and update package list: &lt;code&gt;apt-get update&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Install needed packages&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
+apt-get install locales console-data keyboard-configuration
+
+&lt;span class=&#34;c&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
+dpkg-reconfigure locales
+
+&lt;span class=&#34;c&#34;&gt;# setup password&lt;/span&gt;
+passwd
+
+&lt;span class=&#34;c&#34;&gt;# change hostname&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;suika&amp;quot;&lt;/span&gt; &amp;gt; /etc/hostname
+
+apt-get install lvm2 cryptsetup
+
+&lt;span class=&#34;c&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
+apt-get install firmware-realtek
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;grub&#34;&gt;Grub&lt;/h2&gt;
+
+&lt;p&gt;Now we want to make the new system bootable, to perform this the system needs a kernel
+&lt;code&gt;apt-get install linux-image-amd64&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Set up the /etc/crypttab file, which will tell how to map the crypted partition&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
+ssd             /dev/sda2               none            luks
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Install grub on /dev/sda (on disk, not on partition) &lt;code&gt;apt-get install grub2&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.&lt;/p&gt;
+
+&lt;p&gt;In file &lt;code&gt;/etc/initramfs-tools/initramfs.conf&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+
+&lt;span class=&#34;nv&#34;&gt;KEYMAP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;y
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Update initramfs &lt;code&gt;update-initramfs -u&lt;/code&gt; to apply change on initrd.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-end&#34;&gt;The end!&lt;/h2&gt;
+
+&lt;p&gt;Exit the &lt;code&gt;chroot&lt;/code&gt; unmount partitions and reboot on your new fresh installed system.&lt;/p&gt;
+
+&lt;p&gt;If at startup you get an error message like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
+  Skipping volume group vg_ssd
+Unable to find LVM volume vg_ssd/lv_root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>weechat</title>
+      <link>http://ixday.github.io/post/weechat/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/weechat/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://weechat.org/&#34;&gt;Weechat&lt;/a&gt; is an ncurse client for IRC,
+which I use and have tweaked to fit my needs.&lt;/p&gt;
+
+&lt;p&gt;But Weechat have one major issue: IT IS NOT USER FRIENDLY.
+The documentation is poor, there is a lot of plugins,
+which documentation is even poorer, and the configuration is a hell.&lt;/p&gt;
+
+&lt;p&gt;WELCOME!&lt;/p&gt;
+
+&lt;p&gt;First of all the installation, &lt;code&gt;apt-get install weechat&lt;/code&gt;
+will be sufficient on a real OS. Then, just type &lt;code&gt;weechat&lt;/code&gt; in
+order to launch the client.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_1.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_1.png&#34; alt=&#34;First screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;install-plugins&#34;&gt;Install plugins&lt;/h2&gt;
+
+&lt;p&gt;At this point all the configuration can be done inside weechat,
+the command &lt;code&gt;script&lt;/code&gt; will install all the plugins you want, just like &lt;code&gt;apt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;First script to install: &lt;code&gt;iset.pl&lt;/code&gt;, just type &lt;code&gt;script search iset&lt;/code&gt; and a
+selection of available plugins will appears.
+To leave it type &lt;code&gt;q&lt;/code&gt; then press enter, if you want to install the script
+type &lt;code&gt;i&lt;/code&gt; then press enter (an &lt;code&gt;i&lt;/code&gt; will appears in front of the name package,
+type &lt;code&gt;q&lt;/code&gt; and press enter to exit).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_script.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_script.png&#34; alt=&#34;script search screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;p&gt;If you didn&amp;rsquo;t install the package through &lt;code&gt;script search&lt;/code&gt; you can install it
+with the following command: &lt;code&gt;script install iset.pl&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;configure&#34;&gt;Configure&lt;/h2&gt;
+
+&lt;p&gt;We will now be able to configure, just type &lt;code&gt;/iset&lt;/code&gt; to enter the iset screen.
+You will now see a list of all the parameters which can be modified.
+If you type something in the input bar, it will look for the pattern in
+the list of variables. If you want to search through the values, put an
+&lt;code&gt;=&lt;/code&gt; before the pattern.&lt;/p&gt;
+
+&lt;p&gt;To change the value, press &lt;code&gt;Alt + Enter&lt;/code&gt; then enter the new value
+(it is possible to navigate through values depending on variable type by
+pressing the &lt;code&gt;Tab&lt;/code&gt; key).&lt;/p&gt;
+
+&lt;p&gt;For example, I don&amp;rsquo;t like the background color of iset selector.
+On this screenshot I replace the value by &lt;code&gt;darkgray&lt;/code&gt;,
+changed values appear in magenta.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_iset.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_iset.png&#34; alt=&#34;iset screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;the-buffer-list&#34;&gt;The buffer list&lt;/h2&gt;
+
+&lt;p&gt;When using weechat I like to know on which buffer I am.
+A buffer is the way weechat display informations, for example if I type:
+&lt;code&gt;/iset&lt;/code&gt; weechat will open a new buffer to display the informations.
+If I want to close a buffer I just have to type: &lt;code&gt;/close&lt;/code&gt;, If I want
+to navigate through buffers I type &lt;code&gt;/buffer +1&lt;/code&gt;. The command &lt;code&gt;/buffer list&lt;/code&gt;
+will display the buffer list in the first buffer, type: &lt;code&gt;/buffer 1&lt;/code&gt; to see it.&lt;/p&gt;
+
+&lt;p&gt;There is a convenient plugin to display that: &lt;code&gt;chanlist.rb&lt;/code&gt;.
+Sadly this one is not supported and you will need to download it.
+Here is the command to download the script:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;wget https://weechat.org/files/scripts/unofficial/chanlist.rb ~/.weechat/ruby/autoload/&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Relauch weechat or type &lt;code&gt;/script load chanlist.rb&lt;/code&gt;.
+We now have the buffer list on the left, but there is some commands to run in order to
+have something good.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# It is mandatory and appears in the chanlist documentation.&lt;/span&gt;
+/set irc.look.server_buffer independent
+
+&lt;span class=&#34;c&#34;&gt;# Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).&lt;/span&gt;
+/set plugins.var.ruby.chanlist.utf8 on
+
+&lt;span class=&#34;c&#34;&gt;# Fix chanlist size&lt;/span&gt;
+/set weechat.bar.chanlist.size 30
+/set weechat.bar.chanlist.size_max 30
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The two last config fixed the weechat chanlist bar size.&lt;/p&gt;
+
+&lt;p&gt;Finally, I do not really like the color which is used for displaying the current
+buffer. I want it magenta, chanlist is not very well developed and I will have to
+modify the source code. Run the following line for changing this:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sed -i -- &#39;s/white,red/magenta,default/g&#39; ~/.weechat/ruby/autoload/chanlist.rb&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Quit and relaunch weechat to see the changes. Here is my current result:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_chanlist.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_chanlist.png&#34; alt=&#34;chanlist screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;connect-to-a-server-and-a-channel&#34;&gt;Connect to a server and a channel&lt;/h2&gt;
+
+&lt;p&gt;Now we can visualize the buffers we will connect to a server.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Setup nickname and connect&lt;/span&gt;
+/set irc.server_default.nicks &lt;span class=&#34;s2&#34;&gt;&amp;quot;MaxV, MaxV_, MaxV__&amp;quot;&lt;/span&gt;
+/connect freenode
+/join &lt;span class=&#34;c&#34;&gt;#freenode&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# Customize nicklist&lt;/span&gt;
+/set irc.look.color_nicks_in_nicklist on
+/set weechat.bar.nicklist.size_max 12
+/set weechat.bar.nicklist.size 12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here is the result:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_nicklist.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_nicklist.png&#34; alt=&#34;nicklist screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;bars&#34;&gt;Bars&lt;/h2&gt;
+
+&lt;p&gt;I will now customize the bars (because I can :p), this is inspired by
+&lt;a href=&#34;http://pascalpoitras.com/my-weechat-configuration/&#34;&gt;Pascal Poitras blog entry&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Change original separator (need UTF8 support)&lt;/span&gt;
+/set weechat.look.separator_horizontal &lt;span class=&#34;s2&#34;&gt;&amp;quot;—&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# Create and customize activetitle bar&lt;/span&gt;
+/bar add activetitle window top &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; buffer_title
+/set weechat.bar.activetitle.priority 500
+/set weechat.bar.activetitle.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;active&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+/set weechat.bar.activetitle.color_fg red
+/set weechat.bar.activetitle.color_bg default
+/set weechat.bar.activetitle.separator on
+
+&lt;span class=&#34;c&#34;&gt;# Customize the title bar&lt;/span&gt;
+/set weechat.bar.title.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;inactive&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+/set weechat.bar.title.color_fg white
+/set weechat.bar.title.color_bg default
+/set weechat.bar.title.separator on
+
+&lt;span class=&#34;c&#34;&gt;# Remove status bar&lt;/span&gt;
+/bar del status
+
+&lt;span class=&#34;c&#34;&gt;# Create and customize the rootinput bar&lt;/span&gt;
+/bar add rootinput root bottom &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;buffer_name&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_prompt&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;away&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;,&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_search&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_paste&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,input_text
+/set weechat.bar.rootinput.separator on
+
+&lt;span class=&#34;c&#34;&gt;# Remove the input bar&lt;/span&gt;
+/bar del input
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here is the result:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_bars.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_bars.png&#34; alt=&#34;bars screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;layout&#34;&gt;Layout&lt;/h2&gt;
+
+&lt;p&gt;I want to display 4 buffers at a time, I will change the layout to fit my needs.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;/window splith 50
+/window splitv 50
+/window 1
+/window splitv 50
+
+/layout store default
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_layout.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_layout.png&#34; alt=&#34;layout screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;key-bindings&#34;&gt;Key bindings&lt;/h2&gt;
+
+&lt;p&gt;I have a few key bindings, at this point it fits my needs,
+maybe I will add some in the future and edit this post accordingly.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Activate the mouse on Alt + x, desactivate by pressing a second time&lt;/span&gt;
+/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-x /mouse toggle
+
+&lt;span class=&#34;c&#34;&gt;# Navigate through windows by pressing Alt + right, Alt + left&lt;/span&gt;
+/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-C /window +1
+/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-D /window -1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Listing directory with wsgi</title>
+      <link>http://ixday.github.io/post/listing_directory_with_wsgi/</link>
+      <pubDate>Thu, 02 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/listing_directory_with_wsgi/</guid>
+      <description>
+
+&lt;p&gt;Recently I ran into an issue with my blog and pelican
+(the blogging engine I use). For some reasons (which I explain [here]())
+I had to develop a small wsgi app which act like the
+&lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;python SimpleHTTPServer&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I tried a lot of things but they never worked as I wanted them to.
+So, I decided to do this by myself.&lt;/p&gt;
+
+&lt;h2 id=&#34;specifications&#34;&gt;Specifications&lt;/h2&gt;
+
+&lt;p&gt;Here are the features I wanted:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Define a directory as the root (/) directory from which all the files will be
+served.&lt;/li&gt;
+&lt;li&gt;If this directory contains an index.html file, serves it to the user.&lt;/li&gt;
+&lt;li&gt;If there is no index.html file list all the subdirectories and files in a
+simple page and provide links to navigate.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;tools&#34;&gt;Tools&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;For this little project I need a simple server which is available directly
+in the &lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;stdlib&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;I will use the famous &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;path.py lib&lt;/a&gt; for
+handling all the interactions with the FS.&lt;/li&gt;
+&lt;li&gt;Then &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;Jinja&lt;/a&gt; for all the rendering.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;hello-world&#34;&gt;Hello world!&lt;/h2&gt;
+
+&lt;p&gt;First of all, making it works for the most simple use case&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a simple Hello World when accessing an url (anyone) on the server&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;	&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+	&lt;span class=&#34;c&#34;&gt;# send status_code and headers&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
+	&lt;span class=&#34;c&#34;&gt;# send body&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+	&lt;span class=&#34;c&#34;&gt;# create a server on &amp;#39;localhost&amp;#39; and port 8080 using the application&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;c&#34;&gt;# serve...&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;routing&#34;&gt;Routing&lt;/h2&gt;
+
+&lt;p&gt;Then I have to handle the request, translate the url in a possible path in the
+FS, and dispatch to the different choices available.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;path&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;/tmp&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# The root directory from which I will serve the files&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Route to the dedicated functions&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# build the possible path of the file to serve or directory to list&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;PATH_INFO&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# build the possible path of the index file if the path is a directory&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;index.html&amp;#39;&lt;/span&gt;
+
+
+	&lt;span class=&#34;c&#34;&gt;# checks if the path exists, if not want to send a 404 not found&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# checks if the path links to a file, in this case serve the file&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;isfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# now we are sure that the user asks for a directory, checks if the&lt;/span&gt;
+	&lt;span class=&#34;c&#34;&gt;# directory has an index.html file, if so, serve it.&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# last case we want to list what is in the directory&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;serve-content&#34;&gt;Serve content&lt;/h2&gt;
+
+&lt;h3 id=&#34;return-404&#34;&gt;Return 404&lt;/h3&gt;
+
+&lt;p&gt;Most simple use case, return a 404 error and a small message&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;	&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+		&lt;span class=&#34;c&#34;&gt;# status code and header&lt;/span&gt;
+        &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;404 NOT FOUND&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;text/plain&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
+		&lt;span class=&#34;c&#34;&gt;# simplest message ever&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Not Found&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;serve-file&#34;&gt;Serve file&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;mimetypes&lt;/span&gt;
+
+&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1024&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;filepath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+	&lt;span class=&#34;c&#34;&gt;# retrieve mimetype for serving purpose&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mimetypes&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;guess_type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# start response with the given mimetype&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;sr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])])&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# yield the file content through network (chunks function from path.py)&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;list-directory&#34;&gt;List directory&lt;/h3&gt;
+
+&lt;p&gt;Last but not least, the listing of the directory. Here I use Jinja for the
+templating.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;jinja2&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# setup my jinja environment with the templates directory containing my&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# template files&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;env&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;loader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PackageLoader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;my_wsgi_listdir&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;templates&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# start a response as an html page&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# retrieve informations from FS through path.py API&lt;/span&gt;
+	&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;s&#34;&gt;&amp;#39;directory&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
+		&lt;span class=&#34;s&#34;&gt;&amp;#39;links&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listdir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+	&lt;span class=&#34;c&#34;&gt;# render the template with the informations and return the stream&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;env&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_template&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;list_dir.tplt&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stream&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here is the &lt;code&gt;list_dir.tplt&lt;/code&gt; file&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-jinja&#34; data-lang=&#34;jinja&#34;&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &amp;lt;title&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &amp;lt;h2&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &amp;lt;ul&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;links&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;quot;&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;endfor&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &amp;lt;/ul&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;x&#34;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And that&amp;rsquo;s all, simple and efficient this little wsgi application fits my
+needs.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Patch dependency</title>
+      <link>http://ixday.github.io/post/patch_dependency/</link>
+      <pubDate>Tue, 09 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/patch_dependency/</guid>
+      <description>&lt;p&gt;When developing on a project it is possible that a dependency can have an issue.
+First you want to be able to debug it (pdb, ipdb), then modify it if you find
+a bug.
+To do that there is a naive way in python, which consist in editing directly
+the sources of the module. But there is a cleaner way based on &lt;code&gt;pip&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;-e&lt;/code&gt; option allows you to pass a path (git, http, file) for a given module
+and link it to your environment. Then you just have to modify the files in
+your filesystem and they will be provided to your project.&lt;/p&gt;
+
+&lt;p&gt;Here are the command lines needed (two line is enough).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# first I download the sources from wherever you want&lt;/span&gt;
+git clone &amp;lt;address of the project&amp;gt;
+
+&lt;span class=&#34;c&#34;&gt;# then I install and link the lib in my current env&lt;/span&gt;
+pip install -e &amp;lt;path of the downloaded lib&amp;gt;
+
+&lt;span class=&#34;c&#34;&gt;# now I can modify the lib file in order to debug it&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The documentation for the feature can be found &lt;a href=&#34;https://pip.pypa.io/en/latest/reference/pip_install.html#editable-installs&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is really useful when developing with third part libraries, and it is not
+so well explained when you use &lt;code&gt;pip&lt;/code&gt;, even if this feature is really awesome.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

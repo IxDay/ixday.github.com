@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Posts</title>
+  <meta property='og:title' content="Posts - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    <h2 class="taxonomy-title">Filed under Posts...</h2>
+    <div class="contents">
+      
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Wed Aug 19 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Unable to find LVM volume... with LVM on top of Luks</a></h2>
+    <p>
+    <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
+I have LVM on top of Luks for my system.
+When I boot I encounter the following message:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Volume group &quot;vg_ssd&quot; not found
+  Skipping volume group vg_ssd
+Unable to find LVM volume vg_ssd/lv_root
+</code></pre></div>
+
+<p>It appears that LVM is started before I open the crypted partition and display this error.
+To fix this we will manipulate the initramfs \o/.</p>
+
+<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code></p>
+
+    
+    <a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Aug 18 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/debian_install_3/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/debian_install_3/">Debian Install 3</a></h2>
+    <p>
+    <p>Today I want to install debian on my personal server.
+And I want to crypt the FS using Luks, and add LVM on top.</p>
+
+<p>I want it to look like that (like this scheme, a lot of reference
+come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">arch wiki</a></p>
+
+    
+    <a href="/post/debian_install_3/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/adminsys ">adminsys</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Jul 16 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/weechat/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/weechat/">weechat</a></h2>
+    <p>
+    Weechat is an ncurse client for IRC, which I use and have tweaked to fit my needs. But Weechat have one major issue: IT IS NOT USER FRIENDLY. The documentation is poor, there is a lot of plugins, which documentation is even poorer, and the configuration is a hell. WELCOME! First of all the installation, apt-get install weechat will be sufficient on a real OS. Then, just type weechat in order to launch the client.
+    
+    <a href="/post/weechat/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Jul 2 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/listing_directory_with_wsgi/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/project">Project</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/listing_directory_with_wsgi/">Listing directory with wsgi</a></h2>
+    <p>
+    Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain [here]()) I had to develop a small wsgi app which act like the python SimpleHTTPServer. I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself. Specifications Here are the features I wanted: Define a directory as the root (/) directory from which all the files will be served.
+    
+    <a href="/post/listing_directory_with_wsgi/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/dev ">dev</a>
+, <a href="/tags/python ">python</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Jun 9 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/patch_dependency/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/patch_dependency/">Patch dependency</a></h2>
+    <p>
+    When developing on a project it is possible that a dependency can have an issue. First you want to be able to debug it (pdb, ipdb), then modify it if you find a bug. To do that there is a naive way in python, which consist in editing directly the sources of the module. But there is a cleaner way based on pip. The -e option allows you to pass a path (git, http, file) for a given module and link it to your environment.
+    
+    <a href="/post/patch_dependency/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/dev ">dev</a>
+, <a href="/tags/python ">python</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue May 19 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/systemd_nspawn/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/systemd_nspawn/">Systemd-nspawn</a></h2>
+    <p>
+    I am a huge fan of docker for my dev environments, it helps me keeping things clear and understanding what are the ressources needed for a project. A few month ago a friend told me that there already is a similar feature on Linux, and this feature is systemd-nspawn. Creating your first container So like docker I wanted to first start a container. Nspawn has no environment so everything has to be done &ldquo;by hand&rdquo;.
+    
+    <a href="/post/systemd_nspawn/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/systemd ">systemd</a>
+, <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu May 14 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/debian_install_2/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/debian_install_2/">Debian install 2</a></h2>
+    <p>
+    After many days of configuration, I finally complete the installation of my perfect &ldquo;workstation&rdquo; ;). source.list I have to directory for this, first the preferences, then the sources.list. Just run an aptitude update, and you will some missing gpg keys, now run apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt; To have your keys installed. sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.
+    
+    <a href="/post/debian_install_2/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/adminsys ">adminsys</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Apr 14 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/pytest_fixture/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/pytest_fixture/">Pytest Fixture</a></h2>
+    <p>
+    I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use. I also use Flask a lot, so today I will show you some of my snippets. First one the app fixture: @pytest.fixture(autouse=True) def app(): &quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client() This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
+    
+    <a href="/post/pytest_fixture/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/python ">python</a>
+, <a href="/tags/dev ">dev</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Mon Mar 30 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/small_tool/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/project">Project</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/small_tool/">Small docker project</a></h2>
+    <p>
+    I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload. The repo is available here What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible: no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.g: # you will need to write this in the Dockerfile RUN TMPFILE=$(tempfile) &amp;&amp; \ echo &quot;Hello World&quot; &gt; $TMPFILE &amp;&amp; \ rm $TMPFILE you cannot build remotely from a custom branch: see this post accessibility to the container through boot2docker is pretty hard: see this post awk is an awesome tool for manipulating strings and console outputs.
+    
+    <a href="/post/small_tool/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/bash ">bash</a>
+, <a href="/tags/dev ">dev</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Mon Mar 2 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/rsync_fswatch/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
+    <p>
+    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine. ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key. ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com Okay, at this moment we can use a config file for ssh: $HOME/.ssh/config :) Host 192.168.0.1 my.url.com user mylogin IdentityFile ~/.ssh/my_ssh.key The CLI is now: # with IP ssh 192.168.0.1 # with url ssh my.url.com I have a connection but now I want to share my dev server on the remote host to my local web browser.
+    
+    <a href="/post/rsync_fswatch/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+
+    </div>
+    
+  
+<nav class="pagination">
+  
+  <a href="/post/page/3" rel="nofollow">
+    « Older posts
+  </a>
+  
+  
+  <a href="/post/page/1" rel="nofollow">
+    Newer posts »
+  </a>
+  
+</nav>
+
+
+
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1231 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tuto on Not today...</title>
+    <link>http://ixday.github.io/categories/tuto/</link>
+    <description>Recent content in Tuto on Not today...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Jun 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://ixday.github.io/categories/tuto/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Libvirt through vagrant</title>
+      <link>http://ixday.github.io/post/libvirt_through_vagrant/</link>
+      <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/libvirt_through_vagrant/</guid>
+      <description>
+
+&lt;p&gt;I will not install VirtualBox! That&amp;rsquo;s all (nor VMWare, don&amp;rsquo;t be ridiculous).
+But I really like &lt;a href=&#34;https://www.vagrantup.com/&#34;&gt;Vagrant&lt;/a&gt;, and use it every time
+I need something closer to a running machine. So, I dig up the internet and
+found that there is an unofficial support of libvirt.&lt;/p&gt;
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;I do not remember where I found the documentation to do this or if I did it by
+myself, so no link here, just what I do in order to make this work. I use a
+debian jessie distribution, so packages name may vary.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install packages&lt;/span&gt;
+apt-get install qemu-kvm libvirt-daemon-system libvirt-dev zlib1g-dev vagrant
+
+&lt;span class=&#34;c&#34;&gt;# Install vagrant plugin&lt;/span&gt;
+vagrant plugin install vagrant-libvirt
+
+&lt;span class=&#34;c&#34;&gt;# Add user to group&lt;/span&gt;
+gpasswd -a user_name libvirt
+
+&lt;span class=&#34;c&#34;&gt;# Reboot in order to load kvm and group change&lt;/span&gt;
+reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now everything is installed and ready to work with the libvirt provider.
+In order to verify that everything works, run:
+&lt;code&gt;vagrant init debian/jessie64; vagrant up --provider libvirt&lt;/code&gt;.
+It must download a debian/jessie image then run it through vagrant.&lt;/p&gt;
+
+&lt;h2 id=&#34;in-action&#34;&gt;In action&lt;/h2&gt;
+
+&lt;p&gt;For this example, I will just run a Coreos image, and show you how you can
+migrate an existing Vagrantfile to the libvirt provider.&lt;/p&gt;
+
+&lt;p&gt;Clone this repo &lt;a href=&#34;https://github.com/coreos/coreos-vagrant&#34;&gt;https://github.com/coreos/coreos-vagrant&lt;/a&gt;, and follow the
+instructions.&lt;/p&gt;
+
+&lt;p&gt;Then according to this PR, I made a modification to the Vagrantfile
+&lt;a href=&#34;https://github.com/coreos/coreos-vagrant/pull/290/files&#34;&gt;https://github.com/coreos/coreos-vagrant/pull/290/files&lt;/a&gt;, I also added
+a valid &lt;code&gt;box_url&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;  &lt;span class=&#34;c1&#34;&gt;# if the provider asked is libvirt&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;provider&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:libvirt&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# change the box to a libvirt compatible one&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;box&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;dongsupark/coreos-%s&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$update_channel&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# this line indicates where the box can be found&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;box_url&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://atlas.hashicorp.com/dongsupark/boxes/coreos-%s&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$update_channel&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;# change the driver name and pass the parameters needed to comply with&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# specifications&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;driver&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;kvm&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;memory&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$vm_memory&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;cpus&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;vg&#34;&gt;$vm_cpus&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you can do a &lt;code&gt;vagrant up&lt;/code&gt; and it will work (it works on my machine :p).&lt;/p&gt;
+
+&lt;h2 id=&#34;bonus&#34;&gt;Bonus&lt;/h2&gt;
+
+&lt;p&gt;You can migrate Vagrant images to libvirt with another plugin:
+&lt;code&gt;vagrant-mutate&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install the plugin&lt;/span&gt;
+vagrant plugin install vagrant-mutate
+
+&lt;span class=&#34;c&#34;&gt;# Mutate an image&lt;/span&gt;
+vagrant mutate https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.2.2/providers/virtualbox.box libvirt
+
+&lt;span class=&#34;c&#34;&gt;# Now the image is available, you can rename it if needed&lt;/span&gt;
+mv ~/.vagrant.d/boxes/virtualbox ~/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64
+
+&lt;span class=&#34;c&#34;&gt;# Then run it&lt;/span&gt;
+vagrant init debian/jessie64&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; vagrant up --provider libvirt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is no longer really needed as there is more and more images with libvirt
+provider.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gogs &#43; Drone</title>
+      <link>http://ixday.github.io/post/gogs_drone_compose/</link>
+      <pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/gogs_drone_compose/</guid>
+      <description>
+
+&lt;p&gt;Jenkins is everywhere now, but I really don&amp;rsquo;t like it. So I am looking at
+a replacement from day to day. I discovered &lt;a href=&#34;https://gogs.io/&#34;&gt;Gogs&lt;/a&gt; an
+I though that a CI is also a good use case for the Golang language.&lt;/p&gt;
+
+&lt;p&gt;And I finally found &lt;a href=&#34;https://drone.io/&#34;&gt;Drone&lt;/a&gt; (which was not really difficult
+as it is mentionned in
+&lt;a href=&#34;https://github.com/gogits/gogs/issues/1232&#34;&gt;a ticket on gogs github&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;So I decided to make them work together in order to test that.&lt;/p&gt;
+
+&lt;h2 id=&#34;environment&#34;&gt;Environment&lt;/h2&gt;
+
+&lt;p&gt;We want to test them in a temporary location with a simple &amp;ldquo;Hello world&amp;rdquo; test.
+Here is the architecture we will use:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
+  |-- test                  # the git repository with the file to test
+  |   |-- hello.py          # simple python file with a doctest test
+  |-- gogs                  # directory which will be used by gogs to store
+  |                         # datas (sqlite, git, ssh)
+  |-- drone
+      |-- dronerc           # config file
+      |-- var               # directory to store drone data (mostly sqlite)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;test-repo&#34;&gt;Test repo&lt;/h2&gt;
+
+&lt;p&gt;We just use the doctest feature of python here, this allow us to perform a
+simple test without bootstraping a bunch of code&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function&lt;/span&gt;
+
+&lt;span class=&#34;sd&#34;&gt;    Here the test we want to perform&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;gt;&amp;gt;&amp;gt; hello()&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;doctest&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;doctest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;testmod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And this is the run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;python hello.py -v
+Trying:
+    hello&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+Expecting:
+    &lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+ok
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; items had no tests:
+    __main__
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; items passed all tests:
+   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; tests in __main__.hello
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; tests in &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; items.
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; passed and &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; failed.
+Test passed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;gogs&#34;&gt;Gogs&lt;/h2&gt;
+
+&lt;p&gt;This one is really basic, the tutorial is really simple and it works out
+of the box with the docker container provided. I haven&amp;rsquo;t tested it through
+ssh, but there is some disclaimer so I will test this later.&lt;/p&gt;
+
+&lt;p&gt;docs: &lt;a href=&#34;https://github.com/gogits/gogs/tree/master/docker&#34;&gt;https://github.com/gogits/gogs/tree/master/docker&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I choose the sqlite backend, which is easier to configure because there is
+no configuration to do.&lt;/p&gt;
+
+&lt;p&gt;I just run the docker container with the following line:
+&lt;code&gt;docker run --name gogs -p 10022:22 -p 10080:3000 -v $(pwd)/gogs:/data gogs/gogs&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I connect it through the &lt;strong&gt;localhost:10080&lt;/strong&gt; url and use the default config.
+The first user created (through signup) is the administrator of the application.
+Just be sure to replace all the localhost mentions with the address of
+the container (which can be accessed with &lt;code&gt;docker inspect gogs&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;Add a new repository (like you do with github), and push the test project
+described in the previous section to it.&lt;/p&gt;
+
+&lt;p&gt;You now have a working Gogs! (Be careful this is a temporary build, do not
+use this as your day to day git repo).&lt;/p&gt;
+
+&lt;h2 id=&#34;drone&#34;&gt;Drone&lt;/h2&gt;
+
+&lt;p&gt;This one is a bit more complicated, first we have to create a dronerc file
+with the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
+&lt;span class=&#34;nv&#34;&gt;REMOTE_CONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://172.17.0.3:3000
+&lt;span class=&#34;nv&#34;&gt;DEBUG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here I put the application in debug mode, this is not mandatory, but I like
+to have outputs if something goes bad.&lt;/p&gt;
+
+&lt;p&gt;Now we can start the container:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;docker run \
+        --volume $(pwd)/drone/var:/var/lib/drone \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --env-file $(pwd)/drone/dronerc \
+        --restart=always \
+        --publish=80:8000 \
+        --detach=true \
+        --name=drone \
+        drone/drone:0.4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pdbpp</title>
+      <link>http://ixday.github.io/post/pdbpp/</link>
+      <pubDate>Sun, 28 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/pdbpp/</guid>
+      <description>
+
+&lt;p&gt;I am a huge fan of ipython and its debugger ipdb (I have also done a
+patch on it). Then I discovered &lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt;
+and I found it so great that I no more use ipdb, here is why.&lt;/p&gt;
+
+&lt;h2 id=&#34;more-features&#34;&gt;More features&lt;/h2&gt;
+
+&lt;h3 id=&#34;sticky-mode&#34;&gt;Sticky mode&lt;/h3&gt;
+
+&lt;p&gt;Pdbpp comes with a lot of additional features which are really convenient.
+The first and more well known is the sticky mode:&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;http://ixday.github.io/img/pdbpp_sticky.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;This will display the code currently, executed and shows you with an arrow at
+which exact line you are. Just type &lt;code&gt;sticky&lt;/code&gt; to enable this mode and &amp;ldquo;voila&amp;rdquo; it
+works&lt;/p&gt;
+
+&lt;h3 id=&#34;pdb-disable&#34;&gt;Pdb disable&lt;/h3&gt;
+
+&lt;p&gt;This one is quite usefull when debugging in tests. For example, you have
+a pdb statement in a fixture which is called by a bunch of tests.
+Maybe there is something I do not really understand but when I want
+to exit, I am stuck pressing Ctrl+d Ctrl+c hoping it will stop the tests
+before another fixture call happen.&lt;/p&gt;
+
+&lt;p&gt;Pdbpp extends the pdb command with a disable statement
+(&lt;code&gt;pdb.disable()&lt;/code&gt; in the console), which will ignore subsequent calls to pdb.&lt;/p&gt;
+
+&lt;h3 id=&#34;no-variable-overrides&#34;&gt;No variable overrides&lt;/h3&gt;
+
+&lt;p&gt;When using ipdb, sometimes in the code I use some reserved variables:
+&amp;ldquo;c&amp;rdquo;, &amp;ldquo;rv&amp;rdquo;, &amp;ldquo;args&amp;rdquo;,.. when entering the debugger they are overriden by
+keywords, and I have to change their name and start again to see what they
+contain.&lt;/p&gt;
+
+&lt;p&gt;With pdbpp, this no longer happens, as explained in the documentation, pdbpp
+can infers which variable is currently used and avoid the override.&lt;/p&gt;
+
+&lt;h3 id=&#34;and-many-more&#34;&gt;And many more&lt;/h3&gt;
+
+&lt;p&gt;Just read the documentation and looks at the other features, this library
+is pure gold.&lt;/p&gt;
+
+&lt;h2 id=&#34;just-a-simple-wrapper&#34;&gt;Just a simple wrapper&lt;/h2&gt;
+
+&lt;p&gt;This is just a wrapper around pdb, which means that you can simply call it
+with &lt;code&gt;import pdb; pdb.set_trace()&lt;/code&gt;. And more importantly, when a tool provides
+a postmortem feature (scrapy, pytest) it brings you directly to pdbpp without
+having to dig in the code or documentation (when you wanted to activate ipdb).&lt;/p&gt;
+
+&lt;h2 id=&#34;simple-config&#34;&gt;Simple config&lt;/h2&gt;
+
+&lt;p&gt;Here is my config (a real simple one):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pdb&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DefaultConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# start in sticky mode&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# black&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>weechat</title>
+      <link>http://ixday.github.io/post/weechat/</link>
+      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/weechat/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://weechat.org/&#34;&gt;Weechat&lt;/a&gt; is an ncurse client for IRC,
+which I use and have tweaked to fit my needs.&lt;/p&gt;
+
+&lt;p&gt;But Weechat have one major issue: IT IS NOT USER FRIENDLY.
+The documentation is poor, there is a lot of plugins,
+which documentation is even poorer, and the configuration is a hell.&lt;/p&gt;
+
+&lt;p&gt;WELCOME!&lt;/p&gt;
+
+&lt;p&gt;First of all the installation, &lt;code&gt;apt-get install weechat&lt;/code&gt;
+will be sufficient on a real OS. Then, just type &lt;code&gt;weechat&lt;/code&gt; in
+order to launch the client.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_1.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_1.png&#34; alt=&#34;First screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;install-plugins&#34;&gt;Install plugins&lt;/h2&gt;
+
+&lt;p&gt;At this point all the configuration can be done inside weechat,
+the command &lt;code&gt;script&lt;/code&gt; will install all the plugins you want, just like &lt;code&gt;apt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;First script to install: &lt;code&gt;iset.pl&lt;/code&gt;, just type &lt;code&gt;script search iset&lt;/code&gt; and a
+selection of available plugins will appears.
+To leave it type &lt;code&gt;q&lt;/code&gt; then press enter, if you want to install the script
+type &lt;code&gt;i&lt;/code&gt; then press enter (an &lt;code&gt;i&lt;/code&gt; will appears in front of the name package,
+type &lt;code&gt;q&lt;/code&gt; and press enter to exit).&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_script.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_script.png&#34; alt=&#34;script search screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;p&gt;If you didn&amp;rsquo;t install the package through &lt;code&gt;script search&lt;/code&gt; you can install it
+with the following command: &lt;code&gt;script install iset.pl&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;configure&#34;&gt;Configure&lt;/h2&gt;
+
+&lt;p&gt;We will now be able to configure, just type &lt;code&gt;/iset&lt;/code&gt; to enter the iset screen.
+You will now see a list of all the parameters which can be modified.
+If you type something in the input bar, it will look for the pattern in
+the list of variables. If you want to search through the values, put an
+&lt;code&gt;=&lt;/code&gt; before the pattern.&lt;/p&gt;
+
+&lt;p&gt;To change the value, press &lt;code&gt;Alt + Enter&lt;/code&gt; then enter the new value
+(it is possible to navigate through values depending on variable type by
+pressing the &lt;code&gt;Tab&lt;/code&gt; key).&lt;/p&gt;
+
+&lt;p&gt;For example, I don&amp;rsquo;t like the background color of iset selector.
+On this screenshot I replace the value by &lt;code&gt;darkgray&lt;/code&gt;,
+changed values appear in magenta.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_iset.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_iset.png&#34; alt=&#34;iset screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;the-buffer-list&#34;&gt;The buffer list&lt;/h2&gt;
+
+&lt;p&gt;When using weechat I like to know on which buffer I am.
+A buffer is the way weechat display informations, for example if I type:
+&lt;code&gt;/iset&lt;/code&gt; weechat will open a new buffer to display the informations.
+If I want to close a buffer I just have to type: &lt;code&gt;/close&lt;/code&gt;, If I want
+to navigate through buffers I type &lt;code&gt;/buffer +1&lt;/code&gt;. The command &lt;code&gt;/buffer list&lt;/code&gt;
+will display the buffer list in the first buffer, type: &lt;code&gt;/buffer 1&lt;/code&gt; to see it.&lt;/p&gt;
+
+&lt;p&gt;There is a convenient plugin to display that: &lt;code&gt;chanlist.rb&lt;/code&gt;.
+Sadly this one is not supported and you will need to download it.
+Here is the command to download the script:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;wget https://weechat.org/files/scripts/unofficial/chanlist.rb ~/.weechat/ruby/autoload/&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Relauch weechat or type &lt;code&gt;/script load chanlist.rb&lt;/code&gt;.
+We now have the buffer list on the left, but there is some commands to run in order to
+have something good.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# It is mandatory and appears in the chanlist documentation.&lt;/span&gt;
+/set irc.look.server_buffer independent
+
+&lt;span class=&#34;c&#34;&gt;# Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).&lt;/span&gt;
+/set plugins.var.ruby.chanlist.utf8 on
+
+&lt;span class=&#34;c&#34;&gt;# Fix chanlist size&lt;/span&gt;
+/set weechat.bar.chanlist.size 30
+/set weechat.bar.chanlist.size_max 30
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The two last config fixed the weechat chanlist bar size.&lt;/p&gt;
+
+&lt;p&gt;Finally, I do not really like the color which is used for displaying the current
+buffer. I want it magenta, chanlist is not very well developed and I will have to
+modify the source code. Run the following line for changing this:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sed -i -- &#39;s/white,red/magenta,default/g&#39; ~/.weechat/ruby/autoload/chanlist.rb&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Quit and relaunch weechat to see the changes. Here is my current result:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_chanlist.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_chanlist.png&#34; alt=&#34;chanlist screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;connect-to-a-server-and-a-channel&#34;&gt;Connect to a server and a channel&lt;/h2&gt;
+
+&lt;p&gt;Now we can visualize the buffers we will connect to a server.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Setup nickname and connect&lt;/span&gt;
+/set irc.server_default.nicks &lt;span class=&#34;s2&#34;&gt;&amp;quot;MaxV, MaxV_, MaxV__&amp;quot;&lt;/span&gt;
+/connect freenode
+/join &lt;span class=&#34;c&#34;&gt;#freenode&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# Customize nicklist&lt;/span&gt;
+/set irc.look.color_nicks_in_nicklist on
+/set weechat.bar.nicklist.size_max 12
+/set weechat.bar.nicklist.size 12
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here is the result:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_nicklist.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_nicklist.png&#34; alt=&#34;nicklist screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;bars&#34;&gt;Bars&lt;/h2&gt;
+
+&lt;p&gt;I will now customize the bars (because I can :p), this is inspired by
+&lt;a href=&#34;http://pascalpoitras.com/my-weechat-configuration/&#34;&gt;Pascal Poitras blog entry&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Change original separator (need UTF8 support)&lt;/span&gt;
+/set weechat.look.separator_horizontal &lt;span class=&#34;s2&#34;&gt;&amp;quot;—&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# Create and customize activetitle bar&lt;/span&gt;
+/bar add activetitle window top &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; buffer_title
+/set weechat.bar.activetitle.priority 500
+/set weechat.bar.activetitle.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;active&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+/set weechat.bar.activetitle.color_fg red
+/set weechat.bar.activetitle.color_bg default
+/set weechat.bar.activetitle.separator on
+
+&lt;span class=&#34;c&#34;&gt;# Customize the title bar&lt;/span&gt;
+/set weechat.bar.title.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;inactive&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+/set weechat.bar.title.color_fg white
+/set weechat.bar.title.color_bg default
+/set weechat.bar.title.separator on
+
+&lt;span class=&#34;c&#34;&gt;# Remove status bar&lt;/span&gt;
+/bar del status
+
+&lt;span class=&#34;c&#34;&gt;# Create and customize the rootinput bar&lt;/span&gt;
+/bar add rootinput root bottom &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;buffer_name&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_prompt&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;away&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;,&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_search&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_paste&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,input_text
+/set weechat.bar.rootinput.separator on
+
+&lt;span class=&#34;c&#34;&gt;# Remove the input bar&lt;/span&gt;
+/bar del input
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here is the result:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_bars.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_bars.png&#34; alt=&#34;bars screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;layout&#34;&gt;Layout&lt;/h2&gt;
+
+&lt;p&gt;I want to display 4 buffers at a time, I will change the layout to fit my needs.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;/window splith 50
+/window splitv 50
+/window 1
+/window splitv 50
+
+/layout store default
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_layout.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_layout.png&#34; alt=&#34;layout screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
+
+&lt;h2 id=&#34;key-bindings&#34;&gt;Key bindings&lt;/h2&gt;
+
+&lt;p&gt;I have a few key bindings, at this point it fits my needs,
+maybe I will add some in the future and edit this post accordingly.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Activate the mouse on Alt + x, desactivate by pressing a second time&lt;/span&gt;
+/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-x /mouse toggle
+
+&lt;span class=&#34;c&#34;&gt;# Navigate through windows by pressing Alt + right, Alt + left&lt;/span&gt;
+/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-C /window +1
+/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-D /window -1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Patch dependency</title>
+      <link>http://ixday.github.io/post/patch_dependency/</link>
+      <pubDate>Tue, 09 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/patch_dependency/</guid>
+      <description>&lt;p&gt;When developing on a project it is possible that a dependency can have an issue.
+First you want to be able to debug it (pdb, ipdb), then modify it if you find
+a bug.
+To do that there is a naive way in python, which consist in editing directly
+the sources of the module. But there is a cleaner way based on &lt;code&gt;pip&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code&gt;-e&lt;/code&gt; option allows you to pass a path (git, http, file) for a given module
+and link it to your environment. Then you just have to modify the files in
+your filesystem and they will be provided to your project.&lt;/p&gt;
+
+&lt;p&gt;Here are the command lines needed (two line is enough).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# first I download the sources from wherever you want&lt;/span&gt;
+git clone &amp;lt;address of the project&amp;gt;
+
+&lt;span class=&#34;c&#34;&gt;# then I install and link the lib in my current env&lt;/span&gt;
+pip install -e &amp;lt;path of the downloaded lib&amp;gt;
+
+&lt;span class=&#34;c&#34;&gt;# now I can modify the lib file in order to debug it&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The documentation for the feature can be found &lt;a href=&#34;https://pip.pypa.io/en/latest/reference/pip_install.html#editable-installs&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is really useful when developing with third part libraries, and it is not
+so well explained when you use &lt;code&gt;pip&lt;/code&gt;, even if this feature is really awesome.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Systemd-nspawn</title>
+      <link>http://ixday.github.io/post/systemd_nspawn/</link>
+      <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/systemd_nspawn/</guid>
+      <description>
+
+&lt;p&gt;I am a huge fan of docker for my dev environments, it helps me keeping things
+clear and understanding what are the ressources needed for a project.
+A few month ago a friend told me that there already is a similar feature on
+Linux, and this feature is systemd-nspawn.&lt;/p&gt;
+
+&lt;h2 id=&#34;creating-your-first-container&#34;&gt;Creating your first container&lt;/h2&gt;
+
+&lt;p&gt;So like docker I wanted to first start a container. Nspawn has no environment
+so everything has to be done &amp;ldquo;by hand&amp;rdquo;. First, as long as we do not have any
+registery we need to retrieve an &amp;ldquo;image&amp;rdquo; of the distribution we need.&lt;/p&gt;
+
+&lt;p&gt;(all the commands are ran on behalf of the root user)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt-get install debootstrap
+debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /tmp/my-debian-machine
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a quite long to retrieve, so you can go and take a coffee during the
+download ;)&lt;/p&gt;
+
+&lt;p&gt;Now, we have a folder containing the debian basic configuration, we can &amp;ldquo;spawn&amp;rdquo;
+it.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;systemd-nspawn -D /tmp/my-debian-machine
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And that&amp;rsquo;s it! You now have your own container up and running.
+The main difference is that, it is not running on AUFS, and every change will
+be definitive.&lt;/p&gt;
+
+&lt;p&gt;Your machine is now visible if you run &lt;code&gt;machinectl&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;booting-a-container-like-a-real-vm&#34;&gt;Booting a container like a real VM&lt;/h2&gt;
+
+&lt;p&gt;Now, we will see a feature that I didn&amp;rsquo;t find in docker, the ability to boot
+your system.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;systemd-nspawn -D /tmp/my-debian-machine -b
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And a prompt will appear, so to log in just &amp;lsquo;type the root password&amp;rsquo;.
+I&amp;rsquo;m sure you forget to set that before ;). Just stop your container,
+relaunch it without boot and set the password.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# stop the container&lt;/span&gt;
+machinectl poweroff my-debian-machine
+&lt;span class=&#34;c&#34;&gt;# launch without boot&lt;/span&gt;
+systemd-nspawn -D /tmp/my-debian-machine
+
+&lt;span class=&#34;c&#34;&gt;# when you have the prompt type a new password&lt;/span&gt;
+passwd
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, you can reboot and loggin normally. And the most interesting thing about
+the normal boot, is that now you can profit of all the power of &lt;em&gt;systemd&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;autologin-at-startup&#34;&gt;Autologin at startup&lt;/h2&gt;
+
+&lt;p&gt;I have a normal boot, so I have to loggin, but I am in a container and I want
+to automatically be logged when I start it.&lt;/p&gt;
+
+&lt;p&gt;So, here is how we can do,
+&lt;strong&gt;note: I have tested it on a debian image, the path may not been the same&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;p&gt;When we connect into our container we are using the system console, so
+we will override the systemd service handling the console to force the
+autologin. In linux, the console manager is &lt;em&gt;getty&lt;/em&gt; and the service dedicated
+to the console is &lt;em&gt;console-getty@.service&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To override a service, you just have to create a &lt;em&gt;service_name.service.d&lt;/em&gt;
+directory in &lt;code&gt;/etc/systemd/system&lt;/code&gt; and a file &lt;em&gt;whatever_name.conf&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;So, I created the dedicated file and put this inside:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# /etc/systemd/system/console-getty.service.d/autologin.conf&lt;/span&gt;
+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Service&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;-/sbin/agetty --noclear --autologin root --keep-baud console 115200,38400,9600 &lt;span class=&#34;nv&#34;&gt;$TERM&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The first &lt;code&gt;ExecStart=&lt;/code&gt; clean the old call so that we can override it in the
+following line.&lt;/p&gt;
+
+&lt;h2 id=&#34;first-conclusion&#34;&gt;First conclusion&lt;/h2&gt;
+
+&lt;p&gt;Systemd-nspawn comes with great features and is directly shipped in the system,
+it is a good tool for stuff you want to do in a closed environment.
+I wanted to ship &lt;em&gt;Steam&lt;/em&gt; in a Docker container after reading
+&lt;a href=&#34;http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/&#34;&gt;this&lt;/a&gt;,
+but I think I will use systemd instead.&lt;/p&gt;
+
+&lt;p&gt;For development, I will continue to stick with Docker because of the
+ecosystem and the community. I have started to use
+&lt;a href=&#34;https://maci0.wordpress.com/2014/05/02/run-any-applications-on-rhel7-containerized-with-3d-acceleration-and-pulseaudio-steam-pidgin-vlc/&#34;&gt;docker-compose&lt;/a&gt; and it allows a lot
+of interesting suffs.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pytest Fixture</title>
+      <link>http://ixday.github.io/post/pytest_fixture/</link>
+      <pubDate>Tue, 14 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/pytest_fixture/</guid>
+      <description>&lt;p&gt;I am a huge fan of python (one of the best language in my toolbox). And
+when it comes to tests, &lt;a href=&#34;http://pytest.org/&#34;&gt;pytest&lt;/a&gt; is &lt;em&gt;THE&lt;/em&gt; library to use.&lt;/p&gt;
+
+&lt;p&gt;I also use &lt;a href=&#34;http://flask.pocoo.org/&#34;&gt;Flask&lt;/a&gt; a lot, so today I will show you
+some of my snippets.&lt;/p&gt;
+
+&lt;p&gt;First one the app fixture:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@pytest.fixture&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;autouse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Load flask in testing mode&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;myapp&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;TESTING&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;json_encoder&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;my_encoder&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This create an app fixture which will be used to test the application, it
+returns a test client to interact with my Flask application.&lt;/p&gt;
+
+&lt;p&gt;It is an adaptation of the documentation &lt;a href=&#34;http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton&#34;&gt;testing skeleton&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I also replace the json encoder by a custom one (it allows me to dump mock
+object for example).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;nd&#34;&gt;@pytest.yield_fixture&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;request_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Provide a Flask request context for testing purpose&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_request_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;yield&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req_context&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This one applies a request context on a testing function, this can be
+useful if you manipulate werzeug interactions (flask request attribute mostly).
+This has to be use when the
+&lt;code&gt;RuntimeError: working outside of application context&lt;/code&gt; error is raised.&lt;/p&gt;
+
+&lt;p&gt;In the most common use case you will not need the &lt;code&gt;req_context&lt;/code&gt; variable during
+your test. To avoid to have an unused argument, you can simply use the
+&lt;code&gt;@pytest.mark.usefixtures(&#39;request_context&#39;)&lt;/code&gt; decorator on your testing
+function.&lt;/p&gt;
+
+&lt;p&gt;Last one is also an opportunity to talk about
+&lt;a href=&#34;http://peewee.readthedocs.org/en/latest/&#34;&gt;peewee&lt;/a&gt; which is a great lightweight
+ORM. Like a lot of ORM peewee provides a &lt;a href=&#34;http://docs.peewee-orm.com/en/latest/peewee/transactions.html&#34;&gt;transaction decorator&lt;/a&gt;
+, in unittest you may want to test endpoints without connecting to a db.
+So, here is an example on how you can replace the decorator
+(or contextmanager) by a dummy one.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;imp&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;contextlib&lt;/span&gt;
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pytest&lt;/span&gt;
+
+&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;database&lt;/span&gt;
+
+&lt;span class=&#34;nd&#34;&gt;@pytest.fixture&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;autouse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;session&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mock_transaction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Replace the atomic decorator from peewee to a noop one&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+    &lt;span class=&#34;n&#34;&gt;database&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;atomic&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;contextlib&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contextmanager&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;lambda&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;yield&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;imp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;using&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;transactions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pytest use a lot of the python flexibility and I must confess that I love it.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ssh, rsync and fswatch</title>
+      <link>http://ixday.github.io/post/rsync_fswatch/</link>
+      <pubDate>Mon, 02 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/rsync_fswatch/</guid>
+      <description>
+
+&lt;p&gt;Sometimes I just can&amp;rsquo;t work on a local environment (particular architecture,
+particular services, local configuration too complex, etc&amp;hellip;).
+So, I have to synchronize my local directory with a remote one and test the
+web interface on my local machine.&lt;/p&gt;
+
+&lt;h2 id=&#34;ssh&#34;&gt;ssh&lt;/h2&gt;
+
+&lt;p&gt;First, ssh! For this I need a ssh connection to the remote server, here I use
+a particular ssh key.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1
+
+&lt;span class=&#34;c&#34;&gt;# urls also work&lt;/span&gt;
+ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Okay, at this moment we can use a config file for ssh: &lt;code&gt;$HOME/.ssh/config&lt;/code&gt; :)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;Host 192.168.0.1 my.url.com
+   user mylogin
+   IdentityFile ~/.ssh/my_ssh.key
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The CLI is now:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# with IP&lt;/span&gt;
+ssh 192.168.0.1
+
+&lt;span class=&#34;c&#34;&gt;# with url&lt;/span&gt;
+ssh my.url.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I have a connection but now I want to share my dev server on the remote host to
+my local web browser. For that I will use the &lt;code&gt;-L&lt;/code&gt; of ssh, this will forward
+the local port with the remote one.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh -L 5000:localhost:9999 192.168.0.1 &lt;span class=&#34;c&#34;&gt;# same as before it works with url&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This command will connect my local port 5000 to the port 9999 of the remote
+host local interface (so I do not have to open another port on the remote
+except the ssh one)&lt;/p&gt;
+
+&lt;h2 id=&#34;rsync&#34;&gt;rsync&lt;/h2&gt;
+
+&lt;p&gt;Then, we will use rsync to send files to our server&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;rsync -avz -e &lt;span class=&#34;s2&#34;&gt;&amp;quot;ssh&amp;quot;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;local&lt;/span&gt;/folder my.url.com:/home/username/remote_folder
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;-a the archive option (recursive, preserve links, times, permissions,
+group, owner, devices files&lt;/li&gt;
+&lt;li&gt;-v the verbose option&lt;/li&gt;
+&lt;li&gt;-z the compress option&lt;/li&gt;
+&lt;li&gt;-e remote shell to use (basically we specify here all the ssh configuration
+needed. If we didn&amp;rsquo;t had the .ssh/config file the command line should have been
+&lt;code&gt;rsync -avz -e &amp;quot;ssh -i ~/.ssh/my_ssh.key&amp;quot; local/folder
+mylogin@my.url.com:/home/username/remote_folder&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;It is possible to not want to synchronize all files
+(.git folder, generated files, etc&amp;hellip;), so we will use the &lt;code&gt;--exclude-from&lt;/code&gt;
+option. In the folder we want to synchronize, we create a file &lt;code&gt;exclude.txt&lt;/code&gt;
+(the name is not important), then we fill it with the needed files or folder:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;.git
+/static
+*.pyc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Take care that the &lt;code&gt;/&lt;/code&gt; apply at the point where the rsync command is launched.
+So it will not have the same effect if we change the working directory.&lt;/p&gt;
+
+&lt;p&gt;The command will look like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# move to working dir&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;cd local&lt;/span&gt;/folder
+
+&lt;span class=&#34;nv&#34;&gt;remote_loc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;my.url.com:/home/username/remote_folder&amp;quot;&lt;/span&gt;
+
+rsync -avz -e &lt;span class=&#34;s2&#34;&gt;&amp;quot;ssh&amp;quot;&lt;/span&gt; . &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;remote_loc&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; --exclude-from &lt;span class=&#34;s1&#34;&gt;&amp;#39;exclude.txt&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;fswatch-or-inotify&#34;&gt;fswatch (or inotify)&lt;/h2&gt;
+
+&lt;p&gt;I also want my folder to synchronize automatically with the remote one when a
+file change. For this purpose I will use &lt;code&gt;fswatch&lt;/code&gt; because I use MacOS
+(shame on me), &lt;code&gt;inotify&lt;/code&gt; can be use on linux platforms.&lt;/p&gt;
+
+&lt;p&gt;First, check the changes on my working directory:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;fswatch -e .git/ -e .pyc -e &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/static .
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here I use &lt;code&gt;$(pwd)&lt;/code&gt; in order to not catch the &lt;code&gt;/static&lt;/code&gt; folder at the root of
+the folder, but keep the nested one included. This catch the same files as the
+exclude file from rsync. At this point I haven&amp;rsquo;t found any solution to unify
+those two commands.&lt;/p&gt;
+
+&lt;h2 id=&#34;xargs&#34;&gt;xargs&lt;/h2&gt;
+
+&lt;p&gt;The last piece needed is xargs, this will read stdin and execute a command on
+each entry.&lt;/p&gt;
+
+&lt;h2 id=&#34;all-together&#34;&gt;All together&lt;/h2&gt;
+
+&lt;p&gt;Here is my final command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd local&lt;/span&gt;/folder
+
+&lt;span class=&#34;nv&#34;&gt;remote_loc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;my.url.com:/home/username/remote_folder&amp;quot;&lt;/span&gt;
+
+fswatch -0 -o -e .git/ -e .pyc -e &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/static . &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+xargs -0 -I &lt;span class=&#34;o&#34;&gt;{}&lt;/span&gt; rsync -avz -e &lt;span class=&#34;s2&#34;&gt;&amp;quot;ssh&amp;quot;&lt;/span&gt; . &lt;span class=&#34;nv&#34;&gt;$remote_loc&lt;/span&gt; --exclude-from &lt;span class=&#34;s1&#34;&gt;&amp;#39;exclude.txt&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The option &lt;code&gt;-0&lt;/code&gt; indicates that fswatch will use &lt;code&gt;\0&lt;/code&gt; as a line separator.&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The option &lt;code&gt;-o&lt;/code&gt; will only indicates how many files have been modified,
+has long has I do not need the filename to perform the command.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The command xargs take the same option &lt;code&gt;-0&lt;/code&gt; so it will accept &lt;code&gt;\0&lt;/code&gt; as the
+separator between each command.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;The &lt;code&gt;-I {}&lt;/code&gt; option will tell xargs that the
+caught at first will be injected in the command at the place of &lt;code&gt;{}&lt;/code&gt;
+(this is the same as the -exec command in find). We do not use it because
+rsync will take care to check which file has changed, this is a trick to avoid
+xargs to complain.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Curl for REST</title>
+      <link>http://ixday.github.io/post/curl_for_rest/</link>
+      <pubDate>Wed, 07 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/curl_for_rest/</guid>
+      <description>&lt;p&gt;It has been a long time since the last post. But today, I will just show two
+tools I use for debugging my REST APIs.&lt;/p&gt;
+
+&lt;p&gt;First one is the well known &lt;a href=&#34;http://curl.haxx.se/docs/manpage.html&#34;&gt;curl&lt;/a&gt; and
+the second one is &lt;a href=&#34;http://stedolan.github.io/jq/manual/&#34;&gt;jq&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One important feature of curl is its hability to load external files for datas
+with &lt;code&gt;@&lt;/code&gt; before file name:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d @filepath
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then you can remove the progress bar by adding &lt;code&gt;-s&lt;/code&gt; in the options&lt;/p&gt;
+
+&lt;p&gt;Finally, you can use jq for parsing the output with a request syntax, here is
+what the final line looks like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -s -d @filepath &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It is a small article but I just wanted to show that those tools are really
+great, we do not need complex software for this. I prefer using simple cli
+because it gives a better understanding on what we are doing, and on what we
+are relying on.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Angular $parse</title>
+      <link>http://ixday.github.io/post/angular-parse/</link>
+      <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/angular-parse/</guid>
+      <description>&lt;p&gt;Hey there, I have started to be tired of weak example of angular power,
+so I will go deeper on angular services and directives and wrote some articles
+about it.&lt;/p&gt;
+
+&lt;p&gt;The service &lt;code&gt;$parse&lt;/code&gt; is the one who runs on the html to bind data with your
+javascript. It provides a lot of useful features which can be really interesting
+especially with directive manipulation.&lt;/p&gt;
+
+&lt;p&gt;So, we will illustrate with some examples:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// This notation allow us to stay in pure javascript world&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;injector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ng&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;invoke&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// new clean scope (optionnal, it will work directly on $rootScope)&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$new&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// allocate simple value&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// here the magic&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;    The function which has been returned look for a context to interpolate the&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;    value&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;  */&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// display =&amp;gt; bar&lt;/span&gt;
+
+  &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;    Redefine foo value&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   */&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;assign&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+  &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;    $scope has changed Oo&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   */&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// display =&amp;gt; foo&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Pretty cool uh? But wait there is more&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;injector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ng&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;invoke&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$new&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// allocate function&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;argFoo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;argFoo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// allocate value&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;someValue&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;
+
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;foo(someValue)&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// display =&amp;gt; foo&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It also interpolates functions?! But wait there is more&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;injector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ng&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;invoke&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$new&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;//allocate function&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;argFoo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;argFoo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;//allocate value&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;someValue&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;foo(someValue)&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;    The function returned by the $parse service has a second argument wich will&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;    override the context in case of conflict&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   */&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;someValue&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}));&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// display =&amp;gt; bar&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you will ask: Is there a use case for that? Of course, passing additionnal
+arguments in directive is possible. For example, the ng-click directive
+(&lt;a href=&#34;https://docs.angularjs.org/api/ng/directive/ngClick&#34;&gt;doc&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;This pattern allows you to retrieve the &lt;code&gt;$event&lt;/code&gt; object directly in your
+function handler.&lt;/p&gt;
+
+&lt;p&gt;Here is a simplification with explanation of the ng-click directive&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;myModule&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[])&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;directive&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;myNgClick&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;$parse&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;link&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;attr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;       Gets the function you have passed to ng-click directive&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;       Parse returns a function which has a context and extra params which&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;       overrides the context&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;      */&lt;/span&gt;
+      &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;handler&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$parse&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;attr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;myNgClick&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]);&lt;/span&gt;
+
+      &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;      here you bind on click event you can look at the documentation&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;      https://docs.angularjs.org/api/ng/function/angular.element&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;      */&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;click&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;event&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;//callback is here for the explanation&lt;/span&gt;
+        &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;callback&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+          &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;           Here handler will do the following, it will call the dedicated&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;           function and fill the arguments with the elements found in the scope&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;           (if possible), the second argument will override the $event attribute&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;           in the scope (if there is some) and provide the event element of the&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;           click&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;          */&lt;/span&gt;
+          &lt;span class=&#34;nx&#34;&gt;handler&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$event&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;event&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;//$apply force angular to run a digest cycle in order to propagate the&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;//changes&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$apply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;callback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}]);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And it will work, example =&amp;gt; &lt;a href=&#34;http://jsbin.com/hujeluqigo/2/edit?html,js,console,output&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You can also find example of the two first parts &lt;a href=&#34;http://jsbin.com/nahivi/edit?js,console&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Hope you enjoyed the trip, see ya o/&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bash Script</title>
+      <link>http://ixday.github.io/post/bash-script/</link>
+      <pubDate>Sun, 19 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/bash-script/</guid>
+      <description>
+
+&lt;p&gt;Writting a bash script is kind of a complicated task, there is a strict
+syntax, multiple external tools, and some tricks which depends on the version
+and in some cases on the distribution itself (for example, grep is not the same
+either you are on BSD or Debian).&lt;/p&gt;
+
+&lt;p&gt;In this article I will talk about four code habits which can improve
+the maintainability of your shell scripts&lt;/p&gt;
+
+&lt;h3 id=&#34;double-quotes&#34;&gt;Double quotes&lt;/h3&gt;
+
+&lt;p&gt;Everyone who already used a bash script will tell you to mark every variable
+reading with double quotes:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# like this&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The question is why do we have to mark them, to show that just a little example,
+run the following script&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;LS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;ls *&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Not Quoted&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$LS&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Quoted&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$LS&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;As you can see there is a huge difference between the two versions, in fact,
+if there is no double quotes, the variable is subject to word splitting and
+file globbing see &lt;a href=&#34;http://mywiki.wooledge.org/BashPitfalls#echo%5f.24foo&#34;&gt;here&lt;/a&gt;
+for further informations. This can lead to major errors and
+failures.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-braquets-notation&#34;&gt;The braquets notation&lt;/h3&gt;
+
+&lt;p&gt;To display a variable there is two notations&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$FOO&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;These two notations displays the same thing, so why do we need the second one?
+This notation is here to clarify an ambiguity, because variables can be used
+in a string interpolation it can lead to a miscomprehension.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;FO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;fo&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;because &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$FOo&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; you &amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;because &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;FO&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;o you&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;As you can see the result of the previous script the first line does not write
+what is contained into the variable, because bash interpreter try to display
+the content of the variable &lt;code&gt;FOo&lt;/code&gt; which does not exist.&lt;/p&gt;
+
+&lt;h3 id=&#34;the-set-command&#34;&gt;The set command&lt;/h3&gt;
+
+&lt;p&gt;At the any level in your script you can use the &lt;code&gt;set&lt;/code&gt; command,
+this command is powerful because it allows some extra behaviour in your shell
+script:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;set -e&lt;/code&gt; Will stop the script if an error occurs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; -e
+
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;this command exist&amp;quot;&lt;/span&gt;
+ls
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;hope this one not&amp;quot;&lt;/span&gt;
+foo
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;this will not be displayed&amp;quot;&lt;/span&gt;
+ls
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Try removing the second line and see what happened. Sometime this behaviour is
+needed, sometime not.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;set -x&lt;/code&gt; Will display the line running and evaluate the variables&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; -x
+
+&lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;BAR&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$FOO&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will display&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;+ &lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;foo
++ &lt;span class=&#34;nv&#34;&gt;BAR&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;foo
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;command-return-code-testing&#34;&gt;Command return code testing&lt;/h3&gt;
+
+&lt;p&gt;There is a simple way to test some command return in bash if we do not need the
+result&lt;/p&gt;
+
+&lt;p&gt;Here is the common way to do that&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&#34;nv&#34;&gt;RESULT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;grep &lt;span class=&#34;s2&#34;&gt;&amp;quot;toto&amp;quot;&lt;/span&gt; /dev/null&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$?&lt;/span&gt; -eq &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+  &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Command failed&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+
+&lt;span class=&#34;nv&#34;&gt;RESULT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;ls /dev/null&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; ! &lt;span class=&#34;nv&#34;&gt;$?&lt;/span&gt; -eq &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+  &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Command succeed&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;But if we do not want the result, and just want to test some command return,
+here is the simple way to perform that&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; grep &lt;span class=&#34;s2&#34;&gt;&amp;quot;toto&amp;quot;&lt;/span&gt; /dev/null
+&lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+  &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Command succeed&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;
+  &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Command failed&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Outside Angular</title>
+      <link>http://ixday.github.io/post/outside-angular/</link>
+      <pubDate>Sun, 05 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/outside-angular/</guid>
+      <description>&lt;p&gt;There are some cases when angular is accessible but we just want to access a
+specific service without bootstraping an entire application.&lt;/p&gt;
+
+&lt;p&gt;For example, in some tests I can load some fixtures with the $http service,
+or use $compile for a simple template.&lt;/p&gt;
+
+&lt;p&gt;It is pretty simple to do that, but it is not clearly explained in the angular
+documentation. So here is an example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// The module ng must be loaded&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;injector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ng&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// Then we just have to load the services needed&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;invoke&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$compile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// We create a simple template and a scope&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tplt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;lt;div&amp;gt;{{foo}}&amp;lt;/div&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$new&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// Populate the scope&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// Compile the template&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$compile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tplt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// We are outside of angular (no application is running), so we have to run&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// a $digest cycle&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$apply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// And it will displays &amp;quot;bar&amp;quot; MAGIC!&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The only issue with this solution is that you do not have access to the config
+block, so if you want to change the interpolate symbol it will not be possible,
+unless&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;This also works with your own module&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// Define your own module&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[])&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;hello&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sayHello&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;hello from the angular world&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// Then load it (module ng is mandatory)&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;injector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ng&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;invoke&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// And it will display &amp;quot;hello from the angular world&amp;quot; MAGIC!&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sayHello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So, now it will be possible to set up a custom symbol for the interpolate
+service.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[])&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$interpolateProvider&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// We change the symbol of the interpolate provider&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;$interpolateProvider&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;startSymbol&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;{%&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;$interpolateProvider&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;endSymbol&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;%}&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;service&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;buildTemplate&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$compile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;getTemplate&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// Here we use the new symbols&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tplt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;lt;div&amp;gt;{%foo%}&amp;lt;/div&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$rootScope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$new&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+    &lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;bar&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;elt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;$compile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tplt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$apply&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;elt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+&lt;span class=&#34;nx&#34;&gt;angular&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;injector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;ng&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;foo&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;invoke&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buildTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// And it still displays &amp;quot;bar&amp;quot; MAGIC!&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buildTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;getTemplate&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here it seems not really useful but sometimes&amp;hellip; you know ;)&lt;/p&gt;
+
+&lt;p&gt;(you can find a full Plunker &lt;a href=&#34;http://plnkr.co/edit/giAIRSwdTnOPAhj3TRs7&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - HTML5 Boilerplate</title>
+  <meta property='og:title' content="HTML5 Boilerplate - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Tue Sep 30 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/html5-boilerplate/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>HTML5 Boilerplate</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/bash ">bash</a>
+, <a href="/tags/web ">web</a>
+
+      </p>
+      
+
+    </header>
+    <p>Sometimes we only need to have a boilerplate quickly to test it through a
+browser. We only want to have the basis, and having it working fine.</p>
+
+<p>You can find <a href="http://www.initializr.com/">here</a> a good generator for what you
+want. But sometimes, having a snippet in the bash prompt can be needed.</p>
+
+<p>So here is an example:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># stop script if something bad happen</span>
+<span class="nb">set</span> -e
+
+<span class="c"># unzip need to have a tempfile to extract properly</span>
+<span class="nv">TMPFILE</span><span class="o">=</span><span class="s2">&quot;/tmp/tempfile.</span><span class="k">$(</span>date +%s<span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="nv">PWD</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+<span class="nv">DEST</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+
+<span class="c"># here is the link of my configuration, but you can easily create yours</span>
+<span class="nv">URL</span><span class="o">=</span><span class="s2">&quot;http://www.initializr.com/builder?h5bp-content&amp;html5shiv&amp;&quot;</span>
+<span class="nv">URL</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;&quot;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&quot;</span>
+<span class="nv">URL</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;&quot;simplehtmltag&amp;izr-emptyscript&quot;</span> <span class="c"># string concatenation example</span>
+
+curl -o <span class="s2">&quot;</span><span class="nv">$TMPFILE</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$URL</span><span class="s2">&quot;</span> 2&gt; /dev/null
+
+<span class="c"># if argument is provided, move to the specified directory</span>
+<span class="k">if</span> <span class="o">[[</span>  -z <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span> <span class="o">]]</span>
+<span class="k">then</span>
+    <span class="c"># do not display what has been inflated</span>
+    unzip -qq -d <span class="s2">&quot;</span><span class="nv">$PWD</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TMPFILE</span><span class="s2">&quot;</span>
+    rm <span class="s2">&quot;</span><span class="nv">$TMPFILE</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+
+    <span class="c"># if the path provided is a file warn the user and exit</span>
+    <span class="k">if</span> <span class="o">[[</span> -f <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span> <span class="o">]]</span>
+    <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2"> already exists and is a file&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1
+    <span class="k">fi</span>
+
+    <span class="c"># if the directory is not empty warn the user and exit</span>
+    <span class="k">if</span> <span class="o">[[</span> -d <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span> <span class="o">&amp;&amp;</span> ! -z <span class="s2">&quot;</span><span class="k">$(</span>ls -A <span class="nv">$DIR</span><span class="k">)</span><span class="s2">&quot;</span> <span class="o">]]</span>
+    <span class="k">then</span>
+        <span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2"> is not empty&quot;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit </span>1
+    <span class="k">fi</span>
+
+    <span class="c"># if the directory does not exist, we create it</span>
+    <span class="k">if</span> <span class="o">[[</span> ! -a <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span> <span class="o">]]</span>
+    <span class="k">then</span>
+        mkdir -p <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span>
+    <span class="k">fi</span>
+
+    unzip -qq -d <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$TMPFILE</span><span class="s2">&quot;</span>
+
+    <span class="c">#then we move the content to the directory</span>
+    <span class="k">for</span> f in <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span>/initializr/*
+    <span class="k">do</span>
+        mv <span class="s2">&quot;</span><span class="nv">$f</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">&quot;</span>
+    <span class="k">done</span>
+
+    <span class="c"># delete the other files</span>
+    rm <span class="s2">&quot;</span><span class="nv">$TMPFILE</span><span class="s2">&quot;</span>
+    rmdir <span class="s2">&quot;</span><span class="nv">$DEST</span><span class="s2">/initializr&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+
+<p>it is also possible to create a sample on github or whatever, do not forget that
+automation will lead to time saving (maybe, &hellip;sometimes).</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/html5-boilerplate\/';
+    var disqus_title = 'HTML5 Boilerplate';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/html5-boilerplate\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

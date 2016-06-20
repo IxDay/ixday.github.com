@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Bash Expansion</title>
+  <meta property='og:title' content="Bash Expansion - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Thu Aug 20 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/bash_expansion/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Bash Expansion</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/bash ">bash</a>
+, <a href="/tags/cli ">cli</a>
+
+      </p>
+      
+
+    </header>
+    <p>A small post just to share a useful bashism the
+<a href="http://wiki.bash-hackers.org/syntax/expansion/brace">Brace Expansion</a>.
+It is really simple to make it works:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="k">for</span> i in <span class="o">{</span>1..50<span class="o">}</span>
+<span class="k">do</span>
+	<span class="nb">echo</span> <span class="s2">&quot;Hello World </span><span class="nv">$i</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+</code></pre></div>
+
+<p>It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing?
+Ok, now the second feature</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">echo </span>something/<span class="o">{</span>foo,bar<span class="o">}</span>
+&gt; something/foo something/bar
+</code></pre></div>
+
+<p>Still not amazed, ok now type this one:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">cp some_file<span class="o">{</span>,.old<span class="o">}</span>
+</code></pre></div>
+
+<p>It will copy your file
+adding a <code>.old</code> extension. I do a lot of things like this and it saves me a lot
+of time, so think about it.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/bash_expansion\/';
+    var disqus_title = 'Bash Expansion';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/bash_expansion\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

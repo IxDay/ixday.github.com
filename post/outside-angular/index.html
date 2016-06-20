@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Outside Angular</title>
+  <meta property='og:title' content="Outside Angular - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Sun Oct 5 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/outside-angular/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Outside Angular</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/javascript ">javascript</a>
+, <a href="/tags/angular ">angular</a>
+, <a href="/tags/web ">web</a>
+
+      </p>
+      
+
+    </header>
+    <p>There are some cases when angular is accessible but we just want to access a
+specific service without bootstraping an entire application.</p>
+
+<p>For example, in some tests I can load some fixtures with the $http service,
+or use $compile for a simple template.</p>
+
+<p>It is pretty simple to do that, but it is not clearly explained in the angular
+documentation. So here is an example:</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// The module ng must be loaded</span>
+<span class="nx">angular</span><span class="p">.</span><span class="nx">injector</span><span class="p">([</span><span class="s1">&#39;ng&#39;</span><span class="p">])</span>
+
+<span class="c1">// Then we just have to load the services needed</span>
+<span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">$compile</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="c1">// We create a simple template and a scope</span>
+  <span class="kd">var</span> <span class="nx">tplt</span> <span class="o">=</span> <span class="s1">&#39;&lt;div&gt;{{foo}}&lt;/div&gt;&#39;</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+
+  <span class="c1">// Populate the scope</span>
+  <span class="nx">scope</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+
+  <span class="c1">// Compile the template</span>
+  <span class="kd">var</span> <span class="nx">elt</span> <span class="o">=</span> <span class="nx">$compile</span><span class="p">(</span><span class="nx">tplt</span><span class="p">)(</span><span class="nx">scope</span><span class="p">);</span>
+
+  <span class="c1">// We are outside of angular (no application is running), so we have to run</span>
+  <span class="c1">// a $digest cycle</span>
+  <span class="nx">scope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();</span>
+
+  <span class="c1">// And it will displays &quot;bar&quot; MAGIC!</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">elt</span><span class="p">.</span><span class="nx">html</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>The only issue with this solution is that you do not have access to the config
+block, so if you want to change the interpolate symbol it will not be possible,
+unless&hellip;</p>
+
+<p>This also works with your own module</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// Define your own module</span>
+<span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">sayHello</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;hello from the angular world&#39;</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">});</span>
+
+<span class="c1">// Then load it (module ng is mandatory)</span>
+<span class="nx">angular</span><span class="p">.</span><span class="nx">injector</span><span class="p">([</span><span class="s1">&#39;ng&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">]).</span><span class="nx">invoke</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">hello</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// And it will display &quot;hello from the angular world&quot; MAGIC!</span>
+  <span class="nx">hello</span><span class="p">.</span><span class="nx">sayHello</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>So, now it will be possible to set up a custom symbol for the interpolate
+service.</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="p">[])</span>
+<span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$interpolateProvider</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// We change the symbol of the interpolate provider</span>
+  <span class="nx">$interpolateProvider</span><span class="p">.</span><span class="nx">startSymbol</span><span class="p">(</span><span class="s1">&#39;{%&#39;</span><span class="p">);</span>
+  <span class="nx">$interpolateProvider</span><span class="p">.</span><span class="nx">endSymbol</span><span class="p">(</span><span class="s1">&#39;%}&#39;</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">&#39;buildTemplate&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$compile</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">getTemplate</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Here we use the new symbols</span>
+    <span class="kd">var</span> <span class="nx">tplt</span> <span class="o">=</span> <span class="s1">&#39;&lt;div&gt;{%foo%}&lt;/div&gt;&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
+
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">elt</span> <span class="o">=</span> <span class="nx">$compile</span><span class="p">(</span><span class="nx">tplt</span><span class="p">)(</span><span class="nx">scope</span><span class="p">);</span>
+    <span class="nx">scope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nx">elt</span><span class="p">.</span><span class="nx">html</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">angular</span><span class="p">.</span><span class="nx">injector</span><span class="p">([</span><span class="s1">&#39;ng&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">]).</span><span class="nx">invoke</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">buildTemplate</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// And it still displays &quot;bar&quot; MAGIC!</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">buildTemplate</span><span class="p">.</span><span class="nx">getTemplate</span><span class="p">());</span>
+<span class="p">});</span>
+</code></pre></div>
+
+<p>Here it seems not really useful but sometimes&hellip; you know ;)</p>
+
+<p>(you can find a full Plunker <a href="http://plnkr.co/edit/giAIRSwdTnOPAhj3TRs7">here</a>)</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/outside-angular\/';
+    var disqus_title = 'Outside Angular';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/outside-angular\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

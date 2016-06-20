@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Debian Install 3</title>
+  <meta property='og:title' content="Debian Install 3 - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Tue Aug 18 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/debian_install_3/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Debian Install 3</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/bash ">bash</a>
+, <a href="/tags/adminsys ">adminsys</a>
+
+      </p>
+      
+
+    </header>
+    
+
+<p>Today I want to install debian on my personal server.
+And I want to crypt the FS using Luks, and add LVM on top.</p>
+
+<p>I want it to look like that (like this scheme, a lot of reference
+come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">arch wiki</a></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">+-----------------------------------------------+ +----------------+
+|Logical volume1        | Logical volume2       | |                |
+|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
+|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
+|                                               | |                |
+|        LUKS encrypted partition               | |                |
+|               /dev/sda2                       | |   /dev/sda1    |
++-----------------------------------------------+ +----------------+
+</code></pre></div>
+
+<h2 id="prepare-disks">Prepare disks</h2>
+
+<p>I use parted for this configuration, I left 1MB at the start of the device
+to be compliant with <code>parted &lt;disk&gt; align-check optimal &lt;partition&gt;</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">apt install cryptsetup lvm2
+
+parted /dev/sda mkpart primary 1MB 201MB <span class="c"># boot partition</span>
+parted /dev/sda mkpart primary 201MB 100% <span class="c"># lvm partition</span>
+parted /dev/sda toggle <span class="m">1</span> boot
+parted /dev/sda toggle <span class="m">2</span> lvm
+
+cryptsetup -c aes-xts-plain -y -s <span class="m">512</span> luksFormat /dev/sda2
+<span class="c"># enter passphrase</span>
+
+<span class="c"># this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper</span>
+cryptsetup luksOpen /dev/sda2 ssd
+
+lvm pvcreate /dev/mapper/ssd
+lvm vgcreate vg_ssd /dev/mapper/ssd
+
+lvm lvcreate -L 4GB -n swap vg_ssd
+lvm lvcreate -l 100%FREE -n root vg_ssd
+
+<span class="c"># now format the partitions</span>
+mkfs.ext4 /dev/sda1 <span class="c"># boot partition</span>
+mkfs.ext4 /dev/mapper/vg_ssd-lv_root
+mkswap /dev/mapper/vg_ssd-lv_swap
+</code></pre></div>
+
+<h2 id="prepare-base-system">Prepare base system</h2>
+
+<p>In order to prepare the base system I will use the <code>debootstrap</code> tool,
+which will take care of creating base files. Then I will <code>chroot</code> in the new
+system in order to setup packages and boot initialisation</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># mount new filesystem and debootstrap</span>
+mount /dev/mapper/&lt;vg_name&gt;-root /mnt
+mkdir /mnt/boot
+mount /dev/sda1 /mnt/boot
+
+debootstrap --arch<span class="o">=</span>amd64 stable /mnt
+
+<span class="c"># copy somefiles</span>
+cp /etc/resolv.conf /mnt/etc/
+cp /etc/network/interfaces /mnt/etc/network
+
+<span class="c"># bind and chroot</span>
+mount -o <span class="nb">bind</span> /dev /mnt/dev
+mount -o <span class="nb">bind</span> /dev/pts /mnt/dev/pts
+mount -o <span class="nb">bind</span> /proc /mnt/proc
+mount -o <span class="nb">bind</span> /run /mnt/run
+mount -o <span class="nb">bind</span> /sys /mnt/sys
+
+chroot /mnt/ /bin/bash
+</code></pre></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>First install vim! <code>apt-get install vim</code></p>
+
+<p>Then create the fstab file, I use the UUID notation for this part.
+Basically, I run two commands in order to get the needed informations</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">ls -l /dev/disks/by-uuid
+
+total 0
+lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&gt; ../../sda1
+lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&gt; ../../sda2
+lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&gt; ../../dm-2
+lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&gt; ../../dm-1
+lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&gt; ../../dm-0
+
+ls -l /dev/mapper
+total 0
+crw------- <span class="m">1</span> root root 10, <span class="m">236</span> Aug <span class="m">19</span> 12:37 control
+lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:51 ssd -&gt; ../dm-0
+lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:52 vg_ssd-lv_root -&gt; ../dm-2
+lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:53 vg_ssd-lv_swap -&gt; ../dm-1
+</code></pre></div>
+
+<p>Which will give me the following /etc/fstab.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">UUID</span><span class="o">=</span>de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    <span class="m">0</span>  1
+<span class="nv">UUID</span><span class="o">=</span>2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    <span class="m">0</span>  2
+<span class="nv">UUID</span><span class="o">=</span>f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    <span class="m">0</span>  0
+</code></pre></div>
+
+<p>Edit the /etc/apt/sources.list file to set up basic packages and update package list: <code>apt-get update</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">deb http://ftp.us.debian.org/debian stable main contrib non-free
+</code></pre></div>
+
+<p>Install needed packages</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># install the package</span>
+apt-get install locales console-data keyboard-configuration
+
+<span class="c"># set the variables up, select the ones you want with space</span>
+dpkg-reconfigure locales
+
+<span class="c"># setup password</span>
+passwd
+
+<span class="c"># change hostname</span>
+<span class="nb">echo</span> <span class="s2">&quot;suika&quot;</span> &gt; /etc/hostname
+
+apt-get install lvm2 cryptsetup
+
+<span class="c"># this one is specific to my mothercard</span>
+apt-get install firmware-realtek
+</code></pre></div>
+
+<h2 id="grub">Grub</h2>
+
+<p>Now we want to make the new system bootable, to perform this the system needs a kernel
+<code>apt-get install linux-image-amd64</code></p>
+
+<p>Set up the /etc/crypttab file, which will tell how to map the crypted partition</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># &lt;target name&gt; &lt;source device&gt;         &lt;key file&gt;      &lt;options&gt;</span>
+ssd             /dev/sda2               none            luks
+</code></pre></div>
+
+<p>Install grub on /dev/sda (on disk, not on partition) <code>apt-get install grub2</code></p>
+
+<p>Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.</p>
+
+<p>In file <code>/etc/initramfs-tools/initramfs.conf</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#</span>
+<span class="c"># KEYMAP: [ y | n ]</span>
+<span class="c">#</span>
+<span class="c"># Charger une configuration de clavier à l&#39;étape d&#39;initramfs.</span>
+<span class="c">#</span>
+
+<span class="nv">KEYMAP</span><span class="o">=</span>y
+</code></pre></div>
+
+<p>Update initramfs <code>update-initramfs -u</code> to apply change on initrd.</p>
+
+<h2 id="the-end">The end!</h2>
+
+<p>Exit the <code>chroot</code> unmount partitions and reboot on your new fresh installed system.</p>
+
+<p>If at startup you get an error message like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Volume group &quot;vg_ssd&quot; not found
+  Skipping volume group vg_ssd
+Unable to find LVM volume vg_ssd/lv_root
+</code></pre></div>
+
+<p>You can look at <a href="{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md">this article</a> which explain how to fix this issue</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/debian_install_3\/';
+    var disqus_title = 'Debian Install 3';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/debian_install_3\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

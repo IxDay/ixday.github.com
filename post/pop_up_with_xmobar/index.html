@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Pop-up with xmobar</title>
+  <meta property='og:title' content="Pop-up with xmobar - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Mon Aug 24 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/pop_up_with_xmobar/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Pop-up with xmobar</h2>
+
+      
+
+    </header>
+    
+
+<p>Sometimes I just want to click, even for simple things.
+So I created a little popup to shutdown, restart, suspend my computer,
+which looks like this:</p>
+
+<p><a href="{filename}/images/xmobar_popup.png"><img src="{filename}/images/xmobar_popup.png" alt="Xmobar popup" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
+
+<h2 id="preparation">Preparation</h2>
+
+<p>First of all install <a href="http://projects.haskell.org/xmobar/">xmobar</a>,
+<code>apt-get install xmobar/testing</code>. Here I will use testing because
+I need the multiple fonts support,
+see <a href="http://projects.haskell.org/xmobar/releases.html#version-0.23-mar-8-2015">here</a>
+for the release note.</p>
+
+<p>The second thing I will need is an iconic font for the power button.
+<a href="https://fortawesome.github.io/Font-Awesome/">Font Awesome</a> fits my need.
+I downloaded the <code>.ttf</code> file <a href="https://github.com/FortAwesome/Font-Awesome/blob/master/fonts/fontawesome-webfont.ttf?raw=true">here</a>
+and placed it under <code>~/.local/share/fonts</code>. I ran <code>fc-cache -vf</code> in order to
+update the font cache of my machine.</p>
+
+<p>And that&rsquo;s all, now let&rsquo;s configure</p>
+
+<h2 id="configuration">Configuration</h2>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span class="kt">Config</span> <span class="p">{</span>
+	<span class="n">font</span> <span class="ow">=</span> <span class="s">&quot;xft:Droid Sans Mono-10&quot;</span>
+	<span class="p">,</span> <span class="n">additionalFonts</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;xft:FontAwesome-10&quot;</span><span class="p">]</span>
+	<span class="p">,</span> <span class="n">border</span> <span class="ow">=</span> <span class="kt">FullB</span>
+	<span class="p">,</span> <span class="n">borderColor</span> <span class="ow">=</span> <span class="s">&quot;#8a8a8a&quot;</span>
+	<span class="p">,</span> <span class="n">borderWidth</span> <span class="ow">=</span> <span class="mi">2</span>
+	<span class="p">,</span> <span class="n">bgColor</span> <span class="ow">=</span> <span class="s">&quot;#3c3b37&quot;</span>
+	<span class="p">,</span> <span class="n">fgColor</span> <span class="ow">=</span> <span class="s">&quot;#ffffff&quot;</span>
+	<span class="p">,</span> <span class="n">lowerOnStart</span> <span class="ow">=</span> <span class="kt">False</span>
+	<span class="p">,</span> <span class="n">position</span> <span class="ow">=</span> <span class="kt">Static</span> <span class="p">{</span> <span class="n">xpos</span> <span class="ow">=</span> <span class="mi">660</span> <span class="p">,</span> <span class="n">ypos</span> <span class="ow">=</span> <span class="mi">490</span><span class="p">,</span> <span class="n">width</span> <span class="ow">=</span> <span class="mi">600</span><span class="p">,</span> <span class="n">height</span> <span class="ow">=</span> <span class="mi">100</span> <span class="p">}</span>
+	<span class="p">,</span> <span class="n">template</span> <span class="ow">=</span> <span class="s">&quot;}&lt;fn=1&gt;&lt;/fn&gt;   </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`systemctl poweroff`&gt; Shutdown &lt;/action&gt;    </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`systemctl reboot`&gt;Reboot&lt;/action&gt;    </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill &amp;&amp; systemctl suspend`&gt;</span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">Suspend&lt;/action&gt;    </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill`&gt;Exit&lt;/action&gt;{&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Explanation line by line:</p>
+
+<ul>
+<li>line 2: Define the font which will be use, this is my default font for my
+machine, which is available in the package <code>fonts-droid</code>.</li>
+<li>line 3: I declare an additional font which will be used for the icon.</li>
+<li>line 4: The border style, this will tell xmonad that my border applies on full perimeter.</li>
+<li>line 5, 6: The border color and width.</li>
+<li>line 7, 8: The background color and the font color.</li>
+<li>line 9: Tells xmonad to launch the popup above all windows.</li>
+<li>line 10: Here is the position of the popup, my screen is 1920x1080,
+I want a popup 600x100, so <code>xpos = (1920 - 600) / 2</code> and <code>ypos = (1080 - 100) / 2</code></li>
+<li>line 11 to 16: The template to display, see <a href="#template">the template section</a>
+for a full description</li>
+</ul>
+
+<h3 id="the-template-a-name-template-a">The template <a name="template"></a></h3>
+
+<ul>
+<li><code>}{</code> symbol describe the text alignment, in a template like this <code>foo}bar{qux</code>,
+foo will be left align, bar will be centered and qux will be left align.
+Here I just want all the text of the popup centered</li>
+<li><code>&lt;fn=1&gt;</code> indicates the use of the font number one in additionals fonts,
+here it will be the &ldquo;Font Awesome&rdquo; font.</li>
+<li>The curious symbol will appear like <a href="http://fortawesome.github.io/Font-Awesome/icon/power-off/">this</a> if Font Awesome is installed on yout system, like this: Ϳ if not.
+To retrieve a character from font awesome and paste it in a file,
+you can launch the following bash command <code>awk 'BEGIN{printf &quot;%c&quot;, 0x00&lt;font_awesome_code&gt;}'</code>.
+Where <code>font_awesome_code</code> is the code provided on the icon page of Font Awesome
+(for the power button it will be f011).</li>
+<li><code>&lt;/fn&gt;</code> indicates that we finished using the Font Awesome font.</li>
+<li><code>\\</code> is the way to perform multiline string in Haskell.</li>
+<li><code>&lt;action=\</code>systemctl poweroff`&gt;` will perform a poweroff when the user
+clicks on the text enclosed in the tag.</li>
+<li><code>Shutdown</code> the displayed text.</li>
+<li><code>&lt;/action&gt;</code> close the clickable area.</li>
+<li>same thing for the reboot section</li>
+<li>last specificity <code>ps -o pid | sed '3q;d' |xargs kill</code>, this command line close
+the popup, by killing its process.</li>
+</ul>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/pop_up_with_xmobar\/';
+    var disqus_title = 'Pop-up with xmobar';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/pop_up_with_xmobar\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

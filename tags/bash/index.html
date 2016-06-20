@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Bash</title>
+  <meta property='og:title' content="Bash - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    <h2 class="taxonomy-title">Filed under Bash...</h2>
+    <div class="contents">
+      
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Jul 19 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/curl_utils/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/curl_utils/">Curl utils</a></h2>
+    <p>
+    Here are some options and command I use with curl when dealing with stuff I have to develop. curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &quot;Content-Type: application/json&quot; -u &quot;admin:admin&quot; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &quot;header_name: value&quot; # -u support for Basic Auth, format is: &quot;user:password&quot; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.
+    
+    <a href="/post/curl_utils/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Aug 20 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/bash_expansion/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/bash_expansion/">Bash Expansion</a></h2>
+    <p>
+    A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works: for i in {1..50} do echo &quot;Hello World $i&quot; done It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature echo something/{foo,bar} &gt; something/foo something/bar Still not amazed, ok now type this one: cp some_file{,.old} It will copy your file adding a .old extension.
+    
+    <a href="/post/bash_expansion/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Aug 18 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/debian_install_3/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/debian_install_3/">Debian Install 3</a></h2>
+    <p>
+    <p>Today I want to install debian on my personal server.
+And I want to crypt the FS using Luks, and add LVM on top.</p>
+
+<p>I want it to look like that (like this scheme, a lot of reference
+come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">arch wiki</a></p>
+
+    
+    <a href="/post/debian_install_3/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/adminsys ">adminsys</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu May 14 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/debian_install_2/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/debian_install_2/">Debian install 2</a></h2>
+    <p>
+    After many days of configuration, I finally complete the installation of my perfect &ldquo;workstation&rdquo; ;). source.list I have to directory for this, first the preferences, then the sources.list. Just run an aptitude update, and you will some missing gpg keys, now run apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt; To have your keys installed. sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.
+    
+    <a href="/post/debian_install_2/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/adminsys ">adminsys</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Mon Mar 30 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/small_tool/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/project">Project</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/small_tool/">Small docker project</a></h2>
+    <p>
+    I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload. The repo is available here What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible: no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.g: # you will need to write this in the Dockerfile RUN TMPFILE=$(tempfile) &amp;&amp; \ echo &quot;Hello World&quot; &gt; $TMPFILE &amp;&amp; \ rm $TMPFILE you cannot build remotely from a custom branch: see this post accessibility to the container through boot2docker is pretty hard: see this post awk is an awesome tool for manipulating strings and console outputs.
+    
+    <a href="/post/small_tool/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/bash ">bash</a>
+, <a href="/tags/dev ">dev</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Mon Mar 2 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/rsync_fswatch/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
+    <p>
+    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine. ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key. ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com Okay, at this moment we can use a config file for ssh: $HOME/.ssh/config :) Host 192.168.0.1 my.url.com user mylogin IdentityFile ~/.ssh/my_ssh.key The CLI is now: # with IP ssh 192.168.0.1 # with url ssh my.url.com I have a connection but now I want to share my dev server on the remote host to my local web browser.
+    
+    <a href="/post/rsync_fswatch/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Wed Jan 7 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/curl_for_rest/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/curl_for_rest/">Curl for REST</a></h2>
+    <p>
+    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs. First one is the well known curl and the second one is jq. One important feature of curl is its hability to load external files for datas with @ before file name: curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath Then you can remove the progress bar by adding -s in the options Finally, you can use jq for parsing the output with a request syntax, here is what the final line looks like: curl -X POST -H &quot;Content-Type: application/json&quot; -s -d @filepath | jq &#39;.&#39; It is a small article but I just wanted to show that those tools are really great, we do not need complex software for this.
+    
+    <a href="/post/curl_for_rest/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+, <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Sun Oct 19 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/bash-script/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/bash-script/">Bash Script</a></h2>
+    <p>
+    Writting a bash script is kind of a complicated task, there is a strict syntax, multiple external tools, and some tricks which depends on the version and in some cases on the distribution itself (for example, grep is not the same either you are on BSD or Debian). In this article I will talk about four code habits which can improve the maintainability of your shell scripts Double quotes Everyone who already used a bash script will tell you to mark every variable reading with double quotes: # like this echo &quot;$a&quot; The question is why do we have to mark them, to show that just a little example, run the following script #!/bin/bash LS=&quot;ls *&quot; echo &quot;Not Quoted&quot; echo $LS echo echo &quot;Quoted&quot; echo &quot;$LS&quot; As you can see there is a huge difference between the two versions, in fact, if there is no double quotes, the variable is subject to word splitting and file globbing see here for further informations.
+    
+    <a href="/post/bash-script/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Sun Oct 12 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/debian-install/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/debian-install/">Debian Install</a></h2>
+    <p>
+    That&rsquo;s a fact: I can not install a new system without getting into troubles! So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them. Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.img will be the output and debian-testing-amd64-CD-1.iso is # the iso you retrieved from internet https://www.debian.org/CD/http-ftp/ hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso # if you are making a Mac bootable usb key (X is still the disk number) sudo dd if=./debian.img.dmg of=/dev/rdiskX bs=1m # otherwise (X is still the disk number) sudo dd if=./debian-testing-amd64-CD-1.iso of=/dev/rdiskX bs=1m # to finish eject hdiutil eject /dev/diskX Messing up during the installation I use to have a lot of issues during the installation, such as: No installable kernel Can not install grub Whatever can happen during the installation So, it is possible to fix that during the installation process.
+    
+    <a href="/post/debian-install/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Sep 30 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/html5-boilerplate/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/html5-boilerplate/">HTML5 Boilerplate</a></h2>
+    <p>
+    Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine. You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed. So here is an example: # stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.$(date +%s)&quot; PWD=$(pwd) DEST=&quot;$1&quot; # here is the link of my configuration, but you can easily create yours URL=&quot;http://www.initializr.com/builder?h5bp-content&amp;html5shiv&amp;&quot; URL=&quot;$URL&quot;&quot;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&quot; URL=&quot;$URL&quot;&quot;simplehtmltag&amp;izr-emptyscript&quot; # string concatenation example curl -o &quot;$TMPFILE&quot; &quot;$URL&quot; 2&gt; /dev/null # if argument is provided, move to the specified directory if [[ -z &quot;$DEST&quot; ]] then # do not display what has been inflated unzip -qq -d &quot;$PWD&quot; &quot;$TMPFILE&quot; rm &quot;$TMPFILE&quot; else # if the path provided is a file warn the user and exit if [[ -f &quot;$DEST&quot; ]] then echo &quot;$DEST already exists and is a file&quot; &amp;&amp; exit 1 fi # if the directory is not empty warn the user and exit if [[ -d &quot;$DEST&quot; &amp;&amp; !
+    
+    <a href="/post/html5-boilerplate/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/web ">web</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+
+    </div>
+    
+  
+
+
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

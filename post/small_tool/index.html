@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Small docker project</title>
+  <meta property='og:title' content="Small docker project - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Mon Mar 30 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/small_tool/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/project">Project</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Small docker project</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+, <a href="/tags/bash ">bash</a>
+, <a href="/tags/dev ">dev</a>
+
+      </p>
+      
+
+    </header>
+    
+
+<p>I really like docker (even if I will look at
+<a href="http://www.freedesktop.org/software/systemd/man/
+systemd-nspawn.html">systemd-nspawn</a>), and also <a href="http://gulpjs.com/">gulp</a>.
+So I decided to create a small tool for serving a directory with a livereload.</p>
+
+<p>The repo is available <a href="https://github.com/IxDay/docker-html5-boilerplate">here</a></p>
+
+<h2 id="what-i-have-learned">What I have learned</h2>
+
+<ul>
+<li><p>Docker, especially with boot2docker (I am on MacOSX shame on me), is not
+really flexible:</p>
+
+<ul>
+<li>no evaluation for environment variables</li>
+<li>you can not store a variable through multiple run, you will need to do
+a oneliner e.g:</li>
+</ul>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="c"># you will need to write this in the Dockerfile</span>
+  RUN <span class="nv">TMPFILE</span><span class="o">=</span><span class="k">$(</span>tempfile<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Hello World&quot;</span> &gt; <span class="nv">$TMPFILE</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    rm <span class="nv">$TMPFILE</span>
+</code></pre></div>
+
+<ul>
+<li>you cannot build remotely from a custom branch:
+<a href="http://stackoverflow.com/questions/25509828/
+can-a-docker-build-use-the-url-of-a-git-branch">see this post</a></li>
+<li>accessibility to the container through boot2docker is pretty hard:
+<a href="http://stackoverflow.com/questions/28047809/
+docker0-interface-missing-on-osx/">see this post</a></li>
+</ul></li>
+
+<li><p>awk is an awesome tool for manipulating strings and console outputs.
+Best one hour investment so far. If you have to write bash scripts, awk is
+definitely a best to know tool.</p></li>
+
+<li><p>nodejs is definitely a hell for developers but is the only platform for
+frontend dev. Here are some issues I have gone through:</p>
+
+<ul>
+<li>bug in collecting interfaces which forced me to use a syscall:
+<a href="https://github.com/joyent/node/issues/9029">bug report</a></li>
+<li>npm ecosystem is messy. You will have to test many plugin, which does
+quite the same thing, to find the one with <em>THE</em> option you need.
+And finally find that the lib is 10 lines long and wraps another lib.</li>
+<li>no good packaging, which leads to a custom installation path,
+thanks <a href="https://nodesource.com/blog/
+nodejs-v012-iojs-and-the-nodesource-linux-repositories">this blog post</a> for the help.</li>
+</ul></li>
+
+<li><p>gulpjs is way better than grunt and must be ported to other languages,
+really excited about the 4.0 version coming soon.</p></li>
+</ul>
+
+<h2 id="how-i-can-improve">How I can improve</h2>
+
+<p>The tool is currently working, I am thinking of adding a markdown compiler in
+the chain because I really use markdown all the time.</p>
+
+<p>I still have to test it a bit to be sure it is okay to make a release
+(first thing I release yay \o/)</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/small_tool\/';
+    var disqus_title = 'Small docker project';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/small_tool\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

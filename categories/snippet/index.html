@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Snippet</title>
+  <meta property='og:title' content="Snippet - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    <h2 class="taxonomy-title">Filed under Snippet...</h2>
+    <div class="contents">
+      
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Jul 19 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/curl_utils/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/curl_utils/">Curl utils</a></h2>
+    <p>
+    Here are some options and command I use with curl when dealing with stuff I have to develop. curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &quot;Content-Type: application/json&quot; -u &quot;admin:admin&quot; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &quot;header_name: value&quot; # -u support for Basic Auth, format is: &quot;user:password&quot; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.
+    
+    <a href="/post/curl_utils/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu May 12 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/gogs_drone_compose/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/gogs_drone_compose/">Gogs &#43; Drone</a></h2>
+    <p>
+    Jenkins is everywhere now, but I really don&rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language. And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github). So I decided to make them work together in order to test that.
+    
+    <a href="/post/gogs_drone_compose/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Sun Apr 10 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/getting_rid_of_gulp_bunch_of_dependencies/">Getting rid of gulp bunch of dependencies</a></h2>
+    <p>
+    Recently Nodejs environment broke due the removal from npm of a small library (11 SLOC): leftpad. As it hit the world and broke a bunch of projects and CIs, I asked myself if my projects contains so much dependencies that if one break, everything collapse. The problem For developing my frontend I use a tool which I really like: Gulp. The issue there, is that for working with multiple building process involved a lot of glue and third party libraries.
+    
+    <a href="/post/getting_rid_of_gulp_bunch_of_dependencies/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/dev ">dev</a>
+, <a href="/tags/javascript ">javascript</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Wed Mar 16 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/pytest_command_line/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/pytest_command_line/">Pytest command line</a></h2>
+    <p>
+    I have recently dug into pytest documentation, and moreover into the command line arguments and I finally found a better workflow for running tests while I develop. Here is the command I run when I just made some devs: py.test -xvvvs --tb=line --pdb -x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.
+    
+    <a href="/post/pytest_command_line/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/tests ">tests</a>
+, <a href="/tags/python ">python</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Aug 20 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/bash_expansion/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/bash_expansion/">Bash Expansion</a></h2>
+    <p>
+    A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works: for i in {1..50} do echo &quot;Hello World $i&quot; done It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature echo something/{foo,bar} &gt; something/foo something/bar Still not amazed, ok now type this one: cp some_file{,.old} It will copy your file adding a .old extension.
+    
+    <a href="/post/bash_expansion/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Oct 30 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/jasmine_promises/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/jasmine_promises/">Test promises with jasmine</a></h2>
+    <p>
+    Jasmine is a good testing framework, which I really like, it is really powerfull and has just the amount of features to perform a huge variety of tests. At some point I had to tests promises, and more generally testing that some part of a function is not called (you will have to adapt the snippet but the idea is here). It is pretty simple, but not well known (I checked some stackoverflow threads before finding this).
+    
+    <a href="/post/jasmine_promises/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/jasmine ">jasmine</a>
+, <a href="/tags/tests ">tests</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Sep 30 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/html5-boilerplate/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/html5-boilerplate/">HTML5 Boilerplate</a></h2>
+    <p>
+    Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine. You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed. So here is an example: # stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.$(date +%s)&quot; PWD=$(pwd) DEST=&quot;$1&quot; # here is the link of my configuration, but you can easily create yours URL=&quot;http://www.initializr.com/builder?h5bp-content&amp;html5shiv&amp;&quot; URL=&quot;$URL&quot;&quot;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&quot; URL=&quot;$URL&quot;&quot;simplehtmltag&amp;izr-emptyscript&quot; # string concatenation example curl -o &quot;$TMPFILE&quot; &quot;$URL&quot; 2&gt; /dev/null # if argument is provided, move to the specified directory if [[ -z &quot;$DEST&quot; ]] then # do not display what has been inflated unzip -qq -d &quot;$PWD&quot; &quot;$TMPFILE&quot; rm &quot;$TMPFILE&quot; else # if the path provided is a file warn the user and exit if [[ -f &quot;$DEST&quot; ]] then echo &quot;$DEST already exists and is a file&quot; &amp;&amp; exit 1 fi # if the directory is not empty warn the user and exit if [[ -d &quot;$DEST&quot; &amp;&amp; !
+    
+    <a href="/post/html5-boilerplate/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/web ">web</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+
+    </div>
+    
+  
+
+
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

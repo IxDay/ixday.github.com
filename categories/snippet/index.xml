@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Snippet on Not today...</title>
+    <link>http://ixday.github.io/categories/snippet/</link>
+    <description>Recent content in Snippet on Not today...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 19 Jul 2016 14:24:57 +0200</lastBuildDate>
+    <atom:link href="http://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Curl utils</title>
+      <link>http://ixday.github.io/post/curl_utils/</link>
+      <pubDate>Tue, 19 Jul 2016 14:24:57 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/curl_utils/</guid>
+      <description>&lt;p&gt;Here are some options and command I use with &lt;code&gt;curl&lt;/code&gt; when dealing with stuff
+I have to develop.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
+              &lt;span class=&#34;c&#34;&gt;# -i displays the headers&lt;/span&gt;
+
+curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -u &lt;span class=&#34;s2&#34;&gt;&amp;quot;admin:admin&amp;quot;&lt;/span&gt; -d &lt;span class=&#34;s1&#34;&gt;&amp;#39;{}&amp;#39;&lt;/span&gt; &amp;lt;ip&amp;gt;
+&lt;span class=&#34;c&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I mostly use those options, the &lt;code&gt;-s&lt;/code&gt; is really interesting when you want to
+grep the content.&lt;/p&gt;
+
+&lt;p&gt;So, when testing availability of an http service, I use this snippet:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep 1&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will do kind of a ping for an http service, displaying this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:43 GMT
+HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:45 GMT
+HTTP/1.1 200 OK
+Date: Tue, 19 Jul 2016 12:23:46 GMT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The status of the http call, and the date of the call has been done.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gogs &#43; Drone</title>
+      <link>http://ixday.github.io/post/gogs_drone_compose/</link>
+      <pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/gogs_drone_compose/</guid>
+      <description>
+
+&lt;p&gt;Jenkins is everywhere now, but I really don&amp;rsquo;t like it. So I am looking at
+a replacement from day to day. I discovered &lt;a href=&#34;https://gogs.io/&#34;&gt;Gogs&lt;/a&gt; an
+I though that a CI is also a good use case for the Golang language.&lt;/p&gt;
+
+&lt;p&gt;And I finally found &lt;a href=&#34;https://drone.io/&#34;&gt;Drone&lt;/a&gt; (which was not really difficult
+as it is mentionned in
+&lt;a href=&#34;https://github.com/gogits/gogs/issues/1232&#34;&gt;a ticket on gogs github&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;So I decided to make them work together in order to test that.&lt;/p&gt;
+
+&lt;h2 id=&#34;environment&#34;&gt;Environment&lt;/h2&gt;
+
+&lt;p&gt;We want to test them in a temporary location with a simple &amp;ldquo;Hello world&amp;rdquo; test.
+Here is the architecture we will use:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
+  |-- test                  # the git repository with the file to test
+  |   |-- hello.py          # simple python file with a doctest test
+  |-- gogs                  # directory which will be used by gogs to store
+  |                         # datas (sqlite, git, ssh)
+  |-- drone
+      |-- dronerc           # config file
+      |-- var               # directory to store drone data (mostly sqlite)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;test-repo&#34;&gt;Test repo&lt;/h2&gt;
+
+&lt;p&gt;We just use the doctest feature of python here, this allow us to perform a
+simple test without bootstraping a bunch of code&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
+    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function&lt;/span&gt;
+
+&lt;span class=&#34;sd&#34;&gt;    Here the test we want to perform&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;gt;&amp;gt;&amp;gt; hello()&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+
+
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+    &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;doctest&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;doctest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;testmod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And this is the run&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;python hello.py -v
+Trying:
+    hello&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
+Expecting:
+    &lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+ok
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; items had no tests:
+    __main__
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; items passed all tests:
+   &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; tests in __main__.hello
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; tests in &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; items.
+&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; passed and &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; failed.
+Test passed.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;gogs&#34;&gt;Gogs&lt;/h2&gt;
+
+&lt;p&gt;This one is really basic, the tutorial is really simple and it works out
+of the box with the docker container provided. I haven&amp;rsquo;t tested it through
+ssh, but there is some disclaimer so I will test this later.&lt;/p&gt;
+
+&lt;p&gt;docs: &lt;a href=&#34;https://github.com/gogits/gogs/tree/master/docker&#34;&gt;https://github.com/gogits/gogs/tree/master/docker&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I choose the sqlite backend, which is easier to configure because there is
+no configuration to do.&lt;/p&gt;
+
+&lt;p&gt;I just run the docker container with the following line:
+&lt;code&gt;docker run --name gogs -p 10022:22 -p 10080:3000 -v $(pwd)/gogs:/data gogs/gogs&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I connect it through the &lt;strong&gt;localhost:10080&lt;/strong&gt; url and use the default config.
+The first user created (through signup) is the administrator of the application.
+Just be sure to replace all the localhost mentions with the address of
+the container (which can be accessed with &lt;code&gt;docker inspect gogs&lt;/code&gt;)&lt;/p&gt;
+
+&lt;p&gt;Add a new repository (like you do with github), and push the test project
+described in the previous section to it.&lt;/p&gt;
+
+&lt;p&gt;You now have a working Gogs! (Be careful this is a temporary build, do not
+use this as your day to day git repo).&lt;/p&gt;
+
+&lt;h2 id=&#34;drone&#34;&gt;Drone&lt;/h2&gt;
+
+&lt;p&gt;This one is a bit more complicated, first we have to create a dronerc file
+with the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
+&lt;span class=&#34;nv&#34;&gt;REMOTE_CONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://172.17.0.3:3000
+&lt;span class=&#34;nv&#34;&gt;DEBUG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here I put the application in debug mode, this is not mandatory, but I like
+to have outputs if something goes bad.&lt;/p&gt;
+
+&lt;p&gt;Now we can start the container:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;docker run \
+        --volume $(pwd)/drone/var:/var/lib/drone \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --env-file $(pwd)/drone/dronerc \
+        --restart=always \
+        --publish=80:8000 \
+        --detach=true \
+        --name=drone \
+        drone/drone:0.4
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Getting rid of gulp bunch of dependencies</title>
+      <link>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</link>
+      <pubDate>Sun, 10 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</guid>
+      <description>
+
+&lt;p&gt;Recently Nodejs environment broke due the removal from npm
+of a small library (11 SLOC): &lt;code&gt;leftpad&lt;/code&gt;. As it hit the world
+and broke a bunch of projects and CIs, I asked myself if my projects
+contains so much dependencies that if one break, everything collapse.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-problem&#34;&gt;The problem&lt;/h2&gt;
+
+&lt;p&gt;For developing my frontend I use a tool which I really like:
+&lt;a href=&#34;http://gulpjs.com/&#34;&gt;Gulp&lt;/a&gt;. The issue there, is that for working
+with multiple building process involved a lot of glue and third
+party libraries. Here is an example: &lt;a href=&#34;https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md&#34;&gt;https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md&lt;/a&gt;
+Just for using &lt;a href=&#34;http://browserify.org/&#34;&gt;browserify&lt;/a&gt;
+(which is another great tool). Each of those libraries involved other
+dependencies and so on until we download the whole internet to perform the
+most simple tasks.&lt;/p&gt;
+
+&lt;h2 id=&#34;the-solution&#34;&gt;The solution ?&lt;/h2&gt;
+
+&lt;p&gt;According to this, I started looking at those libraries in order to see
+if I can implement them with a reduced number of dependencies and
+lines of code. The answer is: yes, and moreover it is quite simple and
+helps me learned some new things.&lt;/p&gt;
+
+&lt;p&gt;Here is the goal of the exercise:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;rewrite &lt;code&gt;vinyl-source-stream&lt;/code&gt;, &lt;code&gt;merge-stream&lt;/code&gt; and &lt;code&gt;vinyl-buffer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;fix browserify in the gulp environment, according to
+&lt;a href=&#34;http://stackoverflow.com/questions/30077567/browserify-errors-ending-gulp-watch-task&#34;&gt;this issue&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;the-implementation&#34;&gt;The implementation&lt;/h2&gt;
+
+&lt;p&gt;To perform the implementation I will only keep the
+&lt;a href=&#34;https://github.com/rvagg/through2&#34;&gt;through2 module&lt;/a&gt; for better creating
+streams (don&amp;rsquo;t worry as it is a requirements of all the gulp plugins it will
+not add a new dependency)
+and &lt;a href=&#34;https://github.com/gulpjs/gulp-util&#34;&gt;gulp util&lt;/a&gt; which will allow me
+to have some helpers to deal with gulp (as through2 it will not create new
+dependencies as it is a requirements for basically all the gulp plugins).&lt;/p&gt;
+
+&lt;p&gt;I will create a simple &lt;code&gt;utils.js&lt;/code&gt; file aside my &lt;code&gt;gulpfile.js&lt;/code&gt; to store
+those implementations.&lt;/p&gt;
+
+&lt;p&gt;Here is the requirementents of the file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;through2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;gulp-util&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;vinyl-source-stream&#34;&gt;vinyl-source-stream&lt;/h3&gt;
+
+&lt;p&gt;According to its presentation this module only provide a convenient wrapper
+in order to link legacy nodejs streams and gulp implementation of streams
+vinyl.&lt;/p&gt;
+
+&lt;p&gt;Here is the code I use:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// this is basically a stream, I will use the javascript scoping for&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// convenience&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// here is the piping to the previous stream, we need an object stream as we&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// will push a vinyl file in it.&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// The use will be the following:&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// someLegacyStream.pipe(utils.source()).pipe(whateverInGulpWorld);&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// Checks if we have initialized the stream with a vinyl file&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// basically, this just happen once at startup of streaming.&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_ins&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// this is just a convenient way of keeping a state&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// Create a vinyl file and pass &amp;quot;ins&amp;quot; stream as a content,&lt;/span&gt;
+      &lt;span class=&#34;c1&#34;&gt;// and an optional filename&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;File&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}));&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// push the chunk into our new stream in order to unify output&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// as this is asynchronous just notify the system that we handled&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// the chunk&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+
+  &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// close the stream by pushing &amp;quot;null&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Okay, so, we replace a whole module by ~14 SLOC, additionally I get back some
+understanding on how nodejs streams work, and on gulp plugins implementation.&lt;/p&gt;
+
+&lt;p&gt;This is a good start! Let&amp;rsquo;s continue this way&lt;/p&gt;
+
+&lt;h3 id=&#34;merge-streams&#34;&gt;merge-streams&lt;/h3&gt;
+
+&lt;p&gt;This module simply merge multiple streams in a single one, this allow the
+developper to compose with multiple inputs.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// the function treats arguments as a list of streams&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;merge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* streams... */&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep a track of streams merged&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;  &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;noop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// this will be the output,&lt;/span&gt;
+                              &lt;span class=&#34;c1&#34;&gt;// a simple stream which does nothing&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// this function will be called when unpiping and when a source stream ends&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// remove the stream from sources array&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;it&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;it&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!==&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// if it is the last stream opened and if the output is not yet closed,&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// we close it&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;readable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// when a stream is unpiped we remove it&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;unpipe&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// for each stream (arguments is not a regular array this is why we use&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// this syntax)&lt;/span&gt;
+  &lt;span class=&#34;nb&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;prototype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;slice&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;forEach&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// add the stream to our array of sources&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// bind the remove function to the end event of the source&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;once&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// pipe the stream to our output, and let it open (the output)&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// even when the stream ends (in order to handle the others)&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here again we replace an entire module with few lines of code (~15 SLOC).&lt;/p&gt;
+
+&lt;h3 id=&#34;vinyl-buffer&#34;&gt;vinyl-buffer&lt;/h3&gt;
+
+&lt;p&gt;This final module is also part of the vinyl utilitaries. It takes the chunks
+from a stream and return them as a nodejs buffer. Like the others, this
+one is quite simple and only requires to know a bit of node internal
+operations and libraries.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buffer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// like the others we will create a stream object&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep an internal reference of this across js scoping&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// array of buffer we will populate&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// if it is already a buffer or it contains nothing, just push and finish&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isNull&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isBuffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// otherwise we take the content of the stream and we pipe it&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// create a new buffer with data if it is not and push it to our array&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isBuffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// when we have retrieved all the chunks, create a copy of file&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;clone&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// and replace the content with only one huge buffer&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;concat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;// push it and that&amp;#39;s it&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We are still under 20 lines (we start to have a pattern here&amp;hellip; just trolling).
+This part is done !&lt;/p&gt;
+
+&lt;h3 id=&#34;browserify-error-handling-with-gulp&#34;&gt;browserify error handling with gulp&lt;/h3&gt;
+
+&lt;p&gt;As I mentionned it quickly at the beginning I also want to fix an issue I
+have with browserify and gulp.&lt;/p&gt;
+
+&lt;p&gt;I finally found the solution on stack overflow and I am surprised that not a
+lot of people ran in this problem before.&lt;/p&gt;
+
+&lt;p&gt;I also use the &lt;code&gt;gulp.src&lt;/code&gt; syntax to retrieve files instead of loading the
+globbing module which does exactly the same things
+(one dependency removed, Yay \o/).&lt;/p&gt;
+
+&lt;p&gt;Here is how I implemented this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// we need the browserify module&lt;/span&gt;
+&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// we create a utils.browserify kind of plugin here, which can take options&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// initialize browserify with options&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// here we create a stream which will be pluggable through a pipe&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// in order to avoid spending resources we will use it like this&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// gulp.src(&amp;#39;**/*.js&amp;#39;, {read: false}).pipe(utils.browserify()).pipe(whatever)&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// note the &amp;quot;read: false&amp;quot; which will avoid reading file content and only&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// provide vinyl file object (not opened) to the stream&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// here we only retrieve the files provided by the stream&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+
+    &lt;span class=&#34;c1&#34;&gt;// and at flush, we bundle the result through browserify&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bundle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// on error we provide a helpful message to the user through gutil.log&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;annotated&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;PluginError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
+
+        &lt;span class=&#34;c1&#34;&gt;// and here is the magic not provided before, we notice gulp that&lt;/span&gt;
+        &lt;span class=&#34;c1&#34;&gt;// the stream as ended, and it can continue to watch our files states&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;emit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// when data is provided by the stream we simply push it into the&lt;/span&gt;
+      &lt;span class=&#34;c1&#34;&gt;// returned one&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+
+      &lt;span class=&#34;c1&#34;&gt;// do not forget to pass the end event also&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;emit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This one was quite more complicated but it finally works and I am happy to stay
+in the &amp;ldquo;gulp world&amp;rdquo; and do not provide any tricky thing.&lt;/p&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;This experience was really interesting, reducing code dependencies,
+gaining power on underlying nodejs concepts, fixing some bugs also.
+This was not a waste of time and I really enjoyed it.&lt;/p&gt;
+
+&lt;p&gt;I also will not make any comment on node ecosystem because I think everything
+has already been told. But this exercise proved that some libraries are really
+not complicated and can be reimplemented in order to avoid bad surprise in the
+future.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pytest command line</title>
+      <link>http://ixday.github.io/post/pytest_command_line/</link>
+      <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/pytest_command_line/</guid>
+      <description>
+
+&lt;p&gt;I have recently dug into pytest documentation, and moreover into
+the command line arguments and I finally found a better workflow
+for running tests while I develop.&lt;/p&gt;
+
+&lt;p&gt;Here is the command I run when I just made some devs:
+&lt;code&gt;py.test -xvvvs --tb=line --pdb&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;-x&lt;/strong&gt; will stop execution on first failue, useful when debugging tests
+in order of appearance (recommended)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;-vvv&lt;/strong&gt; will display current test path (reuasable in py.test), the
+path will avoid to rerun all the previous tests before going to the one
+you are currently working on. In addition, the verbose flags will display
+a full diff of the assert error. This will help troubleshoot from where
+the error is coming&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&amp;ndash;tb=line&lt;/strong&gt; will only display the last line of the unhandled exception
+which make the test fail. I use this because in general the exception
+trace is not really relevant, as we already know what test is running
+and the name of the error.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&amp;ndash;pdb&lt;/strong&gt; this one is gold, it will enter pdb on fail, and if you have
+&lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt; installed, this will be
+a real debugger :p&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The second command I usually ran is: &lt;code&gt;py.test -v --tb=line --cov=src --cov-report=html&lt;/code&gt;.
+This one is my code coverage command. I run it on small changes or after the first
+command described here, in order to check that my coverage has evolved.
+I put a &lt;code&gt;-v&lt;/code&gt; for displaying the path of the current test, and &lt;code&gt;--tb=line&lt;/code&gt; in order
+to not pollute the screen with stack traces. Those two options are here in the case
+of an error during the coverage. It allows me to be faster on isolating tests to
+debug.&lt;/p&gt;
+
+&lt;h2 id=&#34;bonus&#34;&gt;Bonus&lt;/h2&gt;
+
+&lt;p&gt;Here I discussed about the coverage, and py.test commands. I use specific options
+on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;My &lt;code&gt;.travis.yml&lt;/code&gt; file which run py.test with coverage.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
+&lt;span class=&#34;l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
+&lt;span class=&#34;l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
+&lt;span class=&#34;l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It will just put the report into coveralls and displays the
+same informations as the other command explained above.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bash Expansion</title>
+      <link>http://ixday.github.io/post/bash_expansion/</link>
+      <pubDate>Thu, 20 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/bash_expansion/</guid>
+      <description>&lt;p&gt;A small post just to share a useful bashism the
+&lt;a href=&#34;http://wiki.bash-hackers.org/syntax/expansion/brace&#34;&gt;Brace Expansion&lt;/a&gt;.
+It is really simple to make it works:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;1..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing?
+Ok, now the second feature&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo &lt;/span&gt;something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&amp;gt; something/foo something/bar
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Still not amazed, ok now type this one:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;It will copy your file
+adding a &lt;code&gt;.old&lt;/code&gt; extension. I do a lot of things like this and it saves me a lot
+of time, so think about it.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Test promises with jasmine</title>
+      <link>http://ixday.github.io/post/jasmine_promises/</link>
+      <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/jasmine_promises/</guid>
+      <description>&lt;p&gt;Jasmine is a good testing framework, which I really like, it is really powerfull
+and has just the amount of features to perform a huge variety of tests.&lt;/p&gt;
+
+&lt;p&gt;At some point I had to tests promises, and more generally testing that some
+part of a function is not called (you will have to adapt the snippet but the
+idea is here).&lt;/p&gt;
+
+&lt;p&gt;It is pretty simple, but not well known (I checked some stackoverflow threads
+before finding this).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;  We will define the promise helper to be accessible through the this keyword in&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;  jasmine&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt; */&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;beforeEach&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+  &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   The this keyword is accessible in every jasmine tests, and you can populate&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   it, this has been set up in jasmine 2.0 in order to avoid the tricky variable&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   scoping of javascript.&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;   */&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;promiseHelper&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;promise&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jasmine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createSpy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;successCallback&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jasmine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createSpy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;failCallback&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+
+    &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     Promises are chainable so we can make some tests before sending the promise&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     to this function, here we just insert the two spies in the&lt;/span&gt;
+&lt;span class=&#34;cm&#34;&gt;     */&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;promise&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;then&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;finally&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;](&lt;/span&gt;
+      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;expect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toHaveBeenCalled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;expect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;not&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toHaveBeenCalled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Do not forget to test your code, it will save you a lot of time and debugging in
+the future if tests are correctly done ;)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HTML5 Boilerplate</title>
+      <link>http://ixday.github.io/post/html5-boilerplate/</link>
+      <pubDate>Tue, 30 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/post/html5-boilerplate/</guid>
+      <description>&lt;p&gt;Sometimes we only need to have a boilerplate quickly to test it through a
+browser. We only want to have the basis, and having it working fine.&lt;/p&gt;
+
+&lt;p&gt;You can find &lt;a href=&#34;http://www.initializr.com/&#34;&gt;here&lt;/a&gt; a good generator for what you
+want. But sometimes, having a snippet in the bash prompt can be needed.&lt;/p&gt;
+
+&lt;p&gt;So here is an example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# stop script if something bad happen&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; -e
+
+&lt;span class=&#34;c&#34;&gt;# unzip need to have a tempfile to extract properly&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;TMPFILE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;/tmp/tempfile.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;date +%s&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;nv&#34;&gt;PWD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;DEST&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+
+&lt;span class=&#34;c&#34;&gt;# here is the link of my configuration, but you can easily create yours&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;http://www.initializr.com/builder?h5bp-content&amp;amp;html5shiv&amp;amp;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;h5bp-css&amp;amp;h5bp-csshelpers&amp;amp;h5bp-mediaqueryprint&amp;amp;h5bp-mediaqueries&amp;amp;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;simplehtmltag&amp;amp;izr-emptyscript&amp;quot;&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# string concatenation example&lt;/span&gt;
+
+curl -o &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; 2&amp;gt; /dev/null
+
+&lt;span class=&#34;c&#34;&gt;# if argument is provided, move to the specified directory&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt;  -z &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+    &lt;span class=&#34;c&#34;&gt;# do not display what has been inflated&lt;/span&gt;
+    unzip -qq -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+    rm &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;
+
+    &lt;span class=&#34;c&#34;&gt;# if the path provided is a file warn the user and exit&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; -f &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; already exists and is a file&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;1
+    &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+
+    &lt;span class=&#34;c&#34;&gt;# if the directory is not empty warn the user and exit&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ! -z &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;ls -A &lt;span class=&#34;nv&#34;&gt;$DIR&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; is not empty&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;1
+    &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+
+    &lt;span class=&#34;c&#34;&gt;# if the directory does not exist, we create it&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; ! -a &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
+        mkdir -p &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+
+    unzip -qq -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+
+    &lt;span class=&#34;c&#34;&gt;#then we move the content to the directory&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; f in &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;/initializr/*
+    &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
+        mv &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+
+    &lt;span class=&#34;c&#34;&gt;# delete the other files&lt;/span&gt;
+    rm &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+    rmdir &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/initializr&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;it is also possible to create a sample on github or whatever, do not forget that
+automation will lead to time saving (maybe, &amp;hellip;sometimes).&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
