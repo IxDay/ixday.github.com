@@ -8,11 +8,12 @@ pygmentsuseclasses = true
 PygmentsCodeFences = true
 disqusShortname = "IxDay"
 
-[[menu.links]]
+[[menu.main]]
   name = "github"
   identifier = "about"
   url = "https://github.com/IxDay"
 
 [Params]
-	Author = "IxDay"
-	Epitaph = "Done with love... and beer"
+  author = "IxDay"
+  epitaph = "Done with love... and beer"
+  showCategories = true

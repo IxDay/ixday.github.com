@@ -1,8 +1,8 @@
 +++
-title = "Debian Install 2"
+title = "Debian Install 3"
 date = "2015-08-18"
-categories = []
-tags = []
+categories = ["OS"]
+tags = ["bash", "adminsys"]
 +++
 
 Today I want to install debian on my personal server.
@@ -10,14 +10,16 @@ And I want to crypt the FS using Luks, and add LVM on top.
 
 I want it to look like that (like this scheme, a lot of reference
 come from the [arch wiki](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system)
+
 <!--more-->
+
 ```text
 +-----------------------------------------------+ +----------------+
 |Logical volume1        | Logical volume2       | |                |
-|/dev/vg_ssd/lv_swap   | /dev/vg_ssd/lv_root  | | Boot partition |
-|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |	               |
+|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
+|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
 |                                               | |                |
-|		LUKS encrypted partition                | |                |
+|        LUKS encrypted partition               | |                |
 |               /dev/sda2                       | |   /dev/sda1    |
 +-----------------------------------------------+ +----------------+
 ```
