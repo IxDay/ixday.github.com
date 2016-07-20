@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Bash</title>
+  <meta property='og:title' content="Bash - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    <h2 class="taxonomy-title">Filed under Bash...</h2>
+    <div class="contents">
+      
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Sep 30 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/html5-boilerplate/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/html5-boilerplate/">HTML5 Boilerplate</a></h2>
+    <p>
+    Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine. You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed. So here is an example: # stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.$(date +%s)&quot; PWD=$(pwd) DEST=&quot;$1&quot; # here is the link of my configuration, but you can easily create yours URL=&quot;http://www.initializr.com/builder?h5bp-content&amp;html5shiv&amp;&quot; URL=&quot;$URL&quot;&quot;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&quot; URL=&quot;$URL&quot;&quot;simplehtmltag&amp;izr-emptyscript&quot; # string concatenation example curl -o &quot;$TMPFILE&quot; &quot;$URL&quot; 2&gt; /dev/null # if argument is provided, move to the specified directory if [[ -z &quot;$DEST&quot; ]] then # do not display what has been inflated unzip -qq -d &quot;$PWD&quot; &quot;$TMPFILE&quot; rm &quot;$TMPFILE&quot; else # if the path provided is a file warn the user and exit if [[ -f &quot;$DEST&quot; ]] then echo &quot;$DEST already exists and is a file&quot; &amp;&amp; exit 1 fi # if the directory is not empty warn the user and exit if [[ -d &quot;$DEST&quot; &amp;&amp; !
+    
+    <a href="/post/html5-boilerplate/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/web ">web</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+
+    </div>
+    
+  
+<nav class="pagination">
+  
+  <a class="hidden"></a>
+  
+  
+  <a href="/tags/bash/page/1" rel="nofollow">
+    Newer posts »
+  </a>
+  
+</nav>
+
+
+
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

@@ -6,8 +6,37 @@
     <description>Recent content in Bash on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Jul 2016 14:24:57 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jul 2016 09:13:58 +0200</lastBuildDate>
     <atom:link href="http://ixday.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Bash Shortcuts</title>
+      <link>http://ixday.github.io/post/bash_shortcuts/</link>
+      <pubDate>Wed, 20 Jul 2016 09:13:58 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/bash_shortcuts/</guid>
+      <description>&lt;p&gt;Here is just a small reminder of common bash shortcuts for everyday use:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;Ctrl + A  Go to the beginning of the line you are currently typing on
+Ctrl + E  Go to the end of the line you are currently typing on
+Ctrl + L  Clears the Screen, similar to the clear command
+Ctrl + U  Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
+Ctrl + H  Same as backspace
+Ctrl + R  Let’s you search through previously used commands
+Ctrl + C  Kill whatever you are running
+Ctrl + D  Exit the current shell
+Ctrl + Z  Puts whatever you are running into a suspended background process. fg restores it.
+Ctrl + W  Delete the word before the cursor
+Ctrl + K  Clear the line after the cursor
+Ctrl + T  Swap the last two characters before the cursor
+Esc + T   Swap the last two words before the cursor
+Alt + F   Move cursor forward one word on the current line
+Alt + B   Move cursor backward one word on the current line
+Tab       Auto-complete files and folder names
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This table comes from &lt;a href=&#34;http://www.howtogeek.com/howto/ubuntu/keyboard-shortcuts-for-bash-command-shell-for-ubuntu-debian-suse-redhat-linux-etc/&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Curl utils</title>
