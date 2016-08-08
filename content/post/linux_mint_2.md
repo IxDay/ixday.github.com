@@ -10,6 +10,7 @@ I recently messed up my laptop (do not play with `/etc/apt/preferences` too much
 and I had to reinstall my distro. I checked my [previous article]({{< ref "linux_mint.md" >}})
 and noticed some missing informations. So here is a second article of things 
 I needed to fixup when installing LMDE on my Macbook.
+<!--more-->
 
 ## Installation
 
