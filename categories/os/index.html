@@ -70,7 +70,11 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/linux_mint_2/">Linux Mint 2</a></h2>
     <p>
-    I recently messed up my laptop (do not play with /etc/apt/preferences too much!), and I had to reinstall my distro. I checked my previous article and noticed some missing informations. So here is a second article of things I needed to fixup when installing LMDE on my Macbook. Installation First, for the creation of the usb key, I ended up using the method described in the archlinux wiki. Basically, this was the command line I entered: dd bs=4M if=/path/to/lmde.iso of=/dev/sdb # /dev/sdb is my usb key (lsblk FTW) Then, for the partitioning I forgot to tell the filesystem needed by each part, so here is lsblk to the rescue: $ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT NAME FSTYPE MOUNTPOINT sda ├─sda1 hfsplus ├─sda2 vfat /boot/efi ├─sda3 ext4 /boot └─sda4 LVM2_member ├─vg_ssd-lv_root ext4 / └─vg_ssd-lv_swap swap [SWAP] sdb iso9660 ├─sdb1 iso9660 /media/max/LMDE 2 Cinnamon 64-bit └─sdb2 vfat (sudo needed to output the fs, see man lsblk for more informations) Configuration Preferences This time I will try to avoid messing up with the packages, here is what I have done.
+    <p>I recently messed up my laptop (do not play with <code>/etc/apt/preferences</code> too much!),
+and I had to reinstall my distro. I checked my <a href="http://ixday.github.io/post/linux_mint/">previous article</a>
+and noticed some missing informations. So here is a second article of things
+I needed to fixup when installing LMDE on my Macbook.</p>
+
     
     <a href="/post/linux_mint_2/">Read More...</a>
     
