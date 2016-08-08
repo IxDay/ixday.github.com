@@ -6,8 +6,167 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jul 2016 09:13:58 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 08 Aug 2016 15:23:34 +0200</lastBuildDate>
     <atom:link href="http://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Linux Mint 2</title>
+      <link>http://ixday.github.io/post/linux_mint_2/</link>
+      <pubDate>Mon, 08 Aug 2016 15:23:34 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/linux_mint_2/</guid>
+      <description>
+
+&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
+and I had to reinstall my distro. I checked my &lt;a href=&#34;http://ixday.github.io/post/linux_mint/&#34;&gt;previous article&lt;/a&gt;
+and noticed some missing informations. So here is a second article of things
+I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;
+
+&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
+
+&lt;p&gt;First, for the creation of the usb key, I ended up using the method described
+in the &lt;a href=&#34;https://wiki.archlinux.org/index.php/USB_flash_installation_media#In_GNU.2FLinux&#34;&gt;archlinux wiki&lt;/a&gt;. Basically, this was the command line I entered:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;dd &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;4M &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/path/to/lmde.iso &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/sdb &lt;span class=&#34;c&#34;&gt;# /dev/sdb is my usb key (lsblk FTW) &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then, for the partitioning I forgot to tell the filesystem needed by each part,
+so here is lsblk to the rescue:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
+NAME               FSTYPE      MOUNTPOINT
+sda
+├─sda1             hfsplus
+├─sda2             vfat        /boot/efi
+├─sda3             ext4        /boot
+└─sda4             LVM2_member
+  ├─vg_ssd-lv_root ext4        /
+  └─vg_ssd-lv_swap swap        &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;SWAP&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
+sdb                iso9660
+├─sdb1             iso9660     /media/max/LMDE &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; Cinnamon 64-bit
+└─sdb2             vfat
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;(sudo needed to output the fs, see &lt;code&gt;man lsblk&lt;/code&gt; for more informations)&lt;/p&gt;
+
+&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
+
+&lt;h3 id=&#34;preferences&#34;&gt;Preferences&lt;/h3&gt;
+
+&lt;p&gt;This time I will try to avoid messing up with the packages, here is what I have
+done.&lt;/p&gt;
+
+&lt;p&gt;I want to add unstable and experimental repos, so I created a source file:
+&lt;code&gt;/etc/apt/sources.list.d/debian-package-repositories.list&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# https://wiki.debian.org/SourcesList&lt;/span&gt;
+
+deb http://httpredir.debian.org/debian sid main contrib non-free
+deb-src http://httpredir.debian.org/debian sid main contrib non-free
+
+deb http://httpredir.debian.org/debian experimental main contrib non-free
+deb-src http://httpredir.debian.org/debian experimental main contrib non-free
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now it is time to set up the preferences. But here is the trick, by default
+Mint set up a Pin-Priority 700 to all the Debian packages.
+This will bring unstable packages at the same level as those from stable.&lt;/p&gt;
+
+&lt;p&gt;See the file &lt;code&gt;/etc/apt/preferences.d/debian-package-repositories.pref&lt;/code&gt;, in
+order to have a good priority across those repos replace the content with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Package: *
+Pin: release &lt;span class=&#34;nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;stable
+Pin-Priority: 550
+
+Package: *
+Pin: release &lt;span class=&#34;nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;unstable
+Pin-Priority: 450
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, just a &lt;code&gt;apt-get update&lt;/code&gt; and we are ready to install packages safely&lt;/p&gt;
+
+&lt;h3 id=&#34;tearing&#34;&gt;Tearing&lt;/h3&gt;
+
+&lt;p&gt;I had a tearing issue on my macbook, which I was able to spot and test with
+&lt;a href=&#34;https://www.youtube.com/watch?v=ceX18O9pvLs&#34;&gt;this video&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I followed the instructions from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/intel_graphics#Tear-free_video&#34;&gt;arch wiki&lt;/a&gt;. It makes me create &lt;code&gt;/etc/X11/xorg.conf.d/20-intel.conf&lt;/code&gt; file, and
+fill it with:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Section &lt;span class=&#34;s2&#34;&gt;&amp;quot;Device&amp;quot;&lt;/span&gt;
+   Identifier  &lt;span class=&#34;s2&#34;&gt;&amp;quot;Intel Graphics&amp;quot;&lt;/span&gt;
+   Driver      &lt;span class=&#34;s2&#34;&gt;&amp;quot;intel&amp;quot;&lt;/span&gt;
+   Option      &lt;span class=&#34;s2&#34;&gt;&amp;quot;AccelMethod&amp;quot;&lt;/span&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;quot;sna&amp;quot;&lt;/span&gt;
+   Option      &lt;span class=&#34;s2&#34;&gt;&amp;quot;TearFree&amp;quot;&lt;/span&gt;     &lt;span class=&#34;s2&#34;&gt;&amp;quot;true&amp;quot;&lt;/span&gt;
+   Option      &lt;span class=&#34;s2&#34;&gt;&amp;quot;DRI&amp;quot;&lt;/span&gt;          &lt;span class=&#34;s2&#34;&gt;&amp;quot;3&amp;quot;&lt;/span&gt;
+EndSection
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I restarted X (restart the computer in order to be sure :p), and it now works
+(hopefully).&lt;/p&gt;
+
+&lt;h3 id=&#34;webcam&#34;&gt;Webcam&lt;/h3&gt;
+
+&lt;p&gt;I had issues with my webcam too. &lt;a href=&#34;https://wiki.archlinux.org/index.php/MacBook#Webcam&#34;&gt;I followed archwiki again&lt;/a&gt;. This one is not
+confirmed but no command failed, and the test with mplayer at the end seemed
+to work:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mplayer tv:// -tv &lt;span class=&#34;nv&#34;&gt;driver&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;v4l2:width&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;320:height&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;240:device&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/video0 -fps 30
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;programs&#34;&gt;Programs&lt;/h2&gt;
+
+&lt;h3 id=&#34;neovim&#34;&gt;Neovim&lt;/h3&gt;
+
+&lt;p&gt;I replaced &lt;code&gt;vim&lt;/code&gt; with &lt;code&gt;neovim&lt;/code&gt;, and put all the configuration in the
+&lt;code&gt;.config/nvim&lt;/code&gt; directory. It works out of the box, without changing a thing in
+the configuration, except the paths for the plugins (which were in &lt;code&gt;~/.vim&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;To install &lt;code&gt;neovim&lt;/code&gt; you will need the experimental packages described in
+the first part of this post.&lt;/p&gt;
+
+&lt;h3 id=&#34;golang&#34;&gt;Golang&lt;/h3&gt;
+
+&lt;p&gt;I wanted Golang 1.6 (not the 1.3 version from stable). So, I read the
+documentation and asked forum. And I discovered the &lt;code&gt;-t&lt;/code&gt; option in &lt;code&gt;apt-get&lt;/code&gt;
+which allows as long as it does not broke package integrity to install
+from different versions.&lt;/p&gt;
+
+&lt;p&gt;I simply typed the following command to have the version needed:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;apt-get install -t unstable golang&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;docker&#34;&gt;Docker&lt;/h3&gt;
+
+&lt;p&gt;Docker is available in the unstable repository, but this one broke some other
+dependencies. I had to install it with a custom repo following
+&lt;a href=&#34;https://gist.github.com/bhgraham/ed9f8242dc610b1f38e5&#34;&gt;those instructions&lt;/a&gt;.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Add the repo to a dedicated source.list file&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;deb https://get.docker.com/ubuntu docker main&amp;quot;&lt;/span&gt; &amp;gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+       /etc/apt/sources.list.d/docker.list
+
+&lt;span class=&#34;c&#34;&gt;# Add repo keyring&lt;/span&gt;
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+       36A1D7869245C8950F966E92D8576A8BA88D21E9
+
+&lt;span class=&#34;c&#34;&gt;# Update and install the package&lt;/span&gt;
+apt-get update -qq &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo apt-get install -y lxc-docker
+
+&lt;span class=&#34;c&#34;&gt;# Add my user to the docker group&lt;/span&gt;
+gpasswd -a &amp;lt;my_user_name&amp;gt; docker
+
+&lt;span class=&#34;c&#34;&gt;# Enable the docker service for the next start&lt;/span&gt;
+systemctl &lt;span class=&#34;nb&#34;&gt;enable &lt;/span&gt;docker
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now logout, and reconnect and it should work.&lt;/p&gt;
+
+&lt;h3 id=&#34;python&#34;&gt;Python&lt;/h3&gt;
+
+&lt;p&gt;I always need some base packages in order to start developing, so those are
+the most basic one I need in my daily life:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;apt-get install python-dev libxml2-dev libxslt-dev virtualenv libyaml-dev&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;(be sure to install the &lt;code&gt;virtualenv&lt;/code&gt; package and not the &lt;code&gt;python-virtualenv&lt;/code&gt; one,
+because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Bash Shortcuts</title>
@@ -1497,184 +1656,6 @@ maybe I will add some in the future and edit this post accordingly.&lt;/p&gt;
 /key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-C /window +1
 /key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-D /window -1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Listing directory with wsgi</title>
-      <link>http://ixday.github.io/post/listing_directory_with_wsgi/</link>
-      <pubDate>Thu, 02 Jul 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/listing_directory_with_wsgi/</guid>
-      <description>
-
-&lt;p&gt;Recently I ran into an issue with my blog and pelican
-(the blogging engine I use). For some reasons (which I explain [here]())
-I had to develop a small wsgi app which act like the
-&lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;python SimpleHTTPServer&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I tried a lot of things but they never worked as I wanted them to.
-So, I decided to do this by myself.&lt;/p&gt;
-
-&lt;h2 id=&#34;specifications&#34;&gt;Specifications&lt;/h2&gt;
-
-&lt;p&gt;Here are the features I wanted:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Define a directory as the root (/) directory from which all the files will be
-served.&lt;/li&gt;
-&lt;li&gt;If this directory contains an index.html file, serves it to the user.&lt;/li&gt;
-&lt;li&gt;If there is no index.html file list all the subdirectories and files in a
-simple page and provide links to navigate.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;tools&#34;&gt;Tools&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;For this little project I need a simple server which is available directly
-in the &lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;stdlib&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;I will use the famous &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;path.py lib&lt;/a&gt; for
-handling all the interactions with the FS.&lt;/li&gt;
-&lt;li&gt;Then &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;Jinja&lt;/a&gt; for all the rendering.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;hello-world&#34;&gt;Hello world!&lt;/h2&gt;
-
-&lt;p&gt;First of all, making it works for the most simple use case&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a simple Hello World when accessing an url (anyone) on the server&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;	&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# send status_code and headers&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# send body&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# create a server on &amp;#39;localhost&amp;#39; and port 8080 using the application&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# serve...&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;routing&#34;&gt;Routing&lt;/h2&gt;
-
-&lt;p&gt;Then I have to handle the request, translate the url in a possible path in the
-FS, and dispatch to the different choices available.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;path&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;/tmp&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# The root directory from which I will serve the files&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Route to the dedicated functions&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# build the possible path of the file to serve or directory to list&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;PATH_INFO&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# build the possible path of the index file if the path is a directory&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;index.html&amp;#39;&lt;/span&gt;
-
-
-	&lt;span class=&#34;c&#34;&gt;# checks if the path exists, if not want to send a 404 not found&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# checks if the path links to a file, in this case serve the file&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;isfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# now we are sure that the user asks for a directory, checks if the&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# directory has an index.html file, if so, serve it.&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# last case we want to list what is in the directory&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;serve-content&#34;&gt;Serve content&lt;/h2&gt;
-
-&lt;h3 id=&#34;return-404&#34;&gt;Return 404&lt;/h3&gt;
-
-&lt;p&gt;Most simple use case, return a 404 error and a small message&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;	&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-		&lt;span class=&#34;c&#34;&gt;# status code and header&lt;/span&gt;
-        &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;404 NOT FOUND&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;text/plain&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-		&lt;span class=&#34;c&#34;&gt;# simplest message ever&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Not Found&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;serve-file&#34;&gt;Serve file&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;mimetypes&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1024&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;filepath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# retrieve mimetype for serving purpose&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mimetypes&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;guess_type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# start response with the given mimetype&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;sr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])])&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# yield the file content through network (chunks function from path.py)&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;list-directory&#34;&gt;List directory&lt;/h3&gt;
-
-&lt;p&gt;Last but not least, the listing of the directory. Here I use Jinja for the
-templating.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;jinja2&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;# setup my jinja environment with the templates directory containing my&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# template files&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;env&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;loader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PackageLoader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;my_wsgi_listdir&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;templates&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# start a response as an html page&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# retrieve informations from FS through path.py API&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-		&lt;span class=&#34;s&#34;&gt;&amp;#39;directory&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
-		&lt;span class=&#34;s&#34;&gt;&amp;#39;links&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listdir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-
-	&lt;span class=&#34;c&#34;&gt;# render the template with the informations and return the stream&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;env&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_template&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#39;list_dir.tplt&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stream&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here is the &lt;code&gt;list_dir.tplt&lt;/code&gt; file&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-jinja&#34; data-lang=&#34;jinja&#34;&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;title&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;h2&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;ul&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;links&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;err&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;quot;&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;endfor&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;/ul&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And that&amp;rsquo;s all, simple and efficient this little wsgi application fits my
-needs.&lt;/p&gt;
 </description>
     </item>
     

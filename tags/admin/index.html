@@ -50,6 +50,46 @@
     <div class="meta">
   <time class="date">
     
+    Mon Aug 8 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/linux_mint_2/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/linux_mint_2/">Linux Mint 2</a></h2>
+    <p>
+    I recently messed up my laptop (do not play with /etc/apt/preferences too much!), and I had to reinstall my distro. I checked my previous article and noticed some missing informations. So here is a second article of things I needed to fixup when installing LMDE on my Macbook. Installation First, for the creation of the usb key, I ended up using the method described in the archlinux wiki. Basically, this was the command line I entered: dd bs=4M if=/path/to/lmde.iso of=/dev/sdb # /dev/sdb is my usb key (lsblk FTW) Then, for the partitioning I forgot to tell the filesystem needed by each part, so here is lsblk to the rescue: $ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT NAME FSTYPE MOUNTPOINT sda ├─sda1 hfsplus ├─sda2 vfat /boot/efi ├─sda3 ext4 /boot └─sda4 LVM2_member ├─vg_ssd-lv_root ext4 / └─vg_ssd-lv_swap swap [SWAP] sdb iso9660 ├─sdb1 iso9660 /media/max/LMDE 2 Cinnamon 64-bit └─sdb2 vfat (sudo needed to output the fs, see man lsblk for more informations) Configuration Preferences This time I will try to avoid messing up with the packages, here is what I have done.
+    
+    <a href="/post/linux_mint_2/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Fri Jun 3 2016
     
   </time>
@@ -415,48 +455,6 @@ To fix this we will manipulate the initramfs \o/.</p>
     <p class="tags">
     <strong>Tagged</strong>
     <a href="/tags/admin ">admin</a>
-, <a href="/tags/bash ">bash</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Wed Jan 7 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/curl_for_rest/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/tuto">tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/curl_for_rest/">Curl for REST</a></h2>
-    <p>
-    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs. First one is the well known curl and the second one is jq. One important feature of curl is its hability to load external files for datas with @ before file name: curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath Then you can remove the progress bar by adding -s in the options Finally, you can use jq for parsing the output with a request syntax, here is what the final line looks like: curl -X POST -H &quot;Content-Type: application/json&quot; -s -d @filepath | jq &#39;.&#39; It is a small article but I just wanted to show that those tools are really great, we do not need complex software for this.
-    
-    <a href="/post/curl_for_rest/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-, <a href="/tags/cli ">cli</a>
 , <a href="/tags/bash ">bash</a>
 
     </p>

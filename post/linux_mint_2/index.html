@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Linux Mint 2</title>
+  <meta property='og:title' content="Linux Mint 2 - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Mon Aug 8 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/linux_mint_2/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Linux Mint 2</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+
+      </p>
+      
+
+    </header>
+    
+
+<p>I recently messed up my laptop (do not play with <code>/etc/apt/preferences</code> too much!),
+and I had to reinstall my distro. I checked my <a href="http://ixday.github.io/post/linux_mint/">previous article</a>
+and noticed some missing informations. So here is a second article of things
+I needed to fixup when installing LMDE on my Macbook.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>First, for the creation of the usb key, I ended up using the method described
+in the <a href="https://wiki.archlinux.org/index.php/USB_flash_installation_media#In_GNU.2FLinux">archlinux wiki</a>. Basically, this was the command line I entered:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="nv">bs</span><span class="o">=</span>4M <span class="k">if</span><span class="o">=</span>/path/to/lmde.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="c"># /dev/sdb is my usb key (lsblk FTW) </span>
+</code></pre></div>
+
+<p>Then, for the partitioning I forgot to tell the filesystem needed by each part,
+so here is lsblk to the rescue:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
+NAME               FSTYPE      MOUNTPOINT
+sda
+├─sda1             hfsplus
+├─sda2             vfat        /boot/efi
+├─sda3             ext4        /boot
+└─sda4             LVM2_member
+  ├─vg_ssd-lv_root ext4        /
+  └─vg_ssd-lv_swap swap        <span class="o">[</span>SWAP<span class="o">]</span>
+sdb                iso9660
+├─sdb1             iso9660     /media/max/LMDE <span class="m">2</span> Cinnamon 64-bit
+└─sdb2             vfat
+</code></pre></div>
+
+<p>(sudo needed to output the fs, see <code>man lsblk</code> for more informations)</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="preferences">Preferences</h3>
+
+<p>This time I will try to avoid messing up with the packages, here is what I have
+done.</p>
+
+<p>I want to add unstable and experimental repos, so I created a source file:
+<code>/etc/apt/sources.list.d/debian-package-repositories.list</code></p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># https://wiki.debian.org/SourcesList</span>
+
+deb http://httpredir.debian.org/debian sid main contrib non-free
+deb-src http://httpredir.debian.org/debian sid main contrib non-free
+
+deb http://httpredir.debian.org/debian experimental main contrib non-free
+deb-src http://httpredir.debian.org/debian experimental main contrib non-free
+</code></pre></div>
+
+<p>Now it is time to set up the preferences. But here is the trick, by default
+Mint set up a Pin-Priority 700 to all the Debian packages.
+This will bring unstable packages at the same level as those from stable.</p>
+
+<p>See the file <code>/etc/apt/preferences.d/debian-package-repositories.pref</code>, in
+order to have a good priority across those repos replace the content with:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">Package: *
+Pin: release <span class="nv">a</span><span class="o">=</span>stable
+Pin-Priority: 550
+
+Package: *
+Pin: release <span class="nv">a</span><span class="o">=</span>unstable
+Pin-Priority: 450
+</code></pre></div>
+
+<p>Now, just a <code>apt-get update</code> and we are ready to install packages safely</p>
+
+<h3 id="tearing">Tearing</h3>
+
+<p>I had a tearing issue on my macbook, which I was able to spot and test with
+<a href="https://www.youtube.com/watch?v=ceX18O9pvLs">this video</a>.</p>
+
+<p>I followed the instructions from the <a href="https://wiki.archlinux.org/index.php/intel_graphics#Tear-free_video">arch wiki</a>. It makes me create <code>/etc/X11/xorg.conf.d/20-intel.conf</code> file, and
+fill it with:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">Section <span class="s2">&quot;Device&quot;</span>
+   Identifier  <span class="s2">&quot;Intel Graphics&quot;</span>
+   Driver      <span class="s2">&quot;intel&quot;</span>
+   Option      <span class="s2">&quot;AccelMethod&quot;</span>  <span class="s2">&quot;sna&quot;</span>
+   Option      <span class="s2">&quot;TearFree&quot;</span>     <span class="s2">&quot;true&quot;</span>
+   Option      <span class="s2">&quot;DRI&quot;</span>          <span class="s2">&quot;3&quot;</span>
+EndSection
+</code></pre></div>
+
+<p>I restarted X (restart the computer in order to be sure :p), and it now works
+(hopefully).</p>
+
+<h3 id="webcam">Webcam</h3>
+
+<p>I had issues with my webcam too. <a href="https://wiki.archlinux.org/index.php/MacBook#Webcam">I followed archwiki again</a>. This one is not
+confirmed but no command failed, and the test with mplayer at the end seemed
+to work:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">mplayer tv:// -tv <span class="nv">driver</span><span class="o">=</span>v4l2:width<span class="o">=</span>320:height<span class="o">=</span>240:device<span class="o">=</span>/dev/video0 -fps 30
+</code></pre></div>
+
+<h2 id="programs">Programs</h2>
+
+<h3 id="neovim">Neovim</h3>
+
+<p>I replaced <code>vim</code> with <code>neovim</code>, and put all the configuration in the
+<code>.config/nvim</code> directory. It works out of the box, without changing a thing in
+the configuration, except the paths for the plugins (which were in <code>~/.vim</code>).</p>
+
+<p>To install <code>neovim</code> you will need the experimental packages described in
+the first part of this post.</p>
+
+<h3 id="golang">Golang</h3>
+
+<p>I wanted Golang 1.6 (not the 1.3 version from stable). So, I read the
+documentation and asked forum. And I discovered the <code>-t</code> option in <code>apt-get</code>
+which allows as long as it does not broke package integrity to install
+from different versions.</p>
+
+<p>I simply typed the following command to have the version needed:</p>
+
+<p><code>apt-get install -t unstable golang</code></p>
+
+<h3 id="docker">Docker</h3>
+
+<p>Docker is available in the unstable repository, but this one broke some other
+dependencies. I had to install it with a custom repo following
+<a href="https://gist.github.com/bhgraham/ed9f8242dc610b1f38e5">those instructions</a>.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Add the repo to a dedicated source.list file</span>
+<span class="nb">echo</span> <span class="s2">&quot;deb https://get.docker.com/ubuntu docker main&quot;</span> &gt; <span class="se">\</span>
+       /etc/apt/sources.list.d/docker.list
+
+<span class="c"># Add repo keyring</span>
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <span class="se">\</span>
+       36A1D7869245C8950F966E92D8576A8BA88D21E9
+
+<span class="c"># Update and install the package</span>
+apt-get update -qq <span class="o">&amp;&amp;</span> sudo apt-get install -y lxc-docker
+
+<span class="c"># Add my user to the docker group</span>
+gpasswd -a &lt;my_user_name&gt; docker
+
+<span class="c"># Enable the docker service for the next start</span>
+systemctl <span class="nb">enable </span>docker
+</code></pre></div>
+
+<p>Now logout, and reconnect and it should work.</p>
+
+<h3 id="python">Python</h3>
+
+<p>I always need some base packages in order to start developing, so those are
+the most basic one I need in my daily life:</p>
+
+<p><code>apt-get install python-dev libxml2-dev libxslt-dev virtualenv libyaml-dev</code></p>
+
+<p>(be sure to install the <code>virtualenv</code> package and not the <code>python-virtualenv</code> one,
+because it will not add the binary to the <code>PATH</code>).</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/linux_mint_2\/';
+    var disqus_title = 'Linux Mint 2';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/linux_mint_2\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2016 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>
