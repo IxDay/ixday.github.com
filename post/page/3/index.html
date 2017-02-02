@@ -50,47 +50,6 @@
     <div class="meta">
   <time class="date">
     
-    Thu May 14 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/debian_install_2/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/os">OS</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/debian_install_2/">Debian install 2</a></h2>
-    <p>
-    After many days of configuration, I finally complete the installation of my perfect &ldquo;workstation&rdquo; ;). source.list I have to directory for this, first the preferences, then the sources.list. Just run an aptitude update, and you will some missing gpg keys, now run apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt; To have your keys installed. sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.
-    
-    <a href="/post/debian_install_2/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/bash ">bash</a>
-, <a href="/tags/adminsys ">adminsys</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
     Tue Apr 14 2015
     
   </time>
@@ -459,15 +418,54 @@
 </article>
 
   
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Sep 30 2014
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/html5-boilerplate/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/html5-boilerplate/">HTML5 Boilerplate</a></h2>
+    <p>
+    Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine. You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed. So here is an example: # stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.$(date +%s)&quot; PWD=$(pwd) DEST=&quot;$1&quot; # here is the link of my configuration, but you can easily create yours URL=&quot;http://www.initializr.com/builder?h5bp-content&amp;html5shiv&amp;&quot; URL=&quot;$URL&quot;&quot;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&quot; URL=&quot;$URL&quot;&quot;simplehtmltag&amp;izr-emptyscript&quot; # string concatenation example curl -o &quot;$TMPFILE&quot; &quot;$URL&quot; 2&gt; /dev/null # if argument is provided, move to the specified directory if [[ -z &quot;$DEST&quot; ]] then # do not display what has been inflated unzip -qq -d &quot;$PWD&quot; &quot;$TMPFILE&quot; rm &quot;$TMPFILE&quot; else # if the path provided is a file warn the user and exit if [[ -f &quot;$DEST&quot; ]] then echo &quot;$DEST already exists and is a file&quot; &amp;&amp; exit 1 fi # if the directory is not empty warn the user and exit if [[ -d &quot;$DEST&quot; &amp;&amp; !
+    
+    <a href="/post/html5-boilerplate/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/web ">web</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
 
     </div>
     
   
 <nav class="pagination">
   
-  <a href="/post/page/4" rel="nofollow">
-    « Older posts
-  </a>
+  <a class="hidden"></a>
   
   
   <a href="/post/page/2" rel="nofollow">
