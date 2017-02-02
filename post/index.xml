@@ -6,8 +6,97 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Aug 2016 15:23:34 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 02 Feb 2017 10:08:35 +0100</lastBuildDate>
     <atom:link href="http://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Alpine iPXE</title>
+      <link>http://ixday.github.io/post/alpine_ipxe/</link>
+      <pubDate>Thu, 02 Feb 2017 10:08:35 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/alpine_ipxe/</guid>
+      <description>&lt;p&gt;For a personal project I want to iPXE boot alpine. I did not found any step by
+step guide, so I ended up testing multiple solutions until it works. This
+post is a &amp;ldquo;copy&amp;rdquo; of the answer I made &lt;a href=&#34;https://github.com/antonym/netboot.xyz/issues/30#issuecomment-276722892&#34;&gt;here&lt;/a&gt; for the &lt;a href=&#34;https://netboot.xyz&#34;&gt;netboot.xyz project&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To fix this issue I used a bunch of thread and resources but here are the three
+main entry used:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Alpine documentation to create a custom ISO image:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Alpine documentation for the network boot:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot&#34;&gt;https://wiki.alpinelinux.org/wiki/PXE_boot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;This post on the Alpine forum from a guy who managed to successfully boot from PXE:
+&lt;a href=&#34;https://forum.alpinelinux.org/forum/installation/boot-pxe&#34;&gt;https://forum.alpinelinux.org/forum/installation/boot-pxe&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now here is the process to make all of this work:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;clone the &lt;a href=&#34;http://git.alpinelinux.org/cgit/alpine-iso/&#34;&gt;alpine-iso git repo&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;cd to the directory and create the following two files:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;alpine-pxe.packages&lt;/code&gt; which will be empty (those packages are installed in the iso not in the initrd)&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;alpine-pxe.conf.mk&lt;/code&gt; with the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt; ALPINE_NAME     := alpine-pxe
+ KERNEL_FLAVOR   := grsec
+ INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
+ MODLOOP_EXTRA   :=
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;some options may not be needed, I did not had the time to check this correctly,
+&lt;code&gt;virtio&lt;/code&gt; and &lt;code&gt;network&lt;/code&gt; are needed according to
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot#Using_pxelinux_instead_of_gPXE&#34;&gt;the wiki&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;create the image following the instructions &lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;here&lt;/a&gt; and pass your new profile: &lt;code&gt;make PROFILE=alpine-pxe&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;start a simple http server in &lt;code&gt;isotmp.alpine-pxe/isofs/boot/&lt;/code&gt; the ipxe boot will need the two following files:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;initramfs-grsec&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmlinuz-grsec&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;create your ipxe script with an adaptation of the following to your own url&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;#!ipxe
+
+dhcp
+
+set base-url http://192.168.122.0:5050
+set kernel-params ip=dhcp modules=loop,squashfs,usb-storage nomodeset
+
+kernel ${base-url}/vmlinuz-grsec ${kernel-params}
+initrd ${base-url}/initramfs-grsec
+
+boot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here again I am not sure that all the options are needed, still have to perform some tests.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;start your network boot!&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>libvirt</title>
+      <link>http://ixday.github.io/post/libvirt/</link>
+      <pubDate>Sat, 26 Nov 2016 14:31:05 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/libvirt/</guid>
+      <description>&lt;p&gt;Package to install apt-get install libvirt-bin&lt;/p&gt;
+
+&lt;p&gt;add user to libvirt libvirt-qemu&lt;/p&gt;
+
+&lt;p&gt;virsh  -c qemu:/system net-autostart default
+virsh  -c qemu:/system net-start default&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Linux Mint 2</title>
@@ -1306,356 +1395,6 @@ prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 &lt;code&gt;lvm2&lt;/code&gt; (c &amp;lt; l).&lt;/p&gt;
 
 &lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Debian Install 3</title>
-      <link>http://ixday.github.io/post/debian_install_3/</link>
-      <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/debian_install_3/</guid>
-      <description>
-
-&lt;p&gt;Today I want to install debian on my personal server.
-And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
-
-&lt;p&gt;I want it to look like that (like this scheme, a lot of reference
-come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;+-----------------------------------------------+ +----------------+
-|Logical volume1        | Logical volume2       | |                |
-|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
-|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
-|                                               | |                |
-|        LUKS encrypted partition               | |                |
-|               /dev/sda2                       | |   /dev/sda1    |
-+-----------------------------------------------+ +----------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;prepare-disks&#34;&gt;Prepare disks&lt;/h2&gt;
-
-&lt;p&gt;I use parted for this configuration, I left 1MB at the start of the device
-to be compliant with &lt;code&gt;parted &amp;lt;disk&amp;gt; align-check optimal &amp;lt;partition&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt install cryptsetup lvm2
-
-parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
-parted /dev/sda mkpart primary 201MB 100% &lt;span class=&#34;c&#34;&gt;# lvm partition&lt;/span&gt;
-parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; boot
-parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; lvm
-
-cryptsetup -c aes-xts-plain -y -s &lt;span class=&#34;m&#34;&gt;512&lt;/span&gt; luksFormat /dev/sda2
-&lt;span class=&#34;c&#34;&gt;# enter passphrase&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
-cryptsetup luksOpen /dev/sda2 ssd
-
-lvm pvcreate /dev/mapper/ssd
-lvm vgcreate vg_ssd /dev/mapper/ssd
-
-lvm lvcreate -L 4GB -n swap vg_ssd
-lvm lvcreate -l 100%FREE -n root vg_ssd
-
-&lt;span class=&#34;c&#34;&gt;# now format the partitions&lt;/span&gt;
-mkfs.ext4 /dev/sda1 &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
-mkfs.ext4 /dev/mapper/vg_ssd-lv_root
-mkswap /dev/mapper/vg_ssd-lv_swap
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;prepare-base-system&#34;&gt;Prepare base system&lt;/h2&gt;
-
-&lt;p&gt;In order to prepare the base system I will use the &lt;code&gt;debootstrap&lt;/code&gt; tool,
-which will take care of creating base files. Then I will &lt;code&gt;chroot&lt;/code&gt; in the new
-system in order to setup packages and boot initialisation&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
-mount /dev/mapper/&amp;lt;vg_name&amp;gt;-root /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
-
-debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /mnt
-
-&lt;span class=&#34;c&#34;&gt;# copy somefiles&lt;/span&gt;
-cp /etc/resolv.conf /mnt/etc/
-cp /etc/network/interfaces /mnt/etc/network
-
-&lt;span class=&#34;c&#34;&gt;# bind and chroot&lt;/span&gt;
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/dev
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/dev/pts
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/proc
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /run /mnt/run
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /sys /mnt/sys
-
-chroot /mnt/ /bin/bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
-
-&lt;p&gt;First install vim! &lt;code&gt;apt-get install vim&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Then create the fstab file, I use the UUID notation for this part.
-Basically, I run two commands in order to get the needed informations&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ls -l /dev/disks/by-uuid
-
-total 0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
-
-ls -l /dev/mapper
-total 0
-crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root 10, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:37 control
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:51 ssd -&amp;gt; ../dm-0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 vg_ssd-lv_root -&amp;gt; ../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Which will give me the following /etc/fstab.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  1
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  2
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Edit the /etc/apt/sources.list file to set up basic packages and update package list: &lt;code&gt;apt-get update&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Install needed packages&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
-apt-get install locales console-data keyboard-configuration
-
-&lt;span class=&#34;c&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
-dpkg-reconfigure locales
-
-&lt;span class=&#34;c&#34;&gt;# setup password&lt;/span&gt;
-passwd
-
-&lt;span class=&#34;c&#34;&gt;# change hostname&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;suika&amp;quot;&lt;/span&gt; &amp;gt; /etc/hostname
-
-apt-get install lvm2 cryptsetup
-
-&lt;span class=&#34;c&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
-apt-get install firmware-realtek
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;grub&#34;&gt;Grub&lt;/h2&gt;
-
-&lt;p&gt;Now we want to make the new system bootable, to perform this the system needs a kernel
-&lt;code&gt;apt-get install linux-image-amd64&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Set up the /etc/crypttab file, which will tell how to map the crypted partition&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
-ssd             /dev/sda2               none            luks
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Install grub on /dev/sda (on disk, not on partition) &lt;code&gt;apt-get install grub2&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.&lt;/p&gt;
-
-&lt;p&gt;In file &lt;code&gt;/etc/initramfs-tools/initramfs.conf&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-
-&lt;span class=&#34;nv&#34;&gt;KEYMAP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;y
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Update initramfs &lt;code&gt;update-initramfs -u&lt;/code&gt; to apply change on initrd.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-end&#34;&gt;The end!&lt;/h2&gt;
-
-&lt;p&gt;Exit the &lt;code&gt;chroot&lt;/code&gt; unmount partitions and reboot on your new fresh installed system.&lt;/p&gt;
-
-&lt;p&gt;If at startup you get an error message like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>weechat</title>
-      <link>http://ixday.github.io/post/weechat/</link>
-      <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/weechat/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;https://weechat.org/&#34;&gt;Weechat&lt;/a&gt; is an ncurse client for IRC,
-which I use and have tweaked to fit my needs.&lt;/p&gt;
-
-&lt;p&gt;But Weechat have one major issue: IT IS NOT USER FRIENDLY.
-The documentation is poor, there is a lot of plugins,
-which documentation is even poorer, and the configuration is a hell.&lt;/p&gt;
-
-&lt;p&gt;WELCOME!&lt;/p&gt;
-
-&lt;p&gt;First of all the installation, &lt;code&gt;apt-get install weechat&lt;/code&gt;
-will be sufficient on a real OS. Then, just type &lt;code&gt;weechat&lt;/code&gt; in
-order to launch the client.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_1.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_1.png&#34; alt=&#34;First screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;h2 id=&#34;install-plugins&#34;&gt;Install plugins&lt;/h2&gt;
-
-&lt;p&gt;At this point all the configuration can be done inside weechat,
-the command &lt;code&gt;script&lt;/code&gt; will install all the plugins you want, just like &lt;code&gt;apt&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;First script to install: &lt;code&gt;iset.pl&lt;/code&gt;, just type &lt;code&gt;script search iset&lt;/code&gt; and a
-selection of available plugins will appears.
-To leave it type &lt;code&gt;q&lt;/code&gt; then press enter, if you want to install the script
-type &lt;code&gt;i&lt;/code&gt; then press enter (an &lt;code&gt;i&lt;/code&gt; will appears in front of the name package,
-type &lt;code&gt;q&lt;/code&gt; and press enter to exit).&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_script.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_script.png&#34; alt=&#34;script search screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;p&gt;If you didn&amp;rsquo;t install the package through &lt;code&gt;script search&lt;/code&gt; you can install it
-with the following command: &lt;code&gt;script install iset.pl&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;configure&#34;&gt;Configure&lt;/h2&gt;
-
-&lt;p&gt;We will now be able to configure, just type &lt;code&gt;/iset&lt;/code&gt; to enter the iset screen.
-You will now see a list of all the parameters which can be modified.
-If you type something in the input bar, it will look for the pattern in
-the list of variables. If you want to search through the values, put an
-&lt;code&gt;=&lt;/code&gt; before the pattern.&lt;/p&gt;
-
-&lt;p&gt;To change the value, press &lt;code&gt;Alt + Enter&lt;/code&gt; then enter the new value
-(it is possible to navigate through values depending on variable type by
-pressing the &lt;code&gt;Tab&lt;/code&gt; key).&lt;/p&gt;
-
-&lt;p&gt;For example, I don&amp;rsquo;t like the background color of iset selector.
-On this screenshot I replace the value by &lt;code&gt;darkgray&lt;/code&gt;,
-changed values appear in magenta.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_iset.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_iset.png&#34; alt=&#34;iset screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;h2 id=&#34;the-buffer-list&#34;&gt;The buffer list&lt;/h2&gt;
-
-&lt;p&gt;When using weechat I like to know on which buffer I am.
-A buffer is the way weechat display informations, for example if I type:
-&lt;code&gt;/iset&lt;/code&gt; weechat will open a new buffer to display the informations.
-If I want to close a buffer I just have to type: &lt;code&gt;/close&lt;/code&gt;, If I want
-to navigate through buffers I type &lt;code&gt;/buffer +1&lt;/code&gt;. The command &lt;code&gt;/buffer list&lt;/code&gt;
-will display the buffer list in the first buffer, type: &lt;code&gt;/buffer 1&lt;/code&gt; to see it.&lt;/p&gt;
-
-&lt;p&gt;There is a convenient plugin to display that: &lt;code&gt;chanlist.rb&lt;/code&gt;.
-Sadly this one is not supported and you will need to download it.
-Here is the command to download the script:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;wget https://weechat.org/files/scripts/unofficial/chanlist.rb ~/.weechat/ruby/autoload/&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Relauch weechat or type &lt;code&gt;/script load chanlist.rb&lt;/code&gt;.
-We now have the buffer list on the left, but there is some commands to run in order to
-have something good.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# It is mandatory and appears in the chanlist documentation.&lt;/span&gt;
-/set irc.look.server_buffer independent
-
-&lt;span class=&#34;c&#34;&gt;# Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).&lt;/span&gt;
-/set plugins.var.ruby.chanlist.utf8 on
-
-&lt;span class=&#34;c&#34;&gt;# Fix chanlist size&lt;/span&gt;
-/set weechat.bar.chanlist.size 30
-/set weechat.bar.chanlist.size_max 30
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The two last config fixed the weechat chanlist bar size.&lt;/p&gt;
-
-&lt;p&gt;Finally, I do not really like the color which is used for displaying the current
-buffer. I want it magenta, chanlist is not very well developed and I will have to
-modify the source code. Run the following line for changing this:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;sed -i -- &#39;s/white,red/magenta,default/g&#39; ~/.weechat/ruby/autoload/chanlist.rb&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Quit and relaunch weechat to see the changes. Here is my current result:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_chanlist.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_chanlist.png&#34; alt=&#34;chanlist screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;h2 id=&#34;connect-to-a-server-and-a-channel&#34;&gt;Connect to a server and a channel&lt;/h2&gt;
-
-&lt;p&gt;Now we can visualize the buffers we will connect to a server.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Setup nickname and connect&lt;/span&gt;
-/set irc.server_default.nicks &lt;span class=&#34;s2&#34;&gt;&amp;quot;MaxV, MaxV_, MaxV__&amp;quot;&lt;/span&gt;
-/connect freenode
-/join &lt;span class=&#34;c&#34;&gt;#freenode&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;# Customize nicklist&lt;/span&gt;
-/set irc.look.color_nicks_in_nicklist on
-/set weechat.bar.nicklist.size_max 12
-/set weechat.bar.nicklist.size 12
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here is the result:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_nicklist.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_nicklist.png&#34; alt=&#34;nicklist screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;h2 id=&#34;bars&#34;&gt;Bars&lt;/h2&gt;
-
-&lt;p&gt;I will now customize the bars (because I can :p), this is inspired by
-&lt;a href=&#34;http://pascalpoitras.com/my-weechat-configuration/&#34;&gt;Pascal Poitras blog entry&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Change original separator (need UTF8 support)&lt;/span&gt;
-/set weechat.look.separator_horizontal &lt;span class=&#34;s2&#34;&gt;&amp;quot;—&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;# Create and customize activetitle bar&lt;/span&gt;
-/bar add activetitle window top &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; buffer_title
-/set weechat.bar.activetitle.priority 500
-/set weechat.bar.activetitle.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;active&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
-/set weechat.bar.activetitle.color_fg red
-/set weechat.bar.activetitle.color_bg default
-/set weechat.bar.activetitle.separator on
-
-&lt;span class=&#34;c&#34;&gt;# Customize the title bar&lt;/span&gt;
-/set weechat.bar.title.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;inactive&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
-/set weechat.bar.title.color_fg white
-/set weechat.bar.title.color_bg default
-/set weechat.bar.title.separator on
-
-&lt;span class=&#34;c&#34;&gt;# Remove status bar&lt;/span&gt;
-/bar del status
-
-&lt;span class=&#34;c&#34;&gt;# Create and customize the rootinput bar&lt;/span&gt;
-/bar add rootinput root bottom &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;buffer_name&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_prompt&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;away&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;,&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_search&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_paste&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,input_text
-/set weechat.bar.rootinput.separator on
-
-&lt;span class=&#34;c&#34;&gt;# Remove the input bar&lt;/span&gt;
-/bar del input
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here is the result:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_bars.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_bars.png&#34; alt=&#34;bars screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;h2 id=&#34;layout&#34;&gt;Layout&lt;/h2&gt;
-
-&lt;p&gt;I want to display 4 buffers at a time, I will change the layout to fit my needs.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;/window splith 50
-/window splitv 50
-/window 1
-/window splitv 50
-
-/layout store default
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/weechat_layout.png&#34;&gt;&lt;img src=&#34;{filename}/images/weechat_layout.png&#34; alt=&#34;layout screen&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;h2 id=&#34;key-bindings&#34;&gt;Key bindings&lt;/h2&gt;
-
-&lt;p&gt;I have a few key bindings, at this point it fits my needs,
-maybe I will add some in the future and edit this post accordingly.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Activate the mouse on Alt + x, desactivate by pressing a second time&lt;/span&gt;
-/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-x /mouse toggle
-
-&lt;span class=&#34;c&#34;&gt;# Navigate through windows by pressing Alt + right, Alt + left&lt;/span&gt;
-/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-C /window +1
-/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-D /window -1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
     

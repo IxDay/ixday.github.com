@@ -50,6 +50,10 @@ table.highlighttable {
   padding: 10px 10px 10px 10px;
 }
 
+.highlight code {
+  color: #4d4d4c;
+}
+
 .highlight .hll { background-color: #d6d6d6 }
 .highlight .c { color: #8e908c } /* Comment */
 .highlight .err { color: #c82829 } /* Error */

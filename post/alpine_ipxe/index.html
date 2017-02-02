@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.16" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Alpine iPXE</title>
+  <meta property='og:title' content="Alpine iPXE - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Thu Feb 2 2017
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/alpine_ipxe/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Alpine iPXE</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+
+      </p>
+      
+
+    </header>
+    <p>For a personal project I want to iPXE boot alpine. I did not found any step by
+step guide, so I ended up testing multiple solutions until it works. This
+post is a &ldquo;copy&rdquo; of the answer I made <a href="https://github.com/antonym/netboot.xyz/issues/30#issuecomment-276722892">here</a> for the <a href="https://netboot.xyz">netboot.xyz project</a>.</p>
+
+<p>To fix this issue I used a bunch of thread and resources but here are the three
+main entry used:</p>
+
+<ul>
+<li>Alpine documentation to create a custom ISO image:
+<a href="https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image">https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image</a></li>
+<li>Alpine documentation for the network boot:
+<a href="https://wiki.alpinelinux.org/wiki/PXE_boot">https://wiki.alpinelinux.org/wiki/PXE_boot</a></li>
+<li>This post on the Alpine forum from a guy who managed to successfully boot from PXE:
+<a href="https://forum.alpinelinux.org/forum/installation/boot-pxe">https://forum.alpinelinux.org/forum/installation/boot-pxe</a></li>
+</ul>
+
+<p>Now here is the process to make all of this work:</p>
+
+<ul>
+<li>clone the <a href="http://git.alpinelinux.org/cgit/alpine-iso/">alpine-iso git repo</a></li>
+
+<li><p>cd to the directory and create the following two files:</p>
+
+<ul>
+<li><code>alpine-pxe.packages</code> which will be empty (those packages are installed in the iso not in the initrd)</li>
+
+<li><p><code>alpine-pxe.conf.mk</code> with the following content:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"> ALPINE_NAME     := alpine-pxe
+ KERNEL_FLAVOR   := grsec
+ INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
+ MODLOOP_EXTRA   :=
+</code></pre></div>
+
+<p>some options may not be needed, I did not had the time to check this correctly,
+<code>virtio</code> and <code>network</code> are needed according to
+<a href="https://wiki.alpinelinux.org/wiki/PXE_boot#Using_pxelinux_instead_of_gPXE">the wiki</a></p></li>
+</ul></li>
+
+<li><p>create the image following the instructions <a href="https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image">here</a> and pass your new profile: <code>make PROFILE=alpine-pxe</code></p></li>
+
+<li><p>start a simple http server in <code>isotmp.alpine-pxe/isofs/boot/</code> the ipxe boot will need the two following files:</p>
+
+<ul>
+<li><code>initramfs-grsec</code></li>
+<li><code>vmlinuz-grsec</code></li>
+</ul></li>
+
+<li><p>create your ipxe script with an adaptation of the following to your own url</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">#!ipxe
+
+dhcp
+
+set base-url http://192.168.122.0:5050
+set kernel-params ip=dhcp modules=loop,squashfs,usb-storage nomodeset
+
+kernel ${base-url}/vmlinuz-grsec ${kernel-params}
+initrd ${base-url}/initramfs-grsec
+
+boot
+</code></pre></div>
+
+<p>Here again I am not sure that all the options are needed, still have to perform some tests.</p></li>
+
+<li><p>start your network boot!</p></li>
+</ul>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/alpine_ipxe\/';
+    var disqus_title = 'Alpine iPXE';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/alpine_ipxe\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2017 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

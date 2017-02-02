@@ -6,8 +6,82 @@
     <description>Recent content in Tuto on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Jun 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Feb 2017 10:08:35 +0100</lastBuildDate>
     <atom:link href="http://ixday.github.io/categories/tuto/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Alpine iPXE</title>
+      <link>http://ixday.github.io/post/alpine_ipxe/</link>
+      <pubDate>Thu, 02 Feb 2017 10:08:35 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/alpine_ipxe/</guid>
+      <description>&lt;p&gt;For a personal project I want to iPXE boot alpine. I did not found any step by
+step guide, so I ended up testing multiple solutions until it works. This
+post is a &amp;ldquo;copy&amp;rdquo; of the answer I made &lt;a href=&#34;https://github.com/antonym/netboot.xyz/issues/30#issuecomment-276722892&#34;&gt;here&lt;/a&gt; for the &lt;a href=&#34;https://netboot.xyz&#34;&gt;netboot.xyz project&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To fix this issue I used a bunch of thread and resources but here are the three
+main entry used:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Alpine documentation to create a custom ISO image:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Alpine documentation for the network boot:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot&#34;&gt;https://wiki.alpinelinux.org/wiki/PXE_boot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;This post on the Alpine forum from a guy who managed to successfully boot from PXE:
+&lt;a href=&#34;https://forum.alpinelinux.org/forum/installation/boot-pxe&#34;&gt;https://forum.alpinelinux.org/forum/installation/boot-pxe&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Now here is the process to make all of this work:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;clone the &lt;a href=&#34;http://git.alpinelinux.org/cgit/alpine-iso/&#34;&gt;alpine-iso git repo&lt;/a&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;cd to the directory and create the following two files:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;alpine-pxe.packages&lt;/code&gt; which will be empty (those packages are installed in the iso not in the initrd)&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;code&gt;alpine-pxe.conf.mk&lt;/code&gt; with the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt; ALPINE_NAME     := alpine-pxe
+ KERNEL_FLAVOR   := grsec
+ INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
+ MODLOOP_EXTRA   :=
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;some options may not be needed, I did not had the time to check this correctly,
+&lt;code&gt;virtio&lt;/code&gt; and &lt;code&gt;network&lt;/code&gt; are needed according to
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot#Using_pxelinux_instead_of_gPXE&#34;&gt;the wiki&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;create the image following the instructions &lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;here&lt;/a&gt; and pass your new profile: &lt;code&gt;make PROFILE=alpine-pxe&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;start a simple http server in &lt;code&gt;isotmp.alpine-pxe/isofs/boot/&lt;/code&gt; the ipxe boot will need the two following files:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;initramfs-grsec&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vmlinuz-grsec&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;create your ipxe script with an adaptation of the following to your own url&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;#!ipxe
+
+dhcp
+
+set base-url http://192.168.122.0:5050
+set kernel-params ip=dhcp modules=loop,squashfs,usb-storage nomodeset
+
+kernel ${base-url}/vmlinuz-grsec ${kernel-params}
+initrd ${base-url}/initramfs-grsec
+
+boot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here again I am not sure that all the options are needed, still have to perform some tests.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;start your network boot!&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Libvirt through vagrant</title>
