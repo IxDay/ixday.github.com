@@ -6,8 +6,94 @@
     <description>Recent content in Snippet on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 Jul 2016 14:24:57 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 23 Nov 2016 09:48:08 +0100</lastBuildDate>
     <atom:link href="http://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Docker Nspawn</title>
+      <link>http://ixday.github.io/post/docker_nspawn/</link>
+      <pubDate>Wed, 23 Nov 2016 09:48:08 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/docker_nspawn/</guid>
+      <description>
+
+&lt;p&gt;Don&amp;rsquo;t want to use Docker? Still want to start containers for tests or whatever?
+Don&amp;rsquo;t want to install yet another software to perform this? Want to understand
+a bit of how all those things work? Great! I will show you how to boot a
+container from the internet only through &lt;code&gt;systemd-nspawn&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Thanks to the CoreOS team (love those guys) a new hub for storing container now exists:
+&lt;a href=&#34;https://quay.io/&#34;&gt;quay&lt;/a&gt;. The other good news is the ACI,
+the container image format defined in the
+&lt;a href=&#34;https://github.com/appc/spec&#34;&gt;App Container (appc) spec&lt;/a&gt;. It basically define
+what a container image should be: Basically, a filesystem under a &lt;code&gt;rootfs&lt;/code&gt;
+directory with a &lt;code&gt;manifest&lt;/code&gt; file. The &lt;code&gt;manifest&lt;/code&gt; file is in a JSON format and
+furnish metadatas for the container (env variables, run command at start, &amp;hellip;).
+It is a good news because this specification does not include the &lt;strong&gt;sh**y&lt;/strong&gt;
+layer system of Docker (will publish a rant someday about this).&lt;/p&gt;
+
+&lt;p&gt;Okay, so&amp;hellip; what the point? Good question! If I simplify all those informations,
+it means that there is a point in the internet where I can download filesystem
+archives and directly boot them through systemd-nspawn.&lt;/p&gt;
+
+&lt;h2 id=&#34;find-the-url&#34;&gt;Find the url&lt;/h2&gt;
+
+&lt;p&gt;Just go to &lt;a href=&#34;https://quay.io&#34;&gt;https://quay.io&lt;/a&gt; and type the kind of image you
+want in the search bar. For this example, I will retrieve an
+&lt;a href=&#34;https://alpinelinux.org/&#34;&gt;Alpine linux&lt;/a&gt; image. I take the first one available,
+which is a clone of the one in the docker hub
+&lt;a href=&#34;https://quay.io/repository/aptible/alpine&#34;&gt;https://quay.io/repository/aptible/alpine&lt;/a&gt;.
+In the page open the web debugger and in the console enter the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;meta[name=&amp;#39;ac-discovery&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;eq&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// simple jquery request&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// this should be the output&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;ac-discovery&amp;quot;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&amp;quot;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The part between &lt;code&gt;{}&lt;/code&gt; are variables, and should be replaced by what we want to
+retrieve, spec &lt;a href=&#34;https://github.com/appc/spec/blob/master/spec/discovery.md&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;name&lt;/strong&gt;: the name of the image, here it is &lt;code&gt;alpine&lt;/code&gt;, but there is a trick
+the name is a full qualified one, and is the one you usually pull with the
+docker command. Here it is &lt;code&gt;quay.io/aptible/alpine&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;version&lt;/strong&gt;: can be retrieve under the tags tab (add &lt;code&gt;?tab=tags&lt;/code&gt; at the end
+of the url). We will take &lt;code&gt;latest&lt;/code&gt; here. &lt;strong&gt;BEWARE&lt;/strong&gt;: using latest is not
+recommended as it is not a fixed version and can change from day to day. This
+can cause non-reproductible builds (same advice when using Docker as well).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ext&lt;/strong&gt;: &lt;code&gt;aci&lt;/code&gt; to get a tarball. The other possibility is &lt;code&gt;aci.asc&lt;/code&gt; which is
+the signature.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;os&lt;/strong&gt;: &lt;code&gt;linux&lt;/code&gt; of course&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;arch&lt;/strong&gt;: &lt;code&gt;amd64&lt;/code&gt; for my part&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Resulting URL will be:
+&lt;code&gt;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;retrieve-deflate-start&#34;&gt;Retrieve - Deflate - Start&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Download the image inside a alpine.tgz file&lt;/span&gt;
+wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
+
+&lt;span class=&#34;c&#34;&gt;# Untar it&lt;/span&gt;
+tar xvf alpine.tgz
+
+&lt;span class=&#34;c&#34;&gt;# Boot it, with systemd-nspawn&lt;/span&gt;
+sudo systemd-nspawn -M alpine -D rootfs
+
+&lt;span class=&#34;c&#34;&gt;# TADAAA! You are now inside a container &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can also download, untar, rename and place the directory in your tree with
+one command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wget -O - &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+		tar -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;/tmp/alpine&amp;quot;&lt;/span&gt; --transform&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;s|rootfs/|/|&amp;quot;&lt;/span&gt; -xzf -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Easy duh!?&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Curl utils</title>

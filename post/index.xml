@@ -84,6 +84,92 @@ boot
     </item>
     
     <item>
+      <title>Docker Nspawn</title>
+      <link>http://ixday.github.io/post/docker_nspawn/</link>
+      <pubDate>Wed, 23 Nov 2016 09:48:08 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/docker_nspawn/</guid>
+      <description>
+
+&lt;p&gt;Don&amp;rsquo;t want to use Docker? Still want to start containers for tests or whatever?
+Don&amp;rsquo;t want to install yet another software to perform this? Want to understand
+a bit of how all those things work? Great! I will show you how to boot a
+container from the internet only through &lt;code&gt;systemd-nspawn&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Thanks to the CoreOS team (love those guys) a new hub for storing container now exists:
+&lt;a href=&#34;https://quay.io/&#34;&gt;quay&lt;/a&gt;. The other good news is the ACI,
+the container image format defined in the
+&lt;a href=&#34;https://github.com/appc/spec&#34;&gt;App Container (appc) spec&lt;/a&gt;. It basically define
+what a container image should be: Basically, a filesystem under a &lt;code&gt;rootfs&lt;/code&gt;
+directory with a &lt;code&gt;manifest&lt;/code&gt; file. The &lt;code&gt;manifest&lt;/code&gt; file is in a JSON format and
+furnish metadatas for the container (env variables, run command at start, &amp;hellip;).
+It is a good news because this specification does not include the &lt;strong&gt;sh**y&lt;/strong&gt;
+layer system of Docker (will publish a rant someday about this).&lt;/p&gt;
+
+&lt;p&gt;Okay, so&amp;hellip; what the point? Good question! If I simplify all those informations,
+it means that there is a point in the internet where I can download filesystem
+archives and directly boot them through systemd-nspawn.&lt;/p&gt;
+
+&lt;h2 id=&#34;find-the-url&#34;&gt;Find the url&lt;/h2&gt;
+
+&lt;p&gt;Just go to &lt;a href=&#34;https://quay.io&#34;&gt;https://quay.io&lt;/a&gt; and type the kind of image you
+want in the search bar. For this example, I will retrieve an
+&lt;a href=&#34;https://alpinelinux.org/&#34;&gt;Alpine linux&lt;/a&gt; image. I take the first one available,
+which is a clone of the one in the docker hub
+&lt;a href=&#34;https://quay.io/repository/aptible/alpine&#34;&gt;https://quay.io/repository/aptible/alpine&lt;/a&gt;.
+In the page open the web debugger and in the console enter the following:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;meta[name=&amp;#39;ac-discovery&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;eq&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// simple jquery request&lt;/span&gt;
+
+&lt;span class=&#34;c1&#34;&gt;// this should be the output&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;ac-discovery&amp;quot;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&amp;quot;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The part between &lt;code&gt;{}&lt;/code&gt; are variables, and should be replaced by what we want to
+retrieve, spec &lt;a href=&#34;https://github.com/appc/spec/blob/master/spec/discovery.md&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;name&lt;/strong&gt;: the name of the image, here it is &lt;code&gt;alpine&lt;/code&gt;, but there is a trick
+the name is a full qualified one, and is the one you usually pull with the
+docker command. Here it is &lt;code&gt;quay.io/aptible/alpine&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;version&lt;/strong&gt;: can be retrieve under the tags tab (add &lt;code&gt;?tab=tags&lt;/code&gt; at the end
+of the url). We will take &lt;code&gt;latest&lt;/code&gt; here. &lt;strong&gt;BEWARE&lt;/strong&gt;: using latest is not
+recommended as it is not a fixed version and can change from day to day. This
+can cause non-reproductible builds (same advice when using Docker as well).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ext&lt;/strong&gt;: &lt;code&gt;aci&lt;/code&gt; to get a tarball. The other possibility is &lt;code&gt;aci.asc&lt;/code&gt; which is
+the signature.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;os&lt;/strong&gt;: &lt;code&gt;linux&lt;/code&gt; of course&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;arch&lt;/strong&gt;: &lt;code&gt;amd64&lt;/code&gt; for my part&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Resulting URL will be:
+&lt;code&gt;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;retrieve-deflate-start&#34;&gt;Retrieve - Deflate - Start&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Download the image inside a alpine.tgz file&lt;/span&gt;
+wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
+
+&lt;span class=&#34;c&#34;&gt;# Untar it&lt;/span&gt;
+tar xvf alpine.tgz
+
+&lt;span class=&#34;c&#34;&gt;# Boot it, with systemd-nspawn&lt;/span&gt;
+sudo systemd-nspawn -M alpine -D rootfs
+
+&lt;span class=&#34;c&#34;&gt;# TADAAA! You are now inside a container &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You can also download, untar, rename and place the directory in your tree with
+one command:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wget -O - &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+		tar -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;/tmp/alpine&amp;quot;&lt;/span&gt; --transform&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;s|rootfs/|/|&amp;quot;&lt;/span&gt; -xzf -
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;Easy duh!?&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Linux Mint 2</title>
       <link>http://ixday.github.io/post/linux_mint_2/</link>
       <pubDate>Mon, 08 Aug 2016 15:23:34 +0200</pubDate>
@@ -1380,176 +1466,6 @@ prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 &lt;code&gt;lvm2&lt;/code&gt; (c &amp;lt; l).&lt;/p&gt;
 
 &lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Debian Install 3</title>
-      <link>http://ixday.github.io/post/debian_install_3/</link>
-      <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/debian_install_3/</guid>
-      <description>
-
-&lt;p&gt;Today I want to install debian on my personal server.
-And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
-
-&lt;p&gt;I want it to look like that (like this scheme, a lot of reference
-come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;+-----------------------------------------------+ +----------------+
-|Logical volume1        | Logical volume2       | |                |
-|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
-|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
-|                                               | |                |
-|        LUKS encrypted partition               | |                |
-|               /dev/sda2                       | |   /dev/sda1    |
-+-----------------------------------------------+ +----------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;prepare-disks&#34;&gt;Prepare disks&lt;/h2&gt;
-
-&lt;p&gt;I use parted for this configuration, I left 1MB at the start of the device
-to be compliant with &lt;code&gt;parted &amp;lt;disk&amp;gt; align-check optimal &amp;lt;partition&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt install cryptsetup lvm2
-
-parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
-parted /dev/sda mkpart primary 201MB 100% &lt;span class=&#34;c&#34;&gt;# lvm partition&lt;/span&gt;
-parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; boot
-parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; lvm
-
-cryptsetup -c aes-xts-plain -y -s &lt;span class=&#34;m&#34;&gt;512&lt;/span&gt; luksFormat /dev/sda2
-&lt;span class=&#34;c&#34;&gt;# enter passphrase&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
-cryptsetup luksOpen /dev/sda2 ssd
-
-lvm pvcreate /dev/mapper/ssd
-lvm vgcreate vg_ssd /dev/mapper/ssd
-
-lvm lvcreate -L 4GB -n swap vg_ssd
-lvm lvcreate -l 100%FREE -n root vg_ssd
-
-&lt;span class=&#34;c&#34;&gt;# now format the partitions&lt;/span&gt;
-mkfs.ext4 /dev/sda1 &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
-mkfs.ext4 /dev/mapper/vg_ssd-lv_root
-mkswap /dev/mapper/vg_ssd-lv_swap
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;prepare-base-system&#34;&gt;Prepare base system&lt;/h2&gt;
-
-&lt;p&gt;In order to prepare the base system I will use the &lt;code&gt;debootstrap&lt;/code&gt; tool,
-which will take care of creating base files. Then I will &lt;code&gt;chroot&lt;/code&gt; in the new
-system in order to setup packages and boot initialisation&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
-mount /dev/mapper/&amp;lt;vg_name&amp;gt;-root /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
-
-debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /mnt
-
-&lt;span class=&#34;c&#34;&gt;# copy somefiles&lt;/span&gt;
-cp /etc/resolv.conf /mnt/etc/
-cp /etc/network/interfaces /mnt/etc/network
-
-&lt;span class=&#34;c&#34;&gt;# bind and chroot&lt;/span&gt;
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/dev
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/dev/pts
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/proc
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /run /mnt/run
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /sys /mnt/sys
-
-chroot /mnt/ /bin/bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
-
-&lt;p&gt;First install vim! &lt;code&gt;apt-get install vim&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Then create the fstab file, I use the UUID notation for this part.
-Basically, I run two commands in order to get the needed informations&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ls -l /dev/disks/by-uuid
-
-total 0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
-
-ls -l /dev/mapper
-total 0
-crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root 10, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:37 control
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:51 ssd -&amp;gt; ../dm-0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 vg_ssd-lv_root -&amp;gt; ../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Which will give me the following /etc/fstab.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  1
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  2
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Edit the /etc/apt/sources.list file to set up basic packages and update package list: &lt;code&gt;apt-get update&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Install needed packages&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
-apt-get install locales console-data keyboard-configuration
-
-&lt;span class=&#34;c&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
-dpkg-reconfigure locales
-
-&lt;span class=&#34;c&#34;&gt;# setup password&lt;/span&gt;
-passwd
-
-&lt;span class=&#34;c&#34;&gt;# change hostname&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;suika&amp;quot;&lt;/span&gt; &amp;gt; /etc/hostname
-
-apt-get install lvm2 cryptsetup
-
-&lt;span class=&#34;c&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
-apt-get install firmware-realtek
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;grub&#34;&gt;Grub&lt;/h2&gt;
-
-&lt;p&gt;Now we want to make the new system bootable, to perform this the system needs a kernel
-&lt;code&gt;apt-get install linux-image-amd64&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Set up the /etc/crypttab file, which will tell how to map the crypted partition&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
-ssd             /dev/sda2               none            luks
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Install grub on /dev/sda (on disk, not on partition) &lt;code&gt;apt-get install grub2&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.&lt;/p&gt;
-
-&lt;p&gt;In file &lt;code&gt;/etc/initramfs-tools/initramfs.conf&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-
-&lt;span class=&#34;nv&#34;&gt;KEYMAP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;y
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Update initramfs &lt;code&gt;update-initramfs -u&lt;/code&gt; to apply change on initrd.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-end&#34;&gt;The end!&lt;/h2&gt;
-
-&lt;p&gt;Exit the &lt;code&gt;chroot&lt;/code&gt; unmount partitions and reboot on your new fresh installed system.&lt;/p&gt;
-
-&lt;p&gt;If at startup you get an error message like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;
 </description>
     </item>
     
