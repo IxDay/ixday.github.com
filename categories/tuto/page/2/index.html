@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.18.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -70,7 +70,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/angular-parse/">Angular $parse</a></h2>
     <p>
-    Hey there, I have started to be tired of weak example of angular power, so I will go deeper on angular services and directives and wrote some articles about it. The service $parse is the one who runs on the html to bind data with your javascript. It provides a lot of useful features which can be really interesting especially with directive manipulation. So, we will illustrate with some examples: // This notation allow us to stay in pure javascript world angular.injector([&#39;ng&#39;]) .invoke(function ($parse, $rootScope) { // new clean scope (optionnal, it will work directly on $rootScope) var $scope = $rootScope.$new(); // allocate simple value $scope.foo = &#39;bar&#39;; // here the magic var foo = $parse(&#39;foo&#39;); /* The function which has been returned look for a context to interpolate the value */ console.log(foo($scope)); // display =&gt; bar /* Redefine foo value */ foo.assign($scope, &#39;foo&#39;); /* $scope has changed Oo */ console.log($scope.foo); // display =&gt; foo }); Pretty cool uh?
+    Hey there, I have started to be tired of weak example of angular power, so I will go deeper on angular services and directives and wrote some articles about it.
+The service $parse is the one who runs on the html to bind data with your javascript. It provides a lot of useful features which can be really interesting especially with directive manipulation.
+So, we will illustrate with some examples:
     
     <a href="/post/angular-parse/">Read More...</a>
     
@@ -112,7 +114,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/bash-script/">Bash Script</a></h2>
     <p>
-    Writting a bash script is kind of a complicated task, there is a strict syntax, multiple external tools, and some tricks which depends on the version and in some cases on the distribution itself (for example, grep is not the same either you are on BSD or Debian). In this article I will talk about four code habits which can improve the maintainability of your shell scripts Double quotes Everyone who already used a bash script will tell you to mark every variable reading with double quotes: # like this echo &quot;$a&quot; The question is why do we have to mark them, to show that just a little example, run the following script #!/bin/bash LS=&quot;ls *&quot; echo &quot;Not Quoted&quot; echo $LS echo echo &quot;Quoted&quot; echo &quot;$LS&quot; As you can see there is a huge difference between the two versions, in fact, if there is no double quotes, the variable is subject to word splitting and file globbing see here for further informations.
+    Writting a bash script is kind of a complicated task, there is a strict syntax, multiple external tools, and some tricks which depends on the version and in some cases on the distribution itself (for example, grep is not the same either you are on BSD or Debian).
+In this article I will talk about four code habits which can improve the maintainability of your shell scripts
+Double quotes Everyone who already used a bash script will tell you to mark every variable reading with double quotes:
     
     <a href="/post/bash-script/">Read More...</a>
     
@@ -152,7 +156,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/outside-angular/">Outside Angular</a></h2>
     <p>
-    There are some cases when angular is accessible but we just want to access a specific service without bootstraping an entire application. For example, in some tests I can load some fixtures with the $http service, or use $compile for a simple template. It is pretty simple to do that, but it is not clearly explained in the angular documentation. So here is an example: // The module ng must be loaded angular.injector([&#39;ng&#39;]) // Then we just have to load the services needed .invoke(function ($compile, $rootScope) { // We create a simple template and a scope var tplt = &#39;&lt;div&gt;{{foo}}&lt;/div&gt;&#39;; var scope = $rootScope.$new(); // Populate the scope scope.foo = &#39;bar&#39;; // Compile the template var elt = $compile(tplt)(scope); // We are outside of angular (no application is running), so we have to run // a $digest cycle scope.$apply(); // And it will displays &quot;bar&quot; MAGIC!
+    There are some cases when angular is accessible but we just want to access a specific service without bootstraping an entire application.
+For example, in some tests I can load some fixtures with the $http service, or use $compile for a simple template.
+It is pretty simple to do that, but it is not clearly explained in the angular documentation. So here is an example:
+// The module ng must be loaded angular.
     
     <a href="/post/outside-angular/">Read More...</a>
     

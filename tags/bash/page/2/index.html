@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.18.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -70,7 +70,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/html5-boilerplate/">HTML5 Boilerplate</a></h2>
     <p>
-    Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine. You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed. So here is an example: # stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.$(date +%s)&quot; PWD=$(pwd) DEST=&quot;$1&quot; # here is the link of my configuration, but you can easily create yours URL=&quot;http://www.initializr.com/builder?h5bp-content&amp;html5shiv&amp;&quot; URL=&quot;$URL&quot;&quot;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&quot; URL=&quot;$URL&quot;&quot;simplehtmltag&amp;izr-emptyscript&quot; # string concatenation example curl -o &quot;$TMPFILE&quot; &quot;$URL&quot; 2&gt; /dev/null # if argument is provided, move to the specified directory if [[ -z &quot;$DEST&quot; ]] then # do not display what has been inflated unzip -qq -d &quot;$PWD&quot; &quot;$TMPFILE&quot; rm &quot;$TMPFILE&quot; else # if the path provided is a file warn the user and exit if [[ -f &quot;$DEST&quot; ]] then echo &quot;$DEST already exists and is a file&quot; &amp;&amp; exit 1 fi # if the directory is not empty warn the user and exit if [[ -d &quot;$DEST&quot; &amp;&amp; !
+    Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
+You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
+So here is an example:
+# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.
     
     <a href="/post/html5-boilerplate/">Read More...</a>
     

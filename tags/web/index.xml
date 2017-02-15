@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web on Not today...</title>
-    <link>http://ixday.github.io/tags/web/</link>
+    <link>http://ixday.github.io/tags/web/index.xml</link>
     <description>Recent content in Web on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Oct 2014 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://ixday.github.io/tags/web/index.xml" rel="self" type="application/rss+xml" />
     
     <item>

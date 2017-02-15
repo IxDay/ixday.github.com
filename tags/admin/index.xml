@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Admin on Not today...</title>
-    <link>http://ixday.github.io/tags/admin/</link>
+    <link>http://ixday.github.io/tags/admin/index.xml</link>
     <description>Recent content in Admin on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Feb 2017 10:08:35 +0100</lastBuildDate>
     <atom:link href="http://ixday.github.io/tags/admin/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -22,14 +21,13 @@ post is a &amp;ldquo;copy&amp;rdquo; of the answer I made &lt;a href=&#34;https:
 &lt;p&gt;To fix this issue I used a bunch of thread and resources but here are the three
 main entry used:&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;Alpine documentation to create a custom ISO image:
-&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Alpine documentation for the network boot:
-&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot&#34;&gt;https://wiki.alpinelinux.org/wiki/PXE_boot&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;This post on the Alpine forum from a guy who managed to successfully boot from PXE:
-&lt;a href=&#34;https://forum.alpinelinux.org/forum/installation/boot-pxe&#34;&gt;https://forum.alpinelinux.org/forum/installation/boot-pxe&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;
+- Alpine documentation to create a custom ISO image:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&lt;/a&gt;
+- Alpine documentation for the network boot:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot&#34;&gt;https://wiki.alpinelinux.org/wiki/PXE_boot&lt;/a&gt;
+- This post on the Alpine forum from a guy who managed to successfully boot from PXE:
+&lt;a href=&#34;https://forum.alpinelinux.org/forum/installation/boot-pxe&#34;&gt;https://forum.alpinelinux.org/forum/installation/boot-pxe&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Now here is the process to make all of this work:&lt;/p&gt;
 
@@ -79,8 +77,7 @@ boot
 &lt;p&gt;Here again I am not sure that all the options are needed, still have to perform some tests.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;start your network boot!&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -89,12 +86,11 @@ boot
       <pubDate>Mon, 08 Aug 2016 15:23:34 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/linux_mint_2/</guid>
-      <description>
-
-&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
+      <description>&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
 and I had to reinstall my distro. I checked my &lt;a href=&#34;http://ixday.github.io/post/linux_mint/&#34;&gt;previous article&lt;/a&gt;
 and noticed some missing informations. So here is a second article of things
-I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;
+I needed to fixup when installing LMDE on my Macbook.
+&lt;/p&gt;
 
 &lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 
@@ -238,8 +234,7 @@ the most basic one I need in my daily life:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;apt-get install python-dev libxml2-dev libxslt-dev virtualenv libyaml-dev&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;(be sure to install the &lt;code&gt;virtualenv&lt;/code&gt; package and not the &lt;code&gt;python-virtualenv&lt;/code&gt; one,
-because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;
-</description>
+because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -717,9 +712,9 @@ Unable to find LVM volume vg_ssd/lv_root
 &lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 
-&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;
 
-&lt;p&gt;which starts like this:&lt;/p&gt;
+which starts like this:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
@@ -778,8 +773,7 @@ prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 &lt;p&gt;At the init step files are taken in alphabetical order so &lt;code&gt;cryptroot&lt;/code&gt; will come before
 &lt;code&gt;lvm2&lt;/code&gt; (c &amp;lt; l).&lt;/p&gt;
 
-&lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;
-</description>
+&lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;</description>
     </item>
     
     <item>

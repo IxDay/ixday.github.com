@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.18.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -70,7 +70,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
     <p>
-    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine. ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key. ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com Okay, at this moment we can use a config file for ssh: $HOME/.ssh/config :) Host 192.168.0.1 my.url.com user mylogin IdentityFile ~/.ssh/my_ssh.key The CLI is now: # with IP ssh 192.168.0.1 # with url ssh my.url.com I have a connection but now I want to share my dev server on the remote host to my local web browser.
+    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
+ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     
     <a href="/post/rsync_fswatch/">Read More...</a>
     
@@ -111,7 +113,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/curl_for_rest/">Curl for REST</a></h2>
     <p>
-    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs. First one is the well known curl and the second one is jq. One important feature of curl is its hability to load external files for datas with @ before file name: curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath Then you can remove the progress bar by adding -s in the options Finally, you can use jq for parsing the output with a request syntax, here is what the final line looks like: curl -X POST -H &quot;Content-Type: application/json&quot; -s -d @filepath | jq &#39;.&#39; It is a small article but I just wanted to show that those tools are really great, we do not need complex software for this.
+    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
+First one is the well known curl and the second one is jq.
+One important feature of curl is its hability to load external files for datas with @ before file name:
+curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then you can remove the progress bar by adding -s in the options
     
     <a href="/post/curl_for_rest/">Read More...</a>
     
@@ -153,7 +158,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian-install/">Debian Install</a></h2>
     <p>
-    That&rsquo;s a fact: I can not install a new system without getting into troubles! So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them. Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.img will be the output and debian-testing-amd64-CD-1.iso is # the iso you retrieved from internet https://www.debian.org/CD/http-ftp/ hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso # if you are making a Mac bootable usb key (X is still the disk number) sudo dd if=./debian.img.dmg of=/dev/rdiskX bs=1m # otherwise (X is still the disk number) sudo dd if=./debian-testing-amd64-CD-1.iso of=/dev/rdiskX bs=1m # to finish eject hdiutil eject /dev/diskX Messing up during the installation I use to have a lot of issues during the installation, such as: No installable kernel Can not install grub Whatever can happen during the installation So, it is possible to fix that during the installation process.
+    That&rsquo;s a fact: I can not install a new system without getting into troubles!
+So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
+Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.
     
     <a href="/post/debian-install/">Read More...</a>
     

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.18.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -73,8 +73,8 @@
     <p>I recently messed up my laptop (do not play with <code>/etc/apt/preferences</code> too much!),
 and I had to reinstall my distro. I checked my <a href="http://ixday.github.io/post/linux_mint/">previous article</a>
 and noticed some missing informations. So here is a second article of things
-I needed to fixup when installing LMDE on my Macbook.</p>
-
+I needed to fixup when installing LMDE on my Macbook.
+</p>
     
     <a href="/post/linux_mint_2/">Read More...</a>
     
@@ -114,7 +114,8 @@ I needed to fixup when installing LMDE on my Macbook.</p>
     <div class="caption">
     <h2 class="caption-title"><a href="/post/bash_shortcuts/">Bash Shortcuts</a></h2>
     <p>
-    Here is just a small reminder of common bash shortcuts for everyday use: Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go to the end of the line you are currently typing on Ctrl + L Clears the Screen, similar to the clear command Ctrl + U Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
+    Here is just a small reminder of common bash shortcuts for everyday use:
+Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go to the end of the line you are currently typing on Ctrl + L Clears the Screen, similar to the clear command Ctrl + U Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
     
     <a href="/post/bash_shortcuts/">Read More...</a>
     
@@ -155,7 +156,8 @@ I needed to fixup when installing LMDE on my Macbook.</p>
     <div class="caption">
     <h2 class="caption-title"><a href="/post/linux_mint/">Linux Mint</a></h2>
     <p>
-    After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition Why ? It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&rsquo;t have with TWM). And a lot more Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.
+    After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition
+Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&rsquo;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.
     
     <a href="/post/linux_mint/">Read More...</a>
     
@@ -206,8 +208,9 @@ Unable to find LVM volume vg_ssd/lv_root
 <p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 
-<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code></p>
+<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code>
 
+which starts like this:</p>
     
     <a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Read More...</a>
     
@@ -253,6 +256,7 @@ And I want to crypt the FS using Luks, and add LVM on top.</p>
 <p>I want it to look like that (like this scheme, a lot of reference
 come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">arch wiki</a></p>
 
+<p></p>
     
     <a href="/post/debian_install_3/">Read More...</a>
     
@@ -293,7 +297,11 @@ come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian_install_2/">Debian install 2</a></h2>
     <p>
-    After many days of configuration, I finally complete the installation of my perfect &ldquo;workstation&rdquo; ;). source.list I have to directory for this, first the preferences, then the sources.list. Just run an aptitude update, and you will some missing gpg keys, now run apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt; To have your keys installed. sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.
+    After many days of configuration, I finally complete the installation of my perfect &ldquo;workstation&rdquo; ;).
+source.list I have to directory for this, first the preferences, then the sources.list.
+Just run an aptitude update, and you will some missing gpg keys, now run
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;  To have your keys installed.
+sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.
     
     <a href="/post/debian_install_2/">Read More...</a>
     
@@ -334,7 +342,9 @@ come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian-install/">Debian Install</a></h2>
     <p>
-    That&rsquo;s a fact: I can not install a new system without getting into troubles! So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them. Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.img will be the output and debian-testing-amd64-CD-1.iso is # the iso you retrieved from internet https://www.debian.org/CD/http-ftp/ hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso # if you are making a Mac bootable usb key (X is still the disk number) sudo dd if=./debian.img.dmg of=/dev/rdiskX bs=1m # otherwise (X is still the disk number) sudo dd if=./debian-testing-amd64-CD-1.iso of=/dev/rdiskX bs=1m # to finish eject hdiutil eject /dev/diskX Messing up during the installation I use to have a lot of issues during the installation, such as: No installable kernel Can not install grub Whatever can happen during the installation So, it is possible to fix that during the installation process.
+    That&rsquo;s a fact: I can not install a new system without getting into troubles!
+So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
+Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.
     
     <a href="/post/debian-install/">Read More...</a>
     

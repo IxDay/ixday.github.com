@@ -2,12 +2,101 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Not today...</title>
-    <link>http://ixday.github.io/</link>
+    <link>http://ixday.github.io/index.xml</link>
     <description>Recent content on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Feb 2017 10:08:35 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 15 Feb 2017 10:57:00 +0100</lastBuildDate>
     <atom:link href="http://ixday.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Makefile</title>
+      <link>http://ixday.github.io/post/makefile/</link>
+      <pubDate>Wed, 15 Feb 2017 10:57:00 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/makefile/</guid>
+      <description>
+
+&lt;p&gt;Recently, I had to build some project involving a lot of files. Two choices
+were possible:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;use a script to build&lt;/li&gt;
+&lt;li&gt;use a Makefile&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I ended up with a Makefile, which is the best solution I think. As the script
+has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files.
+(I have to confess also, I have been a bit influenced by
+ &lt;a href=&#34;https://twitter.com/jessfraz&#34;&gt;jessfraz&lt;/a&gt; with those tweets:
+ &lt;a href=&#34;https://twitter.com/jessfraz/status/716064317582417920&#34;&gt;here&lt;/a&gt; and
+ &lt;a href=&#34;https://twitter.com/jessfraz/status/805846280547110912&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;This project also learned me some tricks which can be reused, here is a little list&lt;/p&gt;
+
+&lt;h3 id=&#34;default-variable&#34;&gt;Default variable&lt;/h3&gt;
+
+&lt;p&gt;You can set a default value to an internal variable of a makefile. Those variables
+can be set up at the &lt;code&gt;make&lt;/code&gt; command run i.e: &lt;code&gt;make ARCH=i686&lt;/code&gt; or &lt;code&gt;ARCH=i686 make&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;SERVER_PORT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; 5050
+&lt;span class=&#34;nv&#34;&gt;ARCH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; amd64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;watch-all-files-from-a-directory-to-change&#34;&gt;Watch all files from a directory to change&lt;/h3&gt;
+
+&lt;p&gt;This is perfectly correct and usable in a Makefile&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;find&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; -&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;f&lt;/span&gt; | &lt;span class=&#34;nv&#34;&gt;sed&lt;/span&gt; &amp;#39;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;/ /\\ /&lt;span class=&#34;nv&#34;&gt;g&lt;/span&gt;&amp;#39;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+	@tar cvzf &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$^&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;$@&lt;/code&gt; represent the target and &lt;code&gt;$^&lt;/code&gt; all the file dependencies&lt;/p&gt;
+
+&lt;h3 id=&#34;define-and-use-a-command&#34;&gt;Define and use a command&lt;/h3&gt;
+
+&lt;p&gt;You can define a command as a parameter and use it in a target, this is really
+convenient and a huge plus against a shell script (which will require an eval
+statement). You can nest variable inside your commands, this gives a lot of
+flexibility.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;WGET&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; wget -d -o logfile
+
+&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;WGET&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -O &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://ftp.gnu.org/gnu/coreutils/coreutils-5.0.tar.gz&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;use-another-makefile&#34;&gt;Use another makefile&lt;/h3&gt;
+
+&lt;p&gt;We can use the makefile from another project within the current makefile, with
+the &lt;code&gt;-C&lt;/code&gt; option. In this example &lt;code&gt;$(MAKE)&lt;/code&gt; is setup by default to &lt;code&gt;make&lt;/code&gt; command.
+The &lt;code&gt;$(dir ...)&lt;/code&gt; part is a &lt;code&gt;make&lt;/code&gt; internal command
+(see &lt;a href=&#34;https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;vendor/darkhttpd/darkhttpd_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;MAKE&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -C &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dir &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;escape-variable&#34;&gt;Escape variable&lt;/h3&gt;
+
+&lt;p&gt;Sometimes you need to escape the variable character, this can be done by doubling
+it: &lt;code&gt;$$&lt;/code&gt;. In the following example, the &lt;code&gt;$$2&lt;/code&gt; will represent the &lt;code&gt;$2&lt;/code&gt; from &lt;code&gt;awk&lt;/code&gt;
+and not a variable from &lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;clean.virsh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+	virsh list &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh destroy &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
+	virsh list --all &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh undefine &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;debug-your-targets&#34;&gt;Debug your targets&lt;/h3&gt;
+
+&lt;p&gt;In order to debug your targets you can run a simple command which is not too
+verbose, but display enough information though (got from the documentation
+&lt;a href=&#34;http://www.oreilly.com/openbook/make3/book/ch12.pdf&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Replace the &amp;lt;target&amp;gt; by the one you want to debug&lt;/span&gt;
+make --debug&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;basic -n &amp;lt;target&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;that-s-all-folks&#34;&gt;That&amp;rsquo;s all folks&lt;/h3&gt;
+
+&lt;p&gt;I will try to improve this article over the time as I find new tips from &lt;code&gt;make&lt;/code&gt;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Alpine iPXE</title>
@@ -22,14 +111,13 @@ post is a &amp;ldquo;copy&amp;rdquo; of the answer I made &lt;a href=&#34;https:
 &lt;p&gt;To fix this issue I used a bunch of thread and resources but here are the three
 main entry used:&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;Alpine documentation to create a custom ISO image:
-&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Alpine documentation for the network boot:
-&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot&#34;&gt;https://wiki.alpinelinux.org/wiki/PXE_boot&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;This post on the Alpine forum from a guy who managed to successfully boot from PXE:
-&lt;a href=&#34;https://forum.alpinelinux.org/forum/installation/boot-pxe&#34;&gt;https://forum.alpinelinux.org/forum/installation/boot-pxe&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;
+- Alpine documentation to create a custom ISO image:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&#34;&gt;https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image&lt;/a&gt;
+- Alpine documentation for the network boot:
+&lt;a href=&#34;https://wiki.alpinelinux.org/wiki/PXE_boot&#34;&gt;https://wiki.alpinelinux.org/wiki/PXE_boot&lt;/a&gt;
+- This post on the Alpine forum from a guy who managed to successfully boot from PXE:
+&lt;a href=&#34;https://forum.alpinelinux.org/forum/installation/boot-pxe&#34;&gt;https://forum.alpinelinux.org/forum/installation/boot-pxe&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Now here is the process to make all of this work:&lt;/p&gt;
 
@@ -79,8 +167,7 @@ boot
 &lt;p&gt;Here again I am not sure that all the options are needed, still have to perform some tests.&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;start your network boot!&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -175,12 +262,11 @@ one command:&lt;/p&gt;
       <pubDate>Mon, 08 Aug 2016 15:23:34 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/linux_mint_2/</guid>
-      <description>
-
-&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
+      <description>&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
 and I had to reinstall my distro. I checked my &lt;a href=&#34;http://ixday.github.io/post/linux_mint/&#34;&gt;previous article&lt;/a&gt;
 and noticed some missing informations. So here is a second article of things
-I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;
+I needed to fixup when installing LMDE on my Macbook.
+&lt;/p&gt;
 
 &lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 
@@ -324,8 +410,7 @@ the most basic one I need in my daily life:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;apt-get install python-dev libxml2-dev libxslt-dev virtualenv libyaml-dev&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;(be sure to install the &lt;code&gt;virtualenv&lt;/code&gt; package and not the &lt;code&gt;python-virtualenv&lt;/code&gt; one,
-because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;
-</description>
+because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1384,88 +1469,6 @@ Ok, now the second feature&lt;/p&gt;
 &lt;p&gt;It will copy your file
 adding a &lt;code&gt;.old&lt;/code&gt; extension. I do a lot of things like this and it saves me a lot
 of time, so think about it.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Unable to find LVM volume... with LVM on top of Luks</title>
-      <link>http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/</link>
-      <pubDate>Wed, 19 Aug 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/</guid>
-      <description>&lt;p&gt;Following &lt;a href=&#34;{filename}/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
-I have LVM on top of Luks for my system.
-When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
-To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
-
-&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;which starts like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
-
-&lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# Make sure that cryptroot is run last in local-top&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; req in &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dirname &lt;span class=&#34;nv&#34;&gt;$0&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/*&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
-		&lt;span class=&#34;nv&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;req&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;##*/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
-		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$script&lt;/span&gt; !&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; cryptroot &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
-			&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$script&lt;/span&gt;
-		&lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt; in
-prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
-	prereqs
-	&lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;0
-	&lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;esac&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
-. /scripts/functions
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Line 10 to 16 it says that cryptroot is run last, in the same directory there is a &lt;code&gt;lvm2&lt;/code&gt;
-script. So, what is happening is that cryptroot is launched after lvm2 which is not what we want.
-To fix this remove lines 10 to 16 and replace them with &lt;code&gt;echo &amp;quot;$PREREQ&amp;quot;&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
-
-&lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PREREQ&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt; in
-prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
-	prereqs
-	&lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;0
-	&lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;esac&lt;/span&gt;
-
-&lt;span class=&#34;c&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
-. /scripts/functions
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;At the init step files are taken in alphabetical order so &lt;code&gt;cryptroot&lt;/code&gt; will come before
-&lt;code&gt;lvm2&lt;/code&gt; (c &amp;lt; l).&lt;/p&gt;
-
-&lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;
 </description>
     </item>
     

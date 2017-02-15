@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.18.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -70,7 +70,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/listing_directory_with_wsgi/">Listing directory with wsgi</a></h2>
     <p>
-    Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain [here]()) I had to develop a small wsgi app which act like the python SimpleHTTPServer. I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself. Specifications Here are the features I wanted: Define a directory as the root (/) directory from which all the files will be served.
+    Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain [here]()) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
+I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
+Specifications Here are the features I wanted:
+ Define a directory as the root (/) directory from which all the files will be served.
     
     <a href="/post/listing_directory_with_wsgi/">Read More...</a>
     
@@ -111,7 +114,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/small_tool/">Small docker project</a></h2>
     <p>
-    I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload. The repo is available here What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible: no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.g: # you will need to write this in the Dockerfile RUN TMPFILE=$(tempfile) &amp;&amp; \ echo &quot;Hello World&quot; &gt; $TMPFILE &amp;&amp; \ rm $TMPFILE you cannot build remotely from a custom branch: see this post accessibility to the container through boot2docker is pretty hard: see this post awk is an awesome tool for manipulating strings and console outputs.
+    I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
+The repo is available here
+What I have learned  Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+ no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.
     
     <a href="/post/small_tool/">Read More...</a>
     

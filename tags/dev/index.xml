@@ -2,12 +2,100 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dev on Not today...</title>
-    <link>http://ixday.github.io/tags/dev/</link>
+    <link>http://ixday.github.io/tags/dev/index.xml</link>
     <description>Recent content in Dev on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 Apr 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Makefile</title>
+      <link>http://ixday.github.io/post/makefile/</link>
+      <pubDate>Wed, 15 Feb 2017 10:57:00 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/makefile/</guid>
+      <description>
+
+&lt;p&gt;Recently, I had to build some project involving a lot of files. Two choices
+were possible:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;use a script to build&lt;/li&gt;
+&lt;li&gt;use a Makefile&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I ended up with a Makefile, which is the best solution I think. As the script
+has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files.
+(I have to confess also, I have been a bit influenced by
+ &lt;a href=&#34;https://twitter.com/jessfraz&#34;&gt;jessfraz&lt;/a&gt; with those tweets:
+ &lt;a href=&#34;https://twitter.com/jessfraz/status/716064317582417920&#34;&gt;here&lt;/a&gt; and
+ &lt;a href=&#34;https://twitter.com/jessfraz/status/805846280547110912&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;This project also learned me some tricks which can be reused, here is a little list&lt;/p&gt;
+
+&lt;h3 id=&#34;default-variable&#34;&gt;Default variable&lt;/h3&gt;
+
+&lt;p&gt;You can set a default value to an internal variable of a makefile. Those variables
+can be set up at the &lt;code&gt;make&lt;/code&gt; command run i.e: &lt;code&gt;make ARCH=i686&lt;/code&gt; or &lt;code&gt;ARCH=i686 make&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;SERVER_PORT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; 5050
+&lt;span class=&#34;nv&#34;&gt;ARCH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; amd64
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;watch-all-files-from-a-directory-to-change&#34;&gt;Watch all files from a directory to change&lt;/h3&gt;
+
+&lt;p&gt;This is perfectly correct and usable in a Makefile&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;find&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; -&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;f&lt;/span&gt; | &lt;span class=&#34;nv&#34;&gt;sed&lt;/span&gt; &amp;#39;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;/ /\\ /&lt;span class=&#34;nv&#34;&gt;g&lt;/span&gt;&amp;#39;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+	@tar cvzf &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$^&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;$@&lt;/code&gt; represent the target and &lt;code&gt;$^&lt;/code&gt; all the file dependencies&lt;/p&gt;
+
+&lt;h3 id=&#34;define-and-use-a-command&#34;&gt;Define and use a command&lt;/h3&gt;
+
+&lt;p&gt;You can define a command as a parameter and use it in a target, this is really
+convenient and a huge plus against a shell script (which will require an eval
+statement). You can nest variable inside your commands, this gives a lot of
+flexibility.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;WGET&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; wget -d -o logfile
+
+&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;WGET&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -O &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://ftp.gnu.org/gnu/coreutils/coreutils-5.0.tar.gz&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;use-another-makefile&#34;&gt;Use another makefile&lt;/h3&gt;
+
+&lt;p&gt;We can use the makefile from another project within the current makefile, with
+the &lt;code&gt;-C&lt;/code&gt; option. In this example &lt;code&gt;$(MAKE)&lt;/code&gt; is setup by default to &lt;code&gt;make&lt;/code&gt; command.
+The &lt;code&gt;$(dir ...)&lt;/code&gt; part is a &lt;code&gt;make&lt;/code&gt; internal command
+(see &lt;a href=&#34;https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;vendor/darkhttpd/darkhttpd_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;MAKE&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -C &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dir &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;escape-variable&#34;&gt;Escape variable&lt;/h3&gt;
+
+&lt;p&gt;Sometimes you need to escape the variable character, this can be done by doubling
+it: &lt;code&gt;$$&lt;/code&gt;. In the following example, the &lt;code&gt;$$2&lt;/code&gt; will represent the &lt;code&gt;$2&lt;/code&gt; from &lt;code&gt;awk&lt;/code&gt;
+and not a variable from &lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;clean.virsh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+	virsh list &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh destroy &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
+	virsh list --all &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh undefine &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;debug-your-targets&#34;&gt;Debug your targets&lt;/h3&gt;
+
+&lt;p&gt;In order to debug your targets you can run a simple command which is not too
+verbose, but display enough information though (got from the documentation
+&lt;a href=&#34;http://www.oreilly.com/openbook/make3/book/ch12.pdf&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Replace the &amp;lt;target&amp;gt; by the one you want to debug&lt;/span&gt;
+make --debug&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;basic -n &amp;lt;target&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&#34;that-s-all-folks&#34;&gt;That&amp;rsquo;s all folks&lt;/h3&gt;
+
+&lt;p&gt;I will try to improve this article over the time as I find new tips from &lt;code&gt;make&lt;/code&gt;.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Getting rid of gulp bunch of dependencies</title>

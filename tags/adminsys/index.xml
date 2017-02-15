@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Adminsys on Not today...</title>
-    <link>http://ixday.github.io/tags/adminsys/</link>
+    <link>http://ixday.github.io/tags/adminsys/index.xml</link>
     <description>Recent content in Adminsys on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 18 Aug 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://ixday.github.io/tags/adminsys/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,13 +14,13 @@
       <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/debian_install_3/</guid>
-      <description>
-
-&lt;p&gt;Today I want to install debian on my personal server.
+      <description>&lt;p&gt;Today I want to install debian on my personal server.
 And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 
 &lt;p&gt;I want it to look like that (like this scheme, a lot of reference
 come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;+-----------------------------------------------+ +----------------+
 |Logical volume1        | Logical volume2       | |                |
 |/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
@@ -175,8 +174,7 @@ ssd             /dev/sda2               none            luks
 Unable to find LVM volume vg_ssd/lv_root
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;
-</description>
+&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;</description>
     </item>
     
     <item>

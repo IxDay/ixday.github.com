@@ -2,11 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Os on Not today...</title>
-    <link>http://ixday.github.io/categories/os/</link>
+    <link>http://ixday.github.io/categories/os/index.xml</link>
     <description>Recent content in Os on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Aug 2016 15:23:34 +0200</lastBuildDate>
     <atom:link href="http://ixday.github.io/categories/os/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -15,12 +14,11 @@
       <pubDate>Mon, 08 Aug 2016 15:23:34 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/linux_mint_2/</guid>
-      <description>
-
-&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
+      <description>&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
 and I had to reinstall my distro. I checked my &lt;a href=&#34;http://ixday.github.io/post/linux_mint/&#34;&gt;previous article&lt;/a&gt;
 and noticed some missing informations. So here is a second article of things
-I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;
+I needed to fixup when installing LMDE on my Macbook.
+&lt;/p&gt;
 
 &lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
 
@@ -164,8 +162,7 @@ the most basic one I need in my daily life:&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;apt-get install python-dev libxml2-dev libxslt-dev virtualenv libyaml-dev&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;(be sure to install the &lt;code&gt;virtualenv&lt;/code&gt; package and not the &lt;code&gt;python-virtualenv&lt;/code&gt; one,
-because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;
-</description>
+because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -342,9 +339,9 @@ Unable to find LVM volume vg_ssd/lv_root
 &lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 
-&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;
 
-&lt;p&gt;which starts like this:&lt;/p&gt;
+which starts like this:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
@@ -403,8 +400,7 @@ prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 &lt;p&gt;At the init step files are taken in alphabetical order so &lt;code&gt;cryptroot&lt;/code&gt; will come before
 &lt;code&gt;lvm2&lt;/code&gt; (c &amp;lt; l).&lt;/p&gt;
 
-&lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;
-</description>
+&lt;p&gt;Now we just regenerate the initrd files: &lt;code&gt;update-initramfs -u -k all&lt;/code&gt; reboot and voila, it works :D&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -413,13 +409,13 @@ prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
       <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/debian_install_3/</guid>
-      <description>
-
-&lt;p&gt;Today I want to install debian on my personal server.
+      <description>&lt;p&gt;Today I want to install debian on my personal server.
 And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 
 &lt;p&gt;I want it to look like that (like this scheme, a lot of reference
 come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;+-----------------------------------------------+ +----------------+
 |Logical volume1        | Logical volume2       | |                |
 |/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
@@ -573,8 +569,7 @@ ssd             /dev/sda2               none            luks
 Unable to find LVM volume vg_ssd/lv_root
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;
-</description>
+&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;</description>
     </item>
     
     <item>

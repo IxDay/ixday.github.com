@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.16" />
+  <meta name="generator" content="Hugo 0.18.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -50,6 +50,48 @@
     <div class="meta">
   <time class="date">
     
+    Tue May 19 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/systemd_nspawn/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/systemd_nspawn/">Systemd-nspawn</a></h2>
+    <p>
+    I am a huge fan of docker for my dev environments, it helps me keeping things clear and understanding what are the ressources needed for a project. A few month ago a friend told me that there already is a similar feature on Linux, and this feature is systemd-nspawn.
+Creating your first container So like docker I wanted to first start a container. Nspawn has no environment so everything has to be done &ldquo;by hand&rdquo;.
+    
+    <a href="/post/systemd_nspawn/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/systemd ">systemd</a>
+, <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Thu May 14 2015
     
   </time>
@@ -70,7 +112,11 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian_install_2/">Debian install 2</a></h2>
     <p>
-    After many days of configuration, I finally complete the installation of my perfect &ldquo;workstation&rdquo; ;). source.list I have to directory for this, first the preferences, then the sources.list. Just run an aptitude update, and you will some missing gpg keys, now run apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt; To have your keys installed. sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.
+    After many days of configuration, I finally complete the installation of my perfect &ldquo;workstation&rdquo; ;).
+source.list I have to directory for this, first the preferences, then the sources.list.
+Just run an aptitude update, and you will some missing gpg keys, now run
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;  To have your keys installed.
+sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.
     
     <a href="/post/debian_install_2/">Read More...</a>
     
@@ -111,7 +157,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/pytest_fixture/">Pytest Fixture</a></h2>
     <p>
-    I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use. I also use Flask a lot, so today I will show you some of my snippets. First one the app fixture: @pytest.fixture(autouse=True) def app(): &quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client() This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
+    I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
+I also use Flask a lot, so today I will show you some of my snippets.
+First one the app fixture:
+@pytest.fixture(autouse=True) def app(): &quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
     
     <a href="/post/pytest_fixture/">Read More...</a>
     
@@ -152,7 +201,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/small_tool/">Small docker project</a></h2>
     <p>
-    I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload. The repo is available here What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible: no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.g: # you will need to write this in the Dockerfile RUN TMPFILE=$(tempfile) &amp;&amp; \ echo &quot;Hello World&quot; &gt; $TMPFILE &amp;&amp; \ rm $TMPFILE you cannot build remotely from a custom branch: see this post accessibility to the container through boot2docker is pretty hard: see this post awk is an awesome tool for manipulating strings and console outputs.
+    I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
+The repo is available here
+What I have learned  Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+ no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.
     
     <a href="/post/small_tool/">Read More...</a>
     
@@ -194,7 +246,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
     <p>
-    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine. ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key. ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com Okay, at this moment we can use a config file for ssh: $HOME/.ssh/config :) Host 192.168.0.1 my.url.com user mylogin IdentityFile ~/.ssh/my_ssh.key The CLI is now: # with IP ssh 192.168.0.1 # with url ssh my.url.com I have a connection but now I want to share my dev server on the remote host to my local web browser.
+    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
+ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     
     <a href="/post/rsync_fswatch/">Read More...</a>
     
@@ -235,7 +289,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/curl_for_rest/">Curl for REST</a></h2>
     <p>
-    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs. First one is the well known curl and the second one is jq. One important feature of curl is its hability to load external files for datas with @ before file name: curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath Then you can remove the progress bar by adding -s in the options Finally, you can use jq for parsing the output with a request syntax, here is what the final line looks like: curl -X POST -H &quot;Content-Type: application/json&quot; -s -d @filepath | jq &#39;.&#39; It is a small article but I just wanted to show that those tools are really great, we do not need complex software for this.
+    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
+First one is the well known curl and the second one is jq.
+One important feature of curl is its hability to load external files for datas with @ before file name:
+curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then you can remove the progress bar by adding -s in the options
     
     <a href="/post/curl_for_rest/">Read More...</a>
     
@@ -277,7 +334,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/jasmine_promises/">Test promises with jasmine</a></h2>
     <p>
-    Jasmine is a good testing framework, which I really like, it is really powerfull and has just the amount of features to perform a huge variety of tests. At some point I had to tests promises, and more generally testing that some part of a function is not called (you will have to adapt the snippet but the idea is here). It is pretty simple, but not well known (I checked some stackoverflow threads before finding this).
+    Jasmine is a good testing framework, which I really like, it is really powerfull and has just the amount of features to perform a huge variety of tests.
+At some point I had to tests promises, and more generally testing that some part of a function is not called (you will have to adapt the snippet but the idea is here).
+It is pretty simple, but not well known (I checked some stackoverflow threads before finding this).
     
     <a href="/post/jasmine_promises/">Read More...</a>
     
@@ -318,7 +377,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/angular-parse/">Angular $parse</a></h2>
     <p>
-    Hey there, I have started to be tired of weak example of angular power, so I will go deeper on angular services and directives and wrote some articles about it. The service $parse is the one who runs on the html to bind data with your javascript. It provides a lot of useful features which can be really interesting especially with directive manipulation. So, we will illustrate with some examples: // This notation allow us to stay in pure javascript world angular.injector([&#39;ng&#39;]) .invoke(function ($parse, $rootScope) { // new clean scope (optionnal, it will work directly on $rootScope) var $scope = $rootScope.$new(); // allocate simple value $scope.foo = &#39;bar&#39;; // here the magic var foo = $parse(&#39;foo&#39;); /* The function which has been returned look for a context to interpolate the value */ console.log(foo($scope)); // display =&gt; bar /* Redefine foo value */ foo.assign($scope, &#39;foo&#39;); /* $scope has changed Oo */ console.log($scope.foo); // display =&gt; foo }); Pretty cool uh?
+    Hey there, I have started to be tired of weak example of angular power, so I will go deeper on angular services and directives and wrote some articles about it.
+The service $parse is the one who runs on the html to bind data with your javascript. It provides a lot of useful features which can be really interesting especially with directive manipulation.
+So, we will illustrate with some examples:
     
     <a href="/post/angular-parse/">Read More...</a>
     
@@ -360,7 +421,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/bash-script/">Bash Script</a></h2>
     <p>
-    Writting a bash script is kind of a complicated task, there is a strict syntax, multiple external tools, and some tricks which depends on the version and in some cases on the distribution itself (for example, grep is not the same either you are on BSD or Debian). In this article I will talk about four code habits which can improve the maintainability of your shell scripts Double quotes Everyone who already used a bash script will tell you to mark every variable reading with double quotes: # like this echo &quot;$a&quot; The question is why do we have to mark them, to show that just a little example, run the following script #!/bin/bash LS=&quot;ls *&quot; echo &quot;Not Quoted&quot; echo $LS echo echo &quot;Quoted&quot; echo &quot;$LS&quot; As you can see there is a huge difference between the two versions, in fact, if there is no double quotes, the variable is subject to word splitting and file globbing see here for further informations.
+    Writting a bash script is kind of a complicated task, there is a strict syntax, multiple external tools, and some tricks which depends on the version and in some cases on the distribution itself (for example, grep is not the same either you are on BSD or Debian).
+In this article I will talk about four code habits which can improve the maintainability of your shell scripts
+Double quotes Everyone who already used a bash script will tell you to mark every variable reading with double quotes:
     
     <a href="/post/bash-script/">Read More...</a>
     
@@ -400,7 +463,9 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian-install/">Debian Install</a></h2>
     <p>
-    That&rsquo;s a fact: I can not install a new system without getting into troubles! So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them. Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.img will be the output and debian-testing-amd64-CD-1.iso is # the iso you retrieved from internet https://www.debian.org/CD/http-ftp/ hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso # if you are making a Mac bootable usb key (X is still the disk number) sudo dd if=./debian.img.dmg of=/dev/rdiskX bs=1m # otherwise (X is still the disk number) sudo dd if=./debian-testing-amd64-CD-1.iso of=/dev/rdiskX bs=1m # to finish eject hdiutil eject /dev/diskX Messing up during the installation I use to have a lot of issues during the installation, such as: No installable kernel Can not install grub Whatever can happen during the installation So, it is possible to fix that during the installation process.
+    That&rsquo;s a fact: I can not install a new system without getting into troubles!
+So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
+Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.
     
     <a href="/post/debian-install/">Read More...</a>
     
@@ -410,48 +475,6 @@
     <strong>Tagged</strong>
     <a href="/tags/bash ">bash</a>
 , <a href="/tags/admin ">admin</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Sun Oct 5 2014
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/outside-angular/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/tuto">Tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/outside-angular/">Outside Angular</a></h2>
-    <p>
-    There are some cases when angular is accessible but we just want to access a specific service without bootstraping an entire application. For example, in some tests I can load some fixtures with the $http service, or use $compile for a simple template. It is pretty simple to do that, but it is not clearly explained in the angular documentation. So here is an example: // The module ng must be loaded angular.injector([&#39;ng&#39;]) // Then we just have to load the services needed .invoke(function ($compile, $rootScope) { // We create a simple template and a scope var tplt = &#39;&lt;div&gt;{{foo}}&lt;/div&gt;&#39;; var scope = $rootScope.$new(); // Populate the scope scope.foo = &#39;bar&#39;; // Compile the template var elt = $compile(tplt)(scope); // We are outside of angular (no application is running), so we have to run // a $digest cycle scope.$apply(); // And it will displays &quot;bar&quot; MAGIC!
-    
-    <a href="/post/outside-angular/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/javascript ">javascript</a>
-, <a href="/tags/angular ">angular</a>
-, <a href="/tags/web ">web</a>
 
     </p>
     

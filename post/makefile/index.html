@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Makefile</title>
+  <meta property='og:title' content="Makefile - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Feb 15 2017
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/makefile/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Makefile</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/dev ">dev</a>
+
+      </p>
+      
+
+    </header>
+    
+
+<p>Recently, I had to build some project involving a lot of files. Two choices
+were possible:</p>
+
+<ul>
+<li>use a script to build</li>
+<li>use a Makefile</li>
+</ul>
+
+<p>I ended up with a Makefile, which is the best solution I think. As the script
+has to generate a bunch of files from &ldquo;source&rdquo; files.
+(I have to confess also, I have been a bit influenced by
+ <a href="https://twitter.com/jessfraz">jessfraz</a> with those tweets:
+ <a href="https://twitter.com/jessfraz/status/716064317582417920">here</a> and
+ <a href="https://twitter.com/jessfraz/status/805846280547110912">here</a>)</p>
+
+<p>This project also learned me some tricks which can be reused, here is a little list</p>
+
+<h3 id="default-variable">Default variable</h3>
+
+<p>You can set a default value to an internal variable of a makefile. Those variables
+can be set up at the <code>make</code> command run i.e: <code>make ARCH=i686</code> or <code>ARCH=i686 make</code></p>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nv">SERVER_PORT</span> <span class="o">?=</span> 5050
+<span class="nv">ARCH</span> <span class="o">?=</span> amd64
+</code></pre></div>
+
+<h3 id="watch-all-files-from-a-directory-to-change">Watch all files from a directory to change</h3>
+
+<p>This is perfectly correct and usable in a Makefile</p>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nf">archive.tgz</span><span class="o">:</span> <span class="k">$(</span><span class="nv">shell</span> <span class="nv">find</span> <span class="nv">root</span> -<span class="nv">type</span> <span class="nv">f</span> | <span class="nv">sed</span> &#39;<span class="nv">s</span>/ /\\ /<span class="nv">g</span>&#39;<span class="k">)</span>
+	@tar cvzf <span class="nv">$@</span> <span class="nv">$^</span>
+</code></pre></div>
+
+<p><strong>Note:</strong> <code>$@</code> represent the target and <code>$^</code> all the file dependencies</p>
+
+<h3 id="define-and-use-a-command">Define and use a command</h3>
+
+<p>You can define a command as a parameter and use it in a target, this is really
+convenient and a huge plus against a shell script (which will require an eval
+statement). You can nest variable inside your commands, this gives a lot of
+flexibility.</p>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nv">WGET</span> <span class="o">=</span> wget -d -o logfile
+
+<span class="nf">archive.tgz</span><span class="o">:</span>
+	<span class="k">$(</span>WGET<span class="k">)</span> -O <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span> <span class="s2">&quot;https://ftp.gnu.org/gnu/coreutils/coreutils-5.0.tar.gz&quot;</span>
+</code></pre></div>
+
+<h3 id="use-another-makefile">Use another makefile</h3>
+
+<p>We can use the makefile from another project within the current makefile, with
+the <code>-C</code> option. In this example <code>$(MAKE)</code> is setup by default to <code>make</code> command.
+The <code>$(dir ...)</code> part is a <code>make</code> internal command
+(see <a href="https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions">here</a>)</p>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nf">vendor/darkhttpd/darkhttpd_</span><span class="o">:</span>
+	<span class="k">$(</span>MAKE<span class="k">)</span> -C <span class="k">$(</span>dir <span class="nv">$@</span><span class="k">)</span>
+</code></pre></div>
+
+<h3 id="escape-variable">Escape variable</h3>
+
+<p>Sometimes you need to escape the variable character, this can be done by doubling
+it: <code>$$</code>. In the following example, the <code>$$2</code> will represent the <code>$2</code> from <code>awk</code>
+and not a variable from <code>make</code></p>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nf">clean.virsh</span><span class="o">:</span>
+	virsh list <span class="p">|</span> awk <span class="s1">&#39;$$2 ~ /ipxe/ {system(&quot;virsh destroy &quot; $$2)}&#39;</span>
+	virsh list --all <span class="p">|</span> awk <span class="s1">&#39;$$2 ~ /ipxe/ {system(&quot;virsh undefine &quot; $$2)}&#39;</span>
+</code></pre></div>
+
+<h3 id="debug-your-targets">Debug your targets</h3>
+
+<p>In order to debug your targets you can run a simple command which is not too
+verbose, but display enough information though (got from the documentation
+<a href="http://www.oreilly.com/openbook/make3/book/ch12.pdf">here</a>)</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Replace the &lt;target&gt; by the one you want to debug</span>
+make --debug<span class="o">=</span>basic -n &lt;target&gt;
+</code></pre></div>
+
+<h3 id="that-s-all-folks">That&rsquo;s all folks</h3>
+
+<p>I will try to improve this article over the time as I find new tips from <code>make</code>.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/makefile\/';
+    var disqus_title = 'Makefile';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/makefile\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2017 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>
