@@ -15,7 +15,7 @@
       
       <guid>http://ixday.github.io/post/bash_shortcuts/</guid>
       <description>&lt;p&gt;Here is just a small reminder of common bash shortcuts for everyday use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;Ctrl + A  Go to the beginning of the line you are currently typing on
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;Ctrl + A  Go to the beginning of the line you are currently typing on
 Ctrl + E  Go to the end of the line you are currently typing on
 Ctrl + L  Clears the Screen, similar to the clear command
 Ctrl + U  Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
@@ -83,13 +83,13 @@ debug.&lt;/p&gt;
 on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;My &lt;code&gt;.travis.yml&lt;/code&gt; file which run py.test with coverage.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will just put the report into coveralls and displays the
@@ -227,7 +227,7 @@ later when my project will need to evolve.&lt;/p&gt;
       <description>&lt;p&gt;A small post just to share a useful bashism the
 &lt;a href=&#34;http://wiki.bash-hackers.org/syntax/expansion/brace&#34;&gt;Brace Expansion&lt;/a&gt;.
 It is really simple to make it works:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;1..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
 	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
@@ -235,12 +235,12 @@ It is really simple to make it works:&lt;/p&gt;
 
 &lt;p&gt;It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing?
 Ok, now the second feature&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo &lt;/span&gt;something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &amp;gt; something/foo something/bar
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Still not amazed, ok now type this one:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will copy your file
@@ -263,14 +263,14 @@ the second one is &lt;a href=&#34;http://stedolan.github.io/jq/manual/&#34;&gt;j
 
 &lt;p&gt;One important feature of curl is its hability to load external files for datas
 with &lt;code&gt;@&lt;/code&gt; before file name:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d @filepath
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d @filepath
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Then you can remove the progress bar by adding &lt;code&gt;-s&lt;/code&gt; in the options&lt;/p&gt;
 
 &lt;p&gt;Finally, you can use jq for parsing the output with a request syntax, here is
 what the final line looks like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -s -d @filepath &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -s -d @filepath &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It is a small article but I just wanted to show that those tools are really

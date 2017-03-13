@@ -21,7 +21,7 @@ And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;+-----------------------------------------------+ +----------------+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;+-----------------------------------------------+ +----------------+
 |Logical volume1        | Logical volume2       | |                |
 |/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
 |_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
@@ -35,27 +35,27 @@ come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encr
 
 &lt;p&gt;I use parted for this configuration, I left 1MB at the start of the device
 to be compliant with &lt;code&gt;parted &amp;lt;disk&amp;gt; align-check optimal &amp;lt;partition&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt install cryptsetup lvm2
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt install cryptsetup lvm2
 
-parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
-parted /dev/sda mkpart primary 201MB 100% &lt;span class=&#34;c&#34;&gt;# lvm partition&lt;/span&gt;
+parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c1&#34;&gt;# boot partition&lt;/span&gt;
+parted /dev/sda mkpart primary 201MB &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;% &lt;span class=&#34;c1&#34;&gt;# lvm partition&lt;/span&gt;
 parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; boot
 parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; lvm
 
 cryptsetup -c aes-xts-plain -y -s &lt;span class=&#34;m&#34;&gt;512&lt;/span&gt; luksFormat /dev/sda2
-&lt;span class=&#34;c&#34;&gt;# enter passphrase&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# enter passphrase&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
 cryptsetup luksOpen /dev/sda2 ssd
 
 lvm pvcreate /dev/mapper/ssd
 lvm vgcreate vg_ssd /dev/mapper/ssd
 
 lvm lvcreate -L 4GB -n swap vg_ssd
-lvm lvcreate -l 100%FREE -n root vg_ssd
+lvm lvcreate -l &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;%FREE -n root vg_ssd
 
-&lt;span class=&#34;c&#34;&gt;# now format the partitions&lt;/span&gt;
-mkfs.ext4 /dev/sda1 &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# now format the partitions&lt;/span&gt;
+mkfs.ext4 /dev/sda1 &lt;span class=&#34;c1&#34;&gt;# boot partition&lt;/span&gt;
 mkfs.ext4 /dev/mapper/vg_ssd-lv_root
 mkswap /dev/mapper/vg_ssd-lv_swap
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -65,18 +65,18 @@ mkswap /dev/mapper/vg_ssd-lv_swap
 &lt;p&gt;In order to prepare the base system I will use the &lt;code&gt;debootstrap&lt;/code&gt; tool,
 which will take care of creating base files. Then I will &lt;code&gt;chroot&lt;/code&gt; in the new
 system in order to setup packages and boot initialisation&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
 mount /dev/mapper/&amp;lt;vg_name&amp;gt;-root /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 
 debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /mnt
 
-&lt;span class=&#34;c&#34;&gt;# copy somefiles&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# copy somefiles&lt;/span&gt;
 cp /etc/resolv.conf /mnt/etc/
 cp /etc/network/interfaces /mnt/etc/network
 
-&lt;span class=&#34;c&#34;&gt;# bind and chroot&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# bind and chroot&lt;/span&gt;
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/dev
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/dev/pts
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/proc
@@ -92,49 +92,49 @@ chroot /mnt/ /bin/bash
 
 &lt;p&gt;Then create the fstab file, I use the UUID notation for this part.
 Basically, I run two commands in order to get the needed informations&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ls -l /dev/disks/by-uuid
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ls -l /dev/disks/by-uuid
 
-total 0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
+total &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;13&lt;/span&gt;:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
 
 ls -l /dev/mapper
-total 0
-crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root 10, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:37 control
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:51 ssd -&amp;gt; ../dm-0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 vg_ssd-lv_root -&amp;gt; ../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
+total &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:37 control
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:51 ssd -&amp;gt; ../dm-0
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 vg_ssd-lv_root -&amp;gt; ../dm-2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Which will give me the following /etc/fstab.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  1
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  2
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  0
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Edit the /etc/apt/sources.list file to set up basic packages and update package list: &lt;code&gt;apt-get update&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Install needed packages&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install the package&lt;/span&gt;
 apt-get install locales console-data keyboard-configuration
 
-&lt;span class=&#34;c&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
 dpkg-reconfigure locales
 
-&lt;span class=&#34;c&#34;&gt;# setup password&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# setup password&lt;/span&gt;
 passwd
 
-&lt;span class=&#34;c&#34;&gt;# change hostname&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# change hostname&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;suika&amp;quot;&lt;/span&gt; &amp;gt; /etc/hostname
 
 apt-get install lvm2 cryptsetup
 
-&lt;span class=&#34;c&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
 apt-get install firmware-realtek
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -144,7 +144,7 @@ apt-get install firmware-realtek
 &lt;code&gt;apt-get install linux-image-amd64&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Set up the /etc/crypttab file, which will tell how to map the crypted partition&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
 ssd             /dev/sda2               none            luks
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -153,11 +153,11 @@ ssd             /dev/sda2               none            luks
 &lt;p&gt;Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.&lt;/p&gt;
 
 &lt;p&gt;In file &lt;code&gt;/etc/initramfs-tools/initramfs.conf&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;KEYMAP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -169,7 +169,7 @@ ssd             /dev/sda2               none            luks
 &lt;p&gt;Exit the &lt;code&gt;chroot&lt;/code&gt; unmount partitions and reboot on your new fresh installed system.&lt;/p&gt;
 
 &lt;p&gt;If at startup you get an error message like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -196,7 +196,7 @@ then the
 &lt;a href=&#34;https://github.com/IxDay/config_files/tree/new_conf/source.list.d&#34;&gt;sources.list&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Just run an &lt;code&gt;aptitude update&lt;/code&gt;, and you will some missing gpg keys, now run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;To have your keys installed.&lt;/p&gt;
@@ -207,7 +207,7 @@ then the
 &lt;code&gt;aptitude install sudo&lt;/code&gt; will give you the tool.&lt;/p&gt;
 
 &lt;p&gt;Then uncomment the following line&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Allow members of group sudo to execute any command&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Allow members of group sudo to execute any command&lt;/span&gt;
 %sudo   &lt;span class=&#34;nv&#34;&gt;ALL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=(&lt;/span&gt;ALL:ALL&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ALL
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -311,11 +311,11 @@ Xserver startup from the &lt;code&gt;.xinitrc&lt;/code&gt; file.&lt;/p&gt;
 * &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/gitconfig&#34;&gt;gitignore_global&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;After copying those files you can create a rsa key:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh-keygen -t rsa -b &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ssh-keygen -t rsa -b &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And to manage the keys passphrase I use &lt;code&gt;keychain&lt;/code&gt; in an alias&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;alias &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;keychain_default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;eval &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;keychain --eval --agents ssh -Q --quiet id_rsa&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;keychain_default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;eval &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;keychain --eval --agents ssh -Q --quiet id_rsa&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It is possible to configure multiple keys, in order to separate some services.

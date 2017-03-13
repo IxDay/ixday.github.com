@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -88,25 +88,25 @@
 encountered and how I solved them.</p>
 
 <h3 id="creating-a-bootable-usb-key-on-a-mac">Creating a bootable USB key on a Mac</h3>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># plug your USB key, then find it with</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># plug your USB key, then find it with</span>
 diskutil list
 
-<span class="c"># unmount the usb key (it is mandatory), where X in diskX is the number assigned</span>
-<span class="c"># to your USB you retrieved with the previous command</span>
+<span class="c1"># unmount the usb key (it is mandatory), where X in diskX is the number assigned</span>
+<span class="c1"># to your USB you retrieved with the previous command</span>
 diskutil unmountDisk /dev/diskX
 
-<span class="c"># if you are making a bootable usb key for a Mac run this command,</span>
-<span class="c"># debian.img will be the output and debian-testing-amd64-CD-1.iso is</span>
-<span class="c"># the iso you retrieved from internet https://www.debian.org/CD/http-ftp/</span>
+<span class="c1"># if you are making a bootable usb key for a Mac run this command,</span>
+<span class="c1"># debian.img will be the output and debian-testing-amd64-CD-1.iso is</span>
+<span class="c1"># the iso you retrieved from internet https://www.debian.org/CD/http-ftp/</span>
 hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso
 
-<span class="c"># if you are making a Mac bootable usb key (X is still the disk number)</span>
+<span class="c1"># if you are making a Mac bootable usb key (X is still the disk number)</span>
 sudo dd <span class="k">if</span><span class="o">=</span>./debian.img.dmg <span class="nv">of</span><span class="o">=</span>/dev/rdiskX <span class="nv">bs</span><span class="o">=</span>1m
 
-<span class="c"># otherwise (X is still the disk number)</span>
+<span class="c1"># otherwise (X is still the disk number)</span>
 sudo dd <span class="k">if</span><span class="o">=</span>./debian-testing-amd64-CD-1.iso <span class="nv">of</span><span class="o">=</span>/dev/rdiskX <span class="nv">bs</span><span class="o">=</span>1m
 
-<span class="c"># to finish eject</span>
+<span class="c1"># to finish eject</span>
 hdiutil eject /dev/diskX
 </code></pre></div>
 
@@ -131,26 +131,26 @@ hand.</p>
 <h4 id="chroot-into-an-other-system">Chroot into an other system</h4>
 
 <p>First find the partition on which your system has been installed</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># parted will print you the partition of each device</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># parted will print you the partition of each device</span>
 parted /dev/sda print
 parted /dev/sdb print
 </code></pre></div>
 
 <p>Once the partition is found you have to mount it</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># create a directory for the mounted partition</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># create a directory for the mounted partition</span>
 mkdir /mnt/sda1
 
-<span class="c"># mount it</span>
+<span class="c1"># mount it</span>
 mount /dev/sda1 /mnt/sda1
 
-<span class="c"># bind the main parts</span>
+<span class="c1"># bind the main parts</span>
 mount -o <span class="nb">bind</span> /dev /mnt/sda1/dev
 mount -o <span class="nb">bind</span> /dev/pts /mnt/sda1/dev/pts
 mount -o <span class="nb">bind</span> /proc /mnt/sda1/proc
 mount -o <span class="nb">bind</span> /run /mnt/sda1/run
 mount -o <span class="nb">bind</span> /sys /mnt/sda1/sys
 
-<span class="c"># chroot in the system</span>
+<span class="c1"># chroot in the system</span>
 chroot /mnt/sda1 /bin/bash
 </code></pre></div>
 
@@ -158,22 +158,22 @@ chroot /mnt/sda1 /bin/bash
 
 <p>Actualize the file <code>/etc/apt/sources.list</code> with the following
 <a href="http://debgen.simplylinux.ch/">site</a></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># update</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># update</span>
 apt-get update
 
-<span class="c"># install the kernel, for me it is an amd64 architecture, to find yours just run</span>
-<span class="c"># apt-cache search linux-image and choose the one for your needs</span>
+<span class="c1"># install the kernel, for me it is an amd64 architecture, to find yours just run</span>
+<span class="c1"># apt-cache search linux-image and choose the one for your needs</span>
 apt-get install linux-image-amd64
 
-<span class="c"># install grub2, when installing it will ask for the device on which you want</span>
-<span class="c"># grub to be installed, choose the device not the partition, here it will be</span>
-<span class="c"># /dev/sda</span>
+<span class="c1"># install grub2, when installing it will ask for the device on which you want</span>
+<span class="c1"># grub to be installed, choose the device not the partition, here it will be</span>
+<span class="c1"># /dev/sda</span>
 apt-get install grub2
 
-<span class="c"># update grub just in case</span>
+<span class="c1"># update grub just in case</span>
 update-grub
 
-<span class="c"># do not forget to initialize the password</span>
+<span class="c1"># do not forget to initialize the password</span>
 passwd
 </code></pre></div>
 
@@ -182,37 +182,37 @@ passwd
 <h3 id="rebooting-and-first-configuration">Rebooting and first configuration</h3>
 
 <h4 id="set-up-the-locales">Set up the locales</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># install the package</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install the package</span>
 apt-get install locales
 
-<span class="c"># set the variables up, select the ones you want with space</span>
+<span class="c1"># set the variables up, select the ones you want with space</span>
 dpkg-reconfigure locales
 </code></pre></div>
 
 <h4 id="set-up-the-keyboard">Set up the keyboard</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># install the package</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install the package</span>
 apt-get install console-data
 
-<span class="c"># for me it is a french keyboard</span>
+<span class="c1"># for me it is a french keyboard</span>
 loadkeys fr-latin
 </code></pre></div>
 
 <p>Test if the configuration works for you, then you can save it by adding to
 <code>/etc/rc.locals</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># the path to the keymap is displayed when you use the loadkeys command</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># the path to the keymap is displayed when you use the loadkeys command</span>
 /usr/bin/loadkeys /usr/share/keymaps/i386/azerty/fr-latin9.kmap.gz
 </code></pre></div>
 
 <h4 id="a-name-users-a-users"><a name="users"></a>Users</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># install sudo</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install sudo</span>
 apt-get install sudo
 
-<span class="c"># add new user called foo with a home folder (-m),</span>
-<span class="c"># users as first group (-g group_name), sudo as additionnal group (-G group_name)</span>
-<span class="c"># and bash as login shell</span>
+<span class="c1"># add new user called foo with a home folder (-m),</span>
+<span class="c1"># users as first group (-g group_name), sudo as additionnal group (-G group_name)</span>
+<span class="c1"># and bash as login shell</span>
 useradd -m -g users -G sudo -s /bin/bash foo
 
-<span class="c"># change user password</span>
+<span class="c1"># change user password</span>
 passwd foo
 </code></pre></div>
 
@@ -221,7 +221,7 @@ passwd foo
 <p>Here I will use i3 on top of xorg</p>
 
 <h4 id="init">Init</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># install xorg and i3</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install xorg and i3</span>
 apt-get install xorg i3
 </code></pre></div>
 
@@ -237,10 +237,10 @@ Then we want to launch i3. To do that add <code>exec i3</code> at any point of t
 <h4 id="set-x-keyboard-layout">Set X keyboard layout</h4>
 
 <p>To have the correct layout for X add the above commands in your <code>.xinitrc</code> file.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># reset the options</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># reset the options</span>
 setxkbmap -option
 
-<span class="c"># I only add the option to quit X by pressing ctrl+alt+backspace</span>
+<span class="c1"># I only add the option to quit X by pressing ctrl+alt+backspace</span>
 setxkbmap -layout fr -variant latin9 -option terminate:ctrl_alt_bksp
 </code></pre></div>
 

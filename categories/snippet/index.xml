@@ -37,15 +37,15 @@ has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files.
 
 &lt;p&gt;You can set a default value to an internal variable of a makefile. Those variables
 can be set up at the &lt;code&gt;make&lt;/code&gt; command run i.e: &lt;code&gt;make ARCH=i686&lt;/code&gt; or &lt;code&gt;ARCH=i686 make&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;SERVER_PORT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; 5050
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;SERVER_PORT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5050&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;ARCH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; amd64
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&#34;watch-all-files-from-a-directory-to-change&#34;&gt;Watch all files from a directory to change&lt;/h3&gt;
 
 &lt;p&gt;This is perfectly correct and usable in a Makefile&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;find&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; -&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;f&lt;/span&gt; | &lt;span class=&#34;nv&#34;&gt;sed&lt;/span&gt; &amp;#39;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;/ /\\ /&lt;span class=&#34;nv&#34;&gt;g&lt;/span&gt;&amp;#39;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
-	@tar cvzf &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$^&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;find&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; -&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;f&lt;/span&gt; | &lt;span class=&#34;nv&#34;&gt;sed&lt;/span&gt; &amp;#39;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;/ /\\ /&lt;span class=&#34;nv&#34;&gt;g&lt;/span&gt;&amp;#39;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+	@tar cvzf &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt; $^
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;$@&lt;/code&gt; represent the target and &lt;code&gt;$^&lt;/code&gt; all the file dependencies&lt;/p&gt;
@@ -56,7 +56,7 @@ can be set up at the &lt;code&gt;make&lt;/code&gt; command run i.e: &lt;code&gt;
 convenient and a huge plus against a shell script (which will require an eval
 statement). You can nest variable inside your commands, this gives a lot of
 flexibility.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;WGET&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; wget -d -o logfile
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;WGET&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; wget -d -o logfile
 
 &lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;WGET&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -O &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://ftp.gnu.org/gnu/coreutils/coreutils-5.0.tar.gz&amp;quot;&lt;/span&gt;
@@ -68,7 +68,7 @@ flexibility.&lt;/p&gt;
 the &lt;code&gt;-C&lt;/code&gt; option. In this example &lt;code&gt;$(MAKE)&lt;/code&gt; is setup by default to &lt;code&gt;make&lt;/code&gt; command.
 The &lt;code&gt;$(dir ...)&lt;/code&gt; part is a &lt;code&gt;make&lt;/code&gt; internal command
 (see &lt;a href=&#34;https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;vendor/darkhttpd/darkhttpd_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;vendor/darkhttpd/darkhttpd_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;MAKE&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -C &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dir &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -77,7 +77,7 @@ The &lt;code&gt;$(dir ...)&lt;/code&gt; part is a &lt;code&gt;make&lt;/code&gt; 
 &lt;p&gt;Sometimes you need to escape the variable character, this can be done by doubling
 it: &lt;code&gt;$$&lt;/code&gt;. In the following example, the &lt;code&gt;$$2&lt;/code&gt; will represent the &lt;code&gt;$2&lt;/code&gt; from &lt;code&gt;awk&lt;/code&gt;
 and not a variable from &lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;clean.virsh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;clean.virsh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 	virsh list &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh destroy &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
 	virsh list --all &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh undefine &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -87,7 +87,7 @@ and not a variable from &lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;In order to debug your targets you can run a simple command which is not too
 verbose, but display enough information though (got from the documentation
 &lt;a href=&#34;http://www.oreilly.com/openbook/make3/book/ch12.pdf&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Replace the &amp;lt;target&amp;gt; by the one you want to debug&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Replace the &amp;lt;target&amp;gt; by the one you want to debug&lt;/span&gt;
 make --debug&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;basic -n &amp;lt;target&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -132,7 +132,7 @@ want in the search bar. For this example, I will retrieve an
 which is a clone of the one in the docker hub
 &lt;a href=&#34;https://quay.io/repository/aptible/alpine&#34;&gt;https://quay.io/repository/aptible/alpine&lt;/a&gt;.
 In the page open the web debugger and in the console enter the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;meta[name=&amp;#39;ac-discovery&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;eq&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// simple jquery request&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;meta[name=&amp;#39;ac-discovery&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;eq&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// simple jquery request&lt;/span&gt;
 
 &lt;span class=&#34;c1&#34;&gt;// this should be the output&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;ac-discovery&amp;quot;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&amp;quot;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
@@ -159,21 +159,21 @@ the signature.&lt;/li&gt;
 &lt;code&gt;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;retrieve-deflate-start&#34;&gt;Retrieve - Deflate - Start&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Download the image inside a alpine.tgz file&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Download the image inside a alpine.tgz file&lt;/span&gt;
 wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
 
-&lt;span class=&#34;c&#34;&gt;# Untar it&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Untar it&lt;/span&gt;
 tar xvf alpine.tgz
 
-&lt;span class=&#34;c&#34;&gt;# Boot it, with systemd-nspawn&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Boot it, with systemd-nspawn&lt;/span&gt;
 sudo systemd-nspawn -M alpine -D rootfs
 
-&lt;span class=&#34;c&#34;&gt;# TADAAA! You are now inside a container &lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# TADAAA! You are now inside a container &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;You can also download, untar, rename and place the directory in your tree with
 one command:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wget -O - &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;wget -O - &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
 		tar -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;/tmp/alpine&amp;quot;&lt;/span&gt; --transform&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;s|rootfs/|/|&amp;quot;&lt;/span&gt; -xzf -
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -191,25 +191,25 @@ one command:&lt;/p&gt;
       <guid>http://ixday.github.io/post/curl_utils/</guid>
       <description>&lt;p&gt;Here are some options and command I use with &lt;code&gt;curl&lt;/code&gt; when dealing with stuff
 I have to develop.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
-              &lt;span class=&#34;c&#34;&gt;# -i displays the headers&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c1&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
+              &lt;span class=&#34;c1&#34;&gt;# -i displays the headers&lt;/span&gt;
 
 curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -u &lt;span class=&#34;s2&#34;&gt;&amp;quot;admin:admin&amp;quot;&lt;/span&gt; -d &lt;span class=&#34;s1&#34;&gt;&amp;#39;{}&amp;#39;&lt;/span&gt; &amp;lt;ip&amp;gt;
-&lt;span class=&#34;c&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;I mostly use those options, the &lt;code&gt;-s&lt;/code&gt; is really interesting when you want to
 grep the content.&lt;/p&gt;
 
 &lt;p&gt;So, when testing availability of an http service, I use this snippet:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep 1&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; true&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This will do kind of a ping for an http service, displaying this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;HTTP/1.1 200 OK
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:43 GMT
 HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:45 GMT
@@ -243,7 +243,7 @@ as it is mentionned in
 
 &lt;p&gt;We want to test them in a temporary location with a simple &amp;ldquo;Hello world&amp;rdquo; test.
 Here is the architecture we will use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
   |-- test                  # the git repository with the file to test
   |   |-- hello.py          # simple python file with a doctest test
   |-- gogs                  # directory which will be used by gogs to store
@@ -257,7 +257,7 @@ Here is the architecture we will use:&lt;/p&gt;
 
 &lt;p&gt;We just use the doctest feature of python here, this allow us to perform a
 simple test without bootstraping a bunch of code&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
     &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function&lt;/span&gt;
@@ -266,16 +266,16 @@ simple test without bootstraping a bunch of code&lt;/p&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;gt;&amp;gt;&amp;gt; hello()&lt;/span&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;#39;Hello World!&amp;#39;&lt;/span&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
 
 
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
     &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;doctest&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;doctest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;testmod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And this is the run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;python hello.py -v
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;$ python hello.py -v
 Trying:
     hello&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
 Expecting:
@@ -319,7 +319,7 @@ use this as your day to day git repo).&lt;/p&gt;
 
 &lt;p&gt;This one is a bit more complicated, first we have to create a dronerc file
 with the following content:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
 &lt;span class=&#34;nv&#34;&gt;REMOTE_CONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://172.17.0.3:3000
 &lt;span class=&#34;nv&#34;&gt;DEBUG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -328,7 +328,7 @@ with the following content:&lt;/p&gt;
 to have outputs if something goes bad.&lt;/p&gt;
 
 &lt;p&gt;Now we can start the container:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;docker run \
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;docker run \
         --volume $(pwd)/drone/var:/var/lib/drone \
         --volume /var/run/docker.sock:/var/run/docker.sock \
         --env-file $(pwd)/drone/dronerc \
@@ -394,7 +394,7 @@ dependencies as it is a requirements for basically all the gulp plugins).&lt;/p&
 those implementations.&lt;/p&gt;
 
 &lt;p&gt;Here is the requirementents of the file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;through2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;through2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;gulp-util&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -405,7 +405,7 @@ in order to link legacy nodejs streams and gulp implementation of streams
 vinyl.&lt;/p&gt;
 
 &lt;p&gt;Here is the code I use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 
   &lt;span class=&#34;c1&#34;&gt;// this is basically a stream, I will use the javascript scoping for&lt;/span&gt;
   &lt;span class=&#34;c1&#34;&gt;// convenience&lt;/span&gt;
@@ -451,7 +451,7 @@ understanding on how nodejs streams work, and on gulp plugins implementation.&lt
 
 &lt;p&gt;This module simply merge multiple streams in a single one, this allow the
 developper to compose with multiple inputs.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// the function treats arguments as a list of streams&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// the function treats arguments as a list of streams&lt;/span&gt;
 &lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;merge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* streams... */&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 
   &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep a track of streams merged&lt;/span&gt;
@@ -498,7 +498,7 @@ developper to compose with multiple inputs.&lt;/p&gt;
 from a stream and return them as a nodejs buffer. Like the others, this
 one is quite simple and only requires to know a bit of node internal
 operations and libraries.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buffer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buffer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 
   &lt;span class=&#34;c1&#34;&gt;// like the others we will create a stream object&lt;/span&gt;
   &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -550,7 +550,7 @@ globbing module which does exactly the same things
 (one dependency removed, Yay \o/).&lt;/p&gt;
 
 &lt;p&gt;Here is how I implemented this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// we need the browserify module&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// we need the browserify module&lt;/span&gt;
 &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 
 &lt;span class=&#34;c1&#34;&gt;// we create a utils.browserify kind of plugin here, which can take options&lt;/span&gt;
@@ -661,13 +661,13 @@ debug.&lt;/p&gt;
 on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;My &lt;code&gt;.travis.yml&lt;/code&gt; file which run py.test with coverage.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will just put the report into coveralls and displays the
@@ -684,7 +684,7 @@ same informations as the other command explained above.&lt;/p&gt;
       <description>&lt;p&gt;A small post just to share a useful bashism the
 &lt;a href=&#34;http://wiki.bash-hackers.org/syntax/expansion/brace&#34;&gt;Brace Expansion&lt;/a&gt;.
 It is really simple to make it works:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;1..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
 	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
@@ -692,12 +692,12 @@ It is really simple to make it works:&lt;/p&gt;
 
 &lt;p&gt;It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing?
 Ok, now the second feature&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo &lt;/span&gt;something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &amp;gt; something/foo something/bar
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Still not amazed, ok now type this one:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will copy your file
@@ -721,7 +721,7 @@ idea is here).&lt;/p&gt;
 
 &lt;p&gt;It is pretty simple, but not well known (I checked some stackoverflow threads
 before finding this).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
 &lt;span class=&#34;cm&#34;&gt;  We will define the promise helper to be accessible through the this keyword in&lt;/span&gt;
 &lt;span class=&#34;cm&#34;&gt;  jasmine&lt;/span&gt;
 &lt;span class=&#34;cm&#34;&gt; */&lt;/span&gt;
@@ -768,43 +768,43 @@ browser. We only want to have the basis, and having it working fine.&lt;/p&gt;
 want. But sometimes, having a snippet in the bash prompt can be needed.&lt;/p&gt;
 
 &lt;p&gt;So here is an example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# stop script if something bad happen&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# stop script if something bad happen&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; -e
 
-&lt;span class=&#34;c&#34;&gt;# unzip need to have a tempfile to extract properly&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# unzip need to have a tempfile to extract properly&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;TMPFILE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;/tmp/tempfile.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;date +%s&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;PWD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;DEST&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# here is the link of my configuration, but you can easily create yours&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# here is the link of my configuration, but you can easily create yours&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;http://www.initializr.com/builder?h5bp-content&amp;amp;html5shiv&amp;amp;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;h5bp-css&amp;amp;h5bp-csshelpers&amp;amp;h5bp-mediaqueryprint&amp;amp;h5bp-mediaqueries&amp;amp;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;simplehtmltag&amp;amp;izr-emptyscript&amp;quot;&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# string concatenation example&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;simplehtmltag&amp;amp;izr-emptyscript&amp;quot;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# string concatenation example&lt;/span&gt;
 
-curl -o &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; 2&amp;gt; /dev/null
+curl -o &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;&amp;gt; /dev/null
 
-&lt;span class=&#34;c&#34;&gt;# if argument is provided, move to the specified directory&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# if argument is provided, move to the specified directory&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt;  -z &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
-    &lt;span class=&#34;c&#34;&gt;# do not display what has been inflated&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# do not display what has been inflated&lt;/span&gt;
     unzip -qq -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
     rm &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# if the path provided is a file warn the user and exit&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# if the path provided is a file warn the user and exit&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; -f &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
-        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; already exists and is a file&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;1
+        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; already exists and is a file&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# if the directory is not empty warn the user and exit&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# if the directory is not empty warn the user and exit&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ! -z &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;ls -A &lt;span class=&#34;nv&#34;&gt;$DIR&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
-        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; is not empty&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;1
+        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; is not empty&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# if the directory does not exist, we create it&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# if the directory does not exist, we create it&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; ! -a &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
         mkdir -p &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
@@ -812,13 +812,13 @@ curl -o &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#3
 
     unzip -qq -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;#then we move the content to the directory&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;#then we move the content to the directory&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; f in &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;/initializr/*
     &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
         mv &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# delete the other files&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# delete the other files&lt;/span&gt;
     rm &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
     rmdir &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/initializr&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;

@@ -38,15 +38,15 @@ has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files.
 
 &lt;p&gt;You can set a default value to an internal variable of a makefile. Those variables
 can be set up at the &lt;code&gt;make&lt;/code&gt; command run i.e: &lt;code&gt;make ARCH=i686&lt;/code&gt; or &lt;code&gt;ARCH=i686 make&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;SERVER_PORT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; 5050
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;SERVER_PORT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5050&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;ARCH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; amd64
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&#34;watch-all-files-from-a-directory-to-change&#34;&gt;Watch all files from a directory to change&lt;/h3&gt;
 
 &lt;p&gt;This is perfectly correct and usable in a Makefile&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;find&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; -&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;f&lt;/span&gt; | &lt;span class=&#34;nv&#34;&gt;sed&lt;/span&gt; &amp;#39;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;/ /\\ /&lt;span class=&#34;nv&#34;&gt;g&lt;/span&gt;&amp;#39;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
-	@tar cvzf &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$^&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;find&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; -&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;f&lt;/span&gt; | &lt;span class=&#34;nv&#34;&gt;sed&lt;/span&gt; &amp;#39;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;/ /\\ /&lt;span class=&#34;nv&#34;&gt;g&lt;/span&gt;&amp;#39;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+	@tar cvzf &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt; $^
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;$@&lt;/code&gt; represent the target and &lt;code&gt;$^&lt;/code&gt; all the file dependencies&lt;/p&gt;
@@ -57,7 +57,7 @@ can be set up at the &lt;code&gt;make&lt;/code&gt; command run i.e: &lt;code&gt;
 convenient and a huge plus against a shell script (which will require an eval
 statement). You can nest variable inside your commands, this gives a lot of
 flexibility.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nv&#34;&gt;WGET&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; wget -d -o logfile
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;WGET&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; wget -d -o logfile
 
 &lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;WGET&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -O &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://ftp.gnu.org/gnu/coreutils/coreutils-5.0.tar.gz&amp;quot;&lt;/span&gt;
@@ -69,7 +69,7 @@ flexibility.&lt;/p&gt;
 the &lt;code&gt;-C&lt;/code&gt; option. In this example &lt;code&gt;$(MAKE)&lt;/code&gt; is setup by default to &lt;code&gt;make&lt;/code&gt; command.
 The &lt;code&gt;$(dir ...)&lt;/code&gt; part is a &lt;code&gt;make&lt;/code&gt; internal command
 (see &lt;a href=&#34;https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;vendor/darkhttpd/darkhttpd_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;vendor/darkhttpd/darkhttpd_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;MAKE&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -C &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dir &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -78,7 +78,7 @@ The &lt;code&gt;$(dir ...)&lt;/code&gt; part is a &lt;code&gt;make&lt;/code&gt; 
 &lt;p&gt;Sometimes you need to escape the variable character, this can be done by doubling
 it: &lt;code&gt;$$&lt;/code&gt;. In the following example, the &lt;code&gt;$$2&lt;/code&gt; will represent the &lt;code&gt;$2&lt;/code&gt; from &lt;code&gt;awk&lt;/code&gt;
 and not a variable from &lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span class=&#34;nf&#34;&gt;clean.virsh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;clean.virsh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
 	virsh list &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh destroy &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
 	virsh list --all &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh undefine &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -88,7 +88,7 @@ and not a variable from &lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;In order to debug your targets you can run a simple command which is not too
 verbose, but display enough information though (got from the documentation
 &lt;a href=&#34;http://www.oreilly.com/openbook/make3/book/ch12.pdf&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Replace the &amp;lt;target&amp;gt; by the one you want to debug&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Replace the &amp;lt;target&amp;gt; by the one you want to debug&lt;/span&gt;
 make --debug&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;basic -n &amp;lt;target&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -130,7 +130,7 @@ main entry used:&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;alpine-pxe.packages&lt;/code&gt; which will be empty (those packages are installed in the iso not in the initrd)&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;code&gt;alpine-pxe.conf.mk&lt;/code&gt; with the following content:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt; ALPINE_NAME     := alpine-pxe
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt; ALPINE_NAME     := alpine-pxe
  KERNEL_FLAVOR   := grsec
  INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
  MODLOOP_EXTRA   :=
@@ -151,7 +151,7 @@ main entry used:&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;create your ipxe script with an adaptation of the following to your own url&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;#!ipxe
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;#!ipxe
 
 dhcp
 
@@ -205,7 +205,7 @@ want in the search bar. For this example, I will retrieve an
 which is a clone of the one in the docker hub
 &lt;a href=&#34;https://quay.io/repository/aptible/alpine&#34;&gt;https://quay.io/repository/aptible/alpine&lt;/a&gt;.
 In the page open the web debugger and in the console enter the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;nx&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;meta[name=&amp;#39;ac-discovery&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;eq&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// simple jquery request&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;meta[name=&amp;#39;ac-discovery&amp;#39;]&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;eq&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// simple jquery request&lt;/span&gt;
 
 &lt;span class=&#34;c1&#34;&gt;// this should be the output&lt;/span&gt;
 &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;ac-discovery&amp;quot;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;content&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&amp;quot;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
@@ -232,21 +232,21 @@ the signature.&lt;/li&gt;
 &lt;code&gt;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&lt;/code&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;retrieve-deflate-start&#34;&gt;Retrieve - Deflate - Start&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Download the image inside a alpine.tgz file&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Download the image inside a alpine.tgz file&lt;/span&gt;
 wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
 
-&lt;span class=&#34;c&#34;&gt;# Untar it&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Untar it&lt;/span&gt;
 tar xvf alpine.tgz
 
-&lt;span class=&#34;c&#34;&gt;# Boot it, with systemd-nspawn&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Boot it, with systemd-nspawn&lt;/span&gt;
 sudo systemd-nspawn -M alpine -D rootfs
 
-&lt;span class=&#34;c&#34;&gt;# TADAAA! You are now inside a container &lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# TADAAA! You are now inside a container &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;You can also download, untar, rename and place the directory in your tree with
 one command:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;wget -O - &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;wget -O - &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
 		tar -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;/tmp/alpine&amp;quot;&lt;/span&gt; --transform&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;s|rootfs/|/|&amp;quot;&lt;/span&gt; -xzf -
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -272,12 +272,12 @@ I needed to fixup when installing LMDE on my Macbook.
 
 &lt;p&gt;First, for the creation of the usb key, I ended up using the method described
 in the &lt;a href=&#34;https://wiki.archlinux.org/index.php/USB_flash_installation_media#In_GNU.2FLinux&#34;&gt;archlinux wiki&lt;/a&gt;. Basically, this was the command line I entered:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;dd &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;4M &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/path/to/lmde.iso &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/sdb &lt;span class=&#34;c&#34;&gt;# /dev/sdb is my usb key (lsblk FTW) &lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;dd &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;4M &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/path/to/lmde.iso &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/sdb &lt;span class=&#34;c1&#34;&gt;# /dev/sdb is my usb key (lsblk FTW) &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Then, for the partitioning I forgot to tell the filesystem needed by each part,
 so here is lsblk to the rescue:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
 NAME               FSTYPE      MOUNTPOINT
 sda
 ├─sda1             hfsplus
@@ -287,7 +287,7 @@ sda
   ├─vg_ssd-lv_root ext4        /
   └─vg_ssd-lv_swap swap        &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;SWAP&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
 sdb                iso9660
-├─sdb1             iso9660     /media/max/LMDE &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; Cinnamon 64-bit
+├─sdb1             iso9660     /media/max/LMDE &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; Cinnamon &lt;span class=&#34;m&#34;&gt;64&lt;/span&gt;-bit
 └─sdb2             vfat
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -302,7 +302,7 @@ done.&lt;/p&gt;
 
 &lt;p&gt;I want to add unstable and experimental repos, so I created a source file:
 &lt;code&gt;/etc/apt/sources.list.d/debian-package-repositories.list&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# https://wiki.debian.org/SourcesList&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# https://wiki.debian.org/SourcesList&lt;/span&gt;
 
 deb http://httpredir.debian.org/debian sid main contrib non-free
 deb-src http://httpredir.debian.org/debian sid main contrib non-free
@@ -317,13 +317,13 @@ This will bring unstable packages at the same level as those from stable.&lt;/p&
 
 &lt;p&gt;See the file &lt;code&gt;/etc/apt/preferences.d/debian-package-repositories.pref&lt;/code&gt;, in
 order to have a good priority across those repos replace the content with:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Package: *
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;Package: *
 Pin: release &lt;span class=&#34;nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;stable
-Pin-Priority: 550
+Pin-Priority: &lt;span class=&#34;m&#34;&gt;550&lt;/span&gt;
 
 Package: *
 Pin: release &lt;span class=&#34;nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;unstable
-Pin-Priority: 450
+Pin-Priority: &lt;span class=&#34;m&#34;&gt;450&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Now, just a &lt;code&gt;apt-get update&lt;/code&gt; and we are ready to install packages safely&lt;/p&gt;
@@ -335,7 +335,7 @@ Pin-Priority: 450
 
 &lt;p&gt;I followed the instructions from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/intel_graphics#Tear-free_video&#34;&gt;arch wiki&lt;/a&gt;. It makes me create &lt;code&gt;/etc/X11/xorg.conf.d/20-intel.conf&lt;/code&gt; file, and
 fill it with:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Section &lt;span class=&#34;s2&#34;&gt;&amp;quot;Device&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;Section &lt;span class=&#34;s2&#34;&gt;&amp;quot;Device&amp;quot;&lt;/span&gt;
    Identifier  &lt;span class=&#34;s2&#34;&gt;&amp;quot;Intel Graphics&amp;quot;&lt;/span&gt;
    Driver      &lt;span class=&#34;s2&#34;&gt;&amp;quot;intel&amp;quot;&lt;/span&gt;
    Option      &lt;span class=&#34;s2&#34;&gt;&amp;quot;AccelMethod&amp;quot;&lt;/span&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;quot;sna&amp;quot;&lt;/span&gt;
@@ -352,7 +352,7 @@ EndSection
 &lt;p&gt;I had issues with my webcam too. &lt;a href=&#34;https://wiki.archlinux.org/index.php/MacBook#Webcam&#34;&gt;I followed archwiki again&lt;/a&gt;. This one is not
 confirmed but no command failed, and the test with mplayer at the end seemed
 to work:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mplayer tv:// -tv &lt;span class=&#34;nv&#34;&gt;driver&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;v4l2:width&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;320:height&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;240:device&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/video0 -fps 30
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;mplayer tv:// -tv &lt;span class=&#34;nv&#34;&gt;driver&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;v4l2:width&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;320&lt;/span&gt;:height&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;240&lt;/span&gt;:device&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/video0 -fps &lt;span class=&#34;m&#34;&gt;30&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&#34;programs&#34;&gt;Programs&lt;/h2&gt;
@@ -382,22 +382,22 @@ from different versions.&lt;/p&gt;
 &lt;p&gt;Docker is available in the unstable repository, but this one broke some other
 dependencies. I had to install it with a custom repo following
 &lt;a href=&#34;https://gist.github.com/bhgraham/ed9f8242dc610b1f38e5&#34;&gt;those instructions&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Add the repo to a dedicated source.list file&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Add the repo to a dedicated source.list file&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;deb https://get.docker.com/ubuntu docker main&amp;quot;&lt;/span&gt; &amp;gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
        /etc/apt/sources.list.d/docker.list
 
-&lt;span class=&#34;c&#34;&gt;# Add repo keyring&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Add repo keyring&lt;/span&gt;
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
        36A1D7869245C8950F966E92D8576A8BA88D21E9
 
-&lt;span class=&#34;c&#34;&gt;# Update and install the package&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Update and install the package&lt;/span&gt;
 apt-get update -qq &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo apt-get install -y lxc-docker
 
-&lt;span class=&#34;c&#34;&gt;# Add my user to the docker group&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Add my user to the docker group&lt;/span&gt;
 gpasswd -a &amp;lt;my_user_name&amp;gt; docker
 
-&lt;span class=&#34;c&#34;&gt;# Enable the docker service for the next start&lt;/span&gt;
-systemctl &lt;span class=&#34;nb&#34;&gt;enable &lt;/span&gt;docker
+&lt;span class=&#34;c1&#34;&gt;# Enable the docker service for the next start&lt;/span&gt;
+systemctl &lt;span class=&#34;nb&#34;&gt;enable&lt;/span&gt; docker
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Now logout, and reconnect and it should work.&lt;/p&gt;
@@ -420,7 +420,7 @@ because it will not add the binary to the &lt;code&gt;PATH&lt;/code&gt;).&lt;/p&
       
       <guid>http://ixday.github.io/post/bash_shortcuts/</guid>
       <description>&lt;p&gt;Here is just a small reminder of common bash shortcuts for everyday use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;Ctrl + A  Go to the beginning of the line you are currently typing on
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;Ctrl + A  Go to the beginning of the line you are currently typing on
 Ctrl + E  Go to the end of the line you are currently typing on
 Ctrl + L  Clears the Screen, similar to the clear command
 Ctrl + U  Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
@@ -450,25 +450,25 @@ Tab       Auto-complete files and folder names
       <guid>http://ixday.github.io/post/curl_utils/</guid>
       <description>&lt;p&gt;Here are some options and command I use with &lt;code&gt;curl&lt;/code&gt; when dealing with stuff
 I have to develop.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
-              &lt;span class=&#34;c&#34;&gt;# -i displays the headers&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c1&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
+              &lt;span class=&#34;c1&#34;&gt;# -i displays the headers&lt;/span&gt;
 
 curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -u &lt;span class=&#34;s2&#34;&gt;&amp;quot;admin:admin&amp;quot;&lt;/span&gt; -d &lt;span class=&#34;s1&#34;&gt;&amp;#39;{}&amp;#39;&lt;/span&gt; &amp;lt;ip&amp;gt;
-&lt;span class=&#34;c&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;I mostly use those options, the &lt;code&gt;-s&lt;/code&gt; is really interesting when you want to
 grep the content.&lt;/p&gt;
 
 &lt;p&gt;So, when testing availability of an http service, I use this snippet:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep 1&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; true&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This will do kind of a ping for an http service, displaying this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;HTTP/1.1 200 OK
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:43 GMT
 HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:45 GMT
@@ -498,16 +498,16 @@ found that there is an unofficial support of libvirt.&lt;/p&gt;
 &lt;p&gt;I do not remember where I found the documentation to do this or if I did it by
 myself, so no link here, just what I do in order to make this work. I use a
 debian jessie distribution, so packages name may vary.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install packages&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Install packages&lt;/span&gt;
 apt-get install qemu-kvm libvirt-daemon-system libvirt-dev zlib1g-dev vagrant
 
-&lt;span class=&#34;c&#34;&gt;# Install vagrant plugin&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Install vagrant plugin&lt;/span&gt;
 vagrant plugin install vagrant-libvirt
 
-&lt;span class=&#34;c&#34;&gt;# Add user to group&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Add user to group&lt;/span&gt;
 gpasswd -a user_name libvirt
 
-&lt;span class=&#34;c&#34;&gt;# Reboot in order to load kvm and group change&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Reboot in order to load kvm and group change&lt;/span&gt;
 reboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -527,7 +527,7 @@ instructions.&lt;/p&gt;
 &lt;p&gt;Then according to this PR, I made a modification to the Vagrantfile
 &lt;a href=&#34;https://github.com/coreos/coreos-vagrant/pull/290/files&#34;&gt;https://github.com/coreos/coreos-vagrant/pull/290/files&lt;/a&gt;, I also added
 a valid &lt;code&gt;box_url&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;  &lt;span class=&#34;c1&#34;&gt;# if the provider asked is libvirt&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# if the provider asked is libvirt&lt;/span&gt;
   &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;provider&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:libvirt&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
 
     &lt;span class=&#34;c1&#34;&gt;# change the box to a libvirt compatible one&lt;/span&gt;
@@ -551,16 +551,16 @@ a valid &lt;code&gt;box_url&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;You can migrate Vagrant images to libvirt with another plugin:
 &lt;code&gt;vagrant-mutate&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install the plugin&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Install the plugin&lt;/span&gt;
 vagrant plugin install vagrant-mutate
 
-&lt;span class=&#34;c&#34;&gt;# Mutate an image&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Mutate an image&lt;/span&gt;
 vagrant mutate https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.2.2/providers/virtualbox.box libvirt
 
-&lt;span class=&#34;c&#34;&gt;# Now the image is available, you can rename it if needed&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Now the image is available, you can rename it if needed&lt;/span&gt;
 mv ~/.vagrant.d/boxes/virtualbox ~/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64
 
-&lt;span class=&#34;c&#34;&gt;# Then run it&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Then run it&lt;/span&gt;
 vagrant init debian/jessie64&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; vagrant up --provider libvirt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -591,7 +591,7 @@ as it is mentionned in
 
 &lt;p&gt;We want to test them in a temporary location with a simple &amp;ldquo;Hello world&amp;rdquo; test.
 Here is the architecture we will use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
   |-- test                  # the git repository with the file to test
   |   |-- hello.py          # simple python file with a doctest test
   |-- gogs                  # directory which will be used by gogs to store
@@ -605,7 +605,7 @@ Here is the architecture we will use:&lt;/p&gt;
 
 &lt;p&gt;We just use the doctest feature of python here, this allow us to perform a
 simple test without bootstraping a bunch of code&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
     &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function&lt;/span&gt;
@@ -614,16 +614,16 @@ simple test without bootstraping a bunch of code&lt;/p&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;gt;&amp;gt;&amp;gt; hello()&lt;/span&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;#39;Hello World!&amp;#39;&lt;/span&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
 
 
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
     &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;doctest&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;doctest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;testmod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And this is the run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;python hello.py -v
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;$ python hello.py -v
 Trying:
     hello&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
 Expecting:
@@ -667,7 +667,7 @@ use this as your day to day git repo).&lt;/p&gt;
 
 &lt;p&gt;This one is a bit more complicated, first we have to create a dronerc file
 with the following content:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
 &lt;span class=&#34;nv&#34;&gt;REMOTE_CONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://172.17.0.3:3000
 &lt;span class=&#34;nv&#34;&gt;DEBUG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -676,7 +676,7 @@ with the following content:&lt;/p&gt;
 to have outputs if something goes bad.&lt;/p&gt;
 
 &lt;p&gt;Now we can start the container:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;docker run \
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;docker run \
         --volume $(pwd)/drone/var:/var/lib/drone \
         --volume /var/run/docker.sock:/var/run/docker.sock \
         --env-file $(pwd)/drone/dronerc \
@@ -742,7 +742,7 @@ dependencies as it is a requirements for basically all the gulp plugins).&lt;/p&
 those implementations.&lt;/p&gt;
 
 &lt;p&gt;Here is the requirementents of the file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;through2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;through2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;gulp-util&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -753,7 +753,7 @@ in order to link legacy nodejs streams and gulp implementation of streams
 vinyl.&lt;/p&gt;
 
 &lt;p&gt;Here is the code I use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 
   &lt;span class=&#34;c1&#34;&gt;// this is basically a stream, I will use the javascript scoping for&lt;/span&gt;
   &lt;span class=&#34;c1&#34;&gt;// convenience&lt;/span&gt;
@@ -799,7 +799,7 @@ understanding on how nodejs streams work, and on gulp plugins implementation.&lt
 
 &lt;p&gt;This module simply merge multiple streams in a single one, this allow the
 developper to compose with multiple inputs.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// the function treats arguments as a list of streams&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// the function treats arguments as a list of streams&lt;/span&gt;
 &lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;merge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* streams... */&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 
   &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep a track of streams merged&lt;/span&gt;
@@ -846,7 +846,7 @@ developper to compose with multiple inputs.&lt;/p&gt;
 from a stream and return them as a nodejs buffer. Like the others, this
 one is quite simple and only requires to know a bit of node internal
 operations and libraries.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buffer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buffer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 
   &lt;span class=&#34;c1&#34;&gt;// like the others we will create a stream object&lt;/span&gt;
   &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -898,7 +898,7 @@ globbing module which does exactly the same things
 (one dependency removed, Yay \o/).&lt;/p&gt;
 
 &lt;p&gt;Here is how I implemented this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// we need the browserify module&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// we need the browserify module&lt;/span&gt;
 &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
 
 &lt;span class=&#34;c1&#34;&gt;// we create a utils.browserify kind of plugin here, which can take options&lt;/span&gt;
@@ -1009,13 +1009,13 @@ debug.&lt;/p&gt;
 on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;My &lt;code&gt;.travis.yml&lt;/code&gt; file which run py.test with coverage.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
-&lt;span class=&#34;l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
+&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
+  &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will just put the report into coveralls and displays the
@@ -1091,11 +1091,11 @@ having to dig in the code or documentation (when you wanted to activate ipdb).&l
 &lt;h2 id=&#34;simple-config&#34;&gt;Simple config&lt;/h2&gt;
 
 &lt;p&gt;Here is my config (a real simple one):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pdb&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pdb&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DefaultConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# start in sticky mode&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c&#34;&gt;# black&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# start in sticky mode&lt;/span&gt;
+    &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# black&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
@@ -1147,12 +1147,12 @@ expert disk partioning in the installation wizard.&lt;/p&gt;
 
 &lt;p&gt;Install LVM into the new system (with chroot), then fillup the fstab file
 to look similar to something like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ordered  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 1
-/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          0	0
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ordered  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;	&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
 
-proc          /proc	    proc  defaults        0	0
-/dev/sda3     /boot	    ext4  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 2
-/dev/sda2     /boot/efi vfat  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 2
+proc          /proc	    proc  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;	&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+/dev/sda3     /boot	    ext4  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
+/dev/sda2     /boot/efi vfat  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
@@ -1171,7 +1171,7 @@ setup the default.&lt;/p&gt;
 
 &lt;p&gt;As I use a Macbook I have an issue with my mic by default. To fix that, just
 create the &lt;code&gt;/etc/modprobe.d/alsa-base.conf&lt;/code&gt; file, and just past the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;options snd-hda-intel model=mbp101 index=1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;options snd-hda-intel model=mbp101 index=1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Reboot, and tadaaa!&lt;/p&gt;
@@ -1191,7 +1191,7 @@ that: &lt;code&gt;systemd-sysv&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;As systemd is already installed, here is the service file:
 &lt;code&gt;/etc/systemd/system/powertop.service&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
 &lt;span class=&#34;na&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Powertop tunings&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;[Service]&lt;/span&gt;
@@ -1380,7 +1380,7 @@ update the font cache of my machine.&lt;/p&gt;
 &lt;p&gt;And that&amp;rsquo;s all, now let&amp;rsquo;s configure&lt;/p&gt;
 
 &lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-haskell&#34; data-lang=&#34;haskell&#34;&gt;&lt;span class=&#34;kt&#34;&gt;Config&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-haskell&#34; data-lang=&#34;haskell&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Config&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;n&#34;&gt;font&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;xft:Droid Sans Mono-10&amp;quot;&lt;/span&gt;
 	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;additionalFonts&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;xft:FontAwesome-10&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
 	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;border&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;FullB&lt;/span&gt;
@@ -1450,7 +1450,7 @@ the popup, by killing its process.&lt;/li&gt;
       <description>&lt;p&gt;A small post just to share a useful bashism the
 &lt;a href=&#34;http://wiki.bash-hackers.org/syntax/expansion/brace&#34;&gt;Brace Expansion&lt;/a&gt;.
 It is really simple to make it works:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;1..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
 	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
@@ -1458,12 +1458,12 @@ It is really simple to make it works:&lt;/p&gt;
 
 &lt;p&gt;It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing?
 Ok, now the second feature&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo &lt;/span&gt;something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &amp;gt; something/foo something/bar
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Still not amazed, ok now type this one:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will copy your file

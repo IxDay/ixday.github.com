@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -91,16 +91,16 @@ found that there is an unofficial support of libvirt.</p>
 <p>I do not remember where I found the documentation to do this or if I did it by
 myself, so no link here, just what I do in order to make this work. I use a
 debian jessie distribution, so packages name may vary.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Install packages</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Install packages</span>
 apt-get install qemu-kvm libvirt-daemon-system libvirt-dev zlib1g-dev vagrant
 
-<span class="c"># Install vagrant plugin</span>
+<span class="c1"># Install vagrant plugin</span>
 vagrant plugin install vagrant-libvirt
 
-<span class="c"># Add user to group</span>
+<span class="c1"># Add user to group</span>
 gpasswd -a user_name libvirt
 
-<span class="c"># Reboot in order to load kvm and group change</span>
+<span class="c1"># Reboot in order to load kvm and group change</span>
 reboot
 </code></pre></div>
 
@@ -120,7 +120,7 @@ instructions.</p>
 <p>Then according to this PR, I made a modification to the Vagrantfile
 <a href="https://github.com/coreos/coreos-vagrant/pull/290/files">https://github.com/coreos/coreos-vagrant/pull/290/files</a>, I also added
 a valid <code>box_url</code></p>
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby">  <span class="c1"># if the provider asked is libvirt</span>
+<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span></span>  <span class="c1"># if the provider asked is libvirt</span>
   <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="ss">:libvirt</span> <span class="k">do</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
 
     <span class="c1"># change the box to a libvirt compatible one</span>
@@ -144,16 +144,16 @@ a valid <code>box_url</code></p>
 
 <p>You can migrate Vagrant images to libvirt with another plugin:
 <code>vagrant-mutate</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Install the plugin</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Install the plugin</span>
 vagrant plugin install vagrant-mutate
 
-<span class="c"># Mutate an image</span>
+<span class="c1"># Mutate an image</span>
 vagrant mutate https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.2.2/providers/virtualbox.box libvirt
 
-<span class="c"># Now the image is available, you can rename it if needed</span>
+<span class="c1"># Now the image is available, you can rename it if needed</span>
 mv ~/.vagrant.d/boxes/virtualbox ~/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64
 
-<span class="c"># Then run it</span>
+<span class="c1"># Then run it</span>
 vagrant init debian/jessie64<span class="p">;</span> vagrant up --provider libvirt
 </code></pre></div>
 

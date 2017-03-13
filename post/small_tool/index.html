@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -101,7 +101,7 @@ really flexible:</p>
 <li>you can not store a variable through multiple run, you will need to do
 a oneliner e.g:</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">  <span class="c"># you will need to write this in the Dockerfile</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  <span class="c1"># you will need to write this in the Dockerfile</span>
   RUN <span class="nv">TMPFILE</span><span class="o">=</span><span class="k">$(</span>tempfile<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
     <span class="nb">echo</span> <span class="s2">&quot;Hello World&quot;</span> &gt; <span class="nv">$TMPFILE</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
     rm <span class="nv">$TMPFILE</span>

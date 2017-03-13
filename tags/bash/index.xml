@@ -15,7 +15,7 @@
       
       <guid>http://ixday.github.io/post/bash_shortcuts/</guid>
       <description>&lt;p&gt;Here is just a small reminder of common bash shortcuts for everyday use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;Ctrl + A  Go to the beginning of the line you are currently typing on
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;Ctrl + A  Go to the beginning of the line you are currently typing on
 Ctrl + E  Go to the end of the line you are currently typing on
 Ctrl + L  Clears the Screen, similar to the clear command
 Ctrl + U  Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
@@ -45,25 +45,25 @@ Tab       Auto-complete files and folder names
       <guid>http://ixday.github.io/post/curl_utils/</guid>
       <description>&lt;p&gt;Here are some options and command I use with &lt;code&gt;curl&lt;/code&gt; when dealing with stuff
 I have to develop.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
-              &lt;span class=&#34;c&#34;&gt;# -i displays the headers&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -si &amp;lt;ip&amp;gt; &lt;span class=&#34;c1&#34;&gt;# -s is the silent flag, it removes the progress&lt;/span&gt;
+              &lt;span class=&#34;c1&#34;&gt;# -i displays the headers&lt;/span&gt;
 
 curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -u &lt;span class=&#34;s2&#34;&gt;&amp;quot;admin:admin&amp;quot;&lt;/span&gt; -d &lt;span class=&#34;s1&#34;&gt;&amp;#39;{}&amp;#39;&lt;/span&gt; &amp;lt;ip&amp;gt;
-&lt;span class=&#34;c&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -X set up the http method (here POST)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -H set up an header, format is: &amp;quot;header_name: value&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# -d set up data to send to the server&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;I mostly use those options, the &lt;code&gt;-s&lt;/code&gt; is really interesting when you want to
 grep the content.&lt;/p&gt;
 
 &lt;p&gt;So, when testing availability of an http service, I use this snippet:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep 1&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; true&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; curl -si &amp;lt;ip&amp;gt;&lt;span class=&#34;p&#34;&gt;|&lt;/span&gt;awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR==1||NR==3&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; sleep &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This will do kind of a ping for an http service, displaying this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;HTTP/1.1 200 OK
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:43 GMT
 HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:45 GMT
@@ -84,7 +84,7 @@ Date: Tue, 19 Jul 2016 12:23:46 GMT
       <description>&lt;p&gt;A small post just to share a useful bashism the
 &lt;a href=&#34;http://wiki.bash-hackers.org/syntax/expansion/brace&#34;&gt;Brace Expansion&lt;/a&gt;.
 It is really simple to make it works:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;1..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; i in &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;..50&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
 	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$i&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
@@ -92,12 +92,12 @@ It is really simple to make it works:&lt;/p&gt;
 
 &lt;p&gt;It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing?
 Ok, now the second feature&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo &lt;/span&gt;something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; something/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;foo,bar&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &amp;gt; something/foo something/bar
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Still not amazed, ok now type this one:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;cp some_file&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;,.old&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It will copy your file
@@ -119,7 +119,7 @@ And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;+-----------------------------------------------+ +----------------+
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;+-----------------------------------------------+ +----------------+
 |Logical volume1        | Logical volume2       | |                |
 |/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
 |_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
@@ -133,27 +133,27 @@ come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encr
 
 &lt;p&gt;I use parted for this configuration, I left 1MB at the start of the device
 to be compliant with &lt;code&gt;parted &amp;lt;disk&amp;gt; align-check optimal &amp;lt;partition&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt install cryptsetup lvm2
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt install cryptsetup lvm2
 
-parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
-parted /dev/sda mkpart primary 201MB 100% &lt;span class=&#34;c&#34;&gt;# lvm partition&lt;/span&gt;
+parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c1&#34;&gt;# boot partition&lt;/span&gt;
+parted /dev/sda mkpart primary 201MB &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;% &lt;span class=&#34;c1&#34;&gt;# lvm partition&lt;/span&gt;
 parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; boot
 parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; lvm
 
 cryptsetup -c aes-xts-plain -y -s &lt;span class=&#34;m&#34;&gt;512&lt;/span&gt; luksFormat /dev/sda2
-&lt;span class=&#34;c&#34;&gt;# enter passphrase&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# enter passphrase&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
 cryptsetup luksOpen /dev/sda2 ssd
 
 lvm pvcreate /dev/mapper/ssd
 lvm vgcreate vg_ssd /dev/mapper/ssd
 
 lvm lvcreate -L 4GB -n swap vg_ssd
-lvm lvcreate -l 100%FREE -n root vg_ssd
+lvm lvcreate -l &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;%FREE -n root vg_ssd
 
-&lt;span class=&#34;c&#34;&gt;# now format the partitions&lt;/span&gt;
-mkfs.ext4 /dev/sda1 &lt;span class=&#34;c&#34;&gt;# boot partition&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# now format the partitions&lt;/span&gt;
+mkfs.ext4 /dev/sda1 &lt;span class=&#34;c1&#34;&gt;# boot partition&lt;/span&gt;
 mkfs.ext4 /dev/mapper/vg_ssd-lv_root
 mkswap /dev/mapper/vg_ssd-lv_swap
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -163,18 +163,18 @@ mkswap /dev/mapper/vg_ssd-lv_swap
 &lt;p&gt;In order to prepare the base system I will use the &lt;code&gt;debootstrap&lt;/code&gt; tool,
 which will take care of creating base files. Then I will &lt;code&gt;chroot&lt;/code&gt; in the new
 system in order to setup packages and boot initialisation&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
 mount /dev/mapper/&amp;lt;vg_name&amp;gt;-root /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
 
 debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /mnt
 
-&lt;span class=&#34;c&#34;&gt;# copy somefiles&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# copy somefiles&lt;/span&gt;
 cp /etc/resolv.conf /mnt/etc/
 cp /etc/network/interfaces /mnt/etc/network
 
-&lt;span class=&#34;c&#34;&gt;# bind and chroot&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# bind and chroot&lt;/span&gt;
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/dev
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/dev/pts
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/proc
@@ -190,49 +190,49 @@ chroot /mnt/ /bin/bash
 
 &lt;p&gt;Then create the fstab file, I use the UUID notation for this part.
 Basically, I run two commands in order to get the needed informations&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ls -l /dev/disks/by-uuid
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ls -l /dev/disks/by-uuid
 
-total 0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
+total &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;13&lt;/span&gt;:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
 
 ls -l /dev/mapper
-total 0
-crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root 10, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:37 control
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:51 ssd -&amp;gt; ../dm-0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:52 vg_ssd-lv_root -&amp;gt; ../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; 12:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
+total &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:37 control
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:51 ssd -&amp;gt; ../dm-0
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 vg_ssd-lv_root -&amp;gt; ../dm-2
+lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Which will give me the following /etc/fstab.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  1
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  2
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  0
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Edit the /etc/apt/sources.list file to set up basic packages and update package list: &lt;code&gt;apt-get update&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Install needed packages&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install the package&lt;/span&gt;
 apt-get install locales console-data keyboard-configuration
 
-&lt;span class=&#34;c&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
 dpkg-reconfigure locales
 
-&lt;span class=&#34;c&#34;&gt;# setup password&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# setup password&lt;/span&gt;
 passwd
 
-&lt;span class=&#34;c&#34;&gt;# change hostname&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# change hostname&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;suika&amp;quot;&lt;/span&gt; &amp;gt; /etc/hostname
 
 apt-get install lvm2 cryptsetup
 
-&lt;span class=&#34;c&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
 apt-get install firmware-realtek
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -242,7 +242,7 @@ apt-get install firmware-realtek
 &lt;code&gt;apt-get install linux-image-amd64&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;Set up the /etc/crypttab file, which will tell how to map the crypted partition&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
 ssd             /dev/sda2               none            luks
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -251,11 +251,11 @@ ssd             /dev/sda2               none            luks
 &lt;p&gt;Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.&lt;/p&gt;
 
 &lt;p&gt;In file &lt;code&gt;/etc/initramfs-tools/initramfs.conf&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;KEYMAP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;y
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -267,7 +267,7 @@ ssd             /dev/sda2               none            luks
 &lt;p&gt;Exit the &lt;code&gt;chroot&lt;/code&gt; unmount partitions and reboot on your new fresh installed system.&lt;/p&gt;
 
 &lt;p&gt;If at startup you get an error message like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -294,7 +294,7 @@ then the
 &lt;a href=&#34;https://github.com/IxDay/config_files/tree/new_conf/source.list.d&#34;&gt;sources.list&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Just run an &lt;code&gt;aptitude update&lt;/code&gt;, and you will some missing gpg keys, now run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;To have your keys installed.&lt;/p&gt;
@@ -305,7 +305,7 @@ then the
 &lt;code&gt;aptitude install sudo&lt;/code&gt; will give you the tool.&lt;/p&gt;
 
 &lt;p&gt;Then uncomment the following line&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Allow members of group sudo to execute any command&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Allow members of group sudo to execute any command&lt;/span&gt;
 %sudo   &lt;span class=&#34;nv&#34;&gt;ALL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=(&lt;/span&gt;ALL:ALL&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ALL
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -409,11 +409,11 @@ Xserver startup from the &lt;code&gt;.xinitrc&lt;/code&gt; file.&lt;/p&gt;
 * &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/gitconfig&#34;&gt;gitignore_global&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;After copying those files you can create a rsa key:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh-keygen -t rsa -b &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ssh-keygen -t rsa -b &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And to manage the keys passphrase I use &lt;code&gt;keychain&lt;/code&gt; in an alias&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;alias &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;keychain_default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;eval &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;keychain --eval --agents ssh -Q --quiet id_rsa&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;keychain_default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;eval &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;keychain --eval --agents ssh -Q --quiet id_rsa&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It is possible to configure multiple keys, in order to separate some services.
@@ -463,7 +463,7 @@ really flexible:&lt;/p&gt;
 &lt;li&gt;you can not store a variable through multiple run, you will need to do
 a oneliner e.g:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;  &lt;span class=&#34;c&#34;&gt;# you will need to write this in the Dockerfile&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# you will need to write this in the Dockerfile&lt;/span&gt;
   RUN &lt;span class=&#34;nv&#34;&gt;TMPFILE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;tempfile&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
     &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World&amp;quot;&lt;/span&gt; &amp;gt; &lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
     rm &lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;
@@ -527,30 +527,30 @@ web interface on my local machine.&lt;/p&gt;
 
 &lt;p&gt;First, ssh! For this I need a ssh connection to the remote server, here I use
 a particular ssh key.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1
 
-&lt;span class=&#34;c&#34;&gt;# urls also work&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# urls also work&lt;/span&gt;
 ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Okay, at this moment we can use a config file for ssh: &lt;code&gt;$HOME/.ssh/config&lt;/code&gt; :)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;Host 192.168.0.1 my.url.com
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;Host 192.168.0.1 my.url.com
    user mylogin
    IdentityFile ~/.ssh/my_ssh.key
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The CLI is now:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# with IP&lt;/span&gt;
-ssh 192.168.0.1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# with IP&lt;/span&gt;
+ssh &lt;span class=&#34;m&#34;&gt;192&lt;/span&gt;.168.0.1
 
-&lt;span class=&#34;c&#34;&gt;# with url&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# with url&lt;/span&gt;
 ssh my.url.com
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;I have a connection but now I want to share my dev server on the remote host to
 my local web browser. For that I will use the &lt;code&gt;-L&lt;/code&gt; of ssh, this will forward
 the local port with the remote one.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh -L 5000:localhost:9999 192.168.0.1 &lt;span class=&#34;c&#34;&gt;# same as before it works with url&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ssh -L &lt;span class=&#34;m&#34;&gt;5000&lt;/span&gt;:localhost:9999 &lt;span class=&#34;m&#34;&gt;192&lt;/span&gt;.168.0.1 &lt;span class=&#34;c1&#34;&gt;# same as before it works with url&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This command will connect my local port 5000 to the port 9999 of the remote
@@ -560,7 +560,7 @@ except the ssh one)&lt;/p&gt;
 &lt;h2 id=&#34;rsync&#34;&gt;rsync&lt;/h2&gt;
 
 &lt;p&gt;Then, we will use rsync to send files to our server&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;rsync -avz -e &lt;span class=&#34;s2&#34;&gt;&amp;quot;ssh&amp;quot;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;local&lt;/span&gt;/folder my.url.com:/home/username/remote_folder
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;rsync -avz -e &lt;span class=&#34;s2&#34;&gt;&amp;quot;ssh&amp;quot;&lt;/span&gt; local/folder my.url.com:/home/username/remote_folder
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
@@ -578,7 +578,7 @@ mylogin@my.url.com:/home/username/remote_folder&lt;/code&gt;&lt;/li&gt;
 (.git folder, generated files, etc&amp;hellip;), so we will use the &lt;code&gt;--exclude-from&lt;/code&gt;
 option. In the folder we want to synchronize, we create a file &lt;code&gt;exclude.txt&lt;/code&gt;
 (the name is not important), then we fill it with the needed files or folder:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;.git
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;.git
 /static
 *.pyc
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -587,8 +587,8 @@ option. In the folder we want to synchronize, we create a file &lt;code&gt;exclu
 So it will not have the same effect if we change the working directory.&lt;/p&gt;
 
 &lt;p&gt;The command will look like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# move to working dir&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;cd local&lt;/span&gt;/folder
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# move to working dir&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; local/folder
 
 &lt;span class=&#34;nv&#34;&gt;remote_loc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;my.url.com:/home/username/remote_folder&amp;quot;&lt;/span&gt;
 
@@ -602,7 +602,7 @@ file change. For this purpose I will use &lt;code&gt;fswatch&lt;/code&gt; becaus
 (shame on me), &lt;code&gt;inotify&lt;/code&gt; can be use on linux platforms.&lt;/p&gt;
 
 &lt;p&gt;First, check the changes on my working directory:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;fswatch -e .git/ -e .pyc -e &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/static .
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;fswatch -e .git/ -e .pyc -e &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/static .
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Here I use &lt;code&gt;$(pwd)&lt;/code&gt; in order to not catch the &lt;code&gt;/static&lt;/code&gt; folder at the root of
@@ -618,7 +618,7 @@ each entry.&lt;/p&gt;
 &lt;h2 id=&#34;all-together&#34;&gt;All together&lt;/h2&gt;
 
 &lt;p&gt;Here is my final command:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd local&lt;/span&gt;/folder
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; local/folder
 
 &lt;span class=&#34;nv&#34;&gt;remote_loc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;my.url.com:/home/username/remote_folder&amp;quot;&lt;/span&gt;
 
@@ -658,14 +658,14 @@ the second one is &lt;a href=&#34;http://stedolan.github.io/jq/manual/&#34;&gt;j
 
 &lt;p&gt;One important feature of curl is its hability to load external files for datas
 with &lt;code&gt;@&lt;/code&gt; before file name:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d @filepath
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d @filepath
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Then you can remove the progress bar by adding &lt;code&gt;-s&lt;/code&gt; in the options&lt;/p&gt;
 
 &lt;p&gt;Finally, you can use jq for parsing the output with a request syntax, here is
 what the final line looks like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -s -d @filepath &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -s -d @filepath &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It is a small article but I just wanted to show that those tools are really
@@ -695,13 +695,13 @@ the maintainability of your shell scripts&lt;/p&gt;
 
 &lt;p&gt;Everyone who already used a bash script will tell you to mark every variable
 reading with double quotes:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# like this&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# like this&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$a&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The question is why do we have to mark them, to show that just a little example,
 run the following script&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;LS&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;ls *&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Not Quoted&amp;quot;&lt;/span&gt;
@@ -720,7 +720,7 @@ failures.&lt;/p&gt;
 &lt;h3 id=&#34;the-braquets-notation&#34;&gt;The braquets notation&lt;/h3&gt;
 
 &lt;p&gt;To display a variable there is two notations&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$FOO&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
@@ -730,7 +730,7 @@ failures.&lt;/p&gt;
 &lt;p&gt;These two notations displays the same thing, so why do we need the second one?
 This notation is here to clarify an ambiguity, because variables can be used
 in a string interpolation it can lead to a miscomprehension.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;FO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;fo&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;because &lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$FOo&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; you &amp;quot;&lt;/span&gt;
@@ -750,7 +750,7 @@ script:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;set -e&lt;/code&gt; Will stop the script if an error occurs&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; -e
 
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;this command exist&amp;quot;&lt;/span&gt;
@@ -769,7 +769,7 @@ needed, sometime not.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;set -x&lt;/code&gt; Will display the line running and evaluate the variables&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; -x
 
 &lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;foo&amp;quot;&lt;/span&gt;
@@ -777,7 +777,7 @@ needed, sometime not.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This will display&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;+ &lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;foo
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;+ &lt;span class=&#34;nv&#34;&gt;FOO&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;foo
 + &lt;span class=&#34;nv&#34;&gt;BAR&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;foo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -787,7 +787,7 @@ needed, sometime not.&lt;/p&gt;
 result&lt;/p&gt;
 
 &lt;p&gt;Here is the common way to do that&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/bash&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;RESULT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;grep &lt;span class=&#34;s2&#34;&gt;&amp;quot;toto&amp;quot;&lt;/span&gt; /dev/null&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
 
@@ -806,7 +806,7 @@ result&lt;/p&gt;
 
 &lt;p&gt;But if we do not want the result, and just want to test some command return,
 here is the simple way to perform that&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/bash&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; grep &lt;span class=&#34;s2&#34;&gt;&amp;quot;toto&amp;quot;&lt;/span&gt; /dev/null
 &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
@@ -832,25 +832,25 @@ here is the simple way to perform that&lt;/p&gt;
 encountered and how I solved them.&lt;/p&gt;
 
 &lt;h3 id=&#34;creating-a-bootable-usb-key-on-a-mac&#34;&gt;Creating a bootable USB key on a Mac&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# plug your USB key, then find it with&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# plug your USB key, then find it with&lt;/span&gt;
 diskutil list
 
-&lt;span class=&#34;c&#34;&gt;# unmount the usb key (it is mandatory), where X in diskX is the number assigned&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# to your USB you retrieved with the previous command&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# unmount the usb key (it is mandatory), where X in diskX is the number assigned&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# to your USB you retrieved with the previous command&lt;/span&gt;
 diskutil unmountDisk /dev/diskX
 
-&lt;span class=&#34;c&#34;&gt;# if you are making a bootable usb key for a Mac run this command,&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# debian.img will be the output and debian-testing-amd64-CD-1.iso is&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# the iso you retrieved from internet https://www.debian.org/CD/http-ftp/&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# if you are making a bootable usb key for a Mac run this command,&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# debian.img will be the output and debian-testing-amd64-CD-1.iso is&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# the iso you retrieved from internet https://www.debian.org/CD/http-ftp/&lt;/span&gt;
 hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso
 
-&lt;span class=&#34;c&#34;&gt;# if you are making a Mac bootable usb key (X is still the disk number)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# if you are making a Mac bootable usb key (X is still the disk number)&lt;/span&gt;
 sudo dd &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;./debian.img.dmg &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/rdiskX &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1m
 
-&lt;span class=&#34;c&#34;&gt;# otherwise (X is still the disk number)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# otherwise (X is still the disk number)&lt;/span&gt;
 sudo dd &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;./debian-testing-amd64-CD-1.iso &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/rdiskX &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1m
 
-&lt;span class=&#34;c&#34;&gt;# to finish eject&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# to finish eject&lt;/span&gt;
 hdiutil eject /dev/diskX
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -875,26 +875,26 @@ hand.&lt;/p&gt;
 &lt;h4 id=&#34;chroot-into-an-other-system&#34;&gt;Chroot into an other system&lt;/h4&gt;
 
 &lt;p&gt;First find the partition on which your system has been installed&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# parted will print you the partition of each device&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# parted will print you the partition of each device&lt;/span&gt;
 parted /dev/sda print
 parted /dev/sdb print
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Once the partition is found you have to mount it&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# create a directory for the mounted partition&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# create a directory for the mounted partition&lt;/span&gt;
 mkdir /mnt/sda1
 
-&lt;span class=&#34;c&#34;&gt;# mount it&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# mount it&lt;/span&gt;
 mount /dev/sda1 /mnt/sda1
 
-&lt;span class=&#34;c&#34;&gt;# bind the main parts&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# bind the main parts&lt;/span&gt;
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/sda1/dev
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/sda1/dev/pts
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/sda1/proc
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /run /mnt/sda1/run
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /sys /mnt/sda1/sys
 
-&lt;span class=&#34;c&#34;&gt;# chroot in the system&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# chroot in the system&lt;/span&gt;
 chroot /mnt/sda1 /bin/bash
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -902,22 +902,22 @@ chroot /mnt/sda1 /bin/bash
 
 &lt;p&gt;Actualize the file &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; with the following
 &lt;a href=&#34;http://debgen.simplylinux.ch/&#34;&gt;site&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# update&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# update&lt;/span&gt;
 apt-get update
 
-&lt;span class=&#34;c&#34;&gt;# install the kernel, for me it is an amd64 architecture, to find yours just run&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# apt-cache search linux-image and choose the one for your needs&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# install the kernel, for me it is an amd64 architecture, to find yours just run&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# apt-cache search linux-image and choose the one for your needs&lt;/span&gt;
 apt-get install linux-image-amd64
 
-&lt;span class=&#34;c&#34;&gt;# install grub2, when installing it will ask for the device on which you want&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# grub to be installed, choose the device not the partition, here it will be&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# /dev/sda&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# install grub2, when installing it will ask for the device on which you want&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# grub to be installed, choose the device not the partition, here it will be&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# /dev/sda&lt;/span&gt;
 apt-get install grub2
 
-&lt;span class=&#34;c&#34;&gt;# update grub just in case&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# update grub just in case&lt;/span&gt;
 update-grub
 
-&lt;span class=&#34;c&#34;&gt;# do not forget to initialize the password&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# do not forget to initialize the password&lt;/span&gt;
 passwd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -926,37 +926,37 @@ passwd
 &lt;h3 id=&#34;rebooting-and-first-configuration&#34;&gt;Rebooting and first configuration&lt;/h3&gt;
 
 &lt;h4 id=&#34;set-up-the-locales&#34;&gt;Set up the locales&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install the package&lt;/span&gt;
 apt-get install locales
 
-&lt;span class=&#34;c&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
 dpkg-reconfigure locales
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4 id=&#34;set-up-the-keyboard&#34;&gt;Set up the keyboard&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install the package&lt;/span&gt;
 apt-get install console-data
 
-&lt;span class=&#34;c&#34;&gt;# for me it is a french keyboard&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# for me it is a french keyboard&lt;/span&gt;
 loadkeys fr-latin
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Test if the configuration works for you, then you can save it by adding to
 &lt;code&gt;/etc/rc.locals&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# the path to the keymap is displayed when you use the loadkeys command&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# the path to the keymap is displayed when you use the loadkeys command&lt;/span&gt;
 /usr/bin/loadkeys /usr/share/keymaps/i386/azerty/fr-latin9.kmap.gz
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4 id=&#34;a-name-users-a-users&#34;&gt;&lt;a name=&#34;users&#34;&gt;&lt;/a&gt;Users&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install sudo&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install sudo&lt;/span&gt;
 apt-get install sudo
 
-&lt;span class=&#34;c&#34;&gt;# add new user called foo with a home folder (-m),&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# users as first group (-g group_name), sudo as additionnal group (-G group_name)&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# and bash as login shell&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# add new user called foo with a home folder (-m),&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# users as first group (-g group_name), sudo as additionnal group (-G group_name)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# and bash as login shell&lt;/span&gt;
 useradd -m -g users -G sudo -s /bin/bash foo
 
-&lt;span class=&#34;c&#34;&gt;# change user password&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# change user password&lt;/span&gt;
 passwd foo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -965,7 +965,7 @@ passwd foo
 &lt;p&gt;Here I will use i3 on top of xorg&lt;/p&gt;
 
 &lt;h4 id=&#34;init&#34;&gt;Init&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install xorg and i3&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install xorg and i3&lt;/span&gt;
 apt-get install xorg i3
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -981,10 +981,10 @@ Then we want to launch i3. To do that add &lt;code&gt;exec i3&lt;/code&gt; at an
 &lt;h4 id=&#34;set-x-keyboard-layout&#34;&gt;Set X keyboard layout&lt;/h4&gt;
 
 &lt;p&gt;To have the correct layout for X add the above commands in your &lt;code&gt;.xinitrc&lt;/code&gt; file.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# reset the options&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# reset the options&lt;/span&gt;
 setxkbmap -option
 
-&lt;span class=&#34;c&#34;&gt;# I only add the option to quit X by pressing ctrl+alt+backspace&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# I only add the option to quit X by pressing ctrl+alt+backspace&lt;/span&gt;
 setxkbmap -layout fr -variant latin9 -option terminate:ctrl_alt_bksp
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1010,43 +1010,43 @@ browser. We only want to have the basis, and having it working fine.&lt;/p&gt;
 want. But sometimes, having a snippet in the bash prompt can be needed.&lt;/p&gt;
 
 &lt;p&gt;So here is an example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# stop script if something bad happen&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# stop script if something bad happen&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; -e
 
-&lt;span class=&#34;c&#34;&gt;# unzip need to have a tempfile to extract properly&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# unzip need to have a tempfile to extract properly&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;TMPFILE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;/tmp/tempfile.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;date +%s&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;PWD&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;DEST&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# here is the link of my configuration, but you can easily create yours&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# here is the link of my configuration, but you can easily create yours&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;http://www.initializr.com/builder?h5bp-content&amp;amp;html5shiv&amp;amp;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;h5bp-css&amp;amp;h5bp-csshelpers&amp;amp;h5bp-mediaqueryprint&amp;amp;h5bp-mediaqueries&amp;amp;&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;simplehtmltag&amp;amp;izr-emptyscript&amp;quot;&lt;/span&gt; &lt;span class=&#34;c&#34;&gt;# string concatenation example&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;URL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&amp;quot;simplehtmltag&amp;amp;izr-emptyscript&amp;quot;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# string concatenation example&lt;/span&gt;
 
-curl -o &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; 2&amp;gt; /dev/null
+curl -o &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$URL&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;&amp;gt; /dev/null
 
-&lt;span class=&#34;c&#34;&gt;# if argument is provided, move to the specified directory&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# if argument is provided, move to the specified directory&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt;  -z &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
-    &lt;span class=&#34;c&#34;&gt;# do not display what has been inflated&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# do not display what has been inflated&lt;/span&gt;
     unzip -qq -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PWD&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
     rm &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# if the path provided is a file warn the user and exit&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# if the path provided is a file warn the user and exit&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; -f &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
-        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; already exists and is a file&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;1
+        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; already exists and is a file&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# if the directory is not empty warn the user and exit&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# if the directory is not empty warn the user and exit&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; ! -z &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;ls -A &lt;span class=&#34;nv&#34;&gt;$DIR&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
-        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; is not empty&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;1
+        &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; is not empty&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# if the directory does not exist, we create it&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# if the directory does not exist, we create it&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[[&lt;/span&gt; ! -a &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;]]&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
         mkdir -p &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
@@ -1054,13 +1054,13 @@ curl -o &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#3
 
     unzip -qq -d &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;#then we move the content to the directory&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;#then we move the content to the directory&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; f in &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;/initializr/*
     &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
         mv &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$f&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
     &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;
 
-    &lt;span class=&#34;c&#34;&gt;# delete the other files&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;# delete the other files&lt;/span&gt;
     rm &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
     rmdir &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DEST&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/initializr&amp;quot;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;fi&lt;/span&gt;

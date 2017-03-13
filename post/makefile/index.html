@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -102,15 +102,15 @@ has to generate a bunch of files from &ldquo;source&rdquo; files.
 
 <p>You can set a default value to an internal variable of a makefile. Those variables
 can be set up at the <code>make</code> command run i.e: <code>make ARCH=i686</code> or <code>ARCH=i686 make</code></p>
-<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nv">SERVER_PORT</span> <span class="o">?=</span> 5050
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span></span><span class="nv">SERVER_PORT</span> <span class="o">?=</span> <span class="m">5050</span>
 <span class="nv">ARCH</span> <span class="o">?=</span> amd64
 </code></pre></div>
 
 <h3 id="watch-all-files-from-a-directory-to-change">Watch all files from a directory to change</h3>
 
 <p>This is perfectly correct and usable in a Makefile</p>
-<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nf">archive.tgz</span><span class="o">:</span> <span class="k">$(</span><span class="nv">shell</span> <span class="nv">find</span> <span class="nv">root</span> -<span class="nv">type</span> <span class="nv">f</span> | <span class="nv">sed</span> &#39;<span class="nv">s</span>/ /\\ /<span class="nv">g</span>&#39;<span class="k">)</span>
-	@tar cvzf <span class="nv">$@</span> <span class="nv">$^</span>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span></span><span class="nf">archive.tgz</span><span class="o">:</span> <span class="k">$(</span><span class="nv">shell</span> <span class="nv">find</span> <span class="nv">root</span> -<span class="nv">type</span> <span class="nv">f</span> | <span class="nv">sed</span> &#39;<span class="nv">s</span>/ /\\ /<span class="nv">g</span>&#39;<span class="k">)</span>
+	@tar cvzf <span class="nv">$@</span> $^
 </code></pre></div>
 
 <p><strong>Note:</strong> <code>$@</code> represent the target and <code>$^</code> all the file dependencies</p>
@@ -121,7 +121,7 @@ can be set up at the <code>make</code> command run i.e: <code>make ARCH=i686</co
 convenient and a huge plus against a shell script (which will require an eval
 statement). You can nest variable inside your commands, this gives a lot of
 flexibility.</p>
-<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nv">WGET</span> <span class="o">=</span> wget -d -o logfile
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span></span><span class="nv">WGET</span> <span class="o">=</span> wget -d -o logfile
 
 <span class="nf">archive.tgz</span><span class="o">:</span>
 	<span class="k">$(</span>WGET<span class="k">)</span> -O <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span> <span class="s2">&quot;https://ftp.gnu.org/gnu/coreutils/coreutils-5.0.tar.gz&quot;</span>
@@ -133,7 +133,7 @@ flexibility.</p>
 the <code>-C</code> option. In this example <code>$(MAKE)</code> is setup by default to <code>make</code> command.
 The <code>$(dir ...)</code> part is a <code>make</code> internal command
 (see <a href="https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions">here</a>)</p>
-<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nf">vendor/darkhttpd/darkhttpd_</span><span class="o">:</span>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span></span><span class="nf">vendor/darkhttpd/darkhttpd_</span><span class="o">:</span>
 	<span class="k">$(</span>MAKE<span class="k">)</span> -C <span class="k">$(</span>dir <span class="nv">$@</span><span class="k">)</span>
 </code></pre></div>
 
@@ -142,7 +142,7 @@ The <code>$(dir ...)</code> part is a <code>make</code> internal command
 <p>Sometimes you need to escape the variable character, this can be done by doubling
 it: <code>$$</code>. In the following example, the <code>$$2</code> will represent the <code>$2</code> from <code>awk</code>
 and not a variable from <code>make</code></p>
-<div class="highlight"><pre><code class="language-make" data-lang="make"><span class="nf">clean.virsh</span><span class="o">:</span>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span></span><span class="nf">clean.virsh</span><span class="o">:</span>
 	virsh list <span class="p">|</span> awk <span class="s1">&#39;$$2 ~ /ipxe/ {system(&quot;virsh destroy &quot; $$2)}&#39;</span>
 	virsh list --all <span class="p">|</span> awk <span class="s1">&#39;$$2 ~ /ipxe/ {system(&quot;virsh undefine &quot; $$2)}&#39;</span>
 </code></pre></div>
@@ -152,7 +152,7 @@ and not a variable from <code>make</code></p>
 <p>In order to debug your targets you can run a simple command which is not too
 verbose, but display enough information though (got from the documentation
 <a href="http://www.oreilly.com/openbook/make3/book/ch12.pdf">here</a>)</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Replace the &lt;target&gt; by the one you want to debug</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Replace the &lt;target&gt; by the one you want to debug</span>
 make --debug<span class="o">=</span>basic -n &lt;target&gt;
 </code></pre></div>
 

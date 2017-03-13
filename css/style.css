@@ -97,11 +97,11 @@ h2.not-found {
 }
 
 h3 {
-	margin: 0.7em 0 0 0;
+	margin: 10px 0 5px 0;
 }
 
 h4 {
-	margin: 0.5em 0 0 0;
+	margin: 5px 0 5px 0;
 }
 
 
@@ -225,7 +225,7 @@ article .caption {
 }
 
 article .caption > p {
-	margin: 0.5em 0 0.2em 0
+	margin: 1em 0 0.2em 0
 }
 
 article .tags strong {

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -89,12 +89,12 @@ I needed to fixup when installing LMDE on my Macbook.
 
 <p>First, for the creation of the usb key, I ended up using the method described
 in the <a href="https://wiki.archlinux.org/index.php/USB_flash_installation_media#In_GNU.2FLinux">archlinux wiki</a>. Basically, this was the command line I entered:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">dd <span class="nv">bs</span><span class="o">=</span>4M <span class="k">if</span><span class="o">=</span>/path/to/lmde.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="c"># /dev/sdb is my usb key (lsblk FTW) </span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dd <span class="nv">bs</span><span class="o">=</span>4M <span class="k">if</span><span class="o">=</span>/path/to/lmde.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="c1"># /dev/sdb is my usb key (lsblk FTW) </span>
 </code></pre></div>
 
 <p>Then, for the partitioning I forgot to tell the filesystem needed by each part,
 so here is lsblk to the rescue:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
 NAME               FSTYPE      MOUNTPOINT
 sda
 ├─sda1             hfsplus
@@ -104,7 +104,7 @@ sda
   ├─vg_ssd-lv_root ext4        /
   └─vg_ssd-lv_swap swap        <span class="o">[</span>SWAP<span class="o">]</span>
 sdb                iso9660
-├─sdb1             iso9660     /media/max/LMDE <span class="m">2</span> Cinnamon 64-bit
+├─sdb1             iso9660     /media/max/LMDE <span class="m">2</span> Cinnamon <span class="m">64</span>-bit
 └─sdb2             vfat
 </code></pre></div>
 
@@ -119,7 +119,7 @@ done.</p>
 
 <p>I want to add unstable and experimental repos, so I created a source file:
 <code>/etc/apt/sources.list.d/debian-package-repositories.list</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># https://wiki.debian.org/SourcesList</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># https://wiki.debian.org/SourcesList</span>
 
 deb http://httpredir.debian.org/debian sid main contrib non-free
 deb-src http://httpredir.debian.org/debian sid main contrib non-free
@@ -134,13 +134,13 @@ This will bring unstable packages at the same level as those from stable.</p>
 
 <p>See the file <code>/etc/apt/preferences.d/debian-package-repositories.pref</code>, in
 order to have a good priority across those repos replace the content with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">Package: *
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Package: *
 Pin: release <span class="nv">a</span><span class="o">=</span>stable
-Pin-Priority: 550
+Pin-Priority: <span class="m">550</span>
 
 Package: *
 Pin: release <span class="nv">a</span><span class="o">=</span>unstable
-Pin-Priority: 450
+Pin-Priority: <span class="m">450</span>
 </code></pre></div>
 
 <p>Now, just a <code>apt-get update</code> and we are ready to install packages safely</p>
@@ -152,7 +152,7 @@ Pin-Priority: 450
 
 <p>I followed the instructions from the <a href="https://wiki.archlinux.org/index.php/intel_graphics#Tear-free_video">arch wiki</a>. It makes me create <code>/etc/X11/xorg.conf.d/20-intel.conf</code> file, and
 fill it with:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">Section <span class="s2">&quot;Device&quot;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Section <span class="s2">&quot;Device&quot;</span>
    Identifier  <span class="s2">&quot;Intel Graphics&quot;</span>
    Driver      <span class="s2">&quot;intel&quot;</span>
    Option      <span class="s2">&quot;AccelMethod&quot;</span>  <span class="s2">&quot;sna&quot;</span>
@@ -169,7 +169,7 @@ EndSection
 <p>I had issues with my webcam too. <a href="https://wiki.archlinux.org/index.php/MacBook#Webcam">I followed archwiki again</a>. This one is not
 confirmed but no command failed, and the test with mplayer at the end seemed
 to work:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">mplayer tv:// -tv <span class="nv">driver</span><span class="o">=</span>v4l2:width<span class="o">=</span>320:height<span class="o">=</span>240:device<span class="o">=</span>/dev/video0 -fps 30
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mplayer tv:// -tv <span class="nv">driver</span><span class="o">=</span>v4l2:width<span class="o">=</span><span class="m">320</span>:height<span class="o">=</span><span class="m">240</span>:device<span class="o">=</span>/dev/video0 -fps <span class="m">30</span>
 </code></pre></div>
 
 <h2 id="programs">Programs</h2>
@@ -199,22 +199,22 @@ from different versions.</p>
 <p>Docker is available in the unstable repository, but this one broke some other
 dependencies. I had to install it with a custom repo following
 <a href="https://gist.github.com/bhgraham/ed9f8242dc610b1f38e5">those instructions</a>.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Add the repo to a dedicated source.list file</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Add the repo to a dedicated source.list file</span>
 <span class="nb">echo</span> <span class="s2">&quot;deb https://get.docker.com/ubuntu docker main&quot;</span> &gt; <span class="se">\</span>
        /etc/apt/sources.list.d/docker.list
 
-<span class="c"># Add repo keyring</span>
+<span class="c1"># Add repo keyring</span>
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <span class="se">\</span>
        36A1D7869245C8950F966E92D8576A8BA88D21E9
 
-<span class="c"># Update and install the package</span>
+<span class="c1"># Update and install the package</span>
 apt-get update -qq <span class="o">&amp;&amp;</span> sudo apt-get install -y lxc-docker
 
-<span class="c"># Add my user to the docker group</span>
+<span class="c1"># Add my user to the docker group</span>
 gpasswd -a &lt;my_user_name&gt; docker
 
-<span class="c"># Enable the docker service for the next start</span>
-systemctl <span class="nb">enable </span>docker
+<span class="c1"># Enable the docker service for the next start</span>
+systemctl <span class="nb">enable</span> docker
 </code></pre></div>
 
 <p>Now logout, and reconnect and it should work.</p>

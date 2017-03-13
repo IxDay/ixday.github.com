@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -97,7 +97,7 @@ as it is mentionned in
 
 <p>We want to test them in a temporary location with a simple &ldquo;Hello world&rdquo; test.
 Here is the architecture we will use:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  /tmp/drone_gogs_test      # just a custom directory for our test
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  /tmp/drone_gogs_test      # just a custom directory for our test
   |-- test                  # the git repository with the file to test
   |   |-- hello.py          # simple python file with a doctest test
   |-- gogs                  # directory which will be used by gogs to store
@@ -111,7 +111,7 @@ Here is the architecture we will use:</p>
 
 <p>We just use the doctest feature of python here, this allow us to perform a
 simple test without bootstraping a bunch of code</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span class="sd">&quot;&quot;&quot;Simple hello world function testing with doctest&quot;&quot;&quot;</span>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="sd">&quot;&quot;&quot;Simple hello world function testing with doctest&quot;&quot;&quot;</span>
 
 <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Simple hello world function</span>
@@ -120,16 +120,16 @@ simple test without bootstraping a bunch of code</p>
 <span class="sd">    &gt;&gt;&gt; hello()</span>
 <span class="sd">    &#39;Hello World!&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s">&#39;Hello World!&#39;</span>
+    <span class="k">return</span> <span class="s1">&#39;Hello World!&#39;</span>
 
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">doctest</span>
     <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </code></pre></div>
 
 <p>And this is the run</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">$ </span>python hello.py -v
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ python hello.py -v
 Trying:
     hello<span class="o">()</span>
 Expecting:
@@ -173,7 +173,7 @@ use this as your day to day git repo).</p>
 
 <p>This one is a bit more complicated, first we have to create a dronerc file
 with the following content:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nv">REMOTE_DRIVER</span><span class="o">=</span>gogs
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">REMOTE_DRIVER</span><span class="o">=</span>gogs
 <span class="nv">REMOTE_CONFIG</span><span class="o">=</span>http://172.17.0.3:3000
 <span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
@@ -182,7 +182,7 @@ with the following content:</p>
 to have outputs if something goes bad.</p>
 
 <p>Now we can start the container:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">docker run \
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>docker run \
         --volume $(pwd)/drone/var:/var/lib/drone \
         --volume /var/run/docker.sock:/var/run/docker.sock \
         --env-file $(pwd)/drone/dronerc \

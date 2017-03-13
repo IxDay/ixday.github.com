@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -81,25 +81,25 @@
     </header>
     <p>Here are some options and command I use with <code>curl</code> when dealing with stuff
 I have to develop.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">curl -si &lt;ip&gt; <span class="c"># -s is the silent flag, it removes the progress</span>
-              <span class="c"># -i displays the headers</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -si &lt;ip&gt; <span class="c1"># -s is the silent flag, it removes the progress</span>
+              <span class="c1"># -i displays the headers</span>
 
 curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -u <span class="s2">&quot;admin:admin&quot;</span> -d <span class="s1">&#39;{}&#39;</span> &lt;ip&gt;
-<span class="c"># -X set up the http method (here POST)</span>
-<span class="c"># -H set up an header, format is: &quot;header_name: value&quot;</span>
-<span class="c"># -u support for Basic Auth, format is: &quot;user:password&quot;</span>
-<span class="c"># -d set up data to send to the server</span>
+<span class="c1"># -X set up the http method (here POST)</span>
+<span class="c1"># -H set up an header, format is: &quot;header_name: value&quot;</span>
+<span class="c1"># -u support for Basic Auth, format is: &quot;user:password&quot;</span>
+<span class="c1"># -d set up data to send to the server</span>
 </code></pre></div>
 
 <p>I mostly use those options, the <code>-s</code> is really interesting when you want to
 grep the content.</p>
 
 <p>So, when testing availability of an http service, I use this snippet:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="k">while</span> <span class="nb">true</span><span class="p">;</span> <span class="k">do</span> curl -si &lt;ip&gt;<span class="p">|</span>awk <span class="s1">&#39;NR==1||NR==3&#39;</span><span class="p">;</span> sleep 1<span class="p">;</span> <span class="k">done</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span> curl -si &lt;ip&gt;<span class="p">|</span>awk <span class="s1">&#39;NR==1||NR==3&#39;</span><span class="p">;</span> sleep <span class="m">1</span><span class="p">;</span> <span class="k">done</span>
 </code></pre></div>
 
 <p>This will do kind of a ping for an http service, displaying this:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">HTTP/1.1 200 OK
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:43 GMT
 HTTP/1.1 200 OK
 Date: Tue, 19 Jul 2016 12:23:45 GMT

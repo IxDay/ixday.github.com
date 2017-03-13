@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -82,7 +82,7 @@
     <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  Volume group &quot;vg_ssd&quot; not found
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  Volume group &quot;vg_ssd&quot; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
 </code></pre></div>
@@ -93,16 +93,16 @@ To fix this we will manipulate the initramfs \o/.</p>
 <p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code>
 
 which starts like this:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/sh</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/sh</span>
 
 <span class="nv">PREREQ</span><span class="o">=</span><span class="s2">&quot;cryptroot-prepare&quot;</span>
 
-<span class="c">#</span>
-<span class="c"># Standard initramfs preamble</span>
-<span class="c">#</span>
+<span class="c1">#</span>
+<span class="c1"># Standard initramfs preamble</span>
+<span class="c1">#</span>
 prereqs<span class="o">()</span>
 <span class="o">{</span>
-	<span class="c"># Make sure that cryptroot is run last in local-top</span>
+	<span class="c1"># Make sure that cryptroot is run last in local-top</span>
 	<span class="k">for</span> req in <span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span>/*<span class="p">;</span> <span class="k">do</span>
 		<span class="nv">script</span><span class="o">=</span><span class="si">${</span><span class="nv">req</span><span class="p">##*/</span><span class="si">}</span>
 		<span class="k">if</span> <span class="o">[</span> <span class="nv">$script</span> !<span class="o">=</span> cryptroot <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
@@ -114,24 +114,24 @@ prereqs<span class="o">()</span>
 <span class="k">case</span> <span class="nv">$1</span> in
 prereqs<span class="o">)</span>
 	prereqs
-	<span class="nb">exit </span>0
+	<span class="nb">exit</span> <span class="m">0</span>
 	<span class="p">;;</span>
 <span class="k">esac</span>
 
-<span class="c"># source for log_*_msg() functions, see LP: #272301</span>
+<span class="c1"># source for log_*_msg() functions, see LP: #272301</span>
 . /scripts/functions
 </code></pre></div>
 
 <p>Line 10 to 16 it says that cryptroot is run last, in the same directory there is a <code>lvm2</code>
 script. So, what is happening is that cryptroot is launched after lvm2 which is not what we want.
 To fix this remove lines 10 to 16 and replace them with <code>echo &quot;$PREREQ&quot;</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c">#!/bin/sh</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/sh</span>
 
 <span class="nv">PREREQ</span><span class="o">=</span><span class="s2">&quot;cryptroot-prepare&quot;</span>
 
-<span class="c">#</span>
-<span class="c"># Standard initramfs preamble</span>
-<span class="c">#</span>
+<span class="c1">#</span>
+<span class="c1"># Standard initramfs preamble</span>
+<span class="c1">#</span>
 prereqs<span class="o">()</span>
 <span class="o">{</span>
 	<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$PREREQ</span><span class="s2">&quot;</span>
@@ -140,11 +140,11 @@ prereqs<span class="o">()</span>
 <span class="k">case</span> <span class="nv">$1</span> in
 prereqs<span class="o">)</span>
 	prereqs
-	<span class="nb">exit </span>0
+	<span class="nb">exit</span> <span class="m">0</span>
 	<span class="p">;;</span>
 <span class="k">esac</span>
 
-<span class="c"># source for log_*_msg() functions, see LP: #272301</span>
+<span class="c1"># source for log_*_msg() functions, see LP: #272301</span>
 . /scripts/functions
 </code></pre></div>
 

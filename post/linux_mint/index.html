@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -120,12 +120,12 @@ expert disk partioning in the installation wizard.</p>
 
 <p>Install LVM into the new system (with chroot), then fillup the fstab file
 to look similar to something like this:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data<span class="o">=</span>ordered  <span class="m">0</span> 1
-/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          0	0
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data<span class="o">=</span>ordered  <span class="m">0</span> <span class="m">1</span>
+/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          <span class="m">0</span>	<span class="m">0</span>
 
-proc          /proc	    proc  defaults        0	0
-/dev/sda3     /boot	    ext4  defaults        <span class="m">0</span> 2
-/dev/sda2     /boot/efi vfat  defaults        <span class="m">0</span> 2
+proc          /proc	    proc  defaults        <span class="m">0</span>	<span class="m">0</span>
+/dev/sda3     /boot	    ext4  defaults        <span class="m">0</span> <span class="m">2</span>
+/dev/sda2     /boot/efi vfat  defaults        <span class="m">0</span> <span class="m">2</span>
 </code></pre></div>
 
 <h2 id="configuration">Configuration</h2>
@@ -144,7 +144,7 @@ setup the default.</p>
 
 <p>As I use a Macbook I have an issue with my mic by default. To fix that, just
 create the <code>/etc/modprobe.d/alsa-base.conf</code> file, and just past the following:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">options snd-hda-intel model=mbp101 index=1
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>options snd-hda-intel model=mbp101 index=1
 </code></pre></div>
 
 <p>Reboot, and tadaaa!</p>
@@ -164,7 +164,7 @@ that: <code>systemd-sysv</code>.</p>
 
 <p>As systemd is already installed, here is the service file:
 <code>/etc/systemd/system/powertop.service</code></p>
-<div class="highlight"><pre><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
+<div class="highlight"><pre><code class="language-ini" data-lang="ini"><span></span><span class="k">[Unit]</span>
 <span class="na">Description</span><span class="o">=</span><span class="s">Powertop tunings</span>
 
 <span class="k">[Service]</span>

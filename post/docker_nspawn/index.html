@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.18.1" />
+  <meta name="generator" content="Hugo 0.19" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -102,7 +102,7 @@ want in the search bar. For this example, I will retrieve an
 which is a clone of the one in the docker hub
 <a href="https://quay.io/repository/aptible/alpine">https://quay.io/repository/aptible/alpine</a>.
 In the page open the web debugger and in the console enter the following:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;meta[name=&#39;ac-discovery&#39;]&quot;</span><span class="p">).</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// simple jquery request</span>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;meta[name=&#39;ac-discovery&#39;]&quot;</span><span class="p">).</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// simple jquery request</span>
 
 <span class="c1">// this should be the output</span>
 <span class="p">[</span><span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;ac-discovery&quot;</span> <span class="nx">content</span><span class="o">=</span><span class="s2">&quot;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&quot;</span><span class="o">&gt;</span><span class="p">]</span>
@@ -129,21 +129,21 @@ the signature.</li>
 <code>https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64</code></p>
 
 <h2 id="retrieve-deflate-start">Retrieve - Deflate - Start</h2>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="c"># Download the image inside a alpine.tgz file</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Download the image inside a alpine.tgz file</span>
 wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
 
-<span class="c"># Untar it</span>
+<span class="c1"># Untar it</span>
 tar xvf alpine.tgz
 
-<span class="c"># Boot it, with systemd-nspawn</span>
+<span class="c1"># Boot it, with systemd-nspawn</span>
 sudo systemd-nspawn -M alpine -D rootfs
 
-<span class="c"># TADAAA! You are now inside a container </span>
+<span class="c1"># TADAAA! You are now inside a container </span>
 </code></pre></div>
 
 <p>You can also download, untar, rename and place the directory in your tree with
 one command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash">wget -O - <span class="s2">&quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&quot;</span> <span class="p">|</span> <span class="se">\</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>wget -O - <span class="s2">&quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&quot;</span> <span class="p">|</span> <span class="se">\</span>
 		tar -C <span class="s2">&quot;/tmp/alpine&quot;</span> --transform<span class="o">=</span><span class="s2">&quot;s|rootfs/|/|&quot;</span> -xzf -
 </code></pre></div>
 

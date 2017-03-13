@@ -23,7 +23,7 @@ idea is here).&lt;/p&gt;
 
 &lt;p&gt;It is pretty simple, but not well known (I checked some stackoverflow threads
 before finding this).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
 &lt;span class=&#34;cm&#34;&gt;  We will define the promise helper to be accessible through the this keyword in&lt;/span&gt;
 &lt;span class=&#34;cm&#34;&gt;  jasmine&lt;/span&gt;
 &lt;span class=&#34;cm&#34;&gt; */&lt;/span&gt;

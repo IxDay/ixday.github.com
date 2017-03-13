@@ -40,7 +40,7 @@ main entry used:&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;alpine-pxe.packages&lt;/code&gt; which will be empty (those packages are installed in the iso not in the initrd)&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;&lt;code&gt;alpine-pxe.conf.mk&lt;/code&gt; with the following content:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt; ALPINE_NAME     := alpine-pxe
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt; ALPINE_NAME     := alpine-pxe
  KERNEL_FLAVOR   := grsec
  INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
  MODLOOP_EXTRA   :=
@@ -61,7 +61,7 @@ main entry used:&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;create your ipxe script with an adaptation of the following to your own url&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;#!ipxe
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;#!ipxe
 
 dhcp
 
@@ -96,12 +96,12 @@ I needed to fixup when installing LMDE on my Macbook.
 
 &lt;p&gt;First, for the creation of the usb key, I ended up using the method described
 in the &lt;a href=&#34;https://wiki.archlinux.org/index.php/USB_flash_installation_media#In_GNU.2FLinux&#34;&gt;archlinux wiki&lt;/a&gt;. Basically, this was the command line I entered:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;dd &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;4M &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/path/to/lmde.iso &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/sdb &lt;span class=&#34;c&#34;&gt;# /dev/sdb is my usb key (lsblk FTW) &lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;dd &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;4M &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/path/to/lmde.iso &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/sdb &lt;span class=&#34;c1&#34;&gt;# /dev/sdb is my usb key (lsblk FTW) &lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Then, for the partitioning I forgot to tell the filesystem needed by each part,
 so here is lsblk to the rescue:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;$ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
 NAME               FSTYPE      MOUNTPOINT
 sda
 ├─sda1             hfsplus
@@ -111,7 +111,7 @@ sda
   ├─vg_ssd-lv_root ext4        /
   └─vg_ssd-lv_swap swap        &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;SWAP&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
 sdb                iso9660
-├─sdb1             iso9660     /media/max/LMDE &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; Cinnamon 64-bit
+├─sdb1             iso9660     /media/max/LMDE &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; Cinnamon &lt;span class=&#34;m&#34;&gt;64&lt;/span&gt;-bit
 └─sdb2             vfat
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -126,7 +126,7 @@ done.&lt;/p&gt;
 
 &lt;p&gt;I want to add unstable and experimental repos, so I created a source file:
 &lt;code&gt;/etc/apt/sources.list.d/debian-package-repositories.list&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# https://wiki.debian.org/SourcesList&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# https://wiki.debian.org/SourcesList&lt;/span&gt;
 
 deb http://httpredir.debian.org/debian sid main contrib non-free
 deb-src http://httpredir.debian.org/debian sid main contrib non-free
@@ -141,13 +141,13 @@ This will bring unstable packages at the same level as those from stable.&lt;/p&
 
 &lt;p&gt;See the file &lt;code&gt;/etc/apt/preferences.d/debian-package-repositories.pref&lt;/code&gt;, in
 order to have a good priority across those repos replace the content with:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Package: *
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;Package: *
 Pin: release &lt;span class=&#34;nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;stable
-Pin-Priority: 550
+Pin-Priority: &lt;span class=&#34;m&#34;&gt;550&lt;/span&gt;
 
 Package: *
 Pin: release &lt;span class=&#34;nv&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;unstable
-Pin-Priority: 450
+Pin-Priority: &lt;span class=&#34;m&#34;&gt;450&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Now, just a &lt;code&gt;apt-get update&lt;/code&gt; and we are ready to install packages safely&lt;/p&gt;
@@ -159,7 +159,7 @@ Pin-Priority: 450
 
 &lt;p&gt;I followed the instructions from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/intel_graphics#Tear-free_video&#34;&gt;arch wiki&lt;/a&gt;. It makes me create &lt;code&gt;/etc/X11/xorg.conf.d/20-intel.conf&lt;/code&gt; file, and
 fill it with:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;Section &lt;span class=&#34;s2&#34;&gt;&amp;quot;Device&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;Section &lt;span class=&#34;s2&#34;&gt;&amp;quot;Device&amp;quot;&lt;/span&gt;
    Identifier  &lt;span class=&#34;s2&#34;&gt;&amp;quot;Intel Graphics&amp;quot;&lt;/span&gt;
    Driver      &lt;span class=&#34;s2&#34;&gt;&amp;quot;intel&amp;quot;&lt;/span&gt;
    Option      &lt;span class=&#34;s2&#34;&gt;&amp;quot;AccelMethod&amp;quot;&lt;/span&gt;  &lt;span class=&#34;s2&#34;&gt;&amp;quot;sna&amp;quot;&lt;/span&gt;
@@ -176,7 +176,7 @@ EndSection
 &lt;p&gt;I had issues with my webcam too. &lt;a href=&#34;https://wiki.archlinux.org/index.php/MacBook#Webcam&#34;&gt;I followed archwiki again&lt;/a&gt;. This one is not
 confirmed but no command failed, and the test with mplayer at the end seemed
 to work:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;mplayer tv:// -tv &lt;span class=&#34;nv&#34;&gt;driver&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;v4l2:width&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;320:height&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;240:device&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/video0 -fps 30
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;mplayer tv:// -tv &lt;span class=&#34;nv&#34;&gt;driver&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;v4l2:width&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;320&lt;/span&gt;:height&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;240&lt;/span&gt;:device&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/video0 -fps &lt;span class=&#34;m&#34;&gt;30&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&#34;programs&#34;&gt;Programs&lt;/h2&gt;
@@ -206,22 +206,22 @@ from different versions.&lt;/p&gt;
 &lt;p&gt;Docker is available in the unstable repository, but this one broke some other
 dependencies. I had to install it with a custom repo following
 &lt;a href=&#34;https://gist.github.com/bhgraham/ed9f8242dc610b1f38e5&#34;&gt;those instructions&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Add the repo to a dedicated source.list file&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Add the repo to a dedicated source.list file&lt;/span&gt;
 &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;deb https://get.docker.com/ubuntu docker main&amp;quot;&lt;/span&gt; &amp;gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
        /etc/apt/sources.list.d/docker.list
 
-&lt;span class=&#34;c&#34;&gt;# Add repo keyring&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Add repo keyring&lt;/span&gt;
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
        36A1D7869245C8950F966E92D8576A8BA88D21E9
 
-&lt;span class=&#34;c&#34;&gt;# Update and install the package&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Update and install the package&lt;/span&gt;
 apt-get update -qq &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sudo apt-get install -y lxc-docker
 
-&lt;span class=&#34;c&#34;&gt;# Add my user to the docker group&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Add my user to the docker group&lt;/span&gt;
 gpasswd -a &amp;lt;my_user_name&amp;gt; docker
 
-&lt;span class=&#34;c&#34;&gt;# Enable the docker service for the next start&lt;/span&gt;
-systemctl &lt;span class=&#34;nb&#34;&gt;enable &lt;/span&gt;docker
+&lt;span class=&#34;c1&#34;&gt;# Enable the docker service for the next start&lt;/span&gt;
+systemctl &lt;span class=&#34;nb&#34;&gt;enable&lt;/span&gt; docker
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Now logout, and reconnect and it should work.&lt;/p&gt;
@@ -255,16 +255,16 @@ found that there is an unofficial support of libvirt.&lt;/p&gt;
 &lt;p&gt;I do not remember where I found the documentation to do this or if I did it by
 myself, so no link here, just what I do in order to make this work. I use a
 debian jessie distribution, so packages name may vary.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install packages&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Install packages&lt;/span&gt;
 apt-get install qemu-kvm libvirt-daemon-system libvirt-dev zlib1g-dev vagrant
 
-&lt;span class=&#34;c&#34;&gt;# Install vagrant plugin&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Install vagrant plugin&lt;/span&gt;
 vagrant plugin install vagrant-libvirt
 
-&lt;span class=&#34;c&#34;&gt;# Add user to group&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Add user to group&lt;/span&gt;
 gpasswd -a user_name libvirt
 
-&lt;span class=&#34;c&#34;&gt;# Reboot in order to load kvm and group change&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Reboot in order to load kvm and group change&lt;/span&gt;
 reboot
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -284,7 +284,7 @@ instructions.&lt;/p&gt;
 &lt;p&gt;Then according to this PR, I made a modification to the Vagrantfile
 &lt;a href=&#34;https://github.com/coreos/coreos-vagrant/pull/290/files&#34;&gt;https://github.com/coreos/coreos-vagrant/pull/290/files&lt;/a&gt;, I also added
 a valid &lt;code&gt;box_url&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;  &lt;span class=&#34;c1&#34;&gt;# if the provider asked is libvirt&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# if the provider asked is libvirt&lt;/span&gt;
   &lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;provider&lt;/span&gt; &lt;span class=&#34;ss&#34;&gt;:libvirt&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;v&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;|&lt;/span&gt;
 
     &lt;span class=&#34;c1&#34;&gt;# change the box to a libvirt compatible one&lt;/span&gt;
@@ -308,16 +308,16 @@ a valid &lt;code&gt;box_url&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;You can migrate Vagrant images to libvirt with another plugin:
 &lt;code&gt;vagrant-mutate&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Install the plugin&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Install the plugin&lt;/span&gt;
 vagrant plugin install vagrant-mutate
 
-&lt;span class=&#34;c&#34;&gt;# Mutate an image&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Mutate an image&lt;/span&gt;
 vagrant mutate https://atlas.hashicorp.com/debian/boxes/jessie64/versions/8.2.2/providers/virtualbox.box libvirt
 
-&lt;span class=&#34;c&#34;&gt;# Now the image is available, you can rename it if needed&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Now the image is available, you can rename it if needed&lt;/span&gt;
 mv ~/.vagrant.d/boxes/virtualbox ~/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64
 
-&lt;span class=&#34;c&#34;&gt;# Then run it&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Then run it&lt;/span&gt;
 vagrant init debian/jessie64&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; vagrant up --provider libvirt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -348,7 +348,7 @@ as it is mentionned in
 
 &lt;p&gt;We want to test them in a temporary location with a simple &amp;ldquo;Hello world&amp;rdquo; test.
 Here is the architecture we will use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  /tmp/drone_gogs_test      # just a custom directory for our test
   |-- test                  # the git repository with the file to test
   |   |-- hello.py          # simple python file with a doctest test
   |-- gogs                  # directory which will be used by gogs to store
@@ -362,7 +362,7 @@ Here is the architecture we will use:&lt;/p&gt;
 
 &lt;p&gt;We just use the doctest feature of python here, this allow us to perform a
 simple test without bootstraping a bunch of code&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function testing with doctest&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;hello&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
     &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Simple hello world function&lt;/span&gt;
@@ -371,16 +371,16 @@ simple test without bootstraping a bunch of code&lt;/p&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;gt;&amp;gt;&amp;gt; hello()&lt;/span&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;#39;Hello World!&amp;#39;&lt;/span&gt;
 &lt;span class=&#34;sd&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;
 
 
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
     &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;doctest&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;doctest&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;testmod&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And this is the run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;$ &lt;/span&gt;python hello.py -v
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;$ python hello.py -v
 Trying:
     hello&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
 Expecting:
@@ -424,7 +424,7 @@ use this as your day to day git repo).&lt;/p&gt;
 
 &lt;p&gt;This one is a bit more complicated, first we have to create a dronerc file
 with the following content:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;REMOTE_DRIVER&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;gogs
 &lt;span class=&#34;nv&#34;&gt;REMOTE_CONFIG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;http://172.17.0.3:3000
 &lt;span class=&#34;nv&#34;&gt;DEBUG&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -433,7 +433,7 @@ with the following content:&lt;/p&gt;
 to have outputs if something goes bad.&lt;/p&gt;
 
 &lt;p&gt;Now we can start the container:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;docker run \
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;docker run \
         --volume $(pwd)/drone/var:/var/lib/drone \
         --volume /var/run/docker.sock:/var/run/docker.sock \
         --env-file $(pwd)/drone/dronerc \
@@ -493,12 +493,12 @@ expert disk partioning in the installation wizard.&lt;/p&gt;
 
 &lt;p&gt;Install LVM into the new system (with chroot), then fillup the fstab file
 to look similar to something like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ordered  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 1
-/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          0	0
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ordered  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;	&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
 
-proc          /proc	    proc  defaults        0	0
-/dev/sda3     /boot	    ext4  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 2
-/dev/sda2     /boot/efi vfat  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; 2
+proc          /proc	    proc  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;	&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+/dev/sda3     /boot	    ext4  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
+/dev/sda2     /boot/efi vfat  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
@@ -517,7 +517,7 @@ setup the default.&lt;/p&gt;
 
 &lt;p&gt;As I use a Macbook I have an issue with my mic by default. To fix that, just
 create the &lt;code&gt;/etc/modprobe.d/alsa-base.conf&lt;/code&gt; file, and just past the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;options snd-hda-intel model=mbp101 index=1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;options snd-hda-intel model=mbp101 index=1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Reboot, and tadaaa!&lt;/p&gt;
@@ -537,7 +537,7 @@ that: &lt;code&gt;systemd-sysv&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;As systemd is already installed, here is the service file:
 &lt;code&gt;/etc/systemd/system/powertop.service&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
 &lt;span class=&#34;na&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Powertop tunings&lt;/span&gt;
 
 &lt;span class=&#34;k&#34;&gt;[Service]&lt;/span&gt;
@@ -704,7 +704,7 @@ later when my project will need to evolve.&lt;/p&gt;
       <description>&lt;p&gt;Following &lt;a href=&#34;{filename}/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -715,16 +715,16 @@ To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 &lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;
 
 which starts like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/sh&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
 prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
 &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c&#34;&gt;# Make sure that cryptroot is run last in local-top&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;# Make sure that cryptroot is run last in local-top&lt;/span&gt;
 	&lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; req in &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dirname &lt;span class=&#34;nv&#34;&gt;$0&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/*&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;do&lt;/span&gt;
 		&lt;span class=&#34;nv&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;req&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;##*/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;
 		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$script&lt;/span&gt; !&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; cryptroot &lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;then&lt;/span&gt;
@@ -736,24 +736,24 @@ prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt; in
 prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 	prereqs
-	&lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;0
+	&lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
 	&lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;esac&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
 . /scripts/functions
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Line 10 to 16 it says that cryptroot is run last, in the same directory there is a &lt;code&gt;lvm2&lt;/code&gt;
 script. So, what is happening is that cryptroot is launched after lvm2 which is not what we want.
 To fix this remove lines 10 to 16 and replace them with &lt;code&gt;echo &amp;quot;$PREREQ&amp;quot;&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;#!/bin/sh&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;ch&#34;&gt;#!/bin/sh&lt;/span&gt;
 
 &lt;span class=&#34;nv&#34;&gt;PREREQ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;cryptroot-prepare&amp;quot;&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Standard initramfs preamble&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
 prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
 &lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;
 	&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$PREREQ&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
@@ -762,11 +762,11 @@ prereqs&lt;span class=&#34;o&#34;&gt;()&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;case&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt; in
 prereqs&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
 	prereqs
-	&lt;span class=&#34;nb&#34;&gt;exit &lt;/span&gt;0
+	&lt;span class=&#34;nb&#34;&gt;exit&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
 	&lt;span class=&#34;p&#34;&gt;;;&lt;/span&gt;
 &lt;span class=&#34;k&#34;&gt;esac&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# source for log_*_msg() functions, see LP: #272301&lt;/span&gt;
 . /scripts/functions
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -851,15 +851,15 @@ Here is the command to download the script:&lt;/p&gt;
 &lt;p&gt;Relauch weechat or type &lt;code&gt;/script load chanlist.rb&lt;/code&gt;.
 We now have the buffer list on the left, but there is some commands to run in order to
 have something good.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# It is mandatory and appears in the chanlist documentation.&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# It is mandatory and appears in the chanlist documentation.&lt;/span&gt;
 /set irc.look.server_buffer independent
 
-&lt;span class=&#34;c&#34;&gt;# Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).&lt;/span&gt;
 /set plugins.var.ruby.chanlist.utf8 on
 
-&lt;span class=&#34;c&#34;&gt;# Fix chanlist size&lt;/span&gt;
-/set weechat.bar.chanlist.size 30
-/set weechat.bar.chanlist.size_max 30
+&lt;span class=&#34;c1&#34;&gt;# Fix chanlist size&lt;/span&gt;
+/set weechat.bar.chanlist.size &lt;span class=&#34;m&#34;&gt;30&lt;/span&gt;
+/set weechat.bar.chanlist.size_max &lt;span class=&#34;m&#34;&gt;30&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The two last config fixed the weechat chanlist bar size.&lt;/p&gt;
@@ -877,15 +877,15 @@ modify the source code. Run the following line for changing this:&lt;/p&gt;
 &lt;h2 id=&#34;connect-to-a-server-and-a-channel&#34;&gt;Connect to a server and a channel&lt;/h2&gt;
 
 &lt;p&gt;Now we can visualize the buffers we will connect to a server.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Setup nickname and connect&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Setup nickname and connect&lt;/span&gt;
 /set irc.server_default.nicks &lt;span class=&#34;s2&#34;&gt;&amp;quot;MaxV, MaxV_, MaxV__&amp;quot;&lt;/span&gt;
 /connect freenode
-/join &lt;span class=&#34;c&#34;&gt;#freenode&lt;/span&gt;
+/join &lt;span class=&#34;c1&#34;&gt;#freenode&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# Customize nicklist&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Customize nicklist&lt;/span&gt;
 /set irc.look.color_nicks_in_nicklist on
-/set weechat.bar.nicklist.size_max 12
-/set weechat.bar.nicklist.size 12
+/set weechat.bar.nicklist.size_max &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;
+/set weechat.bar.nicklist.size &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Here is the result:&lt;/p&gt;
@@ -896,32 +896,32 @@ modify the source code. Run the following line for changing this:&lt;/p&gt;
 
 &lt;p&gt;I will now customize the bars (because I can :p), this is inspired by
 &lt;a href=&#34;http://pascalpoitras.com/my-weechat-configuration/&#34;&gt;Pascal Poitras blog entry&lt;/a&gt;.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Change original separator (need UTF8 support)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Change original separator (need UTF8 support)&lt;/span&gt;
 /set weechat.look.separator_horizontal &lt;span class=&#34;s2&#34;&gt;&amp;quot;—&amp;quot;&lt;/span&gt;
 
-&lt;span class=&#34;c&#34;&gt;# Create and customize activetitle bar&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Create and customize activetitle bar&lt;/span&gt;
 /bar add activetitle window top &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; buffer_title
-/set weechat.bar.activetitle.priority 500
+/set weechat.bar.activetitle.priority &lt;span class=&#34;m&#34;&gt;500&lt;/span&gt;
 /set weechat.bar.activetitle.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;active&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 /set weechat.bar.activetitle.color_fg red
 /set weechat.bar.activetitle.color_bg default
 /set weechat.bar.activetitle.separator on
 
-&lt;span class=&#34;c&#34;&gt;# Customize the title bar&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Customize the title bar&lt;/span&gt;
 /set weechat.bar.title.conditions &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;inactive&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
 /set weechat.bar.title.color_fg white
 /set weechat.bar.title.color_bg default
 /set weechat.bar.title.separator on
 
-&lt;span class=&#34;c&#34;&gt;# Remove status bar&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Remove status bar&lt;/span&gt;
 /bar del status
 
-&lt;span class=&#34;c&#34;&gt;# Create and customize the rootinput bar&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Create and customize the rootinput bar&lt;/span&gt;
 /bar add rootinput root bottom &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;buffer_name&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_prompt&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;+&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;away&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;,&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
 &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_search&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;input_paste&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;,input_text
 /set weechat.bar.rootinput.separator on
 
-&lt;span class=&#34;c&#34;&gt;# Remove the input bar&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# Remove the input bar&lt;/span&gt;
 /bar del input
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -932,10 +932,10 @@ modify the source code. Run the following line for changing this:&lt;/p&gt;
 &lt;h2 id=&#34;layout&#34;&gt;Layout&lt;/h2&gt;
 
 &lt;p&gt;I want to display 4 buffers at a time, I will change the layout to fit my needs.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;/window splith 50
-/window splitv 50
-/window 1
-/window splitv 50
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;/window splith &lt;span class=&#34;m&#34;&gt;50&lt;/span&gt;
+/window splitv &lt;span class=&#34;m&#34;&gt;50&lt;/span&gt;
+/window &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
+/window splitv &lt;span class=&#34;m&#34;&gt;50&lt;/span&gt;
 
 /layout store default
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -946,12 +946,12 @@ modify the source code. Run the following line for changing this:&lt;/p&gt;
 
 &lt;p&gt;I have a few key bindings, at this point it fits my needs,
 maybe I will add some in the future and edit this post accordingly.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# Activate the mouse on Alt + x, desactivate by pressing a second time&lt;/span&gt;
-/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-x /mouse toggle
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Activate the mouse on Alt + x, desactivate by pressing a second time&lt;/span&gt;
+/key &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; meta-x /mouse toggle
 
-&lt;span class=&#34;c&#34;&gt;# Navigate through windows by pressing Alt + right, Alt + left&lt;/span&gt;
-/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-C /window +1
-/key &lt;span class=&#34;nb&#34;&gt;bind &lt;/span&gt;meta-meta2-D /window -1
+&lt;span class=&#34;c1&#34;&gt;# Navigate through windows by pressing Alt + right, Alt + left&lt;/span&gt;
+/key &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; meta-meta2-C /window +1
+/key &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; meta-meta2-D /window -1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
@@ -976,7 +976,7 @@ so everything has to be done &amp;ldquo;by hand&amp;rdquo;. First, as long as we
 registery we need to retrieve an &amp;ldquo;image&amp;rdquo; of the distribution we need.&lt;/p&gt;
 
 &lt;p&gt;(all the commands are ran on behalf of the root user)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;apt-get install debootstrap
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt-get install debootstrap
 debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /tmp/my-debian-machine
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -985,7 +985,7 @@ download ;)&lt;/p&gt;
 
 &lt;p&gt;Now, we have a folder containing the debian basic configuration, we can &amp;ldquo;spawn&amp;rdquo;
 it.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;systemd-nspawn -D /tmp/my-debian-machine
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;systemd-nspawn -D /tmp/my-debian-machine
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And that&amp;rsquo;s it! You now have your own container up and running.
@@ -998,18 +998,18 @@ be definitive.&lt;/p&gt;
 
 &lt;p&gt;Now, we will see a feature that I didn&amp;rsquo;t find in docker, the ability to boot
 your system.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;systemd-nspawn -D /tmp/my-debian-machine -b
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;systemd-nspawn -D /tmp/my-debian-machine -b
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And a prompt will appear, so to log in just &amp;lsquo;type the root password&amp;rsquo;.
 I&amp;rsquo;m sure you forget to set that before ;). Just stop your container,
 relaunch it without boot and set the password.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# stop the container&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# stop the container&lt;/span&gt;
 machinectl poweroff my-debian-machine
-&lt;span class=&#34;c&#34;&gt;# launch without boot&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# launch without boot&lt;/span&gt;
 systemd-nspawn -D /tmp/my-debian-machine
 
-&lt;span class=&#34;c&#34;&gt;# when you have the prompt type a new password&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# when you have the prompt type a new password&lt;/span&gt;
 passwd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1033,10 +1033,10 @@ to the console is &lt;em&gt;console-getty@.service&lt;/em&gt;&lt;/p&gt;
 directory in &lt;code&gt;/etc/systemd/system&lt;/code&gt; and a file &lt;em&gt;whatever_name.conf&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;So, I created the dedicated file and put this inside:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# /etc/systemd/system/console-getty.service.d/autologin.conf&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# /etc/systemd/system/console-getty.service.d/autologin.conf&lt;/span&gt;
 &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Service&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
 &lt;span class=&#34;nv&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;-/sbin/agetty --noclear --autologin root --keep-baud console 115200,38400,9600 &lt;span class=&#34;nv&#34;&gt;$TERM&lt;/span&gt;
+&lt;span class=&#34;nv&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;-/sbin/agetty --noclear --autologin root --keep-baud console &lt;span class=&#34;m&#34;&gt;115200&lt;/span&gt;,38400,9600 &lt;span class=&#34;nv&#34;&gt;$TERM&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The first &lt;code&gt;ExecStart=&lt;/code&gt; clean the old call so that we can override it in the
@@ -1083,7 +1083,7 @@ really flexible:&lt;/p&gt;
 &lt;li&gt;you can not store a variable through multiple run, you will need to do
 a oneliner e.g:&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;  &lt;span class=&#34;c&#34;&gt;# you will need to write this in the Dockerfile&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# you will need to write this in the Dockerfile&lt;/span&gt;
   RUN &lt;span class=&#34;nv&#34;&gt;TMPFILE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;tempfile&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
     &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World&amp;quot;&lt;/span&gt; &amp;gt; &lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
     rm &lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;
@@ -1147,30 +1147,30 @@ web interface on my local machine.&lt;/p&gt;
 
 &lt;p&gt;First, ssh! For this I need a ssh connection to the remote server, here I use
 a particular ssh key.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1
 
-&lt;span class=&#34;c&#34;&gt;# urls also work&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# urls also work&lt;/span&gt;
 ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Okay, at this moment we can use a config file for ssh: &lt;code&gt;$HOME/.ssh/config&lt;/code&gt; :)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;Host 192.168.0.1 my.url.com
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;Host 192.168.0.1 my.url.com
    user mylogin
    IdentityFile ~/.ssh/my_ssh.key
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The CLI is now:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# with IP&lt;/span&gt;
-ssh 192.168.0.1
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# with IP&lt;/span&gt;
+ssh &lt;span class=&#34;m&#34;&gt;192&lt;/span&gt;.168.0.1
 
-&lt;span class=&#34;c&#34;&gt;# with url&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# with url&lt;/span&gt;
 ssh my.url.com
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;I have a connection but now I want to share my dev server on the remote host to
 my local web browser. For that I will use the &lt;code&gt;-L&lt;/code&gt; of ssh, this will forward
 the local port with the remote one.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ssh -L 5000:localhost:9999 192.168.0.1 &lt;span class=&#34;c&#34;&gt;# same as before it works with url&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ssh -L &lt;span class=&#34;m&#34;&gt;5000&lt;/span&gt;:localhost:9999 &lt;span class=&#34;m&#34;&gt;192&lt;/span&gt;.168.0.1 &lt;span class=&#34;c1&#34;&gt;# same as before it works with url&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;This command will connect my local port 5000 to the port 9999 of the remote
@@ -1180,7 +1180,7 @@ except the ssh one)&lt;/p&gt;
 &lt;h2 id=&#34;rsync&#34;&gt;rsync&lt;/h2&gt;
 
 &lt;p&gt;Then, we will use rsync to send files to our server&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;rsync -avz -e &lt;span class=&#34;s2&#34;&gt;&amp;quot;ssh&amp;quot;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;local&lt;/span&gt;/folder my.url.com:/home/username/remote_folder
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;rsync -avz -e &lt;span class=&#34;s2&#34;&gt;&amp;quot;ssh&amp;quot;&lt;/span&gt; local/folder my.url.com:/home/username/remote_folder
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
@@ -1198,7 +1198,7 @@ mylogin@my.url.com:/home/username/remote_folder&lt;/code&gt;&lt;/li&gt;
 (.git folder, generated files, etc&amp;hellip;), so we will use the &lt;code&gt;--exclude-from&lt;/code&gt;
 option. In the folder we want to synchronize, we create a file &lt;code&gt;exclude.txt&lt;/code&gt;
 (the name is not important), then we fill it with the needed files or folder:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;.git
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;.git
 /static
 *.pyc
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
@@ -1207,8 +1207,8 @@ option. In the folder we want to synchronize, we create a file &lt;code&gt;exclu
 So it will not have the same effect if we change the working directory.&lt;/p&gt;
 
 &lt;p&gt;The command will look like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# move to working dir&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;cd local&lt;/span&gt;/folder
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# move to working dir&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; local/folder
 
 &lt;span class=&#34;nv&#34;&gt;remote_loc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;my.url.com:/home/username/remote_folder&amp;quot;&lt;/span&gt;
 
@@ -1222,7 +1222,7 @@ file change. For this purpose I will use &lt;code&gt;fswatch&lt;/code&gt; becaus
 (shame on me), &lt;code&gt;inotify&lt;/code&gt; can be use on linux platforms.&lt;/p&gt;
 
 &lt;p&gt;First, check the changes on my working directory:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;fswatch -e .git/ -e .pyc -e &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/static .
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;fswatch -e .git/ -e .pyc -e &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;/static .
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Here I use &lt;code&gt;$(pwd)&lt;/code&gt; in order to not catch the &lt;code&gt;/static&lt;/code&gt; folder at the root of
@@ -1238,7 +1238,7 @@ each entry.&lt;/p&gt;
 &lt;h2 id=&#34;all-together&#34;&gt;All together&lt;/h2&gt;
 
 &lt;p&gt;Here is my final command:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd local&lt;/span&gt;/folder
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; local/folder
 
 &lt;span class=&#34;nv&#34;&gt;remote_loc&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;my.url.com:/home/username/remote_folder&amp;quot;&lt;/span&gt;
 
@@ -1278,14 +1278,14 @@ the second one is &lt;a href=&#34;http://stedolan.github.io/jq/manual/&#34;&gt;j
 
 &lt;p&gt;One important feature of curl is its hability to load external files for datas
 with &lt;code&gt;@&lt;/code&gt; before file name:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d @filepath
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -d @filepath
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Then you can remove the progress bar by adding &lt;code&gt;-s&lt;/code&gt; in the options&lt;/p&gt;
 
 &lt;p&gt;Finally, you can use jq for parsing the output with a request syntax, here is
 what the final line looks like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -s -d @filepath &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;curl -X POST -H &lt;span class=&#34;s2&#34;&gt;&amp;quot;Content-Type: application/json&amp;quot;&lt;/span&gt; -s -d @filepath &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; jq &lt;span class=&#34;s1&#34;&gt;&amp;#39;.&amp;#39;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;It is a small article but I just wanted to show that those tools are really
@@ -1309,25 +1309,25 @@ are relying on.&lt;/p&gt;
 encountered and how I solved them.&lt;/p&gt;
 
 &lt;h3 id=&#34;creating-a-bootable-usb-key-on-a-mac&#34;&gt;Creating a bootable USB key on a Mac&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# plug your USB key, then find it with&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# plug your USB key, then find it with&lt;/span&gt;
 diskutil list
 
-&lt;span class=&#34;c&#34;&gt;# unmount the usb key (it is mandatory), where X in diskX is the number assigned&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# to your USB you retrieved with the previous command&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# unmount the usb key (it is mandatory), where X in diskX is the number assigned&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# to your USB you retrieved with the previous command&lt;/span&gt;
 diskutil unmountDisk /dev/diskX
 
-&lt;span class=&#34;c&#34;&gt;# if you are making a bootable usb key for a Mac run this command,&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# debian.img will be the output and debian-testing-amd64-CD-1.iso is&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# the iso you retrieved from internet https://www.debian.org/CD/http-ftp/&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# if you are making a bootable usb key for a Mac run this command,&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# debian.img will be the output and debian-testing-amd64-CD-1.iso is&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# the iso you retrieved from internet https://www.debian.org/CD/http-ftp/&lt;/span&gt;
 hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso
 
-&lt;span class=&#34;c&#34;&gt;# if you are making a Mac bootable usb key (X is still the disk number)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# if you are making a Mac bootable usb key (X is still the disk number)&lt;/span&gt;
 sudo dd &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;./debian.img.dmg &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/rdiskX &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1m
 
-&lt;span class=&#34;c&#34;&gt;# otherwise (X is still the disk number)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# otherwise (X is still the disk number)&lt;/span&gt;
 sudo dd &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;./debian-testing-amd64-CD-1.iso &lt;span class=&#34;nv&#34;&gt;of&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/dev/rdiskX &lt;span class=&#34;nv&#34;&gt;bs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;1m
 
-&lt;span class=&#34;c&#34;&gt;# to finish eject&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# to finish eject&lt;/span&gt;
 hdiutil eject /dev/diskX
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1352,26 +1352,26 @@ hand.&lt;/p&gt;
 &lt;h4 id=&#34;chroot-into-an-other-system&#34;&gt;Chroot into an other system&lt;/h4&gt;
 
 &lt;p&gt;First find the partition on which your system has been installed&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# parted will print you the partition of each device&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# parted will print you the partition of each device&lt;/span&gt;
 parted /dev/sda print
 parted /dev/sdb print
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Once the partition is found you have to mount it&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# create a directory for the mounted partition&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# create a directory for the mounted partition&lt;/span&gt;
 mkdir /mnt/sda1
 
-&lt;span class=&#34;c&#34;&gt;# mount it&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# mount it&lt;/span&gt;
 mount /dev/sda1 /mnt/sda1
 
-&lt;span class=&#34;c&#34;&gt;# bind the main parts&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# bind the main parts&lt;/span&gt;
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/sda1/dev
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/sda1/dev/pts
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/sda1/proc
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /run /mnt/sda1/run
 mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /sys /mnt/sda1/sys
 
-&lt;span class=&#34;c&#34;&gt;# chroot in the system&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# chroot in the system&lt;/span&gt;
 chroot /mnt/sda1 /bin/bash
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1379,22 +1379,22 @@ chroot /mnt/sda1 /bin/bash
 
 &lt;p&gt;Actualize the file &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; with the following
 &lt;a href=&#34;http://debgen.simplylinux.ch/&#34;&gt;site&lt;/a&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# update&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# update&lt;/span&gt;
 apt-get update
 
-&lt;span class=&#34;c&#34;&gt;# install the kernel, for me it is an amd64 architecture, to find yours just run&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# apt-cache search linux-image and choose the one for your needs&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# install the kernel, for me it is an amd64 architecture, to find yours just run&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# apt-cache search linux-image and choose the one for your needs&lt;/span&gt;
 apt-get install linux-image-amd64
 
-&lt;span class=&#34;c&#34;&gt;# install grub2, when installing it will ask for the device on which you want&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# grub to be installed, choose the device not the partition, here it will be&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# /dev/sda&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# install grub2, when installing it will ask for the device on which you want&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# grub to be installed, choose the device not the partition, here it will be&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# /dev/sda&lt;/span&gt;
 apt-get install grub2
 
-&lt;span class=&#34;c&#34;&gt;# update grub just in case&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# update grub just in case&lt;/span&gt;
 update-grub
 
-&lt;span class=&#34;c&#34;&gt;# do not forget to initialize the password&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# do not forget to initialize the password&lt;/span&gt;
 passwd
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1403,37 +1403,37 @@ passwd
 &lt;h3 id=&#34;rebooting-and-first-configuration&#34;&gt;Rebooting and first configuration&lt;/h3&gt;
 
 &lt;h4 id=&#34;set-up-the-locales&#34;&gt;Set up the locales&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install the package&lt;/span&gt;
 apt-get install locales
 
-&lt;span class=&#34;c&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
 dpkg-reconfigure locales
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4 id=&#34;set-up-the-keyboard&#34;&gt;Set up the keyboard&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install the package&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install the package&lt;/span&gt;
 apt-get install console-data
 
-&lt;span class=&#34;c&#34;&gt;# for me it is a french keyboard&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# for me it is a french keyboard&lt;/span&gt;
 loadkeys fr-latin
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Test if the configuration works for you, then you can save it by adding to
 &lt;code&gt;/etc/rc.locals&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# the path to the keymap is displayed when you use the loadkeys command&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# the path to the keymap is displayed when you use the loadkeys command&lt;/span&gt;
 /usr/bin/loadkeys /usr/share/keymaps/i386/azerty/fr-latin9.kmap.gz
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h4 id=&#34;a-name-users-a-users&#34;&gt;&lt;a name=&#34;users&#34;&gt;&lt;/a&gt;Users&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install sudo&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install sudo&lt;/span&gt;
 apt-get install sudo
 
-&lt;span class=&#34;c&#34;&gt;# add new user called foo with a home folder (-m),&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# users as first group (-g group_name), sudo as additionnal group (-G group_name)&lt;/span&gt;
-&lt;span class=&#34;c&#34;&gt;# and bash as login shell&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# add new user called foo with a home folder (-m),&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# users as first group (-g group_name), sudo as additionnal group (-G group_name)&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# and bash as login shell&lt;/span&gt;
 useradd -m -g users -G sudo -s /bin/bash foo
 
-&lt;span class=&#34;c&#34;&gt;# change user password&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# change user password&lt;/span&gt;
 passwd foo
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1442,7 +1442,7 @@ passwd foo
 &lt;p&gt;Here I will use i3 on top of xorg&lt;/p&gt;
 
 &lt;h4 id=&#34;init&#34;&gt;Init&lt;/h4&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# install xorg and i3&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install xorg and i3&lt;/span&gt;
 apt-get install xorg i3
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -1458,10 +1458,10 @@ Then we want to launch i3. To do that add &lt;code&gt;exec i3&lt;/code&gt; at an
 &lt;h4 id=&#34;set-x-keyboard-layout&#34;&gt;Set X keyboard layout&lt;/h4&gt;
 
 &lt;p&gt;To have the correct layout for X add the above commands in your &lt;code&gt;.xinitrc&lt;/code&gt; file.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;c&#34;&gt;# reset the options&lt;/span&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# reset the options&lt;/span&gt;
 setxkbmap -option
 
-&lt;span class=&#34;c&#34;&gt;# I only add the option to quit X by pressing ctrl+alt+backspace&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# I only add the option to quit X by pressing ctrl+alt+backspace&lt;/span&gt;
 setxkbmap -layout fr -variant latin9 -option terminate:ctrl_alt_bksp
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
