@@ -1,0 +1,3 @@
+[submodule "themes/chunk"]
+	path = themes/chunk
+	url = git@github.com:IxDay/chunk.git
