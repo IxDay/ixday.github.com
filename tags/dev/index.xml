@@ -9,6 +9,83 @@
     <atom:link href="http://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Git clone inside a mounted volume with Docker</title>
+      <link>http://ixday.github.io/post/docker_git_volume/</link>
+      <pubDate>Mon, 13 Mar 2017 14:52:21 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/docker_git_volume/</guid>
+      <description>
+
+&lt;p&gt;&lt;strong&gt;DISCLAIMER:&lt;/strong&gt; This is now fixed in git new releases and does not need to be done
+anymore. I use an old version of alpine in order to have an unpached version of
+git.&lt;/p&gt;
+
+&lt;p&gt;I ran into an interesting issue lastly. I wanted to mount a volume inside
+a container and clone a repo in it. I also wanted to avoid messing with the
+permissions and pass my user to the container as well.&lt;/p&gt;
+
+&lt;h2 id=&#34;set-test-env&#34;&gt;Set test env&lt;/h2&gt;
+
+&lt;p&gt;Here is my setup, a Dockerfile with a container and git installed&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; alpine:3.2&lt;/span&gt;
+&lt;span class=&#34;k&#34;&gt;RUN&lt;/span&gt; apk --update add git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then simply run the git clone command inside a volume mounted with correct uid
+and gid.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;go&#34;&gt;docker build -t foo --rm .&lt;/span&gt;
+&lt;span class=&#34;go&#34;&gt;docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \&lt;/span&gt;
+&lt;span class=&#34;go&#34;&gt;	git clone https://github.com/octocat/Spoon-Knife&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And I get the following error:
+&lt;code&gt;fatal: unable to look up current user in the passwd file: no such user&lt;/code&gt;. This
+is actually right, my user only exists on the host and not into my container.&lt;/p&gt;
+
+&lt;h2 id=&#34;googling&#34;&gt;Googling&lt;/h2&gt;
+
+&lt;p&gt;I checked my best friend for technical questions: Google. And found
+&lt;a href=&#34;http://www.spinics.net/lists/git/msg263682.html&#34;&gt;this thread&lt;/a&gt;
+which describe exactly what I am facing right now. The thread is really
+interesting and I invite you to read it entirely.&lt;/p&gt;
+
+&lt;p&gt;A solution is suggested &lt;a href=&#34;http://www.spinics.net/lists/git/msg263958.html&#34;&gt;here&lt;/a&gt;.
+What does it say? Just disable the &lt;code&gt;reflog&lt;/code&gt; at clone time. I still have an issue
+here because I do not have the hand on the cloning command in my real life issue.&lt;/p&gt;
+
+&lt;p&gt;Googling again, nothing really obvious came here. So better check at the git
+documentation, and more precisely at the
+&lt;a href=&#34;https://git-scm.com/docs/git-config&#34;&gt;git config man page&lt;/a&gt;. Looking for &lt;code&gt;reflog&lt;/code&gt;
+and ended up &lt;a href=&#34;https://git-scm.com/docs/git-config#git-config-corelogAllRefUpdates&#34;&gt;here&lt;/a&gt;.
+Great, there is a trigger!&lt;/p&gt;
+
+&lt;h2 id=&#34;fixing&#34;&gt;Fixing&lt;/h2&gt;
+
+&lt;p&gt;We now have to set this option inside the Dockerfile in order to make the
+process able to clone the repo correctly. There is an option inside the
+&lt;code&gt;git config&lt;/code&gt; we will use: &lt;code&gt;--system&lt;/code&gt; described
+&lt;a href=&#34;https://git-scm.com/docs/git-config#git-config---system&#34;&gt;here&lt;/a&gt;.
+This will set the configuration system wide, because the cloning will occur with a random uid,
+we need a generic setup, whereas &lt;code&gt;--global&lt;/code&gt; as root will only set the option
+for the root user.&lt;/p&gt;
+
+&lt;h2 id=&#34;final-setup&#34;&gt;Final setup&lt;/h2&gt;
+
+&lt;p&gt;We modify our Dockerfile according to the last results.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; alpine:3.2&lt;/span&gt;
+
+&lt;span class=&#34;k&#34;&gt;RUN&lt;/span&gt; apk --update add git
+&lt;span class=&#34;k&#34;&gt;RUN&lt;/span&gt; git config --system core.logallrefupdates false
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The git config command is case insensitive, so all lowercase will work here.
+Now just run the previous build and run again your git clone.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;It works!&lt;/strong&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Makefile</title>
       <link>http://ixday.github.io/post/makefile/</link>
       <pubDate>Wed, 15 Feb 2017 10:57:00 +0100</pubDate>

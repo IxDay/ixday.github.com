@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.19" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Git clone inside a mounted volume with Docker</title>
+  <meta property='og:title' content="Git clone inside a mounted volume with Docker - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Mon Mar 13 2017
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/docker_git_volume/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Git clone inside a mounted volume with Docker</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/dev ">dev</a>
+
+      </p>
+      
+
+    </header>
+    
+
+<p><strong>DISCLAIMER:</strong> This is now fixed in git new releases and does not need to be done
+anymore. I use an old version of alpine in order to have an unpached version of
+git.</p>
+
+<p>I ran into an interesting issue lastly. I wanted to mount a volume inside
+a container and clone a repo in it. I also wanted to avoid messing with the
+permissions and pass my user to the container as well.</p>
+
+<h2 id="set-test-env">Set test env</h2>
+
+<p>Here is my setup, a Dockerfile with a container and git installed</p>
+<div class="highlight"><pre><code class="language-dockerfile" data-lang="dockerfile"><span></span><span class="k">FROM</span><span class="s"> alpine:3.2</span>
+<span class="k">RUN</span> apk --update add git
+</code></pre></div>
+
+<p>Then simply run the git clone command inside a volume mounted with correct uid
+and gid.</p>
+<div class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="go">docker build -t foo --rm .</span>
+<span class="go">docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \</span>
+<span class="go">	git clone https://github.com/octocat/Spoon-Knife</span>
+</code></pre></div>
+
+<p>And I get the following error:
+<code>fatal: unable to look up current user in the passwd file: no such user</code>. This
+is actually right, my user only exists on the host and not into my container.</p>
+
+<h2 id="googling">Googling</h2>
+
+<p>I checked my best friend for technical questions: Google. And found
+<a href="http://www.spinics.net/lists/git/msg263682.html">this thread</a>
+which describe exactly what I am facing right now. The thread is really
+interesting and I invite you to read it entirely.</p>
+
+<p>A solution is suggested <a href="http://www.spinics.net/lists/git/msg263958.html">here</a>.
+What does it say? Just disable the <code>reflog</code> at clone time. I still have an issue
+here because I do not have the hand on the cloning command in my real life issue.</p>
+
+<p>Googling again, nothing really obvious came here. So better check at the git
+documentation, and more precisely at the
+<a href="https://git-scm.com/docs/git-config">git config man page</a>. Looking for <code>reflog</code>
+and ended up <a href="https://git-scm.com/docs/git-config#git-config-corelogAllRefUpdates">here</a>.
+Great, there is a trigger!</p>
+
+<h2 id="fixing">Fixing</h2>
+
+<p>We now have to set this option inside the Dockerfile in order to make the
+process able to clone the repo correctly. There is an option inside the
+<code>git config</code> we will use: <code>--system</code> described
+<a href="https://git-scm.com/docs/git-config#git-config---system">here</a>.
+This will set the configuration system wide, because the cloning will occur with a random uid,
+we need a generic setup, whereas <code>--global</code> as root will only set the option
+for the root user.</p>
+
+<h2 id="final-setup">Final setup</h2>
+
+<p>We modify our Dockerfile according to the last results.</p>
+<div class="highlight"><pre><code class="language-dockerfile" data-lang="dockerfile"><span></span><span class="k">FROM</span><span class="s"> alpine:3.2</span>
+
+<span class="k">RUN</span> apk --update add git
+<span class="k">RUN</span> git config --system core.logallrefupdates false
+</code></pre></div>
+
+<p>The git config command is case insensitive, so all lowercase will work here.
+Now just run the previous build and run again your git clone.</p>
+
+<p><strong>It works!</strong></p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/docker_git_volume\/';
+    var disqus_title = 'Git clone inside a mounted volume with Docker';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/docker_git_volume\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2017 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

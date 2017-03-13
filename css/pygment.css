@@ -8,6 +8,7 @@ code {
   background-color: #fff;
   color: #038978;
   font-size: 12px;
+  padding: 2px 5px;
 }
 
 table.highlighttable tr td {
@@ -52,6 +53,7 @@ table.highlighttable {
 
 .highlight code {
   color: #4d4d4c;
+  padding: 0;
 }
 
 .highlight .hll { background-color: #d6d6d6 }
