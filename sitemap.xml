@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ixday.github.io/post/unprivileged_libvirt/</loc>
+    <lastmod>2017-05-01T11:41:14+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://ixday.github.io/post/docker_git_volume/</loc>
     <lastmod>2017-03-13T14:52:21+01:00</lastmod>
   </url>
@@ -168,7 +173,7 @@
   
   <url>
     <loc>http://ixday.github.io/tags/admin/</loc>
-    <lastmod>2017-02-02T10:08:35+01:00</lastmod>
+    <lastmod>2017-05-01T11:41:14+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -186,7 +191,7 @@
   
   <url>
     <loc>http://ixday.github.io/tags/bash/</loc>
-    <lastmod>2016-07-20T09:13:58+02:00</lastmod>
+    <lastmod>2017-05-01T11:41:14+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -221,19 +226,19 @@
   
   <url>
     <loc>http://ixday.github.io/</loc>
-    <lastmod>2017-03-13T14:52:21+01:00</lastmod>
+    <lastmod>2017-05-01T11:41:14+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://ixday.github.io/categories/os/</loc>
-    <lastmod>2016-08-08T15:23:34+02:00</lastmod>
+    <lastmod>2017-05-01T11:41:14+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://ixday.github.io/post/</loc>
-    <lastmod>2017-03-13T14:52:21+01:00</lastmod>
+    <lastmod>2017-05-01T11:41:14+02:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -9,6 +9,120 @@
     <atom:link href="http://ixday.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Start libvirt VM as unprivileged user</title>
+      <link>http://ixday.github.io/post/unprivileged_libvirt/</link>
+      <pubDate>Mon, 01 May 2017 11:41:14 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/unprivileged_libvirt/</guid>
+      <description>
+
+&lt;p&gt;Quick post for starting a VM inside libvirt as a non-root user. Also contains
+some useful snippets.&lt;/p&gt;
+
+&lt;p&gt;I want to start an alpine virt iso (&lt;a href=&#34;https://alpinelinux.org/downloads/&#34;&gt;from here&lt;/a&gt;)
+inside kvm through &lt;code&gt;libvirt&lt;/code&gt;. But I am sick to run all my virsh commands prefixed with sudo.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DISCLAIMER&lt;/strong&gt;: This will contain some of my conclusions with my partial understanding
+of those tools. I am quite sure that all of this can be improved, but I don&amp;rsquo;t
+have time to invest on this for the moment.&lt;/p&gt;
+
+&lt;h2 id=&#34;packages-and-doc&#34;&gt;Packages and doc&lt;/h2&gt;
+
+&lt;p&gt;To do this I have to install all the libvirt stuff and dependencies. I recently
+changed my distrib for an Archlinux, relevant articles can be found here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/KVM&#34;&gt;KVM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/QEMU&#34;&gt;QEMU&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/libvirt&#34;&gt;libvirt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Installed packages are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;libvirt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;qemu&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;virt-install&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Libvirt is a wrapper around virtualization solutions, you can use it to
+start containers and VMs through different tools and hypervisors. The &lt;code&gt;virt-install&lt;/code&gt;
+package is just a plugin of &lt;code&gt;libvirt&lt;/code&gt; to manage VMs installations. You can
+perform all those operations directly through &lt;code&gt;QEMU&lt;/code&gt; if you want.&lt;/p&gt;
+
+&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Note: libvirt command line interface is &lt;code&gt;virsh&lt;/code&gt;, because fuck logic, so
+you don&amp;rsquo;t get lost in the following.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To make all this work I had to add myself to those groups: &lt;code&gt;kvm&lt;/code&gt;, &lt;code&gt;libvirt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Libvirt comes with a definition of a default network, you can see it by typing:
+&lt;code&gt;sudo virsh net-dumpxml default&lt;/code&gt;. This will create and start a virtual bridge
+named &lt;code&gt;virbr0&lt;/code&gt;, for my case (check the name it will be important later on), when
+the network is started.&lt;/p&gt;
+
+&lt;p&gt;What we will do is reuse this bridge for the VMs we will start in our user space.
+To perform that we have to ensure that this network is started by libvirt at
+startup:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# start libvirt at computer startup&lt;/span&gt;
+sudo systemctl &lt;span class=&#34;nb&#34;&gt;enable&lt;/span&gt; libvirtd
+&lt;span class=&#34;c1&#34;&gt;# ensure network is started by default&lt;/span&gt;
+sudo virsh net-autostart default
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, just one last config, QEMU provides some ACL which will allow users to
+interact with parts of it, we will modificate it to add access to the virtual
+bridge. We also have to set suid on the qemu bridge command so a simple user
+can get permissions for setting up bridge configuration.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# create ACL directory and set the value&lt;/span&gt;
+sudo mkdir -p /etc/qemu &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;allow virbr0&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo tee /etc/qemu/bridge.conf
+&lt;span class=&#34;c1&#34;&gt;# enable suid on qemu bridge tool&lt;/span&gt;
+locate qemu-bridge-helper &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo xargs chmod +s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;BEWARE:&lt;/strong&gt; The default network bridge name has been used here (&lt;code&gt;virbr0&lt;/code&gt;),
+check if it is the one from your default network.&lt;/p&gt;
+
+&lt;h2 id=&#34;shoot&#34;&gt;Shoot!&lt;/h2&gt;
+
+&lt;p&gt;We just have to start our new VM now, be sure to have correctly logged out and
+in again before running the following commands (it makes the group changes effective).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# download the ISO&lt;/span&gt;
+wget https://nl.alpinelinux.org/alpine/v3.5/releases/x86_64/alpine-virt-3.5.2-x86_64.iso
+&lt;span class=&#34;c1&#34;&gt;# start it&lt;/span&gt;
+virt-install			&lt;span class=&#34;c1&#34;&gt;# create a new VM through libvirt \&lt;/span&gt;
+	--virt-type kvm		&lt;span class=&#34;c1&#34;&gt;# use the kvm hypervisor \&lt;/span&gt;
+	--name alpine		&lt;span class=&#34;c1&#34;&gt;# VM name  \&lt;/span&gt;
+	--memory &lt;span class=&#34;m&#34;&gt;1024&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;# allocate 1024MB of RAM \&lt;/span&gt;
+	--disk &lt;span class=&#34;nv&#34;&gt;size&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;# allocate a volume of 10G for disk storage of the VM \&lt;/span&gt;
+	--noautoconsole		&lt;span class=&#34;c1&#34;&gt;# I don&amp;#39;t want to start a gui on top of my VM (this part has to be investigated) \&lt;/span&gt;
+	--cdrom alpine-virt-3.5.2-x86_64.iso	&lt;span class=&#34;c1&#34;&gt;# the disk iso for the installation \&lt;/span&gt;
+	--network &lt;span class=&#34;nv&#34;&gt;bridge&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;virbr0,model&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;virtio	&lt;span class=&#34;c1&#34;&gt;# the tricky part now, I define the bridge to attach my VM to \&lt;/span&gt;
+						&lt;span class=&#34;c1&#34;&gt;# the model=virtio is something which makes it work properly, \&lt;/span&gt;
+						&lt;span class=&#34;c1&#34;&gt;# also have to investigate it&lt;/span&gt;
+
+virsh console --domain alpine &lt;span class=&#34;c1&#34;&gt;# attach our console to the VM console&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You should have a running VM and be able to control it without any &lt;code&gt;sudo&lt;/code&gt; command.
+Yay \o/&lt;/p&gt;
+
+&lt;h2 id=&#34;some-snippets&#34;&gt;Some snippets&lt;/h2&gt;
+
+&lt;p&gt;I use some shell snippets to control the destruction of my VM.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;alpine
+&lt;span class=&#34;c1&#34;&gt;# stop a dedicated vm&lt;/span&gt;
+virsh list &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$2 ~ /&amp;#39;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/ {system(&amp;quot;virsh destroy &amp;quot; $2)}&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# delete it&lt;/span&gt;
+virsh list --all &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$2 ~ /&amp;#39;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/ {system(&amp;quot;virsh undefine &amp;quot; $2)}&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# delete all the volumes&lt;/span&gt;
+virsh vol-list default &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR &amp;gt; 2 &amp;amp;&amp;amp; NF &amp;gt; 0 {system(&amp;quot;xargs virsh vol-delete --pool default &amp;quot; $1)}&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Bash Shortcuts</title>
       <link>http://ixday.github.io/post/bash_shortcuts/</link>
       <pubDate>Wed, 20 Jul 2016 09:13:58 +0200</pubDate>

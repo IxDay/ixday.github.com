@@ -6,8 +6,122 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Mar 2017 14:52:21 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 01 May 2017 11:41:14 +0200</lastBuildDate>
     <atom:link href="http://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Start libvirt VM as unprivileged user</title>
+      <link>http://ixday.github.io/post/unprivileged_libvirt/</link>
+      <pubDate>Mon, 01 May 2017 11:41:14 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/unprivileged_libvirt/</guid>
+      <description>
+
+&lt;p&gt;Quick post for starting a VM inside libvirt as a non-root user. Also contains
+some useful snippets.&lt;/p&gt;
+
+&lt;p&gt;I want to start an alpine virt iso (&lt;a href=&#34;https://alpinelinux.org/downloads/&#34;&gt;from here&lt;/a&gt;)
+inside kvm through &lt;code&gt;libvirt&lt;/code&gt;. But I am sick to run all my virsh commands prefixed with sudo.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;DISCLAIMER&lt;/strong&gt;: This will contain some of my conclusions with my partial understanding
+of those tools. I am quite sure that all of this can be improved, but I don&amp;rsquo;t
+have time to invest on this for the moment.&lt;/p&gt;
+
+&lt;h2 id=&#34;packages-and-doc&#34;&gt;Packages and doc&lt;/h2&gt;
+
+&lt;p&gt;To do this I have to install all the libvirt stuff and dependencies. I recently
+changed my distrib for an Archlinux, relevant articles can be found here:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/KVM&#34;&gt;KVM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/QEMU&#34;&gt;QEMU&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://wiki.archlinux.org/index.php/libvirt&#34;&gt;libvirt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Installed packages are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;libvirt&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;qemu&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;virt-install&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Libvirt is a wrapper around virtualization solutions, you can use it to
+start containers and VMs through different tools and hypervisors. The &lt;code&gt;virt-install&lt;/code&gt;
+package is just a plugin of &lt;code&gt;libvirt&lt;/code&gt; to manage VMs installations. You can
+perform all those operations directly through &lt;code&gt;QEMU&lt;/code&gt; if you want.&lt;/p&gt;
+
+&lt;h2 id=&#34;setup&#34;&gt;Setup&lt;/h2&gt;
+
+&lt;p&gt;&lt;em&gt;Note: libvirt command line interface is &lt;code&gt;virsh&lt;/code&gt;, because fuck logic, so
+you don&amp;rsquo;t get lost in the following.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;To make all this work I had to add myself to those groups: &lt;code&gt;kvm&lt;/code&gt;, &lt;code&gt;libvirt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Libvirt comes with a definition of a default network, you can see it by typing:
+&lt;code&gt;sudo virsh net-dumpxml default&lt;/code&gt;. This will create and start a virtual bridge
+named &lt;code&gt;virbr0&lt;/code&gt;, for my case (check the name it will be important later on), when
+the network is started.&lt;/p&gt;
+
+&lt;p&gt;What we will do is reuse this bridge for the VMs we will start in our user space.
+To perform that we have to ensure that this network is started by libvirt at
+startup:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# start libvirt at computer startup&lt;/span&gt;
+sudo systemctl &lt;span class=&#34;nb&#34;&gt;enable&lt;/span&gt; libvirtd
+&lt;span class=&#34;c1&#34;&gt;# ensure network is started by default&lt;/span&gt;
+sudo virsh net-autostart default
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, just one last config, QEMU provides some ACL which will allow users to
+interact with parts of it, we will modificate it to add access to the virtual
+bridge. We also have to set suid on the qemu bridge command so a simple user
+can get permissions for setting up bridge configuration.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# create ACL directory and set the value&lt;/span&gt;
+sudo mkdir -p /etc/qemu &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;allow virbr0&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo tee /etc/qemu/bridge.conf
+&lt;span class=&#34;c1&#34;&gt;# enable suid on qemu bridge tool&lt;/span&gt;
+locate qemu-bridge-helper &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo xargs chmod +s
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;BEWARE:&lt;/strong&gt; The default network bridge name has been used here (&lt;code&gt;virbr0&lt;/code&gt;),
+check if it is the one from your default network.&lt;/p&gt;
+
+&lt;h2 id=&#34;shoot&#34;&gt;Shoot!&lt;/h2&gt;
+
+&lt;p&gt;We just have to start our new VM now, be sure to have correctly logged out and
+in again before running the following commands (it makes the group changes effective).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# download the ISO&lt;/span&gt;
+wget https://nl.alpinelinux.org/alpine/v3.5/releases/x86_64/alpine-virt-3.5.2-x86_64.iso
+&lt;span class=&#34;c1&#34;&gt;# start it&lt;/span&gt;
+virt-install			&lt;span class=&#34;c1&#34;&gt;# create a new VM through libvirt \&lt;/span&gt;
+	--virt-type kvm		&lt;span class=&#34;c1&#34;&gt;# use the kvm hypervisor \&lt;/span&gt;
+	--name alpine		&lt;span class=&#34;c1&#34;&gt;# VM name  \&lt;/span&gt;
+	--memory &lt;span class=&#34;m&#34;&gt;1024&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;# allocate 1024MB of RAM \&lt;/span&gt;
+	--disk &lt;span class=&#34;nv&#34;&gt;size&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;		&lt;span class=&#34;c1&#34;&gt;# allocate a volume of 10G for disk storage of the VM \&lt;/span&gt;
+	--noautoconsole		&lt;span class=&#34;c1&#34;&gt;# I don&amp;#39;t want to start a gui on top of my VM (this part has to be investigated) \&lt;/span&gt;
+	--cdrom alpine-virt-3.5.2-x86_64.iso	&lt;span class=&#34;c1&#34;&gt;# the disk iso for the installation \&lt;/span&gt;
+	--network &lt;span class=&#34;nv&#34;&gt;bridge&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;virbr0,model&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;virtio	&lt;span class=&#34;c1&#34;&gt;# the tricky part now, I define the bridge to attach my VM to \&lt;/span&gt;
+						&lt;span class=&#34;c1&#34;&gt;# the model=virtio is something which makes it work properly, \&lt;/span&gt;
+						&lt;span class=&#34;c1&#34;&gt;# also have to investigate it&lt;/span&gt;
+
+virsh console --domain alpine &lt;span class=&#34;c1&#34;&gt;# attach our console to the VM console&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You should have a running VM and be able to control it without any &lt;code&gt;sudo&lt;/code&gt; command.
+Yay \o/&lt;/p&gt;
+
+&lt;h2 id=&#34;some-snippets&#34;&gt;Some snippets&lt;/h2&gt;
+
+&lt;p&gt;I use some shell snippets to control the destruction of my VM.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;alpine
+&lt;span class=&#34;c1&#34;&gt;# stop a dedicated vm&lt;/span&gt;
+virsh list &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$2 ~ /&amp;#39;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/ {system(&amp;quot;virsh destroy &amp;quot; $2)}&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# delete it&lt;/span&gt;
+virsh list --all &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$2 ~ /&amp;#39;&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/ {system(&amp;quot;virsh undefine &amp;quot; $2)}&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# delete all the volumes&lt;/span&gt;
+virsh vol-list default &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;NR &amp;gt; 2 &amp;amp;&amp;amp; NF &amp;gt; 0 {system(&amp;quot;xargs virsh vol-delete --pool default &amp;quot; $1)}&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Git clone inside a mounted volume with Docker</title>
@@ -1423,98 +1537,6 @@ extensibility. See previous point for thoughts on how to solve this.&lt;/li&gt;
 &lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt; This was done during the transition between 1.4 and 2.0, maybe some
 behaviours moved the good way and are now fixed. I will try to write an update
 later when my project will need to evolve.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Pop-up with xmobar</title>
-      <link>http://ixday.github.io/post/pop_up_with_xmobar/</link>
-      <pubDate>Mon, 24 Aug 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/pop_up_with_xmobar/</guid>
-      <description>
-
-&lt;p&gt;Sometimes I just want to click, even for simple things.
-So I created a little popup to shutdown, restart, suspend my computer,
-which looks like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;{filename}/images/xmobar_popup.png&#34;&gt;&lt;img src=&#34;{filename}/images/xmobar_popup.png&#34; alt=&#34;Xmobar popup&#34; /&gt;{:.image-process-article-image}&lt;/a&gt;{:target=&amp;rdquo;_blank&amp;rdquo;}&lt;/p&gt;
-
-&lt;h2 id=&#34;preparation&#34;&gt;Preparation&lt;/h2&gt;
-
-&lt;p&gt;First of all install &lt;a href=&#34;http://projects.haskell.org/xmobar/&#34;&gt;xmobar&lt;/a&gt;,
-&lt;code&gt;apt-get install xmobar/testing&lt;/code&gt;. Here I will use testing because
-I need the multiple fonts support,
-see &lt;a href=&#34;http://projects.haskell.org/xmobar/releases.html#version-0.23-mar-8-2015&#34;&gt;here&lt;/a&gt;
-for the release note.&lt;/p&gt;
-
-&lt;p&gt;The second thing I will need is an iconic font for the power button.
-&lt;a href=&#34;https://fortawesome.github.io/Font-Awesome/&#34;&gt;Font Awesome&lt;/a&gt; fits my need.
-I downloaded the &lt;code&gt;.ttf&lt;/code&gt; file &lt;a href=&#34;https://github.com/FortAwesome/Font-Awesome/blob/master/fonts/fontawesome-webfont.ttf?raw=true&#34;&gt;here&lt;/a&gt;
-and placed it under &lt;code&gt;~/.local/share/fonts&lt;/code&gt;. I ran &lt;code&gt;fc-cache -vf&lt;/code&gt; in order to
-update the font cache of my machine.&lt;/p&gt;
-
-&lt;p&gt;And that&amp;rsquo;s all, now let&amp;rsquo;s configure&lt;/p&gt;
-
-&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-haskell&#34; data-lang=&#34;haskell&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;Config&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;font&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;xft:Droid Sans Mono-10&amp;quot;&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;additionalFonts&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;xft:FontAwesome-10&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;border&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;FullB&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;borderColor&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;#8a8a8a&amp;quot;&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;borderWidth&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;2&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;bgColor&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;#3c3b37&amp;quot;&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;fgColor&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;#ffffff&amp;quot;&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;lowerOnStart&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;False&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;position&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;Static&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;xpos&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;660&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ypos&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;490&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;width&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;600&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;height&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;template&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;}&amp;lt;fn=1&amp;gt;&amp;lt;/fn&amp;gt;   &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`systemctl poweroff`&amp;gt; Shutdown &amp;lt;/action&amp;gt;    &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`systemctl reboot`&amp;gt;Reboot&amp;lt;/action&amp;gt;    &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`ps -o pid | sed &amp;#39;3q;d&amp;#39; |xargs kill &amp;amp;&amp;amp; systemctl suspend`&amp;gt;&lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Suspend&amp;lt;/action&amp;gt;    &lt;/span&gt;&lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-&lt;span class=&#34;se&#34;&gt;				  \&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;lt;action=`ps -o pid | sed &amp;#39;3q;d&amp;#39; |xargs kill`&amp;gt;Exit&amp;lt;/action&amp;gt;{&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Explanation line by line:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;line 2: Define the font which will be use, this is my default font for my
-machine, which is available in the package &lt;code&gt;fonts-droid&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;line 3: I declare an additional font which will be used for the icon.&lt;/li&gt;
-&lt;li&gt;line 4: The border style, this will tell xmonad that my border applies on full perimeter.&lt;/li&gt;
-&lt;li&gt;line 5, 6: The border color and width.&lt;/li&gt;
-&lt;li&gt;line 7, 8: The background color and the font color.&lt;/li&gt;
-&lt;li&gt;line 9: Tells xmonad to launch the popup above all windows.&lt;/li&gt;
-&lt;li&gt;line 10: Here is the position of the popup, my screen is 1920x1080,
-I want a popup 600x100, so &lt;code&gt;xpos = (1920 - 600) / 2&lt;/code&gt; and &lt;code&gt;ypos = (1080 - 100) / 2&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;line 11 to 16: The template to display, see &lt;a href=&#34;#template&#34;&gt;the template section&lt;/a&gt;
-for a full description&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;the-template-a-name-template-a&#34;&gt;The template &lt;a name=&#34;template&#34;&gt;&lt;/a&gt;&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;}{&lt;/code&gt; symbol describe the text alignment, in a template like this &lt;code&gt;foo}bar{qux&lt;/code&gt;,
-foo will be left align, bar will be centered and qux will be left align.
-Here I just want all the text of the popup centered&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;fn=1&amp;gt;&lt;/code&gt; indicates the use of the font number one in additionals fonts,
-here it will be the &amp;ldquo;Font Awesome&amp;rdquo; font.&lt;/li&gt;
-&lt;li&gt;The curious symbol will appear like &lt;a href=&#34;http://fortawesome.github.io/Font-Awesome/icon/power-off/&#34;&gt;this&lt;/a&gt; if Font Awesome is installed on yout system, like this: Ϳ if not.
-To retrieve a character from font awesome and paste it in a file,
-you can launch the following bash command &lt;code&gt;awk &#39;BEGIN{printf &amp;quot;%c&amp;quot;, 0x00&amp;lt;font_awesome_code&amp;gt;}&#39;&lt;/code&gt;.
-Where &lt;code&gt;font_awesome_code&lt;/code&gt; is the code provided on the icon page of Font Awesome
-(for the power button it will be f011).&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;/fn&amp;gt;&lt;/code&gt; indicates that we finished using the Font Awesome font.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;\\&lt;/code&gt; is the way to perform multiline string in Haskell.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;action=\&lt;/code&gt;systemctl poweroff`&amp;gt;` will perform a poweroff when the user
-clicks on the text enclosed in the tag.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Shutdown&lt;/code&gt; the displayed text.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;&amp;lt;/action&amp;gt;&lt;/code&gt; close the clickable area.&lt;/li&gt;
-&lt;li&gt;same thing for the reboot section&lt;/li&gt;
-&lt;li&gt;last specificity &lt;code&gt;ps -o pid | sed &#39;3q;d&#39; |xargs kill&lt;/code&gt;, this command line close
-the popup, by killing its process.&lt;/li&gt;
-&lt;/ul&gt;
 </description>
     </item>
     
