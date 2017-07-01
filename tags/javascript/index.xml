@@ -9,6 +9,36 @@
     <atom:link href="http://ixday.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>vuecc</title>
+      <link>http://ixday.github.io/post/vuecc/</link>
+      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/vuecc/</guid>
+      <description>&lt;p&gt;I recently discovered &lt;a href=&#34;https://vuejs.org&#34;&gt;Vue.js&lt;/a&gt; and I really liked it.
+You just have to add a script tag and you can start coding using this framework.&lt;/p&gt;
+
+&lt;p&gt;After a few hours of development, I decided to use &lt;a href=&#34;https://vuejs.org/v2/guide/single-file-components.html&#34;&gt;SFC (Single File Components)&lt;/a&gt; to separate business code from components.
+And I got a really bad surpise! In order to compile those templates I needed
+to use a build system (Webpack or Browserify). The tutorial is really good, but&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;GOD I DON&amp;rsquo;T WANT TO INSTALL 200MB OF DEPENDENCIES AND WRITE 200+SLOC BUILD
+FILE.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I need to keep things simple, I don&amp;rsquo;t need Babel, I know how to write JS. I can
+rant on this for hours. I started looking around for an alternative solution.
+And found &lt;a href=&#34;https://www.reddit.com/r/vuejs/comments/5ops4d/light_weight_and_simple_way_to_use_single_file/&#34;&gt;this interesting thread&lt;/a&gt;. So no simple solution out there.&lt;/p&gt;
+
+&lt;p&gt;This is why I started &lt;a href=&#34;https://github.com/BackInMyDays/vuecc&#34;&gt;vuecc project&lt;/a&gt;.
+It only depends on &lt;a href=&#34;https://www.npmjs.com/package/html-minifier&#34;&gt;html-minifier&lt;/a&gt;
+and brings less than 3MB of dependencies.&lt;/p&gt;
+
+&lt;p&gt;Not everything is supported but for the moment it fits my needs. Simple to use,
+it outputs understandable javascript. I will surely add features when time will
+come to support things like isolation or javascript compression.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Getting rid of gulp bunch of dependencies</title>
       <link>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</link>
       <pubDate>Sun, 10 Apr 2016 00:00:00 +0000</pubDate>

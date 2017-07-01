@@ -6,8 +6,38 @@
     <description>Recent content on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 May 2017 11:41:14 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 01 Jul 2017 11:46:41 +0200</lastBuildDate>
     <atom:link href="http://ixday.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>vuecc</title>
+      <link>http://ixday.github.io/post/vuecc/</link>
+      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/vuecc/</guid>
+      <description>&lt;p&gt;I recently discovered &lt;a href=&#34;https://vuejs.org&#34;&gt;Vue.js&lt;/a&gt; and I really liked it.
+You just have to add a script tag and you can start coding using this framework.&lt;/p&gt;
+
+&lt;p&gt;After a few hours of development, I decided to use &lt;a href=&#34;https://vuejs.org/v2/guide/single-file-components.html&#34;&gt;SFC (Single File Components)&lt;/a&gt; to separate business code from components.
+And I got a really bad surpise! In order to compile those templates I needed
+to use a build system (Webpack or Browserify). The tutorial is really good, but&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;GOD I DON&amp;rsquo;T WANT TO INSTALL 200MB OF DEPENDENCIES AND WRITE 200+SLOC BUILD
+FILE.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;I need to keep things simple, I don&amp;rsquo;t need Babel, I know how to write JS. I can
+rant on this for hours. I started looking around for an alternative solution.
+And found &lt;a href=&#34;https://www.reddit.com/r/vuejs/comments/5ops4d/light_weight_and_simple_way_to_use_single_file/&#34;&gt;this interesting thread&lt;/a&gt;. So no simple solution out there.&lt;/p&gt;
+
+&lt;p&gt;This is why I started &lt;a href=&#34;https://github.com/BackInMyDays/vuecc&#34;&gt;vuecc project&lt;/a&gt;.
+It only depends on &lt;a href=&#34;https://www.npmjs.com/package/html-minifier&#34;&gt;html-minifier&lt;/a&gt;
+and brings less than 3MB of dependencies.&lt;/p&gt;
+
+&lt;p&gt;Not everything is supported but for the moment it fits my needs. Simple to use,
+it outputs understandable javascript. I will surely add features when time will
+come to support things like isolation or javascript compression.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Start libvirt VM as unprivileged user</title>
@@ -1416,127 +1446,6 @@ powertop needs a shell at runtime to perform the auto-tune statement.&lt;/p&gt;
 &lt;h2 id=&#34;last-word&#34;&gt;Last word&lt;/h2&gt;
 
 &lt;p&gt;This article will evolve to fit the latest change on my system, stay tuned!&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Ansible</title>
-      <link>http://ixday.github.io/post/ansible/</link>
-      <pubDate>Sat, 03 Oct 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/ansible/</guid>
-      <description>
-
-&lt;p&gt;I have a home media server, and I spent a lot of time configuring,
-testing and installing on it. But I was never really satisfied by
-the way I had to perform the installation (which happens way too often).&lt;/p&gt;
-
-&lt;p&gt;And I recently discovered &lt;a href=&#34;https://www.ansible.com/&#34;&gt;Ansible&lt;/a&gt;, which
-is a tool for doing a lot of stuff with a server
-(configuration, run repetitive command, installation) over ssh.&lt;/p&gt;
-
-&lt;p&gt;I really loved experienced with it, it does not require a lot
-of dependencies on the targeted server, and can be easily run.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-project&#34;&gt;The project&lt;/h2&gt;
-
-&lt;p&gt;I decided to install my home server with it, because it can at
-last allow me to versionned my installation in an easy way
-(which seems too complicated with chef or puppet). It also allows
-me to test this installation against a virtual machine and have
-a reproductible installation.&lt;/p&gt;
-
-&lt;p&gt;For the installation I choose to switch on &lt;a href=&#34;https://www.archlinux.org/&#34;&gt;Archlinux&lt;/a&gt;
-(hipsters for the win), for a lot of reasons, but mainly because I can easily
-install zfs and nvidia drivers (because I also play on
-this computer).&lt;/p&gt;
-
-&lt;p&gt;I decided to create a github organisation in order to push the various git
-projects I created. You can check this out: &lt;a href=&#34;https://github.com/T0rt4nk&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This repository is separated in three sub project which I will explain.&lt;/p&gt;
-
-&lt;h3 id=&#34;development-environment&#34;&gt;Development environment&lt;/h3&gt;
-
-&lt;p&gt;The development environment is based on a VM with Vagrant,
-it also contains the configuration to deploy on the targeted machine.&lt;/p&gt;
-
-&lt;p&gt;You can check the sources here -&amp;gt;
-&lt;a href=&#34;https://github.com/T0rt4nk/ansible-arch&#34;&gt;https://github.com/T0rt4nk/ansible-arch&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;setup-scripts&#34;&gt;Setup scripts&lt;/h3&gt;
-
-&lt;p&gt;When installing on the server we need a basic operating system with
-the ssh service started. I created some scripts which can be retrieved
-easily and setup the default config.&lt;/p&gt;
-
-&lt;p&gt;Check it out here -&amp;gt;
-&lt;a href=&#34;https://github.com/T0rt4nk/setup&#34;&gt;https://github.com/T0rt4nk/setup&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;the-installation&#34;&gt;The installation&lt;/h3&gt;
-
-&lt;p&gt;A really great experience so far, it was reliable and easy, it &amp;ldquo;kind of&amp;rdquo; works
-(ansible is young currently, a lot of things have to be fixed).&lt;/p&gt;
-
-&lt;p&gt;You can look at the code here -&amp;gt;
-&lt;a href=&#34;https://github.com/T0rt4nk/setup&#34;&gt;https://github.com/T0rt4nk/setup&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I tried to follow the best practices but there is a need to involve in this
-technology and I don&amp;rsquo;t have the time right now (it was a side project here).&lt;/p&gt;
-
-&lt;h2 id=&#34;return-on-experience&#34;&gt;Return on experience&lt;/h2&gt;
-
-&lt;p&gt;Ansible was a really good experience and here are some throughts&lt;/p&gt;
-
-&lt;h3 id=&#34;pro&#34;&gt;PRO&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;easy, understandable, it does not require advanced knowledge, nor
-configuration.&lt;/li&gt;
-&lt;li&gt;written in python, this is a language I masterize and it helps me
-a lot when I tried to hack behaviour. I also think that the choice of
-python is really good for this kind of tool. Recently, a sysadmin told
-me that he prefers python over golang because he can hack some code
-even if he does not understand well what is happening.&lt;/li&gt;
-&lt;li&gt;my configuration is versionned (woohoo \o/) and that was the goal of
-this project. I now want to perform any repetitive action with Ansible
-and/or hack the code to make it better.&lt;/li&gt;
-&lt;li&gt;kind of good documentation (this can be hugely improved, but at this moment
-it is still better than many projects).&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;cons&#34;&gt;CONS&lt;/h3&gt;
-
-&lt;p&gt;I encountered some issues, some are fixable, some will need evolution on
-Ansible part.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;debug was a bit complicated, as a lot of code is wrapped on client side
-the debugging is hard (I didn&amp;rsquo;t figure how to perform this well). I think
-this one will quickly became a priority for the community.&lt;/li&gt;
-&lt;li&gt;the tool is not fully mature, some behaviours are counter intuitive and
-we have the impression that it is not predicable. This is mostly due
-to the mix of Jinja templates, YAML syntax and python execution.&lt;/li&gt;
-&lt;li&gt;some tools not complete, or not existing (I am looking at you systemd
-support).&lt;/li&gt;
-&lt;li&gt;lack of tests, especially on community modules. Beware of the node effect:
-people creating their own tool instead of improving existant one. This
-bring some regression between versions (migration from 1.4 to 2.0 was a
-real pain)&lt;/li&gt;
-&lt;li&gt;issue with procedural execution, and state management. This is one of the
-most complicated question when coming to issues which tools like Ansible
-tries to solve: which part need to be declarative, which doesn&amp;rsquo;t. I think
-that the use of jinja templates (and python code through plugins in the
-library) is a great idea, but it is not advertised in the documentation
-whereas it could save plenty of time and provide a real&lt;/li&gt;
-&lt;li&gt;issues with state management, this is mostly due to the declarative
-approach. Ansible tries to solve it, but the tool lacks of features and
-extensibility. See previous point for thoughts on how to solve this.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;NOTE&lt;/strong&gt; This was done during the transition between 1.4 and 2.0, maybe some
-behaviours moved the good way and are now fixed. I will try to write an update
-later when my project will need to evolve.&lt;/p&gt;
 </description>
     </item>
     
