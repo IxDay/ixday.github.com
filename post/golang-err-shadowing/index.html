@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.19" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - golang err shadowing</title>
+  <meta property='og:title' content="golang err shadowing - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Tue Jul 25 2017
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/golang-err-shadowing/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>golang err shadowing</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/golang ">golang</a>
+, <a href="/tags/dev ">dev</a>
+
+      </p>
+      
+
+    </header>
+    <p>A feature I like in golang is the hability to declare a variable at the
+assignation time. Something like this:</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="nx">foo</span> <span class="o">:=</span> <span class="s">&quot;bar&quot;</span>
+</code></pre></div>
+
+<p>Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;.
+One more feature is to be able to allocate on same line as doing a comparison.
+Like this:</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="k">if</span> <span class="nx">foo</span> <span class="o">:=</span> <span class="s">&quot;bar&quot;</span><span class="p">;</span> <span class="nx">foo</span> <span class="o">==</span> <span class="s">&quot;baz&quot;</span> <span class="p">{</span>
+	<span class="c1">// do something</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	<span class="c1">// do something else</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This is really handy when it comes to catch errors from an other function:</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">potentialyFailingFn</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+	<span class="c1">// if there is an error we return and stop execution</span>
+	<span class="k">return</span> <span class="nx">err</span>
+<span class="p">}</span>
+<span class="c1">// here is executed if there is no error caught</span>
+</code></pre></div>
+
+<p>This assignation however is scoped to the <code>if</code> block, which means that out of
+it <code>err</code> does not exist.</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="k">if</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">potentialyFailingFn</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+	<span class="c1">// error caught aborting</span>
+	<span class="k">return</span> <span class="nx">err</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	<span class="c1">// here res exist, we can do whatever we want with the variable</span>
+	<span class="nx">whatever</span><span class="p">(</span><span class="nx">res</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c1">// here nor res or err exist and we can&#39;t access them</span>
+</code></pre></div>
+
+<p>Still with me? Ok, one last thing, the named returned value</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&quot;errors&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">err</span> <span class="p">=</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">)</span>
+	<span class="k">return</span>	<span class="c1">// no need to specify the err variable here,</span>
+	        <span class="c1">// this is a golang feature, see: https://tour.golang.org/basics/7</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>So now, what if I do this:</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&quot;errors&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Compiler says: <code>err is shadowed during return</code>, this says, we have a named
+variable <code>err</code> defined in the function declaration. Then, in the <code>if</code> we
+redeclare for the block a <code>err</code> variable with an error value. Compiler spot that
+there can be a misunderstanding on which one to use then, and warns you.
+If type had been different, compiler should just have errored, but here I can
+reuse a variable name.</p>
+
+<p><strong>BTW</strong>, this compile and will return a <code>&quot;bar&quot;</code> error.</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&quot;errors&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;bar&quot;</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span> <span class="c1">// note that I do not use the named variable but the scoped one.</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now, how can I use this? To perform this for example:</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&quot;log&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">(</span><span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// note the difference between err = and err :=</span>
+
+	<span class="k">if</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">bar</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span> <span class="c1">// I want to keep this error and return it</span>
+
+		<span class="c1">// but I have one more call to do and want to log the error</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">baz</span><span class="p">();</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="c1">// here err is the scoped one and does not override the one returned</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">return</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Interesting isn&rsquo;t it?</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'IxDay';
+    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/golang-err-shadowing\/';
+    var disqus_title = 'golang err shadowing';
+    var disqus_url = 'http:\/\/ixday.github.io\/post\/golang-err-shadowing\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2017 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

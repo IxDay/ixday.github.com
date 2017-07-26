@@ -6,8 +6,118 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Jul 2017 11:46:41 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 25 Jul 2017 10:44:02 +0200</lastBuildDate>
     <atom:link href="http://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>golang err shadowing</title>
+      <link>http://ixday.github.io/post/golang-err-shadowing/</link>
+      <pubDate>Tue, 25 Jul 2017 10:44:02 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
+      <description>&lt;p&gt;A feature I like in golang is the hability to declare a variable at the
+assignation time. Something like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;.
+One more feature is to be able to allocate on same line as doing a comparison.
+Like this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;baz&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;// do something&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;// do something else&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is really handy when it comes to catch errors from an other function:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;potentialyFailingFn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;// if there is an error we return and stop execution&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;// here is executed if there is no error caught&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This assignation however is scoped to the &lt;code&gt;if&lt;/code&gt; block, which means that out of
+it &lt;code&gt;err&lt;/code&gt; does not exist.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;potentialyFailingFn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;// error caught aborting&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;// here res exist, we can do whatever we want with the variable&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;whatever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;// here nor res or err exist and we can&amp;#39;t access them&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Still with me? Ok, one last thing, the named returned value&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+	&lt;span class=&#34;s&#34;&gt;&amp;quot;errors&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;// no need to specify the err variable here,&lt;/span&gt;
+	        &lt;span class=&#34;c1&#34;&gt;// this is a golang feature, see: https://tour.golang.org/basics/7&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;So now, what if I do this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+	&lt;span class=&#34;s&#34;&gt;&amp;quot;errors&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Compiler says: &lt;code&gt;err is shadowed during return&lt;/code&gt;, this says, we have a named
+variable &lt;code&gt;err&lt;/code&gt; defined in the function declaration. Then, in the &lt;code&gt;if&lt;/code&gt; we
+redeclare for the block a &lt;code&gt;err&lt;/code&gt; variable with an error value. Compiler spot that
+there can be a misunderstanding on which one to use then, and warns you.
+If type had been different, compiler should just have errored, but here I can
+reuse a variable name.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;BTW&lt;/strong&gt;, this compile and will return a &lt;code&gt;&amp;quot;bar&amp;quot;&lt;/code&gt; error.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+	&lt;span class=&#34;s&#34;&gt;&amp;quot;errors&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// note that I do not use the named variable but the scoped one.&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, how can I use this? To perform this for example:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+	&lt;span class=&#34;s&#34;&gt;&amp;quot;log&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+	&lt;span class=&#34;c1&#34;&gt;// note the difference between err = and err :=&lt;/span&gt;
+
+	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bar&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// I want to keep this error and return it&lt;/span&gt;
+
+		&lt;span class=&#34;c1&#34;&gt;// but I have one more call to do and want to log the error&lt;/span&gt;
+		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;baz&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+			&lt;span class=&#34;c1&#34;&gt;// here err is the scoped one and does not override the one returned&lt;/span&gt;
+			&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;%s&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+		&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Interesting isn&amp;rsquo;t it?&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>vuecc</title>
@@ -1318,134 +1428,6 @@ having to dig in the code or documentation (when you wanted to activate ipdb).&l
     &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# start in sticky mode&lt;/span&gt;
     &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# black&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Linux Mint</title>
-      <link>http://ixday.github.io/post/linux_mint/</link>
-      <pubDate>Mon, 22 Feb 2016 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/linux_mint/</guid>
-      <description>
-
-&lt;p&gt;After a long journey, I finally found the distribution which fits
-all my need: &lt;strong&gt;Linux Mint Debian Edition&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;why&#34;&gt;Why ?&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;It is based on debian a distribution which I really like (and not Ubuntu).&lt;/li&gt;
-&lt;li&gt;The default tilling (similar to W7) is really comfortable.&lt;/li&gt;
-&lt;li&gt;Lot of configuration can be done for shortcuts.&lt;/li&gt;
-&lt;li&gt;Support for &lt;code&gt;systemd&lt;/code&gt; (Yay \o/).&lt;/li&gt;
-&lt;li&gt;Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM).&lt;/li&gt;
-&lt;li&gt;And a lot more&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;
-
-&lt;p&gt;As I am on Macbook (once upon a time, I was young and dumb), I need a
-particular configuration of the partitions for the installation.&lt;/p&gt;
-
-&lt;p&gt;Here is how my HDD is partitionned:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;First, the &lt;code&gt;/boot/efi&lt;/code&gt; partition with the boot flag is about 200MB&lt;/li&gt;
-&lt;li&gt;Then the Macintosh partition, in hfs+&lt;/li&gt;
-&lt;li&gt;The &lt;code&gt;/boot&lt;/code&gt;, partition, as I will use LVM I need to have an external
-partition to hold the initram images, with an ext4 filesystem.&lt;/li&gt;
-&lt;li&gt;Finally, the LVM partition which is subdivided in two partitions:
-
-&lt;ul&gt;
-&lt;li&gt;lvm_root: which will hold the root filesystem&lt;/li&gt;
-&lt;li&gt;lvm_swap: my system swap&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Mount the partitions in the right order into &lt;code&gt;/mnt/target&lt;/code&gt;, follow the
-expert disk partioning in the installation wizard.&lt;/p&gt;
-
-&lt;p&gt;Install LVM into the new system (with chroot), then fillup the fstab file
-to look similar to something like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;ordered  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
-/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;	&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
-
-proc          /proc	    proc  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;	&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
-/dev/sda3     /boot	    ext4  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
-/dev/sda2     /boot/efi vfat  defaults        &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
-
-&lt;p&gt;Now that we have a running distribution there is some small details to fix.
-Here are some piece of configuration I needed to fix to have a satisfying
-install.&lt;/p&gt;
-
-&lt;h3 id=&#34;chromium-as-default&#34;&gt;Chromium as default&lt;/h3&gt;
-
-&lt;p&gt;First, I want to use chromium as the default browser, simply install it with
-the package manager, then just run the &lt;code&gt;Preferred Application&lt;/code&gt; program to
-setup the default.&lt;/p&gt;
-
-&lt;h3 id=&#34;microphone-issue&#34;&gt;Microphone issue&lt;/h3&gt;
-
-&lt;p&gt;As I use a Macbook I have an issue with my mic by default. To fix that, just
-create the &lt;code&gt;/etc/modprobe.d/alsa-base.conf&lt;/code&gt; file, and just past the following:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;options snd-hda-intel model=mbp101 index=1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Reboot, and tadaaa!&lt;/p&gt;
-
-&lt;h3 id=&#34;systemd&#34;&gt;Systemd&lt;/h3&gt;
-
-&lt;p&gt;By default, on LMDE Betsy (my current installation), the init system is
-still sysvinit.
-I really like systemd and good news the skeleton of it is already present,
-so we just have to explain the system to change.
-And&amp;hellip; it is simpler as I firstly thought, because there is a package for
-that: &lt;code&gt;systemd-sysv&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Just run the installation and you will be good&lt;/p&gt;
-
-&lt;h3 id=&#34;powertop&#34;&gt;Powertop&lt;/h3&gt;
-
-&lt;p&gt;As systemd is already installed, here is the service file:
-&lt;code&gt;/etc/systemd/system/powertop.service&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;[Unit]&lt;/span&gt;
-&lt;span class=&#34;na&#34;&gt;Description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;Powertop tunings&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;[Service]&lt;/span&gt;
-&lt;span class=&#34;na&#34;&gt;Type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;oneshot&lt;/span&gt;
-&lt;span class=&#34;na&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;/usr/sbin/powertop --auto-tune&lt;/span&gt;
-&lt;span class=&#34;na&#34;&gt;Environment&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;TERM=xterm&amp;quot;&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;[Install]&lt;/span&gt;
-&lt;span class=&#34;na&#34;&gt;WantedBy&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;multi-user.target&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: I had to install &lt;code&gt;xterm&lt;/code&gt; in order to make the service work, because
-powertop needs a shell at runtime to perform the auto-tune statement.&lt;/p&gt;
-
-&lt;p&gt;It is a systemd service which will be loaded at startup, so just enable it:
-&lt;code&gt;systemctl enable powertop&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;skype&#34;&gt;Skype&lt;/h3&gt;
-
-&lt;p&gt;This one is easy, but I also want my beautiful cinnamon skin on it ;)&lt;/p&gt;
-
-&lt;p&gt;Just download and install the .deb file from
-&lt;a href=&#34;http://www.skype.com/en/download-skype/skype-for-computer/&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Enable multiple architecture if you are running x86_64 distribution:
-&lt;code&gt;dpkg --add-architecture i386&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;And now install some complementary packages:
-&lt;code&gt;apt-get install gtk2-engines-murrine:i386 gtk2-engines-pixbuf:i386&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;last-word&#34;&gt;Last word&lt;/h2&gt;
-
-&lt;p&gt;This article will evolve to fit the latest change on my system, stay tuned!&lt;/p&gt;
 </description>
     </item>
     
