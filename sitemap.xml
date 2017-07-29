@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://ixday.github.io/post/direnv/</loc>
+    <lastmod>2017-07-27T10:53:10+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://ixday.github.io/post/golang-err-shadowing/</loc>
     <lastmod>2017-07-25T10:44:02+02:00</lastmod>
   </url>
@@ -201,7 +206,7 @@
   
   <url>
     <loc>http://ixday.github.io/tags/bash/</loc>
-    <lastmod>2017-05-01T11:41:14+02:00</lastmod>
+    <lastmod>2017-07-27T10:53:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -212,13 +217,13 @@
   
   <url>
     <loc>http://ixday.github.io/tags/cli/</loc>
-    <lastmod>2016-07-20T09:13:58+02:00</lastmod>
+    <lastmod>2017-07-27T10:53:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://ixday.github.io/tags/dev/</loc>
-    <lastmod>2017-07-25T10:44:02+02:00</lastmod>
+    <lastmod>2017-07-27T10:53:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -242,7 +247,7 @@
   
   <url>
     <loc>http://ixday.github.io/</loc>
-    <lastmod>2017-07-25T10:44:02+02:00</lastmod>
+    <lastmod>2017-07-27T10:53:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -254,7 +259,7 @@
   
   <url>
     <loc>http://ixday.github.io/post/</loc>
-    <lastmod>2017-07-25T10:44:02+02:00</lastmod>
+    <lastmod>2017-07-27T10:53:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -272,7 +277,7 @@
   
   <url>
     <loc>http://ixday.github.io/categories/snippet/</loc>
-    <lastmod>2017-07-25T10:44:02+02:00</lastmod>
+    <lastmod>2017-07-27T10:53:10+02:00</lastmod>
     <priority>0</priority>
   </url>
   

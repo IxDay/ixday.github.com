@@ -50,6 +50,47 @@
     <div class="meta">
   <time class="date">
     
+    Tue Jul 19 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/curl_utils/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/curl_utils/">Curl utils</a></h2>
+    <p>
+    Here are some options and command I use with curl when dealing with stuff I have to develop.
+curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &quot;Content-Type: application/json&quot; -u &quot;admin:admin&quot; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &quot;header_name: value&quot; # -u support for Basic Auth, format is: &quot;user:password&quot; # -d set up data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.
+    
+    <a href="/post/curl_utils/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Fri Jun 3 2016
     
   </time>
@@ -414,59 +455,6 @@ cp some_file{,.old}  It will copy your file adding a .
     <strong>Tagged</strong>
     <a href="/tags/bash ">bash</a>
 , <a href="/tags/cli ">cli</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Wed Aug 19 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/os">OS</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Unable to find LVM volume... with LVM on top of Luks</a></h2>
-    <p>
-    <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
-I have LVM on top of Luks for my system.
-When I boot I encounter the following message:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  Volume group &quot;vg_ssd&quot; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-</code></pre></div>
-
-<p>It appears that LVM is started before I open the crypted partition and display this error.
-To fix this we will manipulate the initramfs \o/.</p>
-
-<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code>
-
-which starts like this:</p>
-    
-    <a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
 
     </p>
     

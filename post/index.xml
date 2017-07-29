@@ -6,8 +6,60 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jul 2017 10:44:02 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 27 Jul 2017 10:53:10 +0200</lastBuildDate>
     <atom:link href="http://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>direnv</title>
+      <link>http://ixday.github.io/post/direnv/</link>
+      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/direnv/</guid>
+      <description>
+
+&lt;p&gt;I recently discovered the &lt;a href=&#34;https://direnv.net/&#34;&gt;direnv&lt;/a&gt; project. Which helped
+me a lot for setting up my development environments. I will share a bit of
+things I use in my daily basis.&lt;/p&gt;
+
+&lt;h2 id=&#34;python-projects&#34;&gt;Python projects&lt;/h2&gt;
+
+&lt;p&gt;This is well documented but here is what I use in python projects to set up
+a default virtualenv.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;layout python
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That&amp;rsquo;s it! It sets up a virtualenv in your &lt;code&gt;.direnv&lt;/code&gt; directory,
+and load the updated &lt;code&gt;PATH&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;golang-projects&#34;&gt;Golang projects&lt;/h2&gt;
+
+&lt;p&gt;This one is a bit trickier.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOPATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.go&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOBIN&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$GOPATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/bin&amp;quot;&lt;/span&gt;
+PATH_add &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$GOBIN&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I usually put my &lt;code&gt;$GOPATH&lt;/code&gt; in an hidden directory, here it&amp;rsquo;s &lt;code&gt;.go&lt;/code&gt; and link
+the project to the top directory. But you can also set up the &lt;code&gt;vendor&lt;/code&gt; directory,
+depending on your needs.&lt;/p&gt;
+
+&lt;h2 id=&#34;misc&#34;&gt;Misc&lt;/h2&gt;
+
+&lt;p&gt;This is a trick I use with a bunch of project to move quickly around. I set up
+this in &lt;code&gt;.envrc&lt;/code&gt; file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PROJECT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And then in the &lt;code&gt;.zshrc&lt;/code&gt; (works also with &lt;code&gt;.bashrc&lt;/code&gt;), I put this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;HOME=${PROJECT:-$HOME} cd&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will make my &lt;code&gt;cd&lt;/code&gt; command to go back to the root of my project (where the
+&lt;code&gt;.envrc&lt;/code&gt; file lands) instead of going to &lt;code&gt;$HOME&lt;/code&gt;. But only inside my project
+and without overriding my &lt;code&gt;$HOME&lt;/code&gt; variable globally. Which is something you
+really don&amp;rsquo;t want, seriously don&amp;rsquo;t do it!&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>golang err shadowing</title>
@@ -1351,83 +1403,6 @@ on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&g
 
 &lt;p&gt;It will just put the report into coveralls and displays the
 same informations as the other command explained above.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Pdbpp</title>
-      <link>http://ixday.github.io/post/pdbpp/</link>
-      <pubDate>Sun, 28 Feb 2016 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/post/pdbpp/</guid>
-      <description>
-
-&lt;p&gt;I am a huge fan of ipython and its debugger ipdb (I have also done a
-patch on it). Then I discovered &lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt;
-and I found it so great that I no more use ipdb, here is why.&lt;/p&gt;
-
-&lt;h2 id=&#34;more-features&#34;&gt;More features&lt;/h2&gt;
-
-&lt;h3 id=&#34;sticky-mode&#34;&gt;Sticky mode&lt;/h3&gt;
-
-&lt;p&gt;Pdbpp comes with a lot of additional features which are really convenient.
-The first and more well known is the sticky mode:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;http://ixday.github.io/img/pdbpp_sticky.png&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;This will display the code currently, executed and shows you with an arrow at
-which exact line you are. Just type &lt;code&gt;sticky&lt;/code&gt; to enable this mode and &amp;ldquo;voila&amp;rdquo; it
-works&lt;/p&gt;
-
-&lt;h3 id=&#34;pdb-disable&#34;&gt;Pdb disable&lt;/h3&gt;
-
-&lt;p&gt;This one is quite usefull when debugging in tests. For example, you have
-a pdb statement in a fixture which is called by a bunch of tests.
-Maybe there is something I do not really understand but when I want
-to exit, I am stuck pressing Ctrl+d Ctrl+c hoping it will stop the tests
-before another fixture call happen.&lt;/p&gt;
-
-&lt;p&gt;Pdbpp extends the pdb command with a disable statement
-(&lt;code&gt;pdb.disable()&lt;/code&gt; in the console), which will ignore subsequent calls to pdb.&lt;/p&gt;
-
-&lt;h3 id=&#34;no-variable-overrides&#34;&gt;No variable overrides&lt;/h3&gt;
-
-&lt;p&gt;When using ipdb, sometimes in the code I use some reserved variables:
-&amp;ldquo;c&amp;rdquo;, &amp;ldquo;rv&amp;rdquo;, &amp;ldquo;args&amp;rdquo;,.. when entering the debugger they are overriden by
-keywords, and I have to change their name and start again to see what they
-contain.&lt;/p&gt;
-
-&lt;p&gt;With pdbpp, this no longer happens, as explained in the documentation, pdbpp
-can infers which variable is currently used and avoid the override.&lt;/p&gt;
-
-&lt;h3 id=&#34;and-many-more&#34;&gt;And many more&lt;/h3&gt;
-
-&lt;p&gt;Just read the documentation and looks at the other features, this library
-is pure gold.&lt;/p&gt;
-
-&lt;h2 id=&#34;just-a-simple-wrapper&#34;&gt;Just a simple wrapper&lt;/h2&gt;
-
-&lt;p&gt;This is just a wrapper around pdb, which means that you can simply call it
-with &lt;code&gt;import pdb; pdb.set_trace()&lt;/code&gt;. And more importantly, when a tool provides
-a postmortem feature (scrapy, pytest) it brings you directly to pdbpp without
-having to dig in the code or documentation (when you wanted to activate ipdb).&lt;/p&gt;
-
-&lt;h2 id=&#34;simple-config&#34;&gt;Simple config&lt;/h2&gt;
-
-&lt;p&gt;Here is my config (a real simple one):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pdb&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DefaultConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# start in sticky mode&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# black&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </description>
     </item>
     

@@ -9,6 +9,58 @@
     <atom:link href="http://ixday.github.io/tags/cli/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>direnv</title>
+      <link>http://ixday.github.io/post/direnv/</link>
+      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/direnv/</guid>
+      <description>
+
+&lt;p&gt;I recently discovered the &lt;a href=&#34;https://direnv.net/&#34;&gt;direnv&lt;/a&gt; project. Which helped
+me a lot for setting up my development environments. I will share a bit of
+things I use in my daily basis.&lt;/p&gt;
+
+&lt;h2 id=&#34;python-projects&#34;&gt;Python projects&lt;/h2&gt;
+
+&lt;p&gt;This is well documented but here is what I use in python projects to set up
+a default virtualenv.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;layout python
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;That&amp;rsquo;s it! It sets up a virtualenv in your &lt;code&gt;.direnv&lt;/code&gt; directory,
+and load the updated &lt;code&gt;PATH&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;golang-projects&#34;&gt;Golang projects&lt;/h2&gt;
+
+&lt;p&gt;This one is a bit trickier.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOPATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.go&amp;quot;&lt;/span&gt;
+&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOBIN&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$GOPATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/bin&amp;quot;&lt;/span&gt;
+PATH_add &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$GOBIN&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I usually put my &lt;code&gt;$GOPATH&lt;/code&gt; in an hidden directory, here it&amp;rsquo;s &lt;code&gt;.go&lt;/code&gt; and link
+the project to the top directory. But you can also set up the &lt;code&gt;vendor&lt;/code&gt; directory,
+depending on your needs.&lt;/p&gt;
+
+&lt;h2 id=&#34;misc&#34;&gt;Misc&lt;/h2&gt;
+
+&lt;p&gt;This is a trick I use with a bunch of project to move quickly around. I set up
+this in &lt;code&gt;.envrc&lt;/code&gt; file:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PROJECT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And then in the &lt;code&gt;.zshrc&lt;/code&gt; (works also with &lt;code&gt;.bashrc&lt;/code&gt;), I put this:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;HOME=${PROJECT:-$HOME} cd&amp;#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This will make my &lt;code&gt;cd&lt;/code&gt; command to go back to the root of my project (where the
+&lt;code&gt;.envrc&lt;/code&gt; file lands) instead of going to &lt;code&gt;$HOME&lt;/code&gt;. But only inside my project
+and without overriding my &lt;code&gt;$HOME&lt;/code&gt; variable globally. Which is something you
+really don&amp;rsquo;t want, seriously don&amp;rsquo;t do it!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Bash Shortcuts</title>
       <link>http://ixday.github.io/post/bash_shortcuts/</link>
       <pubDate>Wed, 20 Jul 2016 09:13:58 +0200</pubDate>
