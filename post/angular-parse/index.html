@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -90,81 +90,78 @@ javascript. It provides a lot of useful features which can be really interesting
 especially with directive manipulation.</p>
 
 <p>So, we will illustrate with some examples:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="c1">// This notation allow us to stay in pure javascript world</span>
-<span class="nx">angular</span><span class="p">.</span><span class="nx">injector</span><span class="p">([</span><span class="s1">&#39;ng&#39;</span><span class="p">])</span>
-<span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">$parse</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">// new clean scope (optionnal, it will work directly on $rootScope)</span>
-  <span class="kd">var</span> <span class="nx">$scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-
-  <span class="c1">// allocate simple value</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="s1">&#39;bar&#39;</span><span class="p">;</span>
-
-  <span class="c1">// here the magic</span>
-  <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
-  <span class="cm">/*</span>
-<span class="cm">    The function which has been returned look for a context to interpolate the</span>
-<span class="cm">    value</span>
-<span class="cm">  */</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">(</span><span class="nx">$scope</span><span class="p">));</span>
-  <span class="c1">// display =&gt; bar</span>
-
-  <span class="cm">/*</span>
-<span class="cm">    Redefine foo value</span>
-<span class="cm">   */</span>
-  <span class="nx">foo</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">);</span>
-
-  <span class="cm">/*</span>
-<span class="cm">    $scope has changed Oo</span>
-<span class="cm">   */</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">$scope</span><span class="p">.</span><span class="nx">foo</span><span class="p">);</span>
-  <span class="c1">// display =&gt; foo</span>
-<span class="p">});</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="s1f40"></span><span class="s1770">// This notation allow us to stay in pure javascript world
+</span><span class="s1770"></span><span class="s7df">angular</span><span class="s1388">.</span><span class="s7df">injector</span><span class="s1388">([</span><span class="sc1c">&#39;ng&#39;</span><span class="s1388">])</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">.</span><span class="s7df">invoke</span><span class="s1388">(</span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">$parse</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">$rootScope</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// new clean scope (optionnal, it will work directly on $rootScope)
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">$scope</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">$rootScope</span><span class="s1388">.</span><span class="s7df">$new</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// allocate simple value
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s7df">$scope</span><span class="s1388">.</span><span class="s7df">foo</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#39;bar&#39;</span><span class="s1388">;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// here the magic
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">foo</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">$parse</span><span class="s1388">(</span><span class="sc1c">&#39;foo&#39;</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">/*
+</span><span class="s1770">    The function which has been returned look for a context to interpolate the
+</span><span class="s1770">    value
+</span><span class="s1770">  */</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7df">console</span><span class="s1388">.</span><span class="s7df">log</span><span class="s1388">(</span><span class="s7df">foo</span><span class="s1388">(</span><span class="s7df">$scope</span><span class="s1388">));</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// display =&gt; bar
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">/*
+</span><span class="s1770">    Redefine foo value
+</span><span class="s1770">   */</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7df">foo</span><span class="s1388">.</span><span class="s7df">assign</span><span class="s1388">(</span><span class="s7df">$scope</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc1c">&#39;foo&#39;</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">/*
+</span><span class="s1770">    $scope has changed Oo
+</span><span class="s1770">   */</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7df">console</span><span class="s1388">.</span><span class="s7df">log</span><span class="s1388">(</span><span class="s7df">$scope</span><span class="s1388">.</span><span class="s7df">foo</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// display =&gt; foo
+</span><span class="s1770"></span><span class="s1388">});</span></code></pre>
+</div>
 <p>Pretty cool uh? But wait there is more</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">angular</span><span class="p">.</span><span class="nx">injector</span><span class="p">([</span><span class="s1">&#39;ng&#39;</span><span class="p">])</span>
-<span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">$parse</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">$scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-
-  <span class="c1">// allocate function</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">argFoo</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">argFoo</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="c1">// allocate value</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">someValue</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span>
-
-  <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="s1">&#39;foo(someValue)&#39;</span><span class="p">);</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">(</span><span class="nx">$scope</span><span class="p">));</span>
-  <span class="c1">// display =&gt; foo</span>
-<span class="p">});</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="s7df">angular</span><span class="s1388">.</span><span class="s7df">injector</span><span class="s1388">([</span><span class="sc1c">&#39;ng&#39;</span><span class="s1388">])</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">.</span><span class="s7df">invoke</span><span class="s1388">(</span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">$parse</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">$rootScope</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">$scope</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">$rootScope</span><span class="s1388">.</span><span class="s7df">$new</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// allocate function
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s7df">$scope</span><span class="s1388">.</span><span class="s7df">foo</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">argFoo</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">argFoo</span><span class="s1388">;</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">};</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// allocate value
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s7df">$scope</span><span class="s1388">.</span><span class="s7df">someValue</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#39;foo&#39;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">foo</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">$parse</span><span class="s1388">(</span><span class="sc1c">&#39;foo(someValue)&#39;</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7df">console</span><span class="s1388">.</span><span class="s7df">log</span><span class="s1388">(</span><span class="s7df">foo</span><span class="s1388">(</span><span class="s7df">$scope</span><span class="s1388">));</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// display =&gt; foo
+</span><span class="s1770"></span><span class="s1388">});</span></code></pre>
+</div>
 <p>It also interpolates functions?! But wait there is more</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">angular</span><span class="p">.</span><span class="nx">injector</span><span class="p">([</span><span class="s1">&#39;ng&#39;</span><span class="p">])</span>
-<span class="p">.</span><span class="nx">invoke</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">$parse</span><span class="p">,</span> <span class="nx">$rootScope</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">$scope</span> <span class="o">=</span> <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$new</span><span class="p">();</span>
-
-  <span class="c1">//allocate function</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">argFoo</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">argFoo</span><span class="p">;</span>
-  <span class="p">};</span>
-
-  <span class="c1">//allocate value</span>
-  <span class="nx">$scope</span><span class="p">.</span><span class="nx">someValue</span> <span class="o">=</span> <span class="s1">&#39;foo&#39;</span><span class="p">;</span>
-
-  <span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="s1">&#39;foo(someValue)&#39;</span><span class="p">);</span>
-  <span class="cm">/*</span>
-<span class="cm">    The function returned by the $parse service has a second argument wich will</span>
-<span class="cm">    override the context in case of conflict</span>
-<span class="cm">   */</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="p">{</span><span class="nx">someValue</span><span class="o">:</span> <span class="s1">&#39;bar&#39;</span><span class="p">}));</span>
-  <span class="c1">// display =&gt; bar</span>
-<span class="p">});</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="s7df">angular</span><span class="s1388">.</span><span class="s7df">injector</span><span class="s1388">([</span><span class="sc1c">&#39;ng&#39;</span><span class="s1388">])</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">.</span><span class="s7df">invoke</span><span class="s1388">(</span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">$parse</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">$rootScope</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">$scope</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">$rootScope</span><span class="s1388">.</span><span class="s7df">$new</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">//allocate function
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s7df">$scope</span><span class="s1388">.</span><span class="s7df">foo</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">argFoo</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">argFoo</span><span class="s1388">;</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">};</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">//allocate value
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s7df">$scope</span><span class="s1388">.</span><span class="s7df">someValue</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#39;foo&#39;</span><span class="s1388">;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">foo</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">$parse</span><span class="s1388">(</span><span class="sc1c">&#39;foo(someValue)&#39;</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">/*
+</span><span class="s1770">    The function returned by the $parse service has a second argument wich will
+</span><span class="s1770">    override the context in case of conflict
+</span><span class="s1770">   */</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7df">console</span><span class="s1388">.</span><span class="s7df">log</span><span class="s1388">(</span><span class="s7df">foo</span><span class="s1388">(</span><span class="s7df">$scope</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s7df">someValue</span><span class="sfa0">:</span><span class="s1f40"> </span><span class="sc1c">&#39;bar&#39;</span><span class="s1388">}));</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// display =&gt; bar
+</span><span class="s1770"></span><span class="s1388">});</span></code></pre>
+</div>
 <p>Now you will ask: Is there a use case for that? Of course, passing additionnal
 arguments in directive is possible. For example, the ng-click directive
 (<a href="https://docs.angularjs.org/api/ng/directive/ngClick">doc</a>)</p>
@@ -173,45 +170,44 @@ arguments in directive is possible. For example, the ng-click directive
 function handler.</p>
 
 <p>Here is a simplification with explanation of the ng-click directive</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;myModule&#39;</span><span class="p">,</span> <span class="p">[])</span>
-<span class="p">.</span><span class="nx">directive</span><span class="p">(</span><span class="s1">&#39;myNgClick&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;$parse&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">$parse</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">{</span>
-    <span class="nx">link</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="nx">elt</span><span class="p">,</span> <span class="nx">attr</span><span class="p">)</span> <span class="p">{</span>
-      <span class="cm">/*</span>
-<span class="cm">       Gets the function you have passed to ng-click directive</span>
-<span class="cm">       Parse returns a function which has a context and extra params which</span>
-<span class="cm">       overrides the context</span>
-<span class="cm">      */</span>
-      <span class="kd">var</span> <span class="nx">handler</span> <span class="o">=</span> <span class="nx">$parse</span><span class="p">(</span><span class="nx">attr</span><span class="p">[</span><span class="s1">&#39;myNgClick&#39;</span><span class="p">]);</span>
-
-      <span class="cm">/*</span>
-<span class="cm">      here you bind on click event you can look at the documentation</span>
-<span class="cm">      https://docs.angularjs.org/api/ng/function/angular.element</span>
-<span class="cm">      */</span>
-      <span class="nx">elt</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-
-        <span class="c1">//callback is here for the explanation</span>
-        <span class="kd">var</span> <span class="nx">callback</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-
-          <span class="cm">/*</span>
-<span class="cm">           Here handler will do the following, it will call the dedicated</span>
-<span class="cm">           function and fill the arguments with the elements found in the scope</span>
-<span class="cm">           (if possible), the second argument will override the $event attribute</span>
-<span class="cm">           in the scope (if there is some) and provide the event element of the</span>
-<span class="cm">           click</span>
-<span class="cm">          */</span>
-          <span class="nx">handler</span><span class="p">(</span><span class="nx">scope</span><span class="p">,</span> <span class="p">{</span><span class="nx">$event</span><span class="o">:</span> <span class="nx">event</span><span class="p">});</span>
-        <span class="p">};</span>
-
-        <span class="c1">//$apply force angular to run a digest cycle in order to propagate the</span>
-        <span class="c1">//changes</span>
-        <span class="nx">scope</span><span class="p">.</span><span class="nx">$apply</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-  <span class="p">};</span>
-<span class="p">}]);</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="s7df">angular</span><span class="s1388">.</span><span class="s7df">module</span><span class="s1388">(</span><span class="sc1c">&#39;myModule&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">[])</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">.</span><span class="s7df">directive</span><span class="s1388">(</span><span class="sc1c">&#39;myNgClick&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">[</span><span class="sc1c">&#39;$parse&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">$parse</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7df">link</span><span class="sfa0">:</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">scope</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">elt</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">attr</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1770">/*
+</span><span class="s1770">       Gets the function you have passed to ng-click directive
+</span><span class="s1770">       Parse returns a function which has a context and extra params which
+</span><span class="s1770">       overrides the context
+</span><span class="s1770">      */</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">handler</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">$parse</span><span class="s1388">(</span><span class="s7df">attr</span><span class="s1388">[</span><span class="sc1c">&#39;myNgClick&#39;</span><span class="s1388">]);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1770">/*
+</span><span class="s1770">      here you bind on click event you can look at the documentation
+</span><span class="s1770">      https://docs.angularjs.org/api/ng/function/angular.element
+</span><span class="s1770">      */</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s7df">elt</span><span class="s1388">.</span><span class="s7df">on</span><span class="s1388">(</span><span class="sc1c">&#39;click&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">event</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1770">//callback is here for the explanation
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">callback</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s1388">()</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">          </span><span class="s1770">/*
+</span><span class="s1770">           Here handler will do the following, it will call the dedicated
+</span><span class="s1770">           function and fill the arguments with the elements found in the scope
+</span><span class="s1770">           (if possible), the second argument will override the $event attribute
+</span><span class="s1770">           in the scope (if there is some) and provide the event element of the
+</span><span class="s1770">           click
+</span><span class="s1770">          */</span><span class="s1f40">
+</span><span class="s1f40">          </span><span class="s7df">handler</span><span class="s1388">(</span><span class="s7df">scope</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s7df">$event</span><span class="sfa0">:</span><span class="s1f40"> </span><span class="s7df">event</span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1388">};</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1770">//$apply force angular to run a digest cycle in order to propagate the
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s1770">//changes
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s7df">scope</span><span class="s1388">.</span><span class="s7df">$apply</span><span class="s1388">(</span><span class="s7df">callback</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">};</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">}]);</span></code></pre>
+</div>
 <p>And it will work, example =&gt; <a href="http://jsbin.com/hujeluqigo/2/edit?html,js,console,output">here</a></p>
 
 <p>You can also find example of the two first parts <a href="http://jsbin.com/nahivi/edit?js,console">here</a></p>
@@ -221,26 +217,31 @@ function handler.</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/angular-parse\/';
-    var disqus_title = 'Angular $parse';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/angular-parse\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

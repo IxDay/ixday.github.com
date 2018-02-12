@@ -2,11 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Systemd on Not today...</title>
-    <link>http://ixday.github.io/tags/systemd/index.xml</link>
+    <link>http://ixday.github.io/tags/systemd/</link>
     <description>Recent content in Systemd on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://ixday.github.io/tags/systemd/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 19 May 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ixday.github.io/tags/systemd/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Systemd-nspawn</title>
@@ -14,99 +17,8 @@
       <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/systemd_nspawn/</guid>
-      <description>
-
-&lt;p&gt;I am a huge fan of docker for my dev environments, it helps me keeping things
-clear and understanding what are the ressources needed for a project.
-A few month ago a friend told me that there already is a similar feature on
-Linux, and this feature is systemd-nspawn.&lt;/p&gt;
-
-&lt;h2 id=&#34;creating-your-first-container&#34;&gt;Creating your first container&lt;/h2&gt;
-
-&lt;p&gt;So like docker I wanted to first start a container. Nspawn has no environment
-so everything has to be done &amp;ldquo;by hand&amp;rdquo;. First, as long as we do not have any
-registery we need to retrieve an &amp;ldquo;image&amp;rdquo; of the distribution we need.&lt;/p&gt;
-
-&lt;p&gt;(all the commands are ran on behalf of the root user)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt-get install debootstrap
-debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /tmp/my-debian-machine
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This is a quite long to retrieve, so you can go and take a coffee during the
-download ;)&lt;/p&gt;
-
-&lt;p&gt;Now, we have a folder containing the debian basic configuration, we can &amp;ldquo;spawn&amp;rdquo;
-it.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;systemd-nspawn -D /tmp/my-debian-machine
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And that&amp;rsquo;s it! You now have your own container up and running.
-The main difference is that, it is not running on AUFS, and every change will
-be definitive.&lt;/p&gt;
-
-&lt;p&gt;Your machine is now visible if you run &lt;code&gt;machinectl&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;booting-a-container-like-a-real-vm&#34;&gt;Booting a container like a real VM&lt;/h2&gt;
-
-&lt;p&gt;Now, we will see a feature that I didn&amp;rsquo;t find in docker, the ability to boot
-your system.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;systemd-nspawn -D /tmp/my-debian-machine -b
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And a prompt will appear, so to log in just &amp;lsquo;type the root password&amp;rsquo;.
-I&amp;rsquo;m sure you forget to set that before ;). Just stop your container,
-relaunch it without boot and set the password.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# stop the container&lt;/span&gt;
-machinectl poweroff my-debian-machine
-&lt;span class=&#34;c1&#34;&gt;# launch without boot&lt;/span&gt;
-systemd-nspawn -D /tmp/my-debian-machine
-
-&lt;span class=&#34;c1&#34;&gt;# when you have the prompt type a new password&lt;/span&gt;
-passwd
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Now, you can reboot and loggin normally. And the most interesting thing about
-the normal boot, is that now you can profit of all the power of &lt;em&gt;systemd&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;autologin-at-startup&#34;&gt;Autologin at startup&lt;/h2&gt;
-
-&lt;p&gt;I have a normal boot, so I have to loggin, but I am in a container and I want
-to automatically be logged when I start it.&lt;/p&gt;
-
-&lt;p&gt;So, here is how we can do,
-&lt;strong&gt;note: I have tested it on a debian image, the path may not been the same&lt;/strong&gt;:&lt;/p&gt;
-
-&lt;p&gt;When we connect into our container we are using the system console, so
-we will override the systemd service handling the console to force the
-autologin. In linux, the console manager is &lt;em&gt;getty&lt;/em&gt; and the service dedicated
-to the console is &lt;em&gt;console-getty@.service&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;To override a service, you just have to create a &lt;em&gt;service_name.service.d&lt;/em&gt;
-directory in &lt;code&gt;/etc/systemd/system&lt;/code&gt; and a file &lt;em&gt;whatever_name.conf&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;So, I created the dedicated file and put this inside:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# /etc/systemd/system/console-getty.service.d/autologin.conf&lt;/span&gt;
-&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Service&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;ExecStart&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;-/sbin/agetty --noclear --autologin root --keep-baud console &lt;span class=&#34;m&#34;&gt;115200&lt;/span&gt;,38400,9600 &lt;span class=&#34;nv&#34;&gt;$TERM&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The first &lt;code&gt;ExecStart=&lt;/code&gt; clean the old call so that we can override it in the
-following line.&lt;/p&gt;
-
-&lt;h2 id=&#34;first-conclusion&#34;&gt;First conclusion&lt;/h2&gt;
-
-&lt;p&gt;Systemd-nspawn comes with great features and is directly shipped in the system,
-it is a good tool for stuff you want to do in a closed environment.
-I wanted to ship &lt;em&gt;Steam&lt;/em&gt; in a Docker container after reading
-&lt;a href=&#34;http://fabiorehm.com/blog/2014/09/11/running-gui-apps-with-docker/&#34;&gt;this&lt;/a&gt;,
-but I think I will use systemd instead.&lt;/p&gt;
-
-&lt;p&gt;For development, I will continue to stick with Docker because of the
-ecosystem and the community. I have started to use
-&lt;a href=&#34;https://maci0.wordpress.com/2014/05/02/run-any-applications-on-rhel7-containerized-with-3d-acceleration-and-pulseaudio-steam-pidgin-vlc/&#34;&gt;docker-compose&lt;/a&gt; and it allows a lot
-of interesting suffs.&lt;/p&gt;
-</description>
+      <description>I am a huge fan of docker for my dev environments, it helps me keeping things clear and understanding what are the ressources needed for a project. A few month ago a friend told me that there already is a similar feature on Linux, and this feature is systemd-nspawn.
+Creating your first container So like docker I wanted to first start a container. Nspawn has no environment so everything has to be done &amp;ldquo;by hand&amp;rdquo;.</description>
     </item>
     
   </channel>

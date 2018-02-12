@@ -2,11 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on Not today...</title>
-    <link>http://ixday.github.io/tags/python/index.xml</link>
+    <link>http://ixday.github.io/tags/python/</link>
     <description>Recent content in Python on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://ixday.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Mar 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ixday.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Pytest command line</title>
@@ -14,58 +17,9 @@
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/pytest_command_line/</guid>
-      <description>
-
-&lt;p&gt;I have recently dug into pytest documentation, and moreover into
-the command line arguments and I finally found a better workflow
-for running tests while I develop.&lt;/p&gt;
-
-&lt;p&gt;Here is the command I run when I just made some devs:
-&lt;code&gt;py.test -xvvvs --tb=line --pdb&lt;/code&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;-x&lt;/strong&gt; will stop execution on first failue, useful when debugging tests
-in order of appearance (recommended)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;-vvv&lt;/strong&gt; will display current test path (reuasable in py.test), the
-path will avoid to rerun all the previous tests before going to the one
-you are currently working on. In addition, the verbose flags will display
-a full diff of the assert error. This will help troubleshoot from where
-the error is coming&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&amp;ndash;tb=line&lt;/strong&gt; will only display the last line of the unhandled exception
-which make the test fail. I use this because in general the exception
-trace is not really relevant, as we already know what test is running
-and the name of the error.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&amp;ndash;pdb&lt;/strong&gt; this one is gold, it will enter pdb on fail, and if you have
-&lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt; installed, this will be
-a real debugger :p&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The second command I usually ran is: &lt;code&gt;py.test -v --tb=line --cov=src --cov-report=html&lt;/code&gt;.
-This one is my code coverage command. I run it on small changes or after the first
-command described here, in order to check that my coverage has evolved.
-I put a &lt;code&gt;-v&lt;/code&gt; for displaying the path of the current test, and &lt;code&gt;--tb=line&lt;/code&gt; in order
-to not pollute the screen with stack traces. Those two options are here in the case
-of an error during the coverage. It allows me to be faster on isolating tests to
-debug.&lt;/p&gt;
-
-&lt;h2 id=&#34;bonus&#34;&gt;Bonus&lt;/h2&gt;
-
-&lt;p&gt;Here I discussed about the coverage, and py.test commands. I use specific options
-on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;My &lt;code&gt;.travis.yml&lt;/code&gt; file which run py.test with coverage.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
-&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
-&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
-&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;It will just put the report into coveralls and displays the
-same informations as the other command explained above.&lt;/p&gt;
-</description>
+      <description>I have recently dug into pytest documentation, and moreover into the command line arguments and I finally found a better workflow for running tests while I develop.
+Here is the command I run when I just made some devs: py.test -xvvvs --tb=line --pdb
+ -x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.</description>
     </item>
     
     <item>
@@ -74,75 +28,9 @@ same informations as the other command explained above.&lt;/p&gt;
       <pubDate>Sun, 28 Feb 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/pdbpp/</guid>
-      <description>
-
-&lt;p&gt;I am a huge fan of ipython and its debugger ipdb (I have also done a
-patch on it). Then I discovered &lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt;
-and I found it so great that I no more use ipdb, here is why.&lt;/p&gt;
-
-&lt;h2 id=&#34;more-features&#34;&gt;More features&lt;/h2&gt;
-
-&lt;h3 id=&#34;sticky-mode&#34;&gt;Sticky mode&lt;/h3&gt;
-
-&lt;p&gt;Pdbpp comes with a lot of additional features which are really convenient.
-The first and more well known is the sticky mode:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;http://ixday.github.io/img/pdbpp_sticky.png&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;This will display the code currently, executed and shows you with an arrow at
-which exact line you are. Just type &lt;code&gt;sticky&lt;/code&gt; to enable this mode and &amp;ldquo;voila&amp;rdquo; it
-works&lt;/p&gt;
-
-&lt;h3 id=&#34;pdb-disable&#34;&gt;Pdb disable&lt;/h3&gt;
-
-&lt;p&gt;This one is quite usefull when debugging in tests. For example, you have
-a pdb statement in a fixture which is called by a bunch of tests.
-Maybe there is something I do not really understand but when I want
-to exit, I am stuck pressing Ctrl+d Ctrl+c hoping it will stop the tests
-before another fixture call happen.&lt;/p&gt;
-
-&lt;p&gt;Pdbpp extends the pdb command with a disable statement
-(&lt;code&gt;pdb.disable()&lt;/code&gt; in the console), which will ignore subsequent calls to pdb.&lt;/p&gt;
-
-&lt;h3 id=&#34;no-variable-overrides&#34;&gt;No variable overrides&lt;/h3&gt;
-
-&lt;p&gt;When using ipdb, sometimes in the code I use some reserved variables:
-&amp;ldquo;c&amp;rdquo;, &amp;ldquo;rv&amp;rdquo;, &amp;ldquo;args&amp;rdquo;,.. when entering the debugger they are overriden by
-keywords, and I have to change their name and start again to see what they
-contain.&lt;/p&gt;
-
-&lt;p&gt;With pdbpp, this no longer happens, as explained in the documentation, pdbpp
-can infers which variable is currently used and avoid the override.&lt;/p&gt;
-
-&lt;h3 id=&#34;and-many-more&#34;&gt;And many more&lt;/h3&gt;
-
-&lt;p&gt;Just read the documentation and looks at the other features, this library
-is pure gold.&lt;/p&gt;
-
-&lt;h2 id=&#34;just-a-simple-wrapper&#34;&gt;Just a simple wrapper&lt;/h2&gt;
-
-&lt;p&gt;This is just a wrapper around pdb, which means that you can simply call it
-with &lt;code&gt;import pdb; pdb.set_trace()&lt;/code&gt;. And more importantly, when a tool provides
-a postmortem feature (scrapy, pytest) it brings you directly to pdbpp without
-having to dig in the code or documentation (when you wanted to activate ipdb).&lt;/p&gt;
-
-&lt;h2 id=&#34;simple-config&#34;&gt;Simple config&lt;/h2&gt;
-
-&lt;p&gt;Here is my config (a real simple one):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pdb&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DefaultConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# start in sticky mode&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# black&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-</description>
+      <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
+More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
+ This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
     </item>
     
     <item>
@@ -151,176 +39,10 @@ having to dig in the code or documentation (when you wanted to activate ipdb).&l
       <pubDate>Thu, 02 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/listing_directory_with_wsgi/</guid>
-      <description>
-
-&lt;p&gt;Recently I ran into an issue with my blog and pelican
-(the blogging engine I use). For some reasons (which I explain [here]())
-I had to develop a small wsgi app which act like the
-&lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;python SimpleHTTPServer&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I tried a lot of things but they never worked as I wanted them to.
-So, I decided to do this by myself.&lt;/p&gt;
-
-&lt;h2 id=&#34;specifications&#34;&gt;Specifications&lt;/h2&gt;
-
-&lt;p&gt;Here are the features I wanted:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Define a directory as the root (/) directory from which all the files will be
-served.&lt;/li&gt;
-&lt;li&gt;If this directory contains an index.html file, serves it to the user.&lt;/li&gt;
-&lt;li&gt;If there is no index.html file list all the subdirectories and files in a
-simple page and provide links to navigate.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;tools&#34;&gt;Tools&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;For this little project I need a simple server which is available directly
-in the &lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;stdlib&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;I will use the famous &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;path.py lib&lt;/a&gt; for
-handling all the interactions with the FS.&lt;/li&gt;
-&lt;li&gt;Then &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;Jinja&lt;/a&gt; for all the rendering.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;hello-world&#34;&gt;Hello world!&lt;/h2&gt;
-
-&lt;p&gt;First of all, making it works for the most simple use case&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a simple Hello World when accessing an url (anyone) on the server&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;	&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# send status_code and headers&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# send body&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# create a server on &amp;#39;localhost&amp;#39; and port 8080 using the application&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# serve...&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;routing&#34;&gt;Routing&lt;/h2&gt;
-
-&lt;p&gt;Then I have to handle the request, translate the url in a possible path in the
-FS, and dispatch to the different choices available.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;path&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/tmp&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# The root directory from which I will serve the files&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Route to the dedicated functions&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# build the possible path of the file to serve or directory to list&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;PATH_INFO&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# build the possible path of the index file if the path is a directory&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;index.html&amp;#39;&lt;/span&gt;
-
-
-	&lt;span class=&#34;c1&#34;&gt;# checks if the path exists, if not want to send a 404 not found&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# checks if the path links to a file, in this case serve the file&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;isfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# now we are sure that the user asks for a directory, checks if the&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# directory has an index.html file, if so, serve it.&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# last case we want to list what is in the directory&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;serve-content&#34;&gt;Serve content&lt;/h2&gt;
-
-&lt;h3 id=&#34;return-404&#34;&gt;Return 404&lt;/h3&gt;
-
-&lt;p&gt;Most simple use case, return a 404 error and a small message&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-		&lt;span class=&#34;c1&#34;&gt;# status code and header&lt;/span&gt;
-        &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;404 NOT FOUND&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;text/plain&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-		&lt;span class=&#34;c1&#34;&gt;# simplest message ever&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Not Found&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;serve-file&#34;&gt;Serve file&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;mimetypes&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1024&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;filepath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# retrieve mimetype for serving purpose&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mimetypes&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;guess_type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# start response with the given mimetype&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;sr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])])&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# yield the file content through network (chunks function from path.py)&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;list-directory&#34;&gt;List directory&lt;/h3&gt;
-
-&lt;p&gt;Last but not least, the listing of the directory. Here I use Jinja for the
-templating.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;jinja2&lt;/span&gt;
-
-&lt;span class=&#34;c1&#34;&gt;# setup my jinja environment with the templates directory containing my&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# template files&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;env&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;loader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PackageLoader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;my_wsgi_listdir&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;templates&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# start a response as an html page&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# retrieve informations from FS through path.py API&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-		&lt;span class=&#34;s1&#34;&gt;&amp;#39;directory&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
-		&lt;span class=&#34;s1&#34;&gt;&amp;#39;links&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listdir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# render the template with the informations and return the stream&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;env&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_template&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;list_dir.tplt&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stream&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here is the &lt;code&gt;list_dir.tplt&lt;/code&gt; file&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-jinja&#34; data-lang=&#34;jinja&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;title&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;h2&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;ul&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;links&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;quot;&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;endfor&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;/ul&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And that&amp;rsquo;s all, simple and efficient this little wsgi application fits my
-needs.&lt;/p&gt;
-</description>
+      <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain [here]()) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
+I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
+Specifications Here are the features I wanted:
+ Define a directory as the root (/) directory from which all the files will be served.</description>
     </item>
     
     <item>
@@ -329,31 +51,8 @@ needs.&lt;/p&gt;
       <pubDate>Tue, 09 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/patch_dependency/</guid>
-      <description>&lt;p&gt;When developing on a project it is possible that a dependency can have an issue.
-First you want to be able to debug it (pdb, ipdb), then modify it if you find
-a bug.
-To do that there is a naive way in python, which consist in editing directly
-the sources of the module. But there is a cleaner way based on &lt;code&gt;pip&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code&gt;-e&lt;/code&gt; option allows you to pass a path (git, http, file) for a given module
-and link it to your environment. Then you just have to modify the files in
-your filesystem and they will be provided to your project.&lt;/p&gt;
-
-&lt;p&gt;Here are the command lines needed (two line is enough).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# first I download the sources from wherever you want&lt;/span&gt;
-git clone &amp;lt;address of the project&amp;gt;
-
-&lt;span class=&#34;c1&#34;&gt;# then I install and link the lib in my current env&lt;/span&gt;
-pip install -e &amp;lt;path of the downloaded lib&amp;gt;
-
-&lt;span class=&#34;c1&#34;&gt;# now I can modify the lib file in order to debug it&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The documentation for the feature can be found &lt;a href=&#34;https://pip.pypa.io/en/latest/reference/pip_install.html#editable-installs&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This is really useful when developing with third part libraries, and it is not
-so well explained when you use &lt;code&gt;pip&lt;/code&gt;, even if this feature is really awesome.&lt;/p&gt;
-</description>
+      <description>When developing on a project it is possible that a dependency can have an issue. First you want to be able to debug it (pdb, ipdb), then modify it if you find a bug. To do that there is a naive way in python, which consist in editing directly the sources of the module. But there is a cleaner way based on pip.
+The -e option allows you to pass a path (git, http, file) for a given module and link it to your environment.</description>
     </item>
     
     <item>
@@ -362,70 +61,10 @@ so well explained when you use &lt;code&gt;pip&lt;/code&gt;, even if this featur
       <pubDate>Tue, 14 Apr 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/pytest_fixture/</guid>
-      <description>&lt;p&gt;I am a huge fan of python (one of the best language in my toolbox). And
-when it comes to tests, &lt;a href=&#34;http://pytest.org/&#34;&gt;pytest&lt;/a&gt; is &lt;em&gt;THE&lt;/em&gt; library to use.&lt;/p&gt;
-
-&lt;p&gt;I also use &lt;a href=&#34;http://flask.pocoo.org/&#34;&gt;Flask&lt;/a&gt; a lot, so today I will show you
-some of my snippets.&lt;/p&gt;
-
-&lt;p&gt;First one the app fixture:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@pytest.fixture&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;autouse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Load flask in testing mode&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;myapp&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;TESTING&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;json_encoder&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;my_encoder&lt;/span&gt;
-
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This create an app fixture which will be used to test the application, it
-returns a test client to interact with my Flask application.&lt;/p&gt;
-
-&lt;p&gt;It is an adaptation of the documentation &lt;a href=&#34;http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton&#34;&gt;testing skeleton&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I also replace the json encoder by a custom one (it allows me to dump mock
-object for example).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@pytest.yield_fixture&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;request_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Provide a Flask request context for testing purpose&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-    &lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_request_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;yield&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req_context&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This one applies a request context on a testing function, this can be
-useful if you manipulate werzeug interactions (flask request attribute mostly).
-This has to be use when the
-&lt;code&gt;RuntimeError: working outside of application context&lt;/code&gt; error is raised.&lt;/p&gt;
-
-&lt;p&gt;In the most common use case you will not need the &lt;code&gt;req_context&lt;/code&gt; variable during
-your test. To avoid to have an unused argument, you can simply use the
-&lt;code&gt;@pytest.mark.usefixtures(&#39;request_context&#39;)&lt;/code&gt; decorator on your testing
-function.&lt;/p&gt;
-
-&lt;p&gt;Last one is also an opportunity to talk about
-&lt;a href=&#34;http://peewee.readthedocs.org/en/latest/&#34;&gt;peewee&lt;/a&gt; which is a great lightweight
-ORM. Like a lot of ORM peewee provides a &lt;a href=&#34;http://docs.peewee-orm.com/en/latest/peewee/transactions.html&#34;&gt;transaction decorator&lt;/a&gt;
-, in unittest you may want to test endpoints without connecting to a db.
-So, here is an example on how you can replace the decorator
-(or contextmanager) by a dummy one.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;imp&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;contextlib&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pytest&lt;/span&gt;
-
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;database&lt;/span&gt;
-
-&lt;span class=&#34;nd&#34;&gt;@pytest.fixture&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;autouse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;session&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mock_transaction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Replace the atomic decorator from peewee to a noop one&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-    &lt;span class=&#34;n&#34;&gt;database&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;atomic&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;contextlib&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contextmanager&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;lambda&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;yield&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;imp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;using&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;transactions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Pytest use a lot of the python flexibility and I must confess that I love it.&lt;/p&gt;
-</description>
+      <description>I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
+I also use Flask a lot, so today I will show you some of my snippets.
+First one the app fixture:
+@pytest.fixture(autouse=True)defapp():&amp;#34;&amp;#34;&amp;#34;Load flask in testing mode&amp;#34;&amp;#34;&amp;#34;app_test=myappapp_test.config[&amp;#39;TESTING&amp;#39;]=Trueapp_test.json_encoder=my_encoderreturnapp_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.</description>
     </item>
     
   </channel>

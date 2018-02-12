@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Not today...</title>
+    <link>http://ixday.github.io/tags/</link>
+    <description>Recent content in Tags on Not today...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 May 2017 11:41:14 +0200</lastBuildDate>
+    
+	<atom:link href="http://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Admin</title>
+      <link>http://ixday.github.io/tags/admin/</link>
+      <pubDate>Mon, 01 May 2017 11:41:14 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/tags/admin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Adminsys</title>
+      <link>http://ixday.github.io/tags/adminsys/</link>
+      <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/adminsys/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Angular</title>
+      <link>http://ixday.github.io/tags/angular/</link>
+      <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/angular/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bash</title>
+      <link>http://ixday.github.io/tags/bash/</link>
+      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/tags/bash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cli</title>
+      <link>http://ixday.github.io/tags/cli/</link>
+      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/tags/cli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dev</title>
+      <link>http://ixday.github.io/tags/dev/</link>
+      <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/tags/dev/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Golang</title>
+      <link>http://ixday.github.io/tags/golang/</link>
+      <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jasmine</title>
+      <link>http://ixday.github.io/tags/jasmine/</link>
+      <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/jasmine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Javascript</title>
+      <link>http://ixday.github.io/tags/javascript/</link>
+      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>http://ixday.github.io/tags/python/</link>
+      <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Systemd</title>
+      <link>http://ixday.github.io/tags/systemd/</link>
+      <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/systemd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tests</title>
+      <link>http://ixday.github.io/tags/tests/</link>
+      <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/tests/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>http://ixday.github.io/tags/web/</link>
+      <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/web/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

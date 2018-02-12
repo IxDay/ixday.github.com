@@ -2,11 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dev on Not today...</title>
-    <link>http://ixday.github.io/tags/dev/index.xml</link>
+    <link>http://ixday.github.io/tags/dev/</link>
     <description>Recent content in Dev on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 12 Feb 2018 11:48:04 +0100</lastBuildDate>
+    
+	<atom:link href="http://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cancel copy of huge file in Go</title>
+      <link>http://ixday.github.io/post/golang-cancel-copy/</link>
+      <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/golang-cancel-copy/</guid>
+      <description>I recently came across this video on Golang programming. I think this was the moment I finally fully understood the power of Go. It is smart, simple and elegant, I love it.
+Then, a few days later, I was coding on a toy project and I was doing some stuff around the io package to copy huge files. I wanted to achieve copy cancelation during the processing, basically, being able to interrupt.</description>
+    </item>
     
     <item>
       <title>direnv</title>
@@ -14,50 +27,9 @@
       <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/direnv/</guid>
-      <description>
-
-&lt;p&gt;I recently discovered the &lt;a href=&#34;https://direnv.net/&#34;&gt;direnv&lt;/a&gt; project. Which helped
-me a lot for setting up my development environments. I will share a bit of
-things I use in my daily basis.&lt;/p&gt;
-
-&lt;h2 id=&#34;python-projects&#34;&gt;Python projects&lt;/h2&gt;
-
-&lt;p&gt;This is well documented but here is what I use in python projects to set up
-a default virtualenv.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;layout python
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;That&amp;rsquo;s it! It sets up a virtualenv in your &lt;code&gt;.direnv&lt;/code&gt; directory,
-and load the updated &lt;code&gt;PATH&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;golang-projects&#34;&gt;Golang projects&lt;/h2&gt;
-
-&lt;p&gt;This one is a bit trickier.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOPATH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/.go&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GOBIN&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$GOPATH&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;/bin&amp;quot;&lt;/span&gt;
-PATH_add &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$GOBIN&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;I usually put my &lt;code&gt;$GOPATH&lt;/code&gt; in an hidden directory, here it&amp;rsquo;s &lt;code&gt;.go&lt;/code&gt; and link
-the project to the top directory. But you can also set up the &lt;code&gt;vendor&lt;/code&gt; directory,
-depending on your needs.&lt;/p&gt;
-
-&lt;h2 id=&#34;misc&#34;&gt;Misc&lt;/h2&gt;
-
-&lt;p&gt;This is a trick I use with a bunch of project to move quickly around. I set up
-this in &lt;code&gt;.envrc&lt;/code&gt; file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;PROJECT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;pwd&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And then in the &lt;code&gt;.zshrc&lt;/code&gt; (works also with &lt;code&gt;.bashrc&lt;/code&gt;), I put this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;cd&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;HOME=${PROJECT:-$HOME} cd&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This will make my &lt;code&gt;cd&lt;/code&gt; command to go back to the root of my project (where the
-&lt;code&gt;.envrc&lt;/code&gt; file lands) instead of going to &lt;code&gt;$HOME&lt;/code&gt;. But only inside my project
-and without overriding my &lt;code&gt;$HOME&lt;/code&gt; variable globally. Which is something you
-really don&amp;rsquo;t want, seriously don&amp;rsquo;t do it!&lt;/p&gt;
-</description>
+      <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
+Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
+layout python  That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
     </item>
     
     <item>
@@ -66,108 +38,9 @@ really don&amp;rsquo;t want, seriously don&amp;rsquo;t do it!&lt;/p&gt;
       <pubDate>Tue, 25 Jul 2017 10:44:02 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
-      <description>&lt;p&gt;A feature I like in golang is the hability to declare a variable at the
-assignation time. Something like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;.
-One more feature is to be able to allocate on same line as doing a comparison.
-Like this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;quot;baz&amp;quot;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;// do something&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;// do something else&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This is really handy when it comes to catch errors from an other function:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;potentialyFailingFn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;// if there is an error we return and stop execution&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;// here is executed if there is no error caught&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This assignation however is scoped to the &lt;code&gt;if&lt;/code&gt; block, which means that out of
-it &lt;code&gt;err&lt;/code&gt; does not exist.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;potentialyFailingFn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;// error caught aborting&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;// here res exist, we can do whatever we want with the variable&lt;/span&gt;
-	&lt;span class=&#34;nx&#34;&gt;whatever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;res&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;// here nor res or err exist and we can&amp;#39;t access them&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Still with me? Ok, one last thing, the named returned value&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-	&lt;span class=&#34;s&#34;&gt;&amp;quot;errors&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;	&lt;span class=&#34;c1&#34;&gt;// no need to specify the err variable here,&lt;/span&gt;
-	        &lt;span class=&#34;c1&#34;&gt;// this is a golang feature, see: https://tour.golang.org/basics/7&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;So now, what if I do this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-	&lt;span class=&#34;s&#34;&gt;&amp;quot;errors&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Compiler says: &lt;code&gt;err is shadowed during return&lt;/code&gt;, this says, we have a named
-variable &lt;code&gt;err&lt;/code&gt; defined in the function declaration. Then, in the &lt;code&gt;if&lt;/code&gt; we
-redeclare for the block a &lt;code&gt;err&lt;/code&gt; variable with an error value. Compiler spot that
-there can be a misunderstanding on which one to use then, and warns you.
-If type had been different, compiler should just have errored, but here I can
-reuse a variable name.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;BTW&lt;/strong&gt;, this compile and will return a &lt;code&gt;&amp;quot;bar&amp;quot;&lt;/code&gt; error.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-	&lt;span class=&#34;s&#34;&gt;&amp;quot;errors&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errors&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;New&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-		&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// note that I do not use the named variable but the scoped one.&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Now, how can I use this? To perform this for example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-	&lt;span class=&#34;s&#34;&gt;&amp;quot;log&amp;quot;&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;foo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;// note the difference between err = and err :=&lt;/span&gt;
-
-	&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bar&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// I want to keep this error and return it&lt;/span&gt;
-
-		&lt;span class=&#34;c1&#34;&gt;// but I have one more call to do and want to log the error&lt;/span&gt;
-		&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;baz&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-			&lt;span class=&#34;c1&#34;&gt;// here err is the scoped one and does not override the one returned&lt;/span&gt;
-			&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Printf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;quot;%s&amp;quot;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-		&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Interesting isn&amp;rsquo;t it?&lt;/p&gt;
-</description>
+      <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
+foo:=&amp;#34;bar&amp;#34;  Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+iffoo:=&amp;#34;bar&amp;#34;;foo==&amp;#34;baz&amp;#34;{// do something }else{// do something else }  This is really handy when it comes to catch errors from an other function:</description>
     </item>
     
     <item>
@@ -176,28 +49,8 @@ reuse a variable name.&lt;/p&gt;
       <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/vuecc/</guid>
-      <description>&lt;p&gt;I recently discovered &lt;a href=&#34;https://vuejs.org&#34;&gt;Vue.js&lt;/a&gt; and I really liked it.
-You just have to add a script tag and you can start coding using this framework.&lt;/p&gt;
-
-&lt;p&gt;After a few hours of development, I decided to use &lt;a href=&#34;https://vuejs.org/v2/guide/single-file-components.html&#34;&gt;SFC (Single File Components)&lt;/a&gt; to separate business code from components.
-And I got a really bad surpise! In order to compile those templates I needed
-to use a build system (Webpack or Browserify). The tutorial is really good, but&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;GOD I DON&amp;rsquo;T WANT TO INSTALL 200MB OF DEPENDENCIES AND WRITE 200+SLOC BUILD
-FILE.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;I need to keep things simple, I don&amp;rsquo;t need Babel, I know how to write JS. I can
-rant on this for hours. I started looking around for an alternative solution.
-And found &lt;a href=&#34;https://www.reddit.com/r/vuejs/comments/5ops4d/light_weight_and_simple_way_to_use_single_file/&#34;&gt;this interesting thread&lt;/a&gt;. So no simple solution out there.&lt;/p&gt;
-
-&lt;p&gt;This is why I started &lt;a href=&#34;https://github.com/BackInMyDays/vuecc&#34;&gt;vuecc project&lt;/a&gt;.
-It only depends on &lt;a href=&#34;https://www.npmjs.com/package/html-minifier&#34;&gt;html-minifier&lt;/a&gt;
-and brings less than 3MB of dependencies.&lt;/p&gt;
-
-&lt;p&gt;Not everything is supported but for the moment it fits my needs. Simple to use,
-it outputs understandable javascript. I will surely add features when time will
-come to support things like isolation or javascript compression.&lt;/p&gt;
-</description>
+      <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
+After a few hours of development, I decided to use SFC (Single File Components) to separate business code from components. And I got a really bad surpise! In order to compile those templates I needed to use a build system (Webpack or Browserify). The tutorial is really good, but&amp;hellip;</description>
     </item>
     
     <item>
@@ -206,75 +59,8 @@ come to support things like isolation or javascript compression.&lt;/p&gt;
       <pubDate>Mon, 13 Mar 2017 14:52:21 +0100</pubDate>
       
       <guid>http://ixday.github.io/post/docker_git_volume/</guid>
-      <description>
-
-&lt;p&gt;&lt;strong&gt;DISCLAIMER:&lt;/strong&gt; This is now fixed in git new releases and does not need to be done
-anymore. I use an old version of alpine in order to have an unpached version of
-git.&lt;/p&gt;
-
-&lt;p&gt;I ran into an interesting issue lastly. I wanted to mount a volume inside
-a container and clone a repo in it. I also wanted to avoid messing with the
-permissions and pass my user to the container as well.&lt;/p&gt;
-
-&lt;h2 id=&#34;set-test-env&#34;&gt;Set test env&lt;/h2&gt;
-
-&lt;p&gt;Here is my setup, a Dockerfile with a container and git installed&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; alpine:3.2&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;RUN&lt;/span&gt; apk --update add git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Then simply run the git clone command inside a volume mounted with correct uid
-and gid.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;go&#34;&gt;docker build -t foo --rm .&lt;/span&gt;
-&lt;span class=&#34;go&#34;&gt;docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \&lt;/span&gt;
-&lt;span class=&#34;go&#34;&gt;	git clone https://github.com/octocat/Spoon-Knife&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And I get the following error:
-&lt;code&gt;fatal: unable to look up current user in the passwd file: no such user&lt;/code&gt;. This
-is actually right, my user only exists on the host and not into my container.&lt;/p&gt;
-
-&lt;h2 id=&#34;googling&#34;&gt;Googling&lt;/h2&gt;
-
-&lt;p&gt;I checked my best friend for technical questions: Google. And found
-&lt;a href=&#34;http://www.spinics.net/lists/git/msg263682.html&#34;&gt;this thread&lt;/a&gt;
-which describe exactly what I am facing right now. The thread is really
-interesting and I invite you to read it entirely.&lt;/p&gt;
-
-&lt;p&gt;A solution is suggested &lt;a href=&#34;http://www.spinics.net/lists/git/msg263958.html&#34;&gt;here&lt;/a&gt;.
-What does it say? Just disable the &lt;code&gt;reflog&lt;/code&gt; at clone time. I still have an issue
-here because I do not have the hand on the cloning command in my real life issue.&lt;/p&gt;
-
-&lt;p&gt;Googling again, nothing really obvious came here. So better check at the git
-documentation, and more precisely at the
-&lt;a href=&#34;https://git-scm.com/docs/git-config&#34;&gt;git config man page&lt;/a&gt;. Looking for &lt;code&gt;reflog&lt;/code&gt;
-and ended up &lt;a href=&#34;https://git-scm.com/docs/git-config#git-config-corelogAllRefUpdates&#34;&gt;here&lt;/a&gt;.
-Great, there is a trigger!&lt;/p&gt;
-
-&lt;h2 id=&#34;fixing&#34;&gt;Fixing&lt;/h2&gt;
-
-&lt;p&gt;We now have to set this option inside the Dockerfile in order to make the
-process able to clone the repo correctly. There is an option inside the
-&lt;code&gt;git config&lt;/code&gt; we will use: &lt;code&gt;--system&lt;/code&gt; described
-&lt;a href=&#34;https://git-scm.com/docs/git-config#git-config---system&#34;&gt;here&lt;/a&gt;.
-This will set the configuration system wide, because the cloning will occur with a random uid,
-we need a generic setup, whereas &lt;code&gt;--global&lt;/code&gt; as root will only set the option
-for the root user.&lt;/p&gt;
-
-&lt;h2 id=&#34;final-setup&#34;&gt;Final setup&lt;/h2&gt;
-
-&lt;p&gt;We modify our Dockerfile according to the last results.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-dockerfile&#34; data-lang=&#34;dockerfile&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;FROM&lt;/span&gt;&lt;span class=&#34;s&#34;&gt; alpine:3.2&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;RUN&lt;/span&gt; apk --update add git
-&lt;span class=&#34;k&#34;&gt;RUN&lt;/span&gt; git config --system core.logallrefupdates false
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The git config command is case insensitive, so all lowercase will work here.
-Now just run the previous build and run again your git clone.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;It works!&lt;/strong&gt;&lt;/p&gt;
-</description>
+      <description>DISCLAIMER: This is now fixed in git new releases and does not need to be done anymore. I use an old version of alpine in order to have an unpached version of git.
+I ran into an interesting issue lastly. I wanted to mount a volume inside a container and clone a repo in it. I also wanted to avoid messing with the permissions and pass my user to the container as well.</description>
     </item>
     
     <item>
@@ -283,87 +69,8 @@ Now just run the previous build and run again your git clone.&lt;/p&gt;
       <pubDate>Wed, 15 Feb 2017 10:57:00 +0100</pubDate>
       
       <guid>http://ixday.github.io/post/makefile/</guid>
-      <description>
-
-&lt;p&gt;Recently, I had to build some project involving a lot of files. Two choices
-were possible:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;use a script to build&lt;/li&gt;
-&lt;li&gt;use a Makefile&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I ended up with a Makefile, which is the best solution I think. As the script
-has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files.
-(I have to confess also, I have been a bit influenced by
- &lt;a href=&#34;https://twitter.com/jessfraz&#34;&gt;jessfraz&lt;/a&gt; with those tweets:
- &lt;a href=&#34;https://twitter.com/jessfraz/status/716064317582417920&#34;&gt;here&lt;/a&gt; and
- &lt;a href=&#34;https://twitter.com/jessfraz/status/805846280547110912&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
-
-&lt;p&gt;This project also learned me some tricks which can be reused, here is a little list&lt;/p&gt;
-
-&lt;h3 id=&#34;default-variable&#34;&gt;Default variable&lt;/h3&gt;
-
-&lt;p&gt;You can set a default value to an internal variable of a makefile. Those variables
-can be set up at the &lt;code&gt;make&lt;/code&gt; command run i.e: &lt;code&gt;make ARCH=i686&lt;/code&gt; or &lt;code&gt;ARCH=i686 make&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;SERVER_PORT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;5050&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;ARCH&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?=&lt;/span&gt; amd64
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;watch-all-files-from-a-directory-to-change&#34;&gt;Watch all files from a directory to change&lt;/h3&gt;
-
-&lt;p&gt;This is perfectly correct and usable in a Makefile&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;shell&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;find&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;root&lt;/span&gt; -&lt;span class=&#34;nv&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;f&lt;/span&gt; | &lt;span class=&#34;nv&#34;&gt;sed&lt;/span&gt; &amp;#39;&lt;span class=&#34;nv&#34;&gt;s&lt;/span&gt;/ /\\ /&lt;span class=&#34;nv&#34;&gt;g&lt;/span&gt;&amp;#39;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
-	@tar cvzf &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt; $^
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;$@&lt;/code&gt; represent the target and &lt;code&gt;$^&lt;/code&gt; all the file dependencies&lt;/p&gt;
-
-&lt;h3 id=&#34;define-and-use-a-command&#34;&gt;Define and use a command&lt;/h3&gt;
-
-&lt;p&gt;You can define a command as a parameter and use it in a target, this is really
-convenient and a huge plus against a shell script (which will require an eval
-statement). You can nest variable inside your commands, this gives a lot of
-flexibility.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;WGET&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; wget -d -o logfile
-
-&lt;span class=&#34;nf&#34;&gt;archive.tgz&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;WGET&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -O &lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;https://ftp.gnu.org/gnu/coreutils/coreutils-5.0.tar.gz&amp;quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;use-another-makefile&#34;&gt;Use another makefile&lt;/h3&gt;
-
-&lt;p&gt;We can use the makefile from another project within the current makefile, with
-the &lt;code&gt;-C&lt;/code&gt; option. In this example &lt;code&gt;$(MAKE)&lt;/code&gt; is setup by default to &lt;code&gt;make&lt;/code&gt; command.
-The &lt;code&gt;$(dir ...)&lt;/code&gt; part is a &lt;code&gt;make&lt;/code&gt; internal command
-(see &lt;a href=&#34;https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html#File-Name-Functions&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;vendor/darkhttpd/darkhttpd_&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;MAKE&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; -C &lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;dir &lt;span class=&#34;nv&#34;&gt;$@&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;escape-variable&#34;&gt;Escape variable&lt;/h3&gt;
-
-&lt;p&gt;Sometimes you need to escape the variable character, this can be done by doubling
-it: &lt;code&gt;$$&lt;/code&gt;. In the following example, the &lt;code&gt;$$2&lt;/code&gt; will represent the &lt;code&gt;$2&lt;/code&gt; from &lt;code&gt;awk&lt;/code&gt;
-and not a variable from &lt;code&gt;make&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-make&#34; data-lang=&#34;make&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;clean.virsh&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt;
-	virsh list &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh destroy &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
-	virsh list --all &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; awk &lt;span class=&#34;s1&#34;&gt;&amp;#39;$$2 ~ /ipxe/ {system(&amp;quot;virsh undefine &amp;quot; $$2)}&amp;#39;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;debug-your-targets&#34;&gt;Debug your targets&lt;/h3&gt;
-
-&lt;p&gt;In order to debug your targets you can run a simple command which is not too
-verbose, but display enough information though (got from the documentation
-&lt;a href=&#34;http://www.oreilly.com/openbook/make3/book/ch12.pdf&#34;&gt;here&lt;/a&gt;)&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Replace the &amp;lt;target&amp;gt; by the one you want to debug&lt;/span&gt;
-make --debug&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;basic -n &amp;lt;target&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;that-s-all-folks&#34;&gt;That&amp;rsquo;s all folks&lt;/h3&gt;
-
-&lt;p&gt;I will try to improve this article over the time as I find new tips from &lt;code&gt;make&lt;/code&gt;.&lt;/p&gt;
-</description>
+      <description>Recently, I had to build some project involving a lot of files. Two choices were possible:
+ use a script to build use a Makefile  I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)</description>
     </item>
     
     <item>
@@ -372,272 +79,8 @@ make --debug&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;basic -n &amp;lt;target&
       <pubDate>Sun, 10 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</guid>
-      <description>
-
-&lt;p&gt;Recently Nodejs environment broke due the removal from npm
-of a small library (11 SLOC): &lt;code&gt;leftpad&lt;/code&gt;. As it hit the world
-and broke a bunch of projects and CIs, I asked myself if my projects
-contains so much dependencies that if one break, everything collapse.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-problem&#34;&gt;The problem&lt;/h2&gt;
-
-&lt;p&gt;For developing my frontend I use a tool which I really like:
-&lt;a href=&#34;http://gulpjs.com/&#34;&gt;Gulp&lt;/a&gt;. The issue there, is that for working
-with multiple building process involved a lot of glue and third
-party libraries. Here is an example: &lt;a href=&#34;https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md&#34;&gt;https://github.com/gulpjs/gulp/blob/master/docs/recipes/browserify-uglify-sourcemap.md&lt;/a&gt;
-Just for using &lt;a href=&#34;http://browserify.org/&#34;&gt;browserify&lt;/a&gt;
-(which is another great tool). Each of those libraries involved other
-dependencies and so on until we download the whole internet to perform the
-most simple tasks.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-solution&#34;&gt;The solution ?&lt;/h2&gt;
-
-&lt;p&gt;According to this, I started looking at those libraries in order to see
-if I can implement them with a reduced number of dependencies and
-lines of code. The answer is: yes, and moreover it is quite simple and
-helps me learned some new things.&lt;/p&gt;
-
-&lt;p&gt;Here is the goal of the exercise:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;rewrite &lt;code&gt;vinyl-source-stream&lt;/code&gt;, &lt;code&gt;merge-stream&lt;/code&gt; and &lt;code&gt;vinyl-buffer&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;fix browserify in the gulp environment, according to
-&lt;a href=&#34;http://stackoverflow.com/questions/30077567/browserify-errors-ending-gulp-watch-task&#34;&gt;this issue&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;the-implementation&#34;&gt;The implementation&lt;/h2&gt;
-
-&lt;p&gt;To perform the implementation I will only keep the
-&lt;a href=&#34;https://github.com/rvagg/through2&#34;&gt;through2 module&lt;/a&gt; for better creating
-streams (don&amp;rsquo;t worry as it is a requirements of all the gulp plugins it will
-not add a new dependency)
-and &lt;a href=&#34;https://github.com/gulpjs/gulp-util&#34;&gt;gulp util&lt;/a&gt; which will allow me
-to have some helpers to deal with gulp (as through2 it will not create new
-dependencies as it is a requirements for basically all the gulp plugins).&lt;/p&gt;
-
-&lt;p&gt;I will create a simple &lt;code&gt;utils.js&lt;/code&gt; file aside my &lt;code&gt;gulpfile.js&lt;/code&gt; to store
-those implementations.&lt;/p&gt;
-
-&lt;p&gt;Here is the requirementents of the file:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;through2&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;gulp-util&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;vinyl-source-stream&#34;&gt;vinyl-source-stream&lt;/h3&gt;
-
-&lt;p&gt;According to its presentation this module only provide a convenient wrapper
-in order to link legacy nodejs streams and gulp implementation of streams
-vinyl.&lt;/p&gt;
-
-&lt;p&gt;Here is the code I use:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// this is basically a stream, I will use the javascript scoping for&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// convenience&lt;/span&gt;
-  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// here is the piping to the previous stream, we need an object stream as we&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// will push a vinyl file in it.&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// The use will be the following:&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// someLegacyStream.pipe(utils.source()).pipe(whateverInGulpWorld);&lt;/span&gt;
-  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// Checks if we have initialized the stream with a vinyl file&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;// basically, this just happen once at startup of streaming.&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-      &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_ins&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// this is just a convenient way of keeping a state&lt;/span&gt;
-
-      &lt;span class=&#34;c1&#34;&gt;// Create a vinyl file and pass &amp;quot;ins&amp;quot; stream as a content,&lt;/span&gt;
-      &lt;span class=&#34;c1&#34;&gt;// and an optional filename&lt;/span&gt;
-      &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;File&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;filename&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}));&lt;/span&gt;
-    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// push the chunk into our new stream in order to unify output&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// as this is asynchronous just notify the system that we handled&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;// the chunk&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-
-  &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;// close the stream by pushing &amp;quot;null&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;ins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Okay, so, we replace a whole module by ~14 SLOC, additionally I get back some
-understanding on how nodejs streams work, and on gulp plugins implementation.&lt;/p&gt;
-
-&lt;p&gt;This is a good start! Let&amp;rsquo;s continue this way&lt;/p&gt;
-
-&lt;h3 id=&#34;merge-streams&#34;&gt;merge-streams&lt;/h3&gt;
-
-&lt;p&gt;This module simply merge multiple streams in a single one, this allow the
-developper to compose with multiple inputs.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// the function treats arguments as a list of streams&lt;/span&gt;
-&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;merge&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/* streams... */&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep a track of streams merged&lt;/span&gt;
-  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;  &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;noop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// this will be the output,&lt;/span&gt;
-                              &lt;span class=&#34;c1&#34;&gt;// a simple stream which does nothing&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// this function will be called when unpiping and when a source stream ends&lt;/span&gt;
-  &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;// remove the stream from sources array&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;filter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;it&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;it&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!==&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// if it is the last stream opened and if the output is not yet closed,&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;// we close it&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;readable&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// when a stream is unpiped we remove it&lt;/span&gt;
-  &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;unpipe&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// for each stream (arguments is not a regular array this is why we use&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// this syntax)&lt;/span&gt;
-  &lt;span class=&#34;nb&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;prototype&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;slice&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;call&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;arguments&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;forEach&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// add the stream to our array of sources&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;sources&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// bind the remove function to the end event of the source&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;once&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;remove&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// pipe the stream to our output, and let it open (the output)&lt;/span&gt;
-    &lt;span class=&#34;c1&#34;&gt;// even when the stream ends (in order to handle the others)&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;end&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-
-  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here again we replace an entire module with few lines of code (~15 SLOC).&lt;/p&gt;
-
-&lt;h3 id=&#34;vinyl-buffer&#34;&gt;vinyl-buffer&lt;/h3&gt;
-
-&lt;p&gt;This final module is also part of the vinyl utilitaries. It takes the chunks
-from a stream and return them as a nodejs buffer. Like the others, this
-one is quite simple and only requires to know a bit of node internal
-operations and libraries.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;buffer&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// like the others we will create a stream object&lt;/span&gt;
-  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// keep an internal reference of this across js scoping&lt;/span&gt;
-    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[];&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// array of buffer we will populate&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// if it is already a buffer or it contains nothing, just push and finish&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isNull&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isBuffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;())&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-      &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-      &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// otherwise we take the content of the stream and we pipe it&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;// create a new buffer with data if it is not and push it to our array&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;isBuffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
-      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;// when we have retrieved all the chunks, create a copy of file&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;clone&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;// and replace the content with only one huge buffer&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;contents&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Buffer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;concat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bufs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-
-        &lt;span class=&#34;c1&#34;&gt;// push it and that&amp;#39;s it&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;that&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-    &lt;span class=&#34;p&#34;&gt;));&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;We are still under 20 lines (we start to have a pattern here&amp;hellip; just trolling).
-This part is done !&lt;/p&gt;
-
-&lt;h3 id=&#34;browserify-error-handling-with-gulp&#34;&gt;browserify error handling with gulp&lt;/h3&gt;
-
-&lt;p&gt;As I mentionned it quickly at the beginning I also want to fix an issue I
-have with browserify and gulp.&lt;/p&gt;
-
-&lt;p&gt;I finally found the solution on stack overflow and I am surprised that not a
-lot of people ran in this problem before.&lt;/p&gt;
-
-&lt;p&gt;I also use the &lt;code&gt;gulp.src&lt;/code&gt; syntax to retrieve files instead of loading the
-globbing module which does exactly the same things
-(one dependency removed, Yay \o/).&lt;/p&gt;
-
-&lt;p&gt;Here is how I implemented this:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;// we need the browserify module&lt;/span&gt;
-&lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;require&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-
-&lt;span class=&#34;c1&#34;&gt;// we create a utils.browserify kind of plugin here, which can take options&lt;/span&gt;
-&lt;span class=&#34;nx&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;exports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// initialize browserify with options&lt;/span&gt;
-  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;browserify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;options&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-
-  &lt;span class=&#34;c1&#34;&gt;// here we create a stream which will be pluggable through a pipe&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// in order to avoid spending resources we will use it like this&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// gulp.src(&amp;#39;**/*.js&amp;#39;, {read: false}).pipe(utils.browserify()).pipe(whatever)&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// note the &amp;quot;read: false&amp;quot; which will avoid reading file content and only&lt;/span&gt;
-  &lt;span class=&#34;c1&#34;&gt;// provide vinyl file object (not opened) to the stream&lt;/span&gt;
-  &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;through&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;obj&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// here we only retrieve the files provided by the stream&lt;/span&gt;
-    &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;_&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-      &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;add&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-      &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
-
-    &lt;span class=&#34;c1&#34;&gt;// and at flush, we bundle the result through browserify&lt;/span&gt;
-    &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-      &lt;span class=&#34;nx&#34;&gt;b&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bundle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-
-      &lt;span class=&#34;c1&#34;&gt;// on error we provide a helpful message to the user through gutil.log&lt;/span&gt;
-      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;error&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-        &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;annotated&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;gutil&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;PluginError&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;browserify&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toString&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;());&lt;/span&gt;
-
-        &lt;span class=&#34;c1&#34;&gt;// and here is the magic not provided before, we notice gulp that&lt;/span&gt;
-        &lt;span class=&#34;c1&#34;&gt;// the stream as ended, and it can continue to watch our files states&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;emit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-      &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
-
-      &lt;span class=&#34;c1&#34;&gt;// when data is provided by the stream we simply push it into the&lt;/span&gt;
-      &lt;span class=&#34;c1&#34;&gt;// returned one&lt;/span&gt;
-      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;data&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;chunk&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
-
-      &lt;span class=&#34;c1&#34;&gt;// do not forget to pass the end event also&lt;/span&gt;
-      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;emit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;end&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-
-  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;s&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This one was quite more complicated but it finally works and I am happy to stay
-in the &amp;ldquo;gulp world&amp;rdquo; and do not provide any tricky thing.&lt;/p&gt;
-
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
-
-&lt;p&gt;This experience was really interesting, reducing code dependencies,
-gaining power on underlying nodejs concepts, fixing some bugs also.
-This was not a waste of time and I really enjoyed it.&lt;/p&gt;
-
-&lt;p&gt;I also will not make any comment on node ecosystem because I think everything
-has already been told. But this exercise proved that some libraries are really
-not complicated and can be reimplemented in order to avoid bad surprise in the
-future.&lt;/p&gt;
-</description>
+      <description>Recently Nodejs environment broke due the removal from npm of a small library (11 SLOC): leftpad. As it hit the world and broke a bunch of projects and CIs, I asked myself if my projects contains so much dependencies that if one break, everything collapse.
+The problem For developing my frontend I use a tool which I really like: Gulp. The issue there, is that for working with multiple building process involved a lot of glue and third party libraries.</description>
     </item>
     
     <item>
@@ -646,75 +89,9 @@ future.&lt;/p&gt;
       <pubDate>Sun, 28 Feb 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/pdbpp/</guid>
-      <description>
-
-&lt;p&gt;I am a huge fan of ipython and its debugger ipdb (I have also done a
-patch on it). Then I discovered &lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt;
-and I found it so great that I no more use ipdb, here is why.&lt;/p&gt;
-
-&lt;h2 id=&#34;more-features&#34;&gt;More features&lt;/h2&gt;
-
-&lt;h3 id=&#34;sticky-mode&#34;&gt;Sticky mode&lt;/h3&gt;
-
-&lt;p&gt;Pdbpp comes with a lot of additional features which are really convenient.
-The first and more well known is the sticky mode:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;http://ixday.github.io/img/pdbpp_sticky.png&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;This will display the code currently, executed and shows you with an arrow at
-which exact line you are. Just type &lt;code&gt;sticky&lt;/code&gt; to enable this mode and &amp;ldquo;voila&amp;rdquo; it
-works&lt;/p&gt;
-
-&lt;h3 id=&#34;pdb-disable&#34;&gt;Pdb disable&lt;/h3&gt;
-
-&lt;p&gt;This one is quite usefull when debugging in tests. For example, you have
-a pdb statement in a fixture which is called by a bunch of tests.
-Maybe there is something I do not really understand but when I want
-to exit, I am stuck pressing Ctrl+d Ctrl+c hoping it will stop the tests
-before another fixture call happen.&lt;/p&gt;
-
-&lt;p&gt;Pdbpp extends the pdb command with a disable statement
-(&lt;code&gt;pdb.disable()&lt;/code&gt; in the console), which will ignore subsequent calls to pdb.&lt;/p&gt;
-
-&lt;h3 id=&#34;no-variable-overrides&#34;&gt;No variable overrides&lt;/h3&gt;
-
-&lt;p&gt;When using ipdb, sometimes in the code I use some reserved variables:
-&amp;ldquo;c&amp;rdquo;, &amp;ldquo;rv&amp;rdquo;, &amp;ldquo;args&amp;rdquo;,.. when entering the debugger they are overriden by
-keywords, and I have to change their name and start again to see what they
-contain.&lt;/p&gt;
-
-&lt;p&gt;With pdbpp, this no longer happens, as explained in the documentation, pdbpp
-can infers which variable is currently used and avoid the override.&lt;/p&gt;
-
-&lt;h3 id=&#34;and-many-more&#34;&gt;And many more&lt;/h3&gt;
-
-&lt;p&gt;Just read the documentation and looks at the other features, this library
-is pure gold.&lt;/p&gt;
-
-&lt;h2 id=&#34;just-a-simple-wrapper&#34;&gt;Just a simple wrapper&lt;/h2&gt;
-
-&lt;p&gt;This is just a wrapper around pdb, which means that you can simply call it
-with &lt;code&gt;import pdb; pdb.set_trace()&lt;/code&gt;. And more importantly, when a tool provides
-a postmortem feature (scrapy, pytest) it brings you directly to pdbpp without
-having to dig in the code or documentation (when you wanted to activate ipdb).&lt;/p&gt;
-
-&lt;h2 id=&#34;simple-config&#34;&gt;Simple config&lt;/h2&gt;
-
-&lt;p&gt;Here is my config (a real simple one):&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pdb&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;class&lt;/span&gt; &lt;span class=&#34;nc&#34;&gt;Config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pdb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;DefaultConfig&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;sticky_by_default&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# start in sticky mode&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;current_line_color&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;40&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# black&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-</description>
+      <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
+More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
+ This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
     </item>
     
     <item>
@@ -723,176 +100,10 @@ having to dig in the code or documentation (when you wanted to activate ipdb).&l
       <pubDate>Thu, 02 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/listing_directory_with_wsgi/</guid>
-      <description>
-
-&lt;p&gt;Recently I ran into an issue with my blog and pelican
-(the blogging engine I use). For some reasons (which I explain [here]())
-I had to develop a small wsgi app which act like the
-&lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;python SimpleHTTPServer&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I tried a lot of things but they never worked as I wanted them to.
-So, I decided to do this by myself.&lt;/p&gt;
-
-&lt;h2 id=&#34;specifications&#34;&gt;Specifications&lt;/h2&gt;
-
-&lt;p&gt;Here are the features I wanted:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Define a directory as the root (/) directory from which all the files will be
-served.&lt;/li&gt;
-&lt;li&gt;If this directory contains an index.html file, serves it to the user.&lt;/li&gt;
-&lt;li&gt;If there is no index.html file list all the subdirectories and files in a
-simple page and provide links to navigate.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;tools&#34;&gt;Tools&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;For this little project I need a simple server which is available directly
-in the &lt;a href=&#34;https://docs.python.org/2/library/simplehttpserver.html&#34;&gt;stdlib&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;I will use the famous &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;path.py lib&lt;/a&gt; for
-handling all the interactions with the FS.&lt;/li&gt;
-&lt;li&gt;Then &lt;a href=&#34;https://github.com/jaraco/path.py&#34;&gt;Jinja&lt;/a&gt; for all the rendering.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;hello-world&#34;&gt;Hello world!&lt;/h2&gt;
-
-&lt;p&gt;First of all, making it works for the most simple use case&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Return a simple Hello World when accessing an url (anyone) on the server&lt;/span&gt;
-&lt;span class=&#34;sd&#34;&gt;	&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# send status_code and headers&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# send body&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Hello World!&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# create a server on &amp;#39;localhost&amp;#39; and port 8080 using the application&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# serve...&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;routing&#34;&gt;Routing&lt;/h2&gt;
-
-&lt;p&gt;Then I have to handle the request, translate the url in a possible path in the
-FS, and dispatch to the different choices available.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;wsgiref.simple_server&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;path&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;/tmp&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;# The root directory from which I will serve the files&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Route to the dedicated functions&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# build the possible path of the file to serve or directory to list&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;PATH_INFO&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# build the possible path of the index file if the path is a directory&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;index.html&amp;#39;&lt;/span&gt;
-
-
-	&lt;span class=&#34;c1&#34;&gt;# checks if the path exists, if not want to send a 404 not found&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# checks if the path links to a file, in this case serve the file&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;isfile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# now we are sure that the user asks for a directory, checks if the&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# directory has an index.html file, if so, serve it.&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;exists&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path_index&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# last case we want to list what is in the directory&lt;/span&gt;
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;vm&#34;&gt;__name__&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;==&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;wsgiref&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;simple_server&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;make_server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;localhost&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;srv&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;serve_forever&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;serve-content&#34;&gt;Serve content&lt;/h2&gt;
-
-&lt;h3 id=&#34;return-404&#34;&gt;Return 404&lt;/h3&gt;
-
-&lt;p&gt;Most simple use case, return a 404 error and a small message&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;not_found&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-		&lt;span class=&#34;c1&#34;&gt;# status code and header&lt;/span&gt;
-        &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;404 NOT FOUND&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;text/plain&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-		&lt;span class=&#34;c1&#34;&gt;# simplest message ever&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Not Found&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;serve-file&#34;&gt;Serve file&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;mimetypes&lt;/span&gt;
-
-&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;64&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1024&lt;/span&gt;
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;serve_file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;filepath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-	&lt;span class=&#34;c1&#34;&gt;# retrieve mimetype for serving purpose&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mimetypes&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;guess_type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# start response with the given mimetype&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;sr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;mime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])])&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# yield the file content through network (chunks function from path.py)&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunks&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;chunk_size&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h3 id=&#34;list-directory&#34;&gt;List directory&lt;/h3&gt;
-
-&lt;p&gt;Last but not least, the listing of the directory. Here I use Jinja for the
-templating.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;jinja2&lt;/span&gt;
-
-&lt;span class=&#34;c1&#34;&gt;# setup my jinja environment with the templates directory containing my&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# template files&lt;/span&gt;
-&lt;span class=&#34;n&#34;&gt;env&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Environment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;loader&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;jinja2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;PackageLoader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;my_wsgi_listdir&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;templates&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-
-
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;list_dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# start a response as an html page&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;start_response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;200 OK&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;text/html&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)])&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# retrieve informations from FS through path.py API&lt;/span&gt;
-	&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-		&lt;span class=&#34;s1&#34;&gt;&amp;#39;directory&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ROOT&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt;
-		&lt;span class=&#34;s1&#34;&gt;&amp;#39;links&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;relpath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;f&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;d&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;listdir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
-	&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-
-	&lt;span class=&#34;c1&#34;&gt;# render the template with the informations and return the stream&lt;/span&gt;
-	&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;env&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;get_template&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;list_dir.tplt&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;stream&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;**&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Here is the &lt;code&gt;list_dir.tplt&lt;/code&gt; file&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-jinja&#34; data-lang=&#34;jinja&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;title&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;h2&amp;gt;Directory listing for &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;directory&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;ul&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;links&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;    &amp;lt;li&amp;gt;&amp;lt;a href=&amp;quot;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;quot;&amp;gt;&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{{&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;}}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;{%&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;endfor&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;%}&lt;/span&gt;&lt;span class=&#34;x&#34;&gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;/ul&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;  &amp;lt;hr&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span class=&#34;x&#34;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And that&amp;rsquo;s all, simple and efficient this little wsgi application fits my
-needs.&lt;/p&gt;
-</description>
+      <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain [here]()) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
+I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
+Specifications Here are the features I wanted:
+ Define a directory as the root (/) directory from which all the files will be served.</description>
     </item>
     
     <item>
@@ -901,31 +112,8 @@ needs.&lt;/p&gt;
       <pubDate>Tue, 09 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/patch_dependency/</guid>
-      <description>&lt;p&gt;When developing on a project it is possible that a dependency can have an issue.
-First you want to be able to debug it (pdb, ipdb), then modify it if you find
-a bug.
-To do that there is a naive way in python, which consist in editing directly
-the sources of the module. But there is a cleaner way based on &lt;code&gt;pip&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;The &lt;code&gt;-e&lt;/code&gt; option allows you to pass a path (git, http, file) for a given module
-and link it to your environment. Then you just have to modify the files in
-your filesystem and they will be provided to your project.&lt;/p&gt;
-
-&lt;p&gt;Here are the command lines needed (two line is enough).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# first I download the sources from wherever you want&lt;/span&gt;
-git clone &amp;lt;address of the project&amp;gt;
-
-&lt;span class=&#34;c1&#34;&gt;# then I install and link the lib in my current env&lt;/span&gt;
-pip install -e &amp;lt;path of the downloaded lib&amp;gt;
-
-&lt;span class=&#34;c1&#34;&gt;# now I can modify the lib file in order to debug it&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;The documentation for the feature can be found &lt;a href=&#34;https://pip.pypa.io/en/latest/reference/pip_install.html#editable-installs&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;This is really useful when developing with third part libraries, and it is not
-so well explained when you use &lt;code&gt;pip&lt;/code&gt;, even if this feature is really awesome.&lt;/p&gt;
-</description>
+      <description>When developing on a project it is possible that a dependency can have an issue. First you want to be able to debug it (pdb, ipdb), then modify it if you find a bug. To do that there is a naive way in python, which consist in editing directly the sources of the module. But there is a cleaner way based on pip.
+The -e option allows you to pass a path (git, http, file) for a given module and link it to your environment.</description>
     </item>
     
     <item>
@@ -934,70 +122,10 @@ so well explained when you use &lt;code&gt;pip&lt;/code&gt;, even if this featur
       <pubDate>Tue, 14 Apr 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/pytest_fixture/</guid>
-      <description>&lt;p&gt;I am a huge fan of python (one of the best language in my toolbox). And
-when it comes to tests, &lt;a href=&#34;http://pytest.org/&#34;&gt;pytest&lt;/a&gt; is &lt;em&gt;THE&lt;/em&gt; library to use.&lt;/p&gt;
-
-&lt;p&gt;I also use &lt;a href=&#34;http://flask.pocoo.org/&#34;&gt;Flask&lt;/a&gt; a lot, so today I will show you
-some of my snippets.&lt;/p&gt;
-
-&lt;p&gt;First one the app fixture:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@pytest.fixture&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;autouse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Load flask in testing mode&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;myapp&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;TESTING&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;json_encoder&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;my_encoder&lt;/span&gt;
-
-    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;app_test&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_client&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This create an app fixture which will be used to test the application, it
-returns a test client to interact with my Flask application.&lt;/p&gt;
-
-&lt;p&gt;It is an adaptation of the documentation &lt;a href=&#34;http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton&#34;&gt;testing skeleton&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;I also replace the json encoder by a custom one (it allows me to dump mock
-object for example).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;@pytest.yield_fixture&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;request_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;):&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Provide a Flask request context for testing purpose&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-    &lt;span class=&#34;k&#34;&gt;with&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;application&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;test_request_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req_context&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;
-        &lt;span class=&#34;k&#34;&gt;yield&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;req_context&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;This one applies a request context on a testing function, this can be
-useful if you manipulate werzeug interactions (flask request attribute mostly).
-This has to be use when the
-&lt;code&gt;RuntimeError: working outside of application context&lt;/code&gt; error is raised.&lt;/p&gt;
-
-&lt;p&gt;In the most common use case you will not need the &lt;code&gt;req_context&lt;/code&gt; variable during
-your test. To avoid to have an unused argument, you can simply use the
-&lt;code&gt;@pytest.mark.usefixtures(&#39;request_context&#39;)&lt;/code&gt; decorator on your testing
-function.&lt;/p&gt;
-
-&lt;p&gt;Last one is also an opportunity to talk about
-&lt;a href=&#34;http://peewee.readthedocs.org/en/latest/&#34;&gt;peewee&lt;/a&gt; which is a great lightweight
-ORM. Like a lot of ORM peewee provides a &lt;a href=&#34;http://docs.peewee-orm.com/en/latest/peewee/transactions.html&#34;&gt;transaction decorator&lt;/a&gt;
-, in unittest you may want to test endpoints without connecting to a db.
-So, here is an example on how you can replace the decorator
-(or contextmanager) by a dummy one.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;imp&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;contextlib&lt;/span&gt;
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;pytest&lt;/span&gt;
-
-&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;database&lt;/span&gt;
-
-&lt;span class=&#34;nd&#34;&gt;@pytest.fixture&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;autouse&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;bp&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;scope&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;session&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;k&#34;&gt;def&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;mock_transaction&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;():&lt;/span&gt;
-    &lt;span class=&#34;sd&#34;&gt;&amp;quot;&amp;quot;&amp;quot;Replace the atomic decorator from peewee to a noop one&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-    &lt;span class=&#34;n&#34;&gt;database&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;atomic&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;contextlib&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;contextmanager&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;lambda&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;yield&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
-    &lt;span class=&#34;n&#34;&gt;imp&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;reload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;module&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;using&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;db&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;transactions&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Pytest use a lot of the python flexibility and I must confess that I love it.&lt;/p&gt;
-</description>
+      <description>I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
+I also use Flask a lot, so today I will show you some of my snippets.
+First one the app fixture:
+@pytest.fixture(autouse=True)defapp():&amp;#34;&amp;#34;&amp;#34;Load flask in testing mode&amp;#34;&amp;#34;&amp;#34;app_test=myappapp_test.config[&amp;#39;TESTING&amp;#39;]=Trueapp_test.json_encoder=my_encoderreturnapp_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.</description>
     </item>
     
     <item>
@@ -1006,71 +134,10 @@ So, here is an example on how you can replace the decorator
       <pubDate>Mon, 30 Mar 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/small_tool/</guid>
-      <description>
-
-&lt;p&gt;I really like docker (even if I will look at
-&lt;a href=&#34;http://www.freedesktop.org/software/systemd/man/
-systemd-nspawn.html&#34;&gt;systemd-nspawn&lt;/a&gt;), and also &lt;a href=&#34;http://gulpjs.com/&#34;&gt;gulp&lt;/a&gt;.
-So I decided to create a small tool for serving a directory with a livereload.&lt;/p&gt;
-
-&lt;p&gt;The repo is available &lt;a href=&#34;https://github.com/IxDay/docker-html5-boilerplate&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;what-i-have-learned&#34;&gt;What I have learned&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Docker, especially with boot2docker (I am on MacOSX shame on me), is not
-really flexible:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;no evaluation for environment variables&lt;/li&gt;
-&lt;li&gt;you can not store a variable through multiple run, you will need to do
-a oneliner e.g:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# you will need to write this in the Dockerfile&lt;/span&gt;
-  RUN &lt;span class=&#34;nv&#34;&gt;TMPFILE&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;tempfile&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-    &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;Hello World&amp;quot;&lt;/span&gt; &amp;gt; &lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;se&#34;&gt;\&lt;/span&gt;
-    rm &lt;span class=&#34;nv&#34;&gt;$TMPFILE&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;ul&gt;
-&lt;li&gt;you cannot build remotely from a custom branch:
-&lt;a href=&#34;http://stackoverflow.com/questions/25509828/
-can-a-docker-build-use-the-url-of-a-git-branch&#34;&gt;see this post&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;accessibility to the container through boot2docker is pretty hard:
-&lt;a href=&#34;http://stackoverflow.com/questions/28047809/
-docker0-interface-missing-on-osx/&#34;&gt;see this post&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;awk is an awesome tool for manipulating strings and console outputs.
-Best one hour investment so far. If you have to write bash scripts, awk is
-definitely a best to know tool.&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;nodejs is definitely a hell for developers but is the only platform for
-frontend dev. Here are some issues I have gone through:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;bug in collecting interfaces which forced me to use a syscall:
-&lt;a href=&#34;https://github.com/joyent/node/issues/9029&#34;&gt;bug report&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;npm ecosystem is messy. You will have to test many plugin, which does
-quite the same thing, to find the one with &lt;em&gt;THE&lt;/em&gt; option you need.
-And finally find that the lib is 10 lines long and wraps another lib.&lt;/li&gt;
-&lt;li&gt;no good packaging, which leads to a custom installation path,
-thanks &lt;a href=&#34;https://nodesource.com/blog/
-nodejs-v012-iojs-and-the-nodesource-linux-repositories&#34;&gt;this blog post&lt;/a&gt; for the help.&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;gulpjs is way better than grunt and must be ported to other languages,
-really excited about the 4.0 version coming soon.&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;how-i-can-improve&#34;&gt;How I can improve&lt;/h2&gt;
-
-&lt;p&gt;The tool is currently working, I am thinking of adding a markdown compiler in
-the chain because I really use markdown all the time.&lt;/p&gt;
-
-&lt;p&gt;I still have to test it a bit to be sure it is okay to make a release
-(first thing I release yay \o/)&lt;/p&gt;
-</description>
+      <description>I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
+The repo is available here
+What I have learned  Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+ no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.</description>
     </item>
     
   </channel>

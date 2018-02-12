@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -93,22 +93,20 @@ the maintainability of your shell scripts</p>
 
 <p>Everyone who already used a bash script will tell you to mark every variable
 reading with double quotes:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># like this</span>
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># like this
+</span><span class="s1770"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;</span><span class="s7d0">$a</span><span class="sc1c">&#34;</span></code></pre>
+</div>
 <p>The question is why do we have to mark them, to show that just a little example,
 run the following script</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">LS</span><span class="o">=</span><span class="s2">&quot;ls *&quot;</span>
-
-<span class="nb">echo</span> <span class="s2">&quot;Not Quoted&quot;</span>
-<span class="nb">echo</span> <span class="nv">$LS</span>
-<span class="nb">echo</span>
-<span class="nb">echo</span> <span class="s2">&quot;Quoted&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$LS</span><span class="s2">&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/bash
+</span><span class="s1770"></span><span class="s7d0">LS</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;ls *&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Not Quoted&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="s7d0">$LS</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Quoted&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;</span><span class="s7d0">$LS</span><span class="sc1c">&#34;</span></code></pre>
+</div>
 <p>As you can see there is a huge difference between the two versions, in fact,
 if there is no double quotes, the variable is subject to word splitting and
 file globbing see <a href="http://mywiki.wooledge.org/BashPitfalls#echo%5f.24foo">here</a>
@@ -118,23 +116,21 @@ failures.</p>
 <h3 id="the-braquets-notation">The braquets notation</h3>
 
 <p>To display a variable there is two notations</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">FOO</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span>
-
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$FOO</span><span class="s2">&quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">FOO</span><span class="si">}</span><span class="s2">&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/bash
+</span><span class="s1770"></span><span class="s7d0">FOO</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;foo&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;</span><span class="s7d0">$FOO</span><span class="sc1c">&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;</span><span class="sc1c">${</span><span class="s7d0">FOO</span><span class="sc1c">}</span><span class="sc1c">&#34;</span></code></pre>
+</div>
 <p>These two notations displays the same thing, so why do we need the second one?
 This notation is here to clarify an ambiguity, because variables can be used
 in a string interpolation it can lead to a miscomprehension.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
-<span class="nv">FO</span><span class="o">=</span><span class="s2">&quot;fo&quot;</span>
-
-<span class="nb">echo</span> <span class="s2">&quot;because </span><span class="nv">$FOo</span><span class="s2"> you &quot;</span>
-<span class="nb">echo</span> <span class="s2">&quot;because </span><span class="si">${</span><span class="nv">FO</span><span class="si">}</span><span class="s2">o you&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/bash
+</span><span class="s1770"></span><span class="s7d0">FO</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;fo&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;because </span><span class="s7d0">$FOo</span><span class="sc1c"> you &#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;because </span><span class="sc1c">${</span><span class="s7d0">FO</span><span class="sc1c">}</span><span class="sc1c">o you&#34;</span></code></pre>
+</div>
 <p>As you can see the result of the previous script the first line does not write
 what is contained into the variable, because bash interpreter try to display
 the content of the variable <code>FOo</code> which does not exist.</p>
@@ -148,95 +144,95 @@ script:</p>
 <ul>
 <li><code>set -e</code> Will stop the script if an error occurs</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
-<span class="nb">set</span> -e
-
-<span class="nb">echo</span> <span class="s2">&quot;this command exist&quot;</span>
-ls
-<span class="nb">echo</span>
-<span class="nb">echo</span> <span class="s2">&quot;hope this one not&quot;</span>
-foo
-<span class="nb">echo</span>
-<span class="nb">echo</span> <span class="s2">&quot;this will not be displayed&quot;</span>
-ls
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/bash
+</span><span class="s1770"></span><span class="s7d0">set</span><span class="s1f40"> -e
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;this command exist&#34;</span><span class="s1f40">
+</span><span class="s1f40">ls
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;hope this one not&#34;</span><span class="s1f40">
+</span><span class="s1f40">foo
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;this will not be displayed&#34;</span><span class="s1f40">
+</span><span class="s1f40">ls</span></code></pre>
+</div>
 <p>Try removing the second line and see what happened. Sometime this behaviour is
 needed, sometime not.</p>
 
 <ul>
 <li><code>set -x</code> Will display the line running and evaluate the variables</li>
 </ul>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
-<span class="nb">set</span> -x
-
-<span class="nv">FOO</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span>
-<span class="nv">BAR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$FOO</span><span class="s2">&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/bash
+</span><span class="s1770"></span><span class="s7d0">set</span><span class="s1f40"> -x
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">FOO</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;foo&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">BAR</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;</span><span class="s7d0">$FOO</span><span class="sc1c">&#34;</span></code></pre>
+</div>
 <p>This will display</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>+ <span class="nv">FOO</span><span class="o">=</span>foo
-+ <span class="nv">BAR</span><span class="o">=</span>foo
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">+ </span><span class="s7d0">FOO</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">foo
+</span><span class="s1f40">+ </span><span class="s7d0">BAR</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">foo</span></code></pre>
+</div>
 <h3 id="command-return-code-testing">Command return code testing</h3>
 
 <p>There is a simple way to test some command return in bash if we do not need the
 result</p>
 
 <p>Here is the common way to do that</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="nv">RESULT</span><span class="o">=</span><span class="k">$(</span>grep <span class="s2">&quot;toto&quot;</span> /dev/null<span class="k">)</span>
-
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]]</span>
-<span class="k">then</span>
-  <span class="nb">echo</span> <span class="s2">&quot;Command failed&quot;</span>
-<span class="k">fi</span>
-
-<span class="nv">RESULT</span><span class="o">=</span><span class="k">$(</span>ls /dev/null<span class="k">)</span>
-
-<span class="k">if</span> <span class="o">[[</span> ! <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]]</span>
-<span class="k">then</span>
-  <span class="nb">echo</span> <span class="s2">&quot;Command succeed&quot;</span>
-<span class="k">fi</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/bash
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">RESULT</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s3e8">$(</span><span class="s1f40">grep </span><span class="sc1c">&#34;toto&#34;</span><span class="s1f40"> /dev/null</span><span class="s3e8">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">if</span><span class="s1f40"> </span><span class="sfa0">[[</span><span class="s1f40"> </span><span class="s7d0">$?</span><span class="s1f40"> -eq </span><span class="sc80">1</span><span class="s1f40"> </span><span class="sfa0">]]</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">then</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Command failed&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">fi</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">RESULT</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s3e8">$(</span><span class="s1f40">ls /dev/null</span><span class="s3e8">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">if</span><span class="s1f40"> </span><span class="sfa0">[[</span><span class="s1f40"> ! </span><span class="s7d0">$?</span><span class="s1f40"> -eq </span><span class="sc80">1</span><span class="s1f40"> </span><span class="sfa0">]]</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">then</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Command succeed&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">fi</span><span class="s1f40"></span></code></pre>
+</div>
 <p>But if we do not want the result, and just want to test some command return,
 here is the simple way to perform that</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
-
-<span class="k">if</span> grep <span class="s2">&quot;toto&quot;</span> /dev/null
-<span class="k">then</span>
-  <span class="nb">echo</span> <span class="s2">&quot;Command succeed&quot;</span>
-<span class="k">else</span>
-  <span class="nb">echo</span> <span class="s2">&quot;Command failed&quot;</span>
-<span class="k">fi</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/bash
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">if</span><span class="s1f40"> grep </span><span class="sc1c">&#34;toto&#34;</span><span class="s1f40"> /dev/null
+</span><span class="s1f40"></span><span class="s3e8">then</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Command succeed&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">else</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Command failed&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">fi</span><span class="s1f40"></span></code></pre>
+</div>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/bash-script\/';
-    var disqus_title = 'Bash Script';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/bash-script\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

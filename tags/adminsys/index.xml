@@ -2,11 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Adminsys on Not today...</title>
-    <link>http://ixday.github.io/tags/adminsys/index.xml</link>
+    <link>http://ixday.github.io/tags/adminsys/</link>
     <description>Recent content in Adminsys on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://ixday.github.io/tags/adminsys/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Aug 2015 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ixday.github.io/tags/adminsys/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Debian Install 3</title>
@@ -20,161 +23,7 @@ And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 &lt;p&gt;I want it to look like that (like this scheme, a lot of reference
 come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;+-----------------------------------------------+ +----------------+
-|Logical volume1        | Logical volume2       | |                |
-|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
-|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
-|                                               | |                |
-|        LUKS encrypted partition               | |                |
-|               /dev/sda2                       | |   /dev/sda1    |
-+-----------------------------------------------+ +----------------+
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;prepare-disks&#34;&gt;Prepare disks&lt;/h2&gt;
-
-&lt;p&gt;I use parted for this configuration, I left 1MB at the start of the device
-to be compliant with &lt;code&gt;parted &amp;lt;disk&amp;gt; align-check optimal &amp;lt;partition&amp;gt;&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt install cryptsetup lvm2
-
-parted /dev/sda mkpart primary 1MB 201MB &lt;span class=&#34;c1&#34;&gt;# boot partition&lt;/span&gt;
-parted /dev/sda mkpart primary 201MB &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;% &lt;span class=&#34;c1&#34;&gt;# lvm partition&lt;/span&gt;
-parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; boot
-parted /dev/sda toggle &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; lvm
-
-cryptsetup -c aes-xts-plain -y -s &lt;span class=&#34;m&#34;&gt;512&lt;/span&gt; luksFormat /dev/sda2
-&lt;span class=&#34;c1&#34;&gt;# enter passphrase&lt;/span&gt;
-
-&lt;span class=&#34;c1&#34;&gt;# this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper&lt;/span&gt;
-cryptsetup luksOpen /dev/sda2 ssd
-
-lvm pvcreate /dev/mapper/ssd
-lvm vgcreate vg_ssd /dev/mapper/ssd
-
-lvm lvcreate -L 4GB -n swap vg_ssd
-lvm lvcreate -l &lt;span class=&#34;m&#34;&gt;100&lt;/span&gt;%FREE -n root vg_ssd
-
-&lt;span class=&#34;c1&#34;&gt;# now format the partitions&lt;/span&gt;
-mkfs.ext4 /dev/sda1 &lt;span class=&#34;c1&#34;&gt;# boot partition&lt;/span&gt;
-mkfs.ext4 /dev/mapper/vg_ssd-lv_root
-mkswap /dev/mapper/vg_ssd-lv_swap
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;prepare-base-system&#34;&gt;Prepare base system&lt;/h2&gt;
-
-&lt;p&gt;In order to prepare the base system I will use the &lt;code&gt;debootstrap&lt;/code&gt; tool,
-which will take care of creating base files. Then I will &lt;code&gt;chroot&lt;/code&gt; in the new
-system in order to setup packages and boot initialisation&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# mount new filesystem and debootstrap&lt;/span&gt;
-mount /dev/mapper/&amp;lt;vg_name&amp;gt;-root /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
-
-debootstrap --arch&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;amd64 stable /mnt
-
-&lt;span class=&#34;c1&#34;&gt;# copy somefiles&lt;/span&gt;
-cp /etc/resolv.conf /mnt/etc/
-cp /etc/network/interfaces /mnt/etc/network
-
-&lt;span class=&#34;c1&#34;&gt;# bind and chroot&lt;/span&gt;
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev /mnt/dev
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /dev/pts /mnt/dev/pts
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /proc /mnt/proc
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /run /mnt/run
-mount -o &lt;span class=&#34;nb&#34;&gt;bind&lt;/span&gt; /sys /mnt/sys
-
-chroot /mnt/ /bin/bash
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;configuration&#34;&gt;Configuration&lt;/h2&gt;
-
-&lt;p&gt;First install vim! &lt;code&gt;apt-get install vim&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Then create the fstab file, I use the UUID notation for this part.
-Basically, I run two commands in order to get the needed informations&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ls -l /dev/disks/by-uuid
-
-total &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&amp;gt; ../../sda1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;13&lt;/span&gt;:09 59da986c-ef82-485e-bc8b-f36cc440273c -&amp;gt; ../../sda2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&amp;gt; ../../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 f7c9d9f4-671e-45be-97a9-be775196545e -&amp;gt; ../../dm-1
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&amp;gt; ../../dm-0
-
-ls -l /dev/mapper
-total &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
-crw------- &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root &lt;span class=&#34;m&#34;&gt;10&lt;/span&gt;, &lt;span class=&#34;m&#34;&gt;236&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:37 control
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:51 ssd -&amp;gt; ../dm-0
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:52 vg_ssd-lv_root -&amp;gt; ../dm-2
-lrwxrwxrwx &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; root root       &lt;span class=&#34;m&#34;&gt;7&lt;/span&gt; Aug &lt;span class=&#34;m&#34;&gt;19&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;12&lt;/span&gt;:53 vg_ssd-lv_swap -&amp;gt; ../dm-1
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Which will give me the following /etc/fstab.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;
-&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;  &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Edit the /etc/apt/sources.list file to set up basic packages and update package list: &lt;code&gt;apt-get update&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;deb http://ftp.us.debian.org/debian stable main contrib non-free
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Install needed packages&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# install the package&lt;/span&gt;
-apt-get install locales console-data keyboard-configuration
-
-&lt;span class=&#34;c1&#34;&gt;# set the variables up, select the ones you want with space&lt;/span&gt;
-dpkg-reconfigure locales
-
-&lt;span class=&#34;c1&#34;&gt;# setup password&lt;/span&gt;
-passwd
-
-&lt;span class=&#34;c1&#34;&gt;# change hostname&lt;/span&gt;
-&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;quot;suika&amp;quot;&lt;/span&gt; &amp;gt; /etc/hostname
-
-apt-get install lvm2 cryptsetup
-
-&lt;span class=&#34;c1&#34;&gt;# this one is specific to my mothercard&lt;/span&gt;
-apt-get install firmware-realtek
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;h2 id=&#34;grub&#34;&gt;Grub&lt;/h2&gt;
-
-&lt;p&gt;Now we want to make the new system bootable, to perform this the system needs a kernel
-&lt;code&gt;apt-get install linux-image-amd64&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Set up the /etc/crypttab file, which will tell how to map the crypted partition&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# &amp;lt;target name&amp;gt; &amp;lt;source device&amp;gt;         &amp;lt;key file&amp;gt;      &amp;lt;options&amp;gt;&lt;/span&gt;
-ssd             /dev/sda2               none            luks
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Install grub on /dev/sda (on disk, not on partition) &lt;code&gt;apt-get install grub2&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.&lt;/p&gt;
-
-&lt;p&gt;In file &lt;code&gt;/etc/initramfs-tools/initramfs.conf&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# KEYMAP: [ y | n ]&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# Charger une configuration de clavier à l&amp;#39;étape d&amp;#39;initramfs.&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
-
-&lt;span class=&#34;nv&#34;&gt;KEYMAP&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;y
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Update initramfs &lt;code&gt;update-initramfs -u&lt;/code&gt; to apply change on initrd.&lt;/p&gt;
-
-&lt;h2 id=&#34;the-end&#34;&gt;The end!&lt;/h2&gt;
-
-&lt;p&gt;Exit the &lt;code&gt;chroot&lt;/code&gt; unmount partitions and reboot on your new fresh installed system.&lt;/p&gt;
-
-&lt;p&gt;If at startup you get an error message like:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;You can look at &lt;a href=&#34;{filename}/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md&#34;&gt;this article&lt;/a&gt; which explain how to fix this issue&lt;/p&gt;</description>
+&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -183,160 +32,11 @@ Unable to find LVM volume vg_ssd/lv_root
       <pubDate>Thu, 14 May 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/debian_install_2/</guid>
-      <description>
-
-&lt;p&gt;After many days of configuration, I finally complete the installation of my
-perfect &amp;ldquo;workstation&amp;rdquo; ;).&lt;/p&gt;
-
-&lt;h2 id=&#34;source-list&#34;&gt;source.list&lt;/h2&gt;
-
-&lt;p&gt;I have to directory for this, first the
-&lt;a href=&#34;https://github.com/IxDay/config_files/tree/new_conf/preferences.d&#34;&gt;preferences&lt;/a&gt;,
-then the
-&lt;a href=&#34;https://github.com/IxDay/config_files/tree/new_conf/source.list.d&#34;&gt;sources.list&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Just run an &lt;code&gt;aptitude update&lt;/code&gt;, and you will some missing gpg keys, now run&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;To have your keys installed.&lt;/p&gt;
-
-&lt;h2 id=&#34;sudo&#34;&gt;sudo&lt;/h2&gt;
-
-&lt;p&gt;A sudo file is important in order to correctly manage a computer, a simple
-&lt;code&gt;aptitude install sudo&lt;/code&gt; will give you the tool.&lt;/p&gt;
-
-&lt;p&gt;Then uncomment the following line&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;# Allow members of group sudo to execute any command&lt;/span&gt;
-%sudo   &lt;span class=&#34;nv&#34;&gt;ALL&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=(&lt;/span&gt;ALL:ALL&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; ALL
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Then add your user to the group sudo &lt;code&gt;gpasswd -a &amp;lt;your_user&amp;gt; sudo&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;install-all-the-packages-o&#34;&gt;install all the packages o/&lt;/h2&gt;
-
-&lt;p&gt;Here is the list of packages I install by default, you can click on them to go
-to the proper section
-* &lt;a href=&#34;#shell&#34;&gt;rxvt-unicode-256color&lt;/a&gt;
-* &lt;a href=&#34;#shell&#34;&gt;zsh&lt;/a&gt;
-* &lt;a href=&#34;#vim&#34;&gt;vim-gtk&lt;/a&gt;
-* &lt;a href=&#34;#xserver-i3-gtk&#34;&gt;xserver-xorg&lt;/a&gt;, &lt;a href=&#34;#xserver-i3-gtk&#34;&gt;i3&lt;/a&gt;
-* &lt;a href=&#34;#xserver-i3-gtk&#34;&gt;fonts-droid&lt;/a&gt;, &lt;a href=&#34;#theming&#34;&gt;feh&lt;/a&gt;
-* &lt;a href=&#34;#xserver-i3-gtk&#34;&gt;gtk2-engine-murrine&lt;/a&gt;,
-&lt;a href=&#34;#xserver-i3-gtk&#34;&gt;gtk2-engine-pixbuf&lt;/a&gt;, &lt;a href=&#34;#xserver-i3-gtk&#34;&gt;libgtk2.0-0&lt;/a&gt;,
-&lt;a href=&#34;#xserver-i3-gtk&#34;&gt;libgtk-3-0&lt;/a&gt;
-* &lt;a href=&#34;#notifications&#34;&gt;libnotify-bin&lt;/a&gt;, &lt;a href=&#34;#notifications&#34;&gt;dunst&lt;/a&gt;
-* xclip, jq
-* &lt;a href=&#34;#git&#34;&gt;git&lt;/a&gt;, &lt;a href=&#34;#git&#34;&gt;keychain&lt;/a&gt;
-* &lt;a href=&#34;#google-chrome&#34;&gt;google-chrome-stable&lt;/a&gt;
-* &lt;a href=&#34;#docker&#34;&gt;docker.io&lt;/a&gt;
-*&lt;/p&gt;
-
-&lt;h2 id=&#34;a-name-shell-a-shell&#34;&gt;&lt;a name=&#34;shell&#34;&gt;&lt;/a&gt; Shell&lt;/h2&gt;
-
-&lt;p&gt;First thing first, a computer is not a real computer without a good shell.
-So, I install zsh, then I change my default shell &lt;code&gt;chsh -s $(which zsh)&lt;/code&gt;, and
-to finish &lt;a href=&#34;rxvt-unicode-256color&#34;&gt;Oh My Zsh&lt;/a&gt;. I have a custom
-&lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/max.zsh-theme&#34;&gt;prompt&lt;/a&gt;
-which is placed in &lt;code&gt;.oh-my-zsh/themes/&lt;/code&gt;. The promp is loaded in my
-&lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/zshrc&#34;&gt;zshrc file&lt;/a&gt;
-and some &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/zshrc&#34;&gt;aliases&lt;/a&gt;
-are sourced for convenience.&lt;/p&gt;
-
-&lt;h2 id=&#34;a-name-vim-a-vim&#34;&gt;&lt;a name=&#34;vim&#34;&gt;&lt;/a&gt; Vim&lt;/h2&gt;
-
-&lt;p&gt;I use vim for quite everything so I have some customization here.
-I directly install the gtk version in order to have support for the clipboard
-see &lt;a href=&#34;http://stackoverflow.com/questions/11489428/how-to-make-vim-paste-from-and-copy-to-systems-clipboard&#34;&gt;here&lt;/a&gt;
-for the explanation.&lt;/p&gt;
-
-&lt;p&gt;First a &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/vimrc&#34;&gt;.vimrc&lt;/a&gt;,
-the plugin system is based on
-&lt;a href=&#34;https://github.com/gmarik/Vundle.vim&#34;&gt;Vundle&lt;/a&gt;. To install it just run
-&lt;code&gt;git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim&lt;/code&gt;
-and &lt;code&gt;vim +PluginInstall +qall&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;I also use a global &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/editorconfig&#34;&gt;editorconfig file&lt;/a&gt;
-to keep tidy the maximum of files.&lt;/p&gt;
-
-&lt;h2 id=&#34;a-name-xserver-i3-gtk-a-xserver-i3-and-gtk&#34;&gt;&lt;a name=&#34;xserver-i3-gtk&#34;&gt;&lt;/a&gt; Xserver, i3 and GTK&lt;/h2&gt;
-
-&lt;p&gt;I use i3 for my window manager directly on top of X, all the configuration can
-be found easily on my github, here are the files used to configure my desktop.
-* The i3 config directory: &lt;a href=&#34;https://github.com/IxDay/config_files/tree/new_conf/i3&#34;&gt;here&lt;/a&gt;
-* The i3status config file: &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/i3status.conf&#34;&gt;here&lt;/a&gt;
-* The gtkrc2 file: &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/gtkrc-2.0&#34;&gt;here&lt;/a&gt;
-* The settings.ini file for gtk3: &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/gtkrc-2.0&#34;&gt;here&lt;/a&gt;
-* The Xresource file: &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/Xresources&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;In order to launch X with i3 the following files are required in your home
-directory:
-* &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/zprofile&#34;&gt;.zprofile&lt;/a&gt; is
-the first file automatically sourced at the login, it launch the Xserver for
-the session.
-* &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/xinitrc&#34;&gt;.xinitrc&lt;/a&gt;
-contains the configuration for Xserver, it loads the keyboard layout,
-initialize some properties from the &lt;code&gt;.Xresource&lt;/code&gt; file (colors, fonts, etc&amp;hellip;),
-and finally load the i3 window manager.&lt;/p&gt;
-
-&lt;p&gt;There is some issues with the dmenu provided by suckless-tools.
-In order to support xft font I have reinstalled it from the minos repository,
-mentionned &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dmenu#Fonts&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;a-name-notification-a-notification&#34;&gt;&lt;a name=&#34;notification&#34;&gt;&lt;/a&gt;Notification&lt;/h3&gt;
-
-&lt;p&gt;For the notifications I use dunst, which is a notification service, it is
-started at i3 startup and will display in a configurable way the notifications
-from the system. It needs &lt;code&gt;libnotify-bin&lt;/code&gt; to run, and has a
-&lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/dunstrc&#34;&gt;configuration file&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;a-name-theming-a-theming&#34;&gt;&lt;a name=&#34;theming&#34;&gt;&lt;/a&gt;Theming&lt;/h3&gt;
-
-&lt;p&gt;I have installed the &lt;a href=&#34;https://github.com/horst3180/Vertex-theme&#34;&gt;Vertex theme&lt;/a&gt;,
-and the &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/AwOken-2.5.zip&#34;&gt;Awoken White icon pack&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;For the last one some packages are required in order to configure it correctly:
-* imagemagick
-* zenity&lt;/p&gt;
-
-&lt;p&gt;I also use &lt;code&gt;feh&lt;/code&gt; for managing the desktop wallpaper, it is launched at the
-Xserver startup from the &lt;code&gt;.xinitrc&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;h2 id=&#34;a-name-git-a-git&#34;&gt;&lt;a name=&#34;git&#34;&gt;&lt;/a&gt;git&lt;/h2&gt;
-
-&lt;p&gt;The versionning tool!&lt;/p&gt;
-
-&lt;p&gt;My configuration require here the two following files:
-* &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/gitconfig&#34;&gt;gitconfig&lt;/a&gt;
-* &lt;a href=&#34;https://github.com/IxDay/config_files/blob/new_conf/gitconfig&#34;&gt;gitignore_global&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;After copying those files you can create a rsa key:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;ssh-keygen -t rsa -b &lt;span class=&#34;m&#34;&gt;4096&lt;/span&gt; -C &lt;span class=&#34;s2&#34;&gt;&amp;quot;your_email@example.com&amp;quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;And to manage the keys passphrase I use &lt;code&gt;keychain&lt;/code&gt; in an alias&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;alias&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;keychain_default&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;eval &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;keychain --eval --agents ssh -Q --quiet id_rsa&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;It is possible to configure multiple keys, in order to separate some services.
-The archlinux wiki has a good article about the SSH keys management:
-&lt;a href=&#34;https://wiki.archlinux.org/index.php/SSH_keys&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;a-name-google-chrome-a-google-chrome&#34;&gt;&lt;a name=&#34;google-chrome&#34;&gt;&lt;/a&gt;Google Chrome&lt;/h2&gt;
-
-&lt;p&gt;Why Chrome, and not Chromium? I had a lot of issues with Chromium, on flash,
-with google-talk and so on. It was too complicated and never works,
-I wasn&amp;rsquo;t able to figure out why so I give up on this&lt;/p&gt;
-
-&lt;h2 id=&#34;a-name-docker-a-docker&#34;&gt;&lt;a name=&#34;docker&#34;&gt;&lt;/a&gt;Docker&lt;/h2&gt;
-
-&lt;p&gt;Docker is now vastly known by the community of developpers. For the moment,
-I do not think it is a good production tool. But, for the development it is
-awesome.&lt;/p&gt;
-
-&lt;p&gt;Simply install the package and add your user to the docker group
-&lt;code&gt;sudo gpasswd -a &amp;lt;your_user&amp;gt; docker&lt;/code&gt;&lt;/p&gt;
-</description>
+      <description>After many days of configuration, I finally complete the installation of my perfect &amp;ldquo;workstation&amp;rdquo; ;).
+source.list I have to directory for this, first the preferences, then the sources.list.
+Just run an aptitude update, and you will some missing gpg keys, now run
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;  To have your keys installed.
+sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.</description>
     </item>
     
   </channel>

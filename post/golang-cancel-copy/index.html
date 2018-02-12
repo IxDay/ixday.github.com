@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.29" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Cancel copy of huge file in Go</title>
+  <meta property='og:title' content="Cancel copy of huge file in Go - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Mon Feb 12 2018
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/golang-cancel-copy/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Cancel copy of huge file in Go</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/dev ">dev</a>
+, <a href="/tags/golang ">golang</a>
+
+      </p>
+      
+
+    </header>
+    <p>I recently came across <a href="https://www.youtube.com/watch?v=xyDkyFjzFVc">this video</a> on Golang programming.
+I think this was the moment I finally fully understood the power of Go.
+It is smart, simple and elegant, I love it.</p>
+
+<p>Then, a few days later, I was coding on a <a href="https://github.com/IxDay/antfarm">toy project</a>
+and I was doing some stuff around the <a href="https://golang.org/pkg/io/">io package</a> to
+copy huge files. I wanted to achieve copy cancelation during the processing, basically, being able to interrupt.</p>
+
+<p>The first idea was to replicate the source code of golang <a href="https://golang.org/pkg/io/#Copy">io.Copy</a>
+and insert a <code>context</code> argument, then find a place to interrupt the copy
+when looping over the file, when context got canceled.</p>
+
+<p>This brings some issues:</p>
+
+<ul>
+<li>I had to copy/paste code from a standard lib, which will force me to maintain it.</li>
+<li>The code was not relevant to what I was doing. Basically, I copied low level
+code in order to insert hooks.</li>
+<li>I had to test code which was already tested.</li>
+</ul>
+
+<p>But in Go, extends is done through interfacing, and the copy function uses
+interfaces as arguments. I can sneak in this! Here is how I achieved this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="sc1c">&#34;io&#34;</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="sc1c">&#34;context&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770">// here is some syntaxic sugar inspired by the Tomas Senart&#39;s video,
+</span><span class="s1770">// it allows me to inline the Reader interface
+</span><span class="s1770"></span><span class="s3e8">type</span><span class="s1f40"> </span><span class="s7df">readerFunc</span><span class="s1f40"> </span><span class="s3e8">func</span><span class="s1388">(</span><span class="s7df">p</span><span class="s1f40"> </span><span class="s1388">[]</span><span class="s3e8">byte</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">n</span><span class="s1f40"> </span><span class="s3e8">int</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">err</span><span class="s1f40"> </span><span class="s3e8">error</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">func</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">rf</span><span class="s1f40"> </span><span class="s7df">readerFunc</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s7df">Read</span><span class="s1388">(</span><span class="s7df">p</span><span class="s1f40"> </span><span class="s1388">[]</span><span class="s3e8">byte</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">n</span><span class="s1f40"> </span><span class="s3e8">int</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">err</span><span class="s1f40"> </span><span class="s3e8">error</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40"> </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">rf</span><span class="s1388">(</span><span class="s7df">p</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770">// slightly modified function signature:
+</span><span class="s1770">// - context has been added in order to propagate cancelation
+</span><span class="s1770">// - I do not return the number of bytes written, has it is not useful in my use case
+</span><span class="s1770"></span><span class="s3e8">func</span><span class="s1f40"> </span><span class="s7df">Copy</span><span class="s1388">(</span><span class="s7df">ctx</span><span class="s1f40"> </span><span class="s7df">context</span><span class="s1388">.</span><span class="s7df">Context</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">dst</span><span class="s1f40"> </span><span class="s7df">io</span><span class="s1388">.</span><span class="s7df">Writer</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">src</span><span class="s1f40"> </span><span class="s7df">io</span><span class="s1388">.</span><span class="s7df">Reader</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s3e8">error</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770">// Copy will call the Reader and Writer interface multiple time, in order
+</span><span class="s1770"></span><span class="s1f40">	</span><span class="s1770">// to copy by chunk (avoiding loading the whole file in memory).
+</span><span class="s1770"></span><span class="s1f40">	</span><span class="s1770">// I insert the ability to cancel before read time as it is the earliest
+</span><span class="s1770"></span><span class="s1f40">	</span><span class="s1770">// possible in the call process.
+</span><span class="s1770"></span><span class="s1f40">	</span><span class="s7df">_</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">err</span><span class="s1f40"> </span><span class="sfa0">:=</span><span class="s1f40"> </span><span class="s7df">io</span><span class="s1388">.</span><span class="s7df">Copy</span><span class="s1388">(</span><span class="s7df">out</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">readerFunc</span><span class="s1388">(</span><span class="s3e8">func</span><span class="s1388">(</span><span class="s7df">p</span><span class="s1f40"> </span><span class="s1388">[]</span><span class="s3e8">byte</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s3e8">int</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s3e8">error</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s1770">// golang non-blocking channel: https://gobyexample.com/non-blocking-channel-operations
+</span><span class="s1770"></span><span class="s1f40">		</span><span class="s3e8">select</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s1770">// if context has been canceled
+</span><span class="s1770"></span><span class="s1f40">		</span><span class="s3e8">case</span><span class="s1f40"> </span><span class="sfa0">&lt;-</span><span class="s7df">ctx</span><span class="s1388">.</span><span class="s7df">Done</span><span class="s1388">():</span><span class="s1f40">
+</span><span class="s1f40">			</span><span class="s1770">// stop process and propagate &#34;context canceled&#34; error
+</span><span class="s1770"></span><span class="s1f40">			</span><span class="s3e8">return</span><span class="s1f40"> </span><span class="sc80">0</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">ctx</span><span class="s1388">.</span><span class="s7df">Err</span><span class="s1388">()</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s3e8">default</span><span class="s1388">:</span><span class="s1f40">
+</span><span class="s1f40">			</span><span class="s1770">// otherwise just run default io.Reader implementation
+</span><span class="s1770"></span><span class="s1f40">			</span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">in</span><span class="s1388">.</span><span class="s7df">Read</span><span class="s1388">(</span><span class="s7df">p</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1388">}))</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">err</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">}</span></code></pre>
+</div>
+<p>There is a huge topic in Go community around the use of context. Should all the
+standard lib use contexts in order to be able to cancel some calls. I think
+interfaces can be the start of a solution. Allowing you to extend what is needed
+and leave the stdlib as simple as possible. This is a good example, hope it
+can help some people to better understand how Golang interfaces can be used.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2018 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -102,12 +102,11 @@ want in the search bar. For this example, I will retrieve an
 which is a clone of the one in the docker hub
 <a href="https://quay.io/repository/aptible/alpine">https://quay.io/repository/aptible/alpine</a>.
 In the page open the web debugger and in the console enter the following:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;meta[name=&#39;ac-discovery&#39;]&quot;</span><span class="p">).</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// simple jquery request</span>
-
-<span class="c1">// this should be the output</span>
-<span class="p">[</span><span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;ac-discovery&quot;</span> <span class="nx">content</span><span class="o">=</span><span class="s2">&quot;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&quot;</span><span class="o">&gt;</span><span class="p">]</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="s7df">$</span><span class="s1388">(</span><span class="sc1c">&#34;meta[name=&#39;ac-discovery&#39;]&#34;</span><span class="s1388">).</span><span class="s7df">eq</span><span class="s1388">(</span><span class="sc80">0</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1770">// simple jquery request
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770">// this should be the output
+</span><span class="s1770"></span><span class="s1388">[</span><span class="sfa0">&lt;</span><span class="s7df">meta</span><span class="s1f40"> </span><span class="s7df">name</span><span class="sfa0">=</span><span class="sc1c">&#34;ac-discovery&#34;</span><span class="s1f40"> </span><span class="s7df">content</span><span class="sfa0">=</span><span class="sc1c">&#34;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&#34;</span><span class="sfa0">&gt;</span><span class="s1388">]</span></code></pre>
+</div>
 <p>The part between <code>{}</code> are variables, and should be replaced by what we want to
 retrieve, spec <a href="https://github.com/appc/spec/blob/master/spec/discovery.md">here</a></p>
 
@@ -129,24 +128,22 @@ the signature.</li>
 <code>https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64</code></p>
 
 <h2 id="retrieve-deflate-start">Retrieve - Deflate - Start</h2>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Download the image inside a alpine.tgz file</span>
-wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
-
-<span class="c1"># Untar it</span>
-tar xvf alpine.tgz
-
-<span class="c1"># Boot it, with systemd-nspawn</span>
-sudo systemd-nspawn -M alpine -D rootfs
-
-<span class="c1"># TADAAA! You are now inside a container </span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># Download the image inside a alpine.tgz file
+</span><span class="s1770"></span><span class="s1f40">wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># Untar it
+</span><span class="s1770"></span><span class="s1f40">tar xvf alpine.tgz
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># Boot it, with systemd-nspawn
+</span><span class="s1770"></span><span class="s1f40">sudo systemd-nspawn -M alpine -D rootfs
+</span><span class="s1f40">
+</span><span class="s1f40"># TADAAA! You are now inside a container </span></code></pre>
+</div>
 <p>You can also download, untar, rename and place the directory in your tree with
 one command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>wget -O - <span class="s2">&quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&quot;</span> <span class="p">|</span> <span class="se">\</span>
-		tar -C <span class="s2">&quot;/tmp/alpine&quot;</span> --transform<span class="o">=</span><span class="s2">&quot;s|rootfs/|/|&quot;</span> -xzf -
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">wget -O - </span><span class="sc1c">&#34;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&#34;</span><span class="s1f40"> </span><span class="s1388">|</span><span class="s1f40"> </span><span class="sc25">\
+</span><span class="sc25"></span><span class="s1f40">		tar -C </span><span class="sc1c">&#34;/tmp/alpine&#34;</span><span class="s1f40"> --transform</span><span class="sfa0">=</span><span class="sc1c">&#34;s|rootfs/|/|&#34;</span><span class="s1f40"> -xzf -</span></code></pre>
+</div>
 <h2 id="conclusion">Conclusion</h2>
 
 <p>Easy duh!?</p>
@@ -154,26 +151,31 @@ one command:</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/docker_nspawn\/';
-    var disqus_title = 'Docker Nspawn';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/docker_nspawn\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

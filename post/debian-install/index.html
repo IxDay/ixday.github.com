@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -88,28 +88,27 @@
 encountered and how I solved them.</p>
 
 <h3 id="creating-a-bootable-usb-key-on-a-mac">Creating a bootable USB key on a Mac</h3>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># plug your USB key, then find it with</span>
-diskutil list
-
-<span class="c1"># unmount the usb key (it is mandatory), where X in diskX is the number assigned</span>
-<span class="c1"># to your USB you retrieved with the previous command</span>
-diskutil unmountDisk /dev/diskX
-
-<span class="c1"># if you are making a bootable usb key for a Mac run this command,</span>
-<span class="c1"># debian.img will be the output and debian-testing-amd64-CD-1.iso is</span>
-<span class="c1"># the iso you retrieved from internet https://www.debian.org/CD/http-ftp/</span>
-hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso
-
-<span class="c1"># if you are making a Mac bootable usb key (X is still the disk number)</span>
-sudo dd <span class="k">if</span><span class="o">=</span>./debian.img.dmg <span class="nv">of</span><span class="o">=</span>/dev/rdiskX <span class="nv">bs</span><span class="o">=</span>1m
-
-<span class="c1"># otherwise (X is still the disk number)</span>
-sudo dd <span class="k">if</span><span class="o">=</span>./debian-testing-amd64-CD-1.iso <span class="nv">of</span><span class="o">=</span>/dev/rdiskX <span class="nv">bs</span><span class="o">=</span>1m
-
-<span class="c1"># to finish eject</span>
-hdiutil eject /dev/diskX
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># plug your USB key, then find it with
+</span><span class="s1770"></span><span class="s1f40">diskutil list
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># unmount the usb key (it is mandatory), where X in diskX is the number assigned
+</span><span class="s1770"># to your USB you retrieved with the previous command
+</span><span class="s1770"></span><span class="s1f40">diskutil unmountDisk /dev/diskX
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># if you are making a bootable usb key for a Mac run this command,
+</span><span class="s1770"># debian.img will be the output and debian-testing-amd64-CD-1.iso is
+</span><span class="s1770"># the iso you retrieved from internet https://www.debian.org/CD/http-ftp/
+</span><span class="s1770"></span><span class="s1f40">hdiutil convert -format UDRW -o debian.img debian-testing-amd64-CD-1.iso
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># if you are making a Mac bootable usb key (X is still the disk number)
+</span><span class="s1770"></span><span class="s1f40">sudo dd </span><span class="s3e8">if</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">./debian.img.dmg </span><span class="s7d0">of</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">/dev/rdiskX </span><span class="s7d0">bs</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">1m
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># otherwise (X is still the disk number)
+</span><span class="s1770"></span><span class="s1f40">sudo dd </span><span class="s3e8">if</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">./debian-testing-amd64-CD-1.iso </span><span class="s7d0">of</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">/dev/rdiskX </span><span class="s7d0">bs</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">1m
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># to finish eject
+</span><span class="s1770"></span><span class="s1f40">hdiutil eject /dev/diskX</span></code></pre>
+</div>
 <h3 id="messing-up-during-the-installation">Messing up during the installation</h3>
 
 <p>I use to have a lot of issues during the installation, such as:</p>
@@ -131,100 +130,92 @@ hand.</p>
 <h4 id="chroot-into-an-other-system">Chroot into an other system</h4>
 
 <p>First find the partition on which your system has been installed</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># parted will print you the partition of each device</span>
-parted /dev/sda print
-parted /dev/sdb print
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># parted will print you the partition of each device
+</span><span class="s1770"></span><span class="s1f40">parted /dev/sda print
+</span><span class="s1f40">parted /dev/sdb print</span></code></pre>
+</div>
 <p>Once the partition is found you have to mount it</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># create a directory for the mounted partition</span>
-mkdir /mnt/sda1
-
-<span class="c1"># mount it</span>
-mount /dev/sda1 /mnt/sda1
-
-<span class="c1"># bind the main parts</span>
-mount -o <span class="nb">bind</span> /dev /mnt/sda1/dev
-mount -o <span class="nb">bind</span> /dev/pts /mnt/sda1/dev/pts
-mount -o <span class="nb">bind</span> /proc /mnt/sda1/proc
-mount -o <span class="nb">bind</span> /run /mnt/sda1/run
-mount -o <span class="nb">bind</span> /sys /mnt/sda1/sys
-
-<span class="c1"># chroot in the system</span>
-chroot /mnt/sda1 /bin/bash
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># create a directory for the mounted partition
+</span><span class="s1770"></span><span class="s1f40">mkdir /mnt/sda1
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># mount it
+</span><span class="s1770"></span><span class="s1f40">mount /dev/sda1 /mnt/sda1
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># bind the main parts
+</span><span class="s1770"></span><span class="s1f40">mount -o </span><span class="s7d0">bind</span><span class="s1f40"> /dev /mnt/sda1/dev
+</span><span class="s1f40">mount -o </span><span class="s7d0">bind</span><span class="s1f40"> /dev/pts /mnt/sda1/dev/pts
+</span><span class="s1f40">mount -o </span><span class="s7d0">bind</span><span class="s1f40"> /proc /mnt/sda1/proc
+</span><span class="s1f40">mount -o </span><span class="s7d0">bind</span><span class="s1f40"> /run /mnt/sda1/run
+</span><span class="s1f40">mount -o </span><span class="s7d0">bind</span><span class="s1f40"> /sys /mnt/sda1/sys
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># chroot in the system
+</span><span class="s1770"></span><span class="s1f40">chroot /mnt/sda1 /bin/bash</span></code></pre>
+</div>
 <h4 id="dealing-with-the-system">Dealing with the system</h4>
 
 <p>Actualize the file <code>/etc/apt/sources.list</code> with the following
 <a href="http://debgen.simplylinux.ch/">site</a></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># update</span>
-apt-get update
-
-<span class="c1"># install the kernel, for me it is an amd64 architecture, to find yours just run</span>
-<span class="c1"># apt-cache search linux-image and choose the one for your needs</span>
-apt-get install linux-image-amd64
-
-<span class="c1"># install grub2, when installing it will ask for the device on which you want</span>
-<span class="c1"># grub to be installed, choose the device not the partition, here it will be</span>
-<span class="c1"># /dev/sda</span>
-apt-get install grub2
-
-<span class="c1"># update grub just in case</span>
-update-grub
-
-<span class="c1"># do not forget to initialize the password</span>
-passwd
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># update
+</span><span class="s1770"></span><span class="s1f40">apt-get update
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># install the kernel, for me it is an amd64 architecture, to find yours just run
+</span><span class="s1770"># apt-cache search linux-image and choose the one for your needs
+</span><span class="s1770"></span><span class="s1f40">apt-get install linux-image-amd64
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># install grub2, when installing it will ask for the device on which you want
+</span><span class="s1770"># grub to be installed, choose the device not the partition, here it will be
+</span><span class="s1770"># /dev/sda
+</span><span class="s1770"></span><span class="s1f40">apt-get install grub2
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># update grub just in case
+</span><span class="s1770"></span><span class="s1f40">update-grub
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># do not forget to initialize the password
+</span><span class="s1770"></span><span class="s1f40">passwd</span></code></pre>
+</div>
 <p>First step is done, and you will now be able to boot on your new system</p>
 
 <h3 id="rebooting-and-first-configuration">Rebooting and first configuration</h3>
 
 <h4 id="set-up-the-locales">Set up the locales</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install the package</span>
-apt-get install locales
-
-<span class="c1"># set the variables up, select the ones you want with space</span>
-dpkg-reconfigure locales
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># install the package
+</span><span class="s1770"></span><span class="s1f40">apt-get install locales
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># set the variables up, select the ones you want with space
+</span><span class="s1770"></span><span class="s1f40">dpkg-reconfigure locales</span></code></pre>
+</div>
 <h4 id="set-up-the-keyboard">Set up the keyboard</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install the package</span>
-apt-get install console-data
-
-<span class="c1"># for me it is a french keyboard</span>
-loadkeys fr-latin
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># install the package
+</span><span class="s1770"></span><span class="s1f40">apt-get install console-data
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># for me it is a french keyboard
+</span><span class="s1770"></span><span class="s1f40">loadkeys fr-latin</span></code></pre>
+</div>
 <p>Test if the configuration works for you, then you can save it by adding to
 <code>/etc/rc.locals</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># the path to the keymap is displayed when you use the loadkeys command</span>
-/usr/bin/loadkeys /usr/share/keymaps/i386/azerty/fr-latin9.kmap.gz
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># the path to the keymap is displayed when you use the loadkeys command
+</span><span class="s1770"></span><span class="s1f40">/usr/bin/loadkeys /usr/share/keymaps/i386/azerty/fr-latin9.kmap.gz</span></code></pre>
+</div>
 <h4 id="a-name-users-a-users"><a name="users"></a>Users</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install sudo</span>
-apt-get install sudo
-
-<span class="c1"># add new user called foo with a home folder (-m),</span>
-<span class="c1"># users as first group (-g group_name), sudo as additionnal group (-G group_name)</span>
-<span class="c1"># and bash as login shell</span>
-useradd -m -g users -G sudo -s /bin/bash foo
-
-<span class="c1"># change user password</span>
-passwd foo
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># install sudo
+</span><span class="s1770"></span><span class="s1f40">apt-get install sudo
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># add new user called foo with a home folder (-m),
+</span><span class="s1770"># users as first group (-g group_name), sudo as additionnal group (-G group_name)
+</span><span class="s1770"># and bash as login shell
+</span><span class="s1770"></span><span class="s1f40">useradd -m -g users -G sudo -s /bin/bash foo
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># change user password
+</span><span class="s1770"></span><span class="s1f40">passwd foo</span></code></pre>
+</div>
 <h3 id="display-manager">Display Manager</h3>
 
 <p>Here I will use i3 on top of xorg</p>
 
 <h4 id="init">Init</h4>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># install xorg and i3</span>
-apt-get install xorg i3
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># install xorg and i3
+</span><span class="s1770"></span><span class="s1f40">apt-get install xorg i3</span></code></pre>
+</div>
 <p>Create a file at the root of the user <code>~/.bash_profile</code> if you are using bash
 <code>~/.zprofile</code> if using zsh, if you have another login shell please refer to the
 dedicated doc.</p>
@@ -237,13 +228,12 @@ Then we want to launch i3. To do that add <code>exec i3</code> at any point of t
 <h4 id="set-x-keyboard-layout">Set X keyboard layout</h4>
 
 <p>To have the correct layout for X add the above commands in your <code>.xinitrc</code> file.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># reset the options</span>
-setxkbmap -option
-
-<span class="c1"># I only add the option to quit X by pressing ctrl+alt+backspace</span>
-setxkbmap -layout fr -variant latin9 -option terminate:ctrl_alt_bksp
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># reset the options
+</span><span class="s1770"></span><span class="s1f40">setxkbmap -option
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># I only add the option to quit X by pressing ctrl+alt+backspace
+</span><span class="s1770"></span><span class="s1f40">setxkbmap -layout fr -variant latin9 -option terminate:ctrl_alt_bksp</span></code></pre>
+</div>
 <p>To see all available options you can type <code>localectl list-x11-keymap-options</code></p>
 
 <p>To see current configuration type <code>setxkbmap -query</code></p>
@@ -254,26 +244,31 @@ I had.</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/debian-install\/';
-    var disqus_title = 'Debian Install';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/debian-install\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -242,9 +242,9 @@ I really loved experienced with it, it does not require a lot of dependencies on
     <h2 class="caption-title"><a href="/post/bash_expansion/">Bash Expansion</a></h2>
     <p>
     A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-for i in {1..50} do echo &quot;Hello World $i&quot; done  It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echo something/{foo,bar} &gt; something/foo something/bar  Still not amazed, ok now type this one:
-cp some_file{,.old}  It will copy your file adding a .
+fori in {1..50}doecho&#34;Hello World $i&#34;done  It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echosomething/{foo,bar}&gt; something/foo something/bar  Still not amazed, ok now type this one:
+cp some_file{,.old}  It will copy your file adding a .old extension. I do a lot of things like this and it saves me a lot of time, so think about it.
     
     <a href="/post/bash_expansion/">Read More...</a>
     
@@ -288,7 +288,7 @@ cp some_file{,.old}  It will copy your file adding a .
     It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then you can remove the progress bar by adding -s in the options
+curl -X POST -H &#34;Content-Type: application/json&#34;-d @filepath  Then you can remove the progress bar by adding -s in the options
     
     <a href="/post/curl_for_rest/">Read More...</a>
     
@@ -314,7 +314,7 @@ curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then yo
 
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

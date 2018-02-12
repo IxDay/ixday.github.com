@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -87,16 +87,15 @@ when it comes to tests, <a href="http://pytest.org/">pytest</a> is <em>THE</em> 
 some of my snippets.</p>
 
 <p>First one the app fixture:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">app</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot;</span>
-    <span class="n">app_test</span> <span class="o">=</span> <span class="n">myapp</span>
-    <span class="n">app_test</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">app_test</span><span class="o">.</span><span class="n">json_encoder</span> <span class="o">=</span> <span class="n">my_encoder</span>
-
-    <span class="k">return</span> <span class="n">app_test</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s7d6">@pytest.fixture</span><span class="s1388">(</span><span class="s7d0">autouse</span><span class="sfa0">=</span><span class="s7d0">True</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">app</span><span class="s1388">():</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="sc1c"></span><span class="sc1c">&#34;&#34;&#34;Load flask in testing mode&#34;&#34;&#34;</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">app_test</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">myapp</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">app_test</span><span class="sfa0">.</span><span class="s7d0">config</span><span class="s1388">[</span><span class="sc1c"></span><span class="sc1c">&#39;TESTING&#39;</span><span class="s1388">]</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">True</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">app_test</span><span class="sfa0">.</span><span class="s7d0">json_encoder</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">my_encoder</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7d0">app_test</span><span class="sfa0">.</span><span class="s7d0">test_client</span><span class="s1388">()</span></code></pre>
+</div>
 <p>This create an app fixture which will be used to test the application, it
 returns a test client to interact with my Flask application.</p>
 
@@ -104,14 +103,13 @@ returns a test client to interact with my Flask application.</p>
 
 <p>I also replace the json encoder by a custom one (it allows me to dump mock
 object for example).</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@pytest.yield_fixture</span>
-<span class="k">def</span> <span class="nf">request_context</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Provide a Flask request context for testing purpose&quot;&quot;&quot;</span>
-
-    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">req_context</span><span class="p">:</span>
-        <span class="k">yield</span> <span class="n">req_context</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s7d6">@pytest.yield_fixture</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">request_context</span><span class="s1388">(</span><span class="s7d0">app</span><span class="s1388">):</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="sc1c"></span><span class="sc1c">&#34;&#34;&#34;Provide a Flask request context for testing purpose&#34;&#34;&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">with</span><span class="s1f40"> </span><span class="s7d0">app</span><span class="sfa0">.</span><span class="s7d0">application</span><span class="sfa0">.</span><span class="s7d0">test_request_context</span><span class="s1388">()</span><span class="s1f40"> </span><span class="s3e8">as</span><span class="s1f40"> </span><span class="s7d0">req_context</span><span class="s1388">:</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s3e8">yield</span><span class="s1f40"> </span><span class="s7d0">req_context</span></code></pre>
+</div>
 <p>This one applies a request context on a testing function, this can be
 useful if you manipulate werzeug interactions (flask request attribute mostly).
 This has to be use when the
@@ -128,45 +126,49 @@ ORM. Like a lot of ORM peewee provides a <a href="http://docs.peewee-orm.com/en/
 , in unittest you may want to test endpoints without connecting to a db.
 So, here is an example on how you can replace the decorator
 (or contextmanager) by a dummy one.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">imp</span>
-<span class="kn">import</span> <span class="nn">contextlib</span>
-<span class="kn">import</span> <span class="nn">pytest</span>
-
-<span class="kn">import</span> <span class="nn">database</span>
-
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">mock_transaction</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Replace the atomic decorator from peewee to a noop one&quot;&quot;&quot;</span>
-
-    <span class="n">database</span><span class="o">.</span><span class="n">atomic</span> <span class="o">=</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">contextmanager</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="k">yield</span><span class="p">))</span>
-    <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">using</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">transactions</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">imp</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">contextlib</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">pytest</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">database</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d6">@pytest.fixture</span><span class="s1388">(</span><span class="s7d0">autouse</span><span class="sfa0">=</span><span class="s7d0">True</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">scope</span><span class="sfa0">=</span><span class="sc1c"></span><span class="sc1c">&#39;session&#39;</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">mock_transaction</span><span class="s1388">():</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="sc1c"></span><span class="sc1c">&#34;&#34;&#34;Replace the atomic decorator from peewee to a noop one&#34;&#34;&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">database</span><span class="sfa0">.</span><span class="s7d0">atomic</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">contextlib</span><span class="sfa0">.</span><span class="s7d0">contextmanager</span><span class="s1388">(</span><span class="s3e8">lambda</span><span class="s1388">:</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s3e8">yield</span><span class="s1388">))</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">imp</span><span class="sfa0">.</span><span class="s7d0">reload</span><span class="s1388">(</span><span class="s7d0">module</span><span class="sfa0">.</span><span class="s7d0">using</span><span class="sfa0">.</span><span class="s7d0">db</span><span class="sfa0">.</span><span class="s7d0">transactions</span><span class="s1388">)</span></code></pre>
+</div>
 <p>Pytest use a lot of the python flexibility and I must confess that I love it.</p>
 
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/pytest_fixture\/';
-    var disqus_title = 'Pytest Fixture';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/pytest_fixture\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

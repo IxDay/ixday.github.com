@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -97,53 +97,50 @@ as it is mentionned in
 
 <p>We want to test them in a temporary location with a simple &ldquo;Hello world&rdquo; test.
 Here is the architecture we will use:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  /tmp/drone_gogs_test      # just a custom directory for our test
-  |-- test                  # the git repository with the file to test
-  |   |-- hello.py          # simple python file with a doctest test
-  |-- gogs                  # directory which will be used by gogs to store
-  |                         # datas (sqlite, git, ssh)
-  |-- drone
-      |-- dronerc           # config file
-      |-- var               # directory to store drone data (mostly sqlite)
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">  /tmp/drone_gogs_test      # just a custom directory for our test
+</span><span class="s1f40">  |-- test                  # the git repository with the file to test
+</span><span class="s1f40">  |   |-- hello.py          # simple python file with a doctest test
+</span><span class="s1f40">  |-- gogs                  # directory which will be used by gogs to store
+</span><span class="s1f40">  |                         # datas (sqlite, git, ssh)
+</span><span class="s1f40">  |-- drone
+</span><span class="s1f40">      |-- dronerc           # config file
+</span><span class="s1f40">      |-- var               # directory to store drone data (mostly sqlite)</span></code></pre>
+</div>
 <h2 id="test-repo">Test repo</h2>
 
 <p>We just use the doctest feature of python here, this allow us to perform a
 simple test without bootstraping a bunch of code</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="sd">&quot;&quot;&quot;Simple hello world function testing with doctest&quot;&quot;&quot;</span>
-
-<span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Simple hello world function</span>
-
-<span class="sd">    Here the test we want to perform</span>
-<span class="sd">    &gt;&gt;&gt; hello()</span>
-<span class="sd">    &#39;Hello World!&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="s1">&#39;Hello World!&#39;</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">doctest</span>
-    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="sc1c"></span><span class="sc1c">&#34;&#34;&#34;Simple hello world function testing with doctest&#34;&#34;&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">hello</span><span class="s1388">():</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="sc1c"></span><span class="sc1c">&#34;&#34;&#34;Simple hello world function
+</span><span class="sc1c">
+</span><span class="sc1c">    Here the test we want to perform
+</span><span class="sc1c">    &gt;&gt;&gt; hello()
+</span><span class="sc1c">    &#39;Hello World!&#39;
+</span><span class="sc1c">    &#34;&#34;&#34;</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;Hello World!&#39;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s7d0">__name__</span><span class="s1f40"> </span><span class="sfa0">==</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;__main__&#39;</span><span class="s1388">:</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">doctest</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">doctest</span><span class="sfa0">.</span><span class="s7d0">testmod</span><span class="s1388">()</span></code></pre>
+</div>
 <p>And this is the run</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ python hello.py -v
-Trying:
-    hello<span class="o">()</span>
-Expecting:
-    <span class="s1">&#39;Hello World!&#39;</span>
-ok
-<span class="m">1</span> items had no tests:
-    __main__
-<span class="m">1</span> items passed all tests:
-   <span class="m">1</span> tests in __main__.hello
-<span class="m">1</span> tests in <span class="m">2</span> items.
-<span class="m">1</span> passed and <span class="m">0</span> failed.
-Test passed.
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">$ python hello.py -v
+</span><span class="s1f40">Trying:
+</span><span class="s1f40">    hello</span><span class="sfa0">()</span><span class="s1f40">
+</span><span class="s1f40">Expecting:
+</span><span class="s1f40">    </span><span class="sc1c">&#39;Hello World!&#39;</span><span class="s1f40">
+</span><span class="s1f40">ok
+</span><span class="s1f40"></span><span class="sc80">1</span><span class="s1f40"> items had no tests:
+</span><span class="s1f40">    __main__
+</span><span class="s1f40"></span><span class="sc80">1</span><span class="s1f40"> items passed all tests:
+</span><span class="s1f40">   </span><span class="sc80">1</span><span class="s1f40"> tests in __main__.hello
+</span><span class="s1f40"></span><span class="sc80">1</span><span class="s1f40"> tests in </span><span class="sc80">2</span><span class="s1f40"> items.
+</span><span class="s1f40"></span><span class="sc80">1</span><span class="s1f40"> passed and </span><span class="sc80">0</span><span class="s1f40"> failed.
+</span><span class="s1f40">Test passed.</span></code></pre>
+</div>
 <h2 id="gogs">Gogs</h2>
 
 <p>This one is really basic, the tutorial is really simple and it works out
@@ -173,49 +170,52 @@ use this as your day to day git repo).</p>
 
 <p>This one is a bit more complicated, first we have to create a dronerc file
 with the following content:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">REMOTE_DRIVER</span><span class="o">=</span>gogs
-<span class="nv">REMOTE_CONFIG</span><span class="o">=</span>http://172.17.0.3:3000
-<span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">REMOTE_DRIVER</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">gogs
+</span><span class="s1f40"></span><span class="s7d0">REMOTE_CONFIG</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">http://172.17.0.3:3000
+</span><span class="s1f40"></span><span class="s7d0">DEBUG</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">true</span></code></pre>
+</div>
 <p>Here I put the application in debug mode, this is not mandatory, but I like
 to have outputs if something goes bad.</p>
 
 <p>Now we can start the container:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>docker run \
-        --volume $(pwd)/drone/var:/var/lib/drone \
-        --volume /var/run/docker.sock:/var/run/docker.sock \
-        --env-file $(pwd)/drone/dronerc \
-        --restart=always \
-        --publish=80:8000 \
-        --detach=true \
-        --name=drone \
-        drone/drone:0.4
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">docker run \
+</span><span class="s1f40">        --volume $(pwd)/drone/var:/var/lib/drone \
+</span><span class="s1f40">        --volume /var/run/docker.sock:/var/run/docker.sock \
+</span><span class="s1f40">        --env-file $(pwd)/drone/dronerc \
+</span><span class="s1f40">        --restart=always \
+</span><span class="s1f40">        --publish=80:8000 \
+</span><span class="s1f40">        --detach=true \
+</span><span class="s1f40">        --name=drone \
+</span><span class="s1f40">        drone/drone:0.4</span></code></pre>
+</div>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/gogs_drone_compose\/';
-    var disqus_title = 'Gogs \x2b Drone';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/gogs_drone_compose\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

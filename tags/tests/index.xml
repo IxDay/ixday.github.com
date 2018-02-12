@@ -2,11 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tests on Not today...</title>
-    <link>http://ixday.github.io/tags/tests/index.xml</link>
+    <link>http://ixday.github.io/tags/tests/</link>
     <description>Recent content in Tests on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://ixday.github.io/tags/tests/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Mar 2016 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://ixday.github.io/tags/tests/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Pytest command line</title>
@@ -14,58 +17,9 @@
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/pytest_command_line/</guid>
-      <description>
-
-&lt;p&gt;I have recently dug into pytest documentation, and moreover into
-the command line arguments and I finally found a better workflow
-for running tests while I develop.&lt;/p&gt;
-
-&lt;p&gt;Here is the command I run when I just made some devs:
-&lt;code&gt;py.test -xvvvs --tb=line --pdb&lt;/code&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;-x&lt;/strong&gt; will stop execution on first failue, useful when debugging tests
-in order of appearance (recommended)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;-vvv&lt;/strong&gt; will display current test path (reuasable in py.test), the
-path will avoid to rerun all the previous tests before going to the one
-you are currently working on. In addition, the verbose flags will display
-a full diff of the assert error. This will help troubleshoot from where
-the error is coming&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&amp;ndash;tb=line&lt;/strong&gt; will only display the last line of the unhandled exception
-which make the test fail. I use this because in general the exception
-trace is not really relevant, as we already know what test is running
-and the name of the error.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;&amp;ndash;pdb&lt;/strong&gt; this one is gold, it will enter pdb on fail, and if you have
-&lt;a href=&#34;https://pypi.python.org/pypi/pdbpp/&#34;&gt;pdbpp&lt;/a&gt; installed, this will be
-a real debugger :p&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The second command I usually ran is: &lt;code&gt;py.test -v --tb=line --cov=src --cov-report=html&lt;/code&gt;.
-This one is my code coverage command. I run it on small changes or after the first
-command described here, in order to check that my coverage has evolved.
-I put a &lt;code&gt;-v&lt;/code&gt; for displaying the path of the current test, and &lt;code&gt;--tb=line&lt;/code&gt; in order
-to not pollute the screen with stack traces. Those two options are here in the case
-of an error during the coverage. It allows me to be faster on isolating tests to
-debug.&lt;/p&gt;
-
-&lt;h2 id=&#34;bonus&#34;&gt;Bonus&lt;/h2&gt;
-
-&lt;p&gt;Here I discussed about the coverage, and py.test commands. I use specific options
-on CI (travis) in coordination with &lt;a href=&#34;https://coveralls.io/&#34;&gt;coveralls&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;My &lt;code&gt;.travis.yml&lt;/code&gt; file which run py.test with coverage.&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;language&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;python&lt;/span&gt;
-&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;install&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;pip install coveralls&lt;/span&gt;
-&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;script&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;p p-Indicator&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;py.test -v -tb=line -cov-report= --cov=src&lt;/span&gt;
-&lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;after_success&lt;/span&gt;&lt;span class=&#34;p p-Indicator&#34;&gt;:&lt;/span&gt;
-  &lt;span class=&#34;l l-Scalar l-Scalar-Plain&#34;&gt;coveralls&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;It will just put the report into coveralls and displays the
-same informations as the other command explained above.&lt;/p&gt;
-</description>
+      <description>I have recently dug into pytest documentation, and moreover into the command line arguments and I finally found a better workflow for running tests while I develop.
+Here is the command I run when I just made some devs: py.test -xvvvs --tb=line --pdb
+ -x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.</description>
     </item>
     
     <item>
@@ -74,47 +28,9 @@ same informations as the other command explained above.&lt;/p&gt;
       <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/jasmine_promises/</guid>
-      <description>&lt;p&gt;Jasmine is a good testing framework, which I really like, it is really powerfull
-and has just the amount of features to perform a huge variety of tests.&lt;/p&gt;
-
-&lt;p&gt;At some point I had to tests promises, and more generally testing that some
-part of a function is not called (you will have to adapt the snippet but the
-idea is here).&lt;/p&gt;
-
-&lt;p&gt;It is pretty simple, but not well known (I checked some stackoverflow threads
-before finding this).&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;  We will define the promise helper to be accessible through the this keyword in&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;  jasmine&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt; */&lt;/span&gt;
-&lt;span class=&#34;nx&#34;&gt;beforeEach&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-  &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;   The this keyword is accessible in every jasmine tests, and you can populate&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;   it, this has been set up in jasmine 2.0 in order to avoid the tricky variable&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;   scoping of javascript.&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;   */&lt;/span&gt;
-  &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;promiseHelper&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;promise&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-
-    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jasmine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createSpy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;successCallback&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-    &lt;span class=&#34;kd&#34;&gt;var&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jasmine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createSpy&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;failCallback&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;);&lt;/span&gt;
-
-    &lt;span class=&#34;cm&#34;&gt;/*&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;     Promises are chainable so we can make some tests before sending the promise&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;     to this function, here we just insert the two spies in the&lt;/span&gt;
-&lt;span class=&#34;cm&#34;&gt;     */&lt;/span&gt;
-    &lt;span class=&#34;nx&#34;&gt;promise&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;then&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;finally&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;](&lt;/span&gt;
-      &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;expect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;successCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toHaveBeenCalled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-        &lt;span class=&#34;nx&#34;&gt;expect&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;failCallback&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;not&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;toHaveBeenCalled&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;();&lt;/span&gt;
-      &lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
-&lt;span class=&#34;p&#34;&gt;});&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;Do not forget to test your code, it will save you a lot of time and debugging in
-the future if tests are correctly done ;)&lt;/p&gt;
-</description>
+      <description>Jasmine is a good testing framework, which I really like, it is really powerfull and has just the amount of features to perform a huge variety of tests.
+At some point I had to tests promises, and more generally testing that some part of a function is not called (you will have to adapt the snippet but the idea is here).
+It is pretty simple, but not well known (I checked some stackoverflow threads before finding this).</description>
     </item>
     
   </channel>

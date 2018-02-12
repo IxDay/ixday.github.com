@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -115,164 +115,163 @@ handling all the interactions with the FS.</li>
 <h2 id="hello-world">Hello world!</h2>
 
 <p>First of all, making it works for the most simple use case</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">wsgiref.simple_server</span>
-
-<span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-	<span class="sd">&quot;&quot;&quot;Return a simple Hello World when accessing an url (anyone) on the server</span>
-<span class="sd">	&quot;&quot;&quot;</span>
-	<span class="c1"># send status_code and headers</span>
-	<span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
-	<span class="c1"># send body</span>
-	<span class="k">return</span> <span class="p">[</span><span class="s1">&#39;Hello World!&#39;</span><span class="p">]</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-	<span class="c1"># create a server on &#39;localhost&#39; and port 8080 using the application</span>
-	<span class="n">srv</span> <span class="o">=</span> <span class="n">wsgiref</span><span class="o">.</span><span class="n">simple_server</span><span class="o">.</span><span class="n">make_server</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">,</span> <span class="n">application</span><span class="p">)</span>
-	<span class="c1"># serve...</span>
-	<span class="n">srv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">wsgiref.simple_server</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">application</span><span class="s1388">(</span><span class="s7d0">environ</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">start_response</span><span class="s1388">):</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="sc1c"></span><span class="sc1c">&#34;&#34;&#34;Return a simple Hello World when accessing an url (anyone) on the server
+</span><span class="sc1c">	&#34;&#34;&#34;</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># send status_code and headers</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">start_response</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;200 OK&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">[(</span><span class="sc1c"></span><span class="sc1c">&#39;Content-Type&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;text/html&#39;</span><span class="s1388">)])</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># send body</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s1388">[</span><span class="sc1c"></span><span class="sc1c">&#39;Hello World!&#39;</span><span class="s1388">]</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s7d0">__name__</span><span class="s1f40"> </span><span class="sfa0">==</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;__main__&#39;</span><span class="s1388">:</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># create a server on &#39;localhost&#39; and port 8080 using the application</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">srv</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">wsgiref</span><span class="sfa0">.</span><span class="s7d0">simple_server</span><span class="sfa0">.</span><span class="s7d0">make_server</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;localhost&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc80">8080</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">application</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># serve...</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">srv</span><span class="sfa0">.</span><span class="s7d0">serve_forever</span><span class="s1388">()</span></code></pre>
+</div>
 <h2 id="routing">Routing</h2>
 
 <p>Then I have to handle the request, translate the url in a possible path in the
 FS, and dispatch to the different choices available.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">wsgiref.simple_server</span>
-<span class="kn">import</span> <span class="nn">path</span>
-
-<span class="n">ROOT</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;/tmp&#39;</span><span class="p">)</span> <span class="c1"># The root directory from which I will serve the files</span>
-
-<span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-	<span class="sd">&quot;&quot;&quot;Route to the dedicated functions&quot;&quot;&quot;</span>
-
-	<span class="c1"># build the possible path of the file to serve or directory to list</span>
-	<span class="n">path</span> <span class="o">=</span> <span class="n">ROOT</span> <span class="o">+</span> <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">)</span>
-
-	<span class="c1"># build the possible path of the index file if the path is a directory</span>
-    <span class="n">path_index</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;index.html&#39;</span>
-
-
-	<span class="c1"># checks if the path exists, if not want to send a 404 not found</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="k">return</span> <span class="n">not_found</span><span class="p">(</span><span class="n">start_response</span><span class="p">)</span>
-
-	<span class="c1"># checks if the path links to a file, in this case serve the file</span>
-    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">():</span>
-        <span class="k">return</span> <span class="n">serve_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
-
-	<span class="c1"># now we are sure that the user asks for a directory, checks if the</span>
-	<span class="c1"># directory has an index.html file, if so, serve it.</span>
-    <span class="k">if</span> <span class="n">path_index</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="k">return</span> <span class="n">serve_file</span><span class="p">(</span><span class="n">path_index</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
-
-	<span class="c1"># last case we want to list what is in the directory</span>
-    <span class="k">return</span> <span class="n">list_dir</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-	<span class="n">srv</span> <span class="o">=</span> <span class="n">wsgiref</span><span class="o">.</span><span class="n">simple_server</span><span class="o">.</span><span class="n">make_server</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">,</span> <span class="n">application</span><span class="p">)</span>
-	<span class="n">srv</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">wsgiref.simple_server</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">path</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">ROOT</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">path</span><span class="sfa0">.</span><span class="s7d0">path</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;/tmp&#39;</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1770"># The root directory from which I will serve the files</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">application</span><span class="s1388">(</span><span class="s7d0">environ</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">start_response</span><span class="s1388">):</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="sc1c"></span><span class="sc1c">&#34;&#34;&#34;Route to the dedicated functions&#34;&#34;&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># build the possible path of the file to serve or directory to list</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">path</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">ROOT</span><span class="s1f40"> </span><span class="sfa0">+</span><span class="s1f40"> </span><span class="s7d0">environ</span><span class="sfa0">.</span><span class="s7d0">get</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;PATH_INFO&#39;</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># build the possible path of the index file if the path is a directory</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">path_index</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">path</span><span class="s1f40"> </span><span class="sfa0">+</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;index.html&#39;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># checks if the path exists, if not want to send a 404 not found</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">if</span><span class="s1f40"> </span><span class="sfa0">not</span><span class="s1f40"> </span><span class="s7d0">path</span><span class="sfa0">.</span><span class="s7d0">exists</span><span class="s1388">():</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7d0">not_found</span><span class="s1388">(</span><span class="s7d0">start_response</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># checks if the path links to a file, in this case serve the file</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s7d0">path</span><span class="sfa0">.</span><span class="s7d0">isfile</span><span class="s1388">():</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7d0">serve_file</span><span class="s1388">(</span><span class="s7d0">path</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">start_response</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># now we are sure that the user asks for a directory, checks if the</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># directory has an index.html file, if so, serve it.</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s7d0">path_index</span><span class="sfa0">.</span><span class="s7d0">exists</span><span class="s1388">():</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7d0">serve_file</span><span class="s1388">(</span><span class="s7d0">path_index</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">start_response</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># last case we want to list what is in the directory</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7d0">list_dir</span><span class="s1388">(</span><span class="s7d0">path</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">start_response</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s7d0">__name__</span><span class="s1f40"> </span><span class="sfa0">==</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;__main__&#39;</span><span class="s1388">:</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">srv</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">wsgiref</span><span class="sfa0">.</span><span class="s7d0">simple_server</span><span class="sfa0">.</span><span class="s7d0">make_server</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;localhost&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc80">8080</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">application</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">srv</span><span class="sfa0">.</span><span class="s7d0">serve_forever</span><span class="s1388">()</span></code></pre>
+</div>
 <h2 id="serve-content">Serve content</h2>
 
 <h3 id="return-404">Return 404</h3>
 
 <p>Most simple use case, return a 404 error and a small message</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span>	<span class="k">def</span> <span class="nf">not_found</span><span class="p">(</span><span class="n">start_response</span><span class="p">):</span>
-		<span class="c1"># status code and header</span>
-        <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;404 NOT FOUND&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)])</span>
-		<span class="c1"># simplest message ever</span>
-        <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;Not Found&#39;</span><span class="p">]</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s1f40">	</span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">not_found</span><span class="s1388">(</span><span class="s7d0">start_response</span><span class="s1388">):</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s1770"># status code and header</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s7d0">start_response</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;404 NOT FOUND&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">[(</span><span class="sc1c"></span><span class="sc1c">&#39;Content-Type&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;text/plain&#39;</span><span class="s1388">)])</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s1770"># simplest message ever</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s1388">[</span><span class="sc1c"></span><span class="sc1c">&#39;Not Found&#39;</span><span class="s1388">]</span></code></pre>
+</div>
 <h3 id="serve-file">Serve file</h3>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">mimetypes</span>
-
-<span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">*</span> <span class="mi">1024</span>
-
-<span class="k">def</span> <span class="nf">serve_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-	<span class="c1"># retrieve mimetype for serving purpose</span>
-	<span class="n">mime</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-
-	<span class="c1"># start response with the given mimetype</span>
-	<span class="n">sr</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="n">mime</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
-
-	<span class="c1"># yield the file content through network (chunks function from path.py)</span>
-	<span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">chunks</span><span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">mimetypes</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">chunk_size</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">64</span><span class="s1f40"> </span><span class="sfa0">*</span><span class="s1f40"> </span><span class="sc80">1024</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">serve_file</span><span class="s1388">(</span><span class="s7d0">filepath</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">start_response</span><span class="s1388">):</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># retrieve mimetype for serving purpose</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">mime</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">mimetypes</span><span class="sfa0">.</span><span class="s7d0">guess_type</span><span class="s1388">(</span><span class="s7d0">f</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># start response with the given mimetype</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">sr</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;200 OK&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">[(</span><span class="sc1c"></span><span class="sc1c">&#39;Content-Type&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">mime</span><span class="s1388">[</span><span class="sc80">0</span><span class="s1388">])])</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># yield the file content through network (chunks function from path.py)</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7d0">f</span><span class="sfa0">.</span><span class="s7d0">chunks</span><span class="s1388">(</span><span class="s7d0">chunk_size</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;rb&#39;</span><span class="s1388">)</span></code></pre>
+</div>
 <h3 id="list-directory">List directory</h3>
 
 <p>Last but not least, the listing of the directory. Here I use Jinja for the
 templating.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">jinja2</span>
-
-<span class="c1"># setup my jinja environment with the templates directory containing my</span>
-<span class="c1"># template files</span>
-<span class="n">env</span> <span class="o">=</span> <span class="n">jinja2</span><span class="o">.</span><span class="n">Environment</span><span class="p">(</span>
-    <span class="n">loader</span><span class="o">=</span><span class="n">jinja2</span><span class="o">.</span><span class="n">PackageLoader</span><span class="p">(</span><span class="s1">&#39;my_wsgi_listdir&#39;</span><span class="p">,</span> <span class="s1">&#39;templates&#39;</span><span class="p">)</span>
-<span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">list_dir</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
-
-	<span class="c1"># start a response as an html page</span>
-	<span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;200 OK&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">)])</span>
-
-	<span class="c1"># retrieve informations from FS through path.py API</span>
-	<span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
-		<span class="s1">&#39;directory&#39;</span><span class="p">:</span> <span class="n">directory</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">ROOT</span><span class="p">),</span>
-		<span class="s1">&#39;links&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="n">f</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">listdir</span><span class="p">()</span> <span class="p">]</span>
-	<span class="p">}</span>
-
-	<span class="c1"># render the template with the informations and return the stream</span>
-	<span class="k">return</span> <span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s1">&#39;list_dir.tplt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">))</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">jinja2</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># setup my jinja environment with the templates directory containing my</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># template files</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">env</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">jinja2</span><span class="sfa0">.</span><span class="s7d0">Environment</span><span class="s1388">(</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">loader</span><span class="sfa0">=</span><span class="s7d0">jinja2</span><span class="sfa0">.</span><span class="s7d0">PackageLoader</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;my_wsgi_listdir&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;templates&#39;</span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">)</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">def</span><span class="s1f40"> </span><span class="s7d9">list_dir</span><span class="s1388">(</span><span class="s7d0">directory</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d0">start_response</span><span class="s1388">):</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># start a response as an html page</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">start_response</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;200 OK&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">[(</span><span class="sc1c"></span><span class="sc1c">&#39;Content-Type&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="sc1c"></span><span class="sc1c">&#39;text/html&#39;</span><span class="s1388">)])</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># retrieve informations from FS through path.py API</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">context</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="sc1c"></span><span class="sc1c">&#39;directory&#39;</span><span class="s1388">:</span><span class="s1f40"> </span><span class="s7d0">directory</span><span class="sfa0">.</span><span class="s7d0">relpath</span><span class="s1388">(</span><span class="s7d0">ROOT</span><span class="s1388">),</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="sc1c"></span><span class="sc1c">&#39;links&#39;</span><span class="s1388">:</span><span class="s1f40"> </span><span class="s1388">[</span><span class="s1f40"> </span><span class="s7d0">f</span><span class="sfa0">.</span><span class="s7d0">relpath</span><span class="s1388">(</span><span class="s7d0">directory</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s3e8">for</span><span class="s1f40"> </span><span class="s7d0">f</span><span class="s1f40"> </span><span class="sfa0">in</span><span class="s1f40"> </span><span class="s7d0">d</span><span class="sfa0">.</span><span class="s7d0">listdir</span><span class="s1388">()</span><span class="s1f40"> </span><span class="s1388">]</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># render the template with the informations and return the stream</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7d0">env</span><span class="sfa0">.</span><span class="s7d0">get_template</span><span class="s1388">(</span><span class="sc1c"></span><span class="sc1c">&#39;list_dir.tplt&#39;</span><span class="s1388">)</span><span class="sfa0">.</span><span class="s7d0">stream</span><span class="s1388">(</span><span class="sfa0">**</span><span class="s7d0">context</span><span class="s1388">))</span></code></pre>
+</div>
 <p>Here is the <code>list_dir.tplt</code> file</p>
-<div class="highlight"><pre><code class="language-jinja" data-lang="jinja"><span></span><span class="x">&lt;html&gt;</span>
-<span class="x">&lt;head&gt;</span>
-<span class="x">  &lt;title&gt;Directory listing for </span><span class="cp">{{</span><span class="nv">directory</span><span class="cp">}}</span><span class="x">&lt;/title&gt;</span>
-<span class="x">&lt;/head&gt;</span>
-<span class="x">&lt;body&gt;</span>
-<span class="x">  &lt;h2&gt;Directory listing for </span><span class="cp">{{</span><span class="nv">directory</span><span class="cp">}}</span><span class="x">&lt;/h2&gt;</span>
-<span class="x">  &lt;hr&gt;</span>
-<span class="x">  &lt;ul&gt;</span>
-<span class="x">  </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">link</span> <span class="k">in</span> <span class="nv">links</span> <span class="cp">%}</span><span class="x"></span>
-<span class="x">    &lt;li&gt;&lt;a href=&quot;</span><span class="cp">{{</span> <span class="nv">link</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span><span class="cp">{{</span> <span class="nv">link</span> <span class="cp">}}</span><span class="x">&lt;/a&gt;&lt;/li&gt;</span>
-<span class="x">  </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
-<span class="x">  &lt;/ul&gt;</span>
-<span class="x">  &lt;hr&gt;</span>
-<span class="x">&lt;/body&gt;</span>
-<span class="x">&lt;/html&gt;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-jinja" data-lang="jinja">&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Directory listing for <span class="s1770">{{</span><span class="s7d0">directory</span><span class="s1f40"></span><span class="s1770">}}</span>&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Directory listing for <span class="s1770">{{</span><span class="s7d0">directory</span><span class="s1f40"></span><span class="s1770">}}</span>&lt;/h2&gt;
+  &lt;hr&gt;
+  &lt;ul&gt;
+  <span class="s1770">{%</span><span class="s1f40"> </span><span class="s3e8">for</span><span class="s1f40"> </span><span class="s7d0">link</span><span class="s1f40"> </span><span class="s3e8">in</span><span class="s1f40"> </span><span class="s7d0">links</span><span class="s1f40"> </span><span class="s1770">%}</span>
+    &lt;li&gt;&lt;a href=&#34;<span class="s1770">{{</span><span class="s1f40"> </span><span class="s7d0">link</span><span class="s1f40"> </span><span class="s1770">}}</span>&#34;&gt;<span class="s1770">{{</span><span class="s1f40"> </span><span class="s7d0">link</span><span class="s1f40"> </span><span class="s1770">}}</span>&lt;/a&gt;&lt;/li&gt;
+  <span class="s1770">{%</span><span class="s1f40"> </span><span class="s3e8">endfor</span><span class="s1f40"> </span><span class="s1770">%}</span>
+  &lt;/ul&gt;
+  &lt;hr&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
 <p>And that&rsquo;s all, simple and efficient this little wsgi application fits my
 needs.</p>
 
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/listing_directory_with_wsgi\/';
-    var disqus_title = 'Listing directory with wsgi';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/listing_directory_with_wsgi\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

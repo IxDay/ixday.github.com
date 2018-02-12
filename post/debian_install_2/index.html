@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -93,9 +93,8 @@ then the
 <a href="https://github.com/IxDay/config_files/tree/new_conf/source.list.d">sources.list</a>.</p>
 
 <p>Just run an <code>aptitude update</code>, and you will some missing gpg keys, now run</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;</span></code></pre>
+</div>
 <p>To have your keys installed.</p>
 
 <h2 id="sudo">sudo</h2>
@@ -104,10 +103,9 @@ then the
 <code>aptitude install sudo</code> will give you the tool.</p>
 
 <p>Then uncomment the following line</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Allow members of group sudo to execute any command</span>
-%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># Allow members of group sudo to execute any command
+</span><span class="s1770"></span><span class="s1f40">%sudo   </span><span class="s7d0">ALL</span><span class="s1f40"></span><span class="sfa0">=(</span><span class="s1f40">ALL:ALL</span><span class="sfa0">)</span><span class="s1f40"> ALL</span></code></pre>
+</div>
 <p>Then add your user to the group sudo <code>gpasswd -a &lt;your_user&gt; sudo</code></p>
 
 <h2 id="install-all-the-packages-o">install all the packages o/</h2>
@@ -208,13 +206,11 @@ Xserver startup from the <code>.xinitrc</code> file.</p>
 * <a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitignore_global</a></p>
 
 <p>After copying those files you can create a rsa key:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&quot;your_email@example.com&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">ssh-keygen -t rsa -b </span><span class="sc80">4096</span><span class="s1f40"> -C </span><span class="sc1c">&#34;your_email@example.com&#34;</span></code></pre>
+</div>
 <p>And to manage the keys passphrase I use <code>keychain</code> in an alias</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&quot;eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">alias</span><span class="s1f40"> </span><span class="s7d0">keychain_default</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;eval </span><span class="s3e8">$(</span><span class="s1f40">keychain --eval --agents ssh -Q --quiet id_rsa</span><span class="s3e8">)</span><span class="sc1c">&#34;</span></code></pre>
+</div>
 <p>It is possible to configure multiple keys, in order to separate some services.
 The archlinux wiki has a good article about the SSH keys management:
 <a href="https://wiki.archlinux.org/index.php/SSH_keys">here</a></p>
@@ -237,26 +233,31 @@ awesome.</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/debian_install_2\/';
-    var disqus_title = 'Debian install 2';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/debian_install_2\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

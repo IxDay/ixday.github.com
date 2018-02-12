@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -92,17 +92,15 @@ permissions and pass my user to the container as well.</p>
 <h2 id="set-test-env">Set test env</h2>
 
 <p>Here is my setup, a Dockerfile with a container and git installed</p>
-<div class="highlight"><pre><code class="language-dockerfile" data-lang="dockerfile"><span></span><span class="k">FROM</span><span class="s"> alpine:3.2</span>
-<span class="k">RUN</span> apk --update add git
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="s3e8">FROM</span><span class="sc1c"> alpine:3.2</span><span class="ss4">
+</span><span class="ss4"></span><span class="s3e8">RUN</span><span class="s1f40"> apk --update add git</span></code></pre>
+</div>
 <p>Then simply run the git clone command inside a volume mounted with correct uid
 and gid.</p>
-<div class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="go">docker build -t foo --rm .</span>
-<span class="go">docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \</span>
-<span class="go">	git clone https://github.com/octocat/Spoon-Knife</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console"><span class="s1f40">docker build -t foo --rm .
+</span><span class="s1f40">docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \
+</span><span class="s1f40">	git clone https://github.com/octocat/Spoon-Knife</span></code></pre>
+</div>
 <p>And I get the following error:
 <code>fatal: unable to look up current user in the passwd file: no such user</code>. This
 is actually right, my user only exists on the host and not into my container.</p>
@@ -137,12 +135,11 @@ for the root user.</p>
 <h2 id="final-setup">Final setup</h2>
 
 <p>We modify our Dockerfile according to the last results.</p>
-<div class="highlight"><pre><code class="language-dockerfile" data-lang="dockerfile"><span></span><span class="k">FROM</span><span class="s"> alpine:3.2</span>
-
-<span class="k">RUN</span> apk --update add git
-<span class="k">RUN</span> git config --system core.logallrefupdates false
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="s3e8">FROM</span><span class="sc1c"> alpine:3.2</span><span class="ss4">
+</span><span class="ss4">
+</span><span class="ss4"></span><span class="s3e8">RUN</span><span class="s1f40"> apk --update add git</span><span class="ss4">
+</span><span class="ss4"></span><span class="s3e8">RUN</span><span class="s1f40"> git config --system core.logallrefupdates false</span></code></pre>
+</div>
 <p>The git config command is case insensitive, so all lowercase will work here.
 Now just run the previous build and run again your git clone.</p>
 
@@ -151,26 +148,31 @@ Now just run the previous build and run again your git clone.</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/docker_git_volume\/';
-    var disqus_title = 'Git clone inside a mounted volume with Docker';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/docker_git_volume\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

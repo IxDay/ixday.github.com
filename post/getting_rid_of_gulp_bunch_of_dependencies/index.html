@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -127,10 +127,9 @@ dependencies as it is a requirements for basically all the gulp plugins).</p>
 those implementations.</p>
 
 <p>Here is the requirementents of the file:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span></span><span class="kd">var</span> <span class="nx">through</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;through2&#39;</span><span class="p">);</span>
-<span class="kd">var</span> <span class="nx">gutil</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-util&#39;</span><span class="p">);</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">through</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">require</span><span class="s1388">(</span><span class="sc1c">&#39;through2&#39;</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">gutil</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">require</span><span class="s1388">(</span><span class="sc1c">&#39;gulp-util&#39;</span><span class="s1388">);</span></code></pre>
+</div>
 <h3 id="vinyl-source-stream">vinyl-source-stream</h3>
 
 <p>According to its presentation this module only provide a convenient wrapper
@@ -138,43 +137,42 @@ in order to link legacy nodejs streams and gulp implementation of streams
 vinyl.</p>
 
 <p>Here is the code I use:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span></span><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">source</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">// this is basically a stream, I will use the javascript scoping for</span>
-  <span class="c1">// convenience</span>
-  <span class="kd">var</span> <span class="nx">ins</span> <span class="o">=</span> <span class="nx">through</span><span class="p">();</span>
-
-  <span class="c1">// here is the piping to the previous stream, we need an object stream as we</span>
-  <span class="c1">// will push a vinyl file in it.</span>
-  <span class="c1">// The use will be the following:</span>
-  <span class="c1">// someLegacyStream.pipe(utils.source()).pipe(whateverInGulpWorld);</span>
-  <span class="k">return</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">// Checks if we have initialized the stream with a vinyl file</span>
-    <span class="c1">// basically, this just happen once at startup of streaming.</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_ins</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">_ins</span> <span class="o">=</span> <span class="nx">ins</span><span class="p">;</span> <span class="c1">// this is just a convenient way of keeping a state</span>
-
-      <span class="c1">// Create a vinyl file and pass &quot;ins&quot; stream as a content,</span>
-      <span class="c1">// and an optional filename</span>
-      <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">gutil</span><span class="p">.</span><span class="nx">File</span><span class="p">({</span><span class="nx">contents</span><span class="o">:</span> <span class="nx">ins</span><span class="p">,</span> <span class="nx">path</span><span class="o">:</span> <span class="nx">filename</span><span class="p">}));</span>
-    <span class="p">}</span>
-
-    <span class="c1">// push the chunk into our new stream in order to unify output</span>
-    <span class="nx">ins</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">chunk</span><span class="p">);</span>
-
-    <span class="c1">// as this is asynchronous just notify the system that we handled</span>
-    <span class="c1">// the chunk</span>
-    <span class="nx">cb</span><span class="p">();</span>
-
-  <span class="p">},</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// close the stream by pushing &quot;null&quot;</span>
-    <span class="nx">ins</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">};</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="s7df">module</span><span class="s1388">.</span><span class="s7df">exports</span><span class="s1388">.</span><span class="s7df">source</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">filename</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// this is basically a stream, I will use the javascript scoping for
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// convenience
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">ins</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">through</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// here is the piping to the previous stream, we need an object stream as we
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// will push a vinyl file in it.
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// The use will be the following:
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// someLegacyStream.pipe(utils.source()).pipe(whateverInGulpWorld);
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">through</span><span class="s1388">.</span><span class="s7df">obj</span><span class="s1388">(</span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">chunk</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">_</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">cb</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// Checks if we have initialized the stream with a vinyl file
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s1770">// basically, this just happen once at startup of streaming.
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s1388">(</span><span class="sfa0">!</span><span class="s3e8">this</span><span class="s1388">.</span><span class="s7df">_ins</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s3e8">this</span><span class="s1388">.</span><span class="s7df">_ins</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">ins</span><span class="s1388">;</span><span class="s1f40"> </span><span class="s1770">// this is just a convenient way of keeping a state
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1770">// Create a vinyl file and pass &#34;ins&#34; stream as a content,
+</span><span class="s1770"></span><span class="s1f40">      </span><span class="s1770">// and an optional filename
+</span><span class="s1770"></span><span class="s1f40">      </span><span class="s3e8">this</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s3e8">new</span><span class="s1f40"> </span><span class="s7df">gutil</span><span class="s1388">.</span><span class="s7df">File</span><span class="s1388">({</span><span class="s7df">contents</span><span class="sfa0">:</span><span class="s1f40"> </span><span class="s7df">ins</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">path</span><span class="sfa0">:</span><span class="s1f40"> </span><span class="s7df">filename</span><span class="s1388">}));</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// push the chunk into our new stream in order to unify output
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">ins</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s7df">chunk</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// as this is asynchronous just notify the system that we handled
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s1770">// the chunk
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">cb</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">},</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">()</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// close the stream by pushing &#34;null&#34;
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">ins</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s3e8">null</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">this</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s3e8">null</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">};</span></code></pre>
+</div>
 <p>Okay, so, we replace a whole module by ~14 SLOC, additionally I get back some
 understanding on how nodejs streams work, and on gulp plugins implementation.</p>
 
@@ -184,45 +182,44 @@ understanding on how nodejs streams work, and on gulp plugins implementation.</p
 
 <p>This module simply merge multiple streams in a single one, this allow the
 developper to compose with multiple inputs.</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span></span><span class="c1">// the function treats arguments as a list of streams</span>
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">merge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="cm">/* streams... */</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="kd">var</span> <span class="nx">sources</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// keep a track of streams merged</span>
-  <span class="kd">var</span> <span class="nx">output</span>  <span class="o">=</span> <span class="nx">gutil</span><span class="p">.</span><span class="nx">noop</span><span class="p">();</span> <span class="c1">// this will be the output,</span>
-                              <span class="c1">// a simple stream which does nothing</span>
-
-  <span class="c1">// this function will be called when unpiping and when a source stream ends</span>
-  <span class="kd">function</span> <span class="nx">remove</span><span class="p">(</span><span class="nx">source</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// remove the stream from sources array</span>
-    <span class="nx">sources</span> <span class="o">=</span> <span class="nx">sources</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">it</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">it</span> <span class="o">!==</span> <span class="nx">source</span><span class="p">;</span> <span class="p">});</span>
-
-    <span class="c1">// if it is the last stream opened and if the output is not yet closed,</span>
-    <span class="c1">// we close it</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">sources</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="nx">output</span><span class="p">.</span><span class="nx">readable</span><span class="p">)</span> <span class="nx">output</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="c1">// when a stream is unpiped we remove it</span>
-  <span class="nx">output</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;unpipe&#39;</span><span class="p">,</span> <span class="nx">remove</span><span class="p">);</span>
-
-  <span class="c1">// for each stream (arguments is not a regular array this is why we use</span>
-  <span class="c1">// this syntax)</span>
-  <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">source</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="c1">// add the stream to our array of sources</span>
-    <span class="nx">sources</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">source</span><span class="p">);</span>
-
-    <span class="c1">// bind the remove function to the end event of the source</span>
-    <span class="nx">source</span><span class="p">.</span><span class="nx">once</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="nx">remove</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">source</span><span class="p">));</span>
-
-    <span class="c1">// pipe the stream to our output, and let it open (the output)</span>
-    <span class="c1">// even when the stream ends (in order to handle the others)</span>
-    <span class="nx">source</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">output</span><span class="p">,</span> <span class="p">{</span><span class="nx">end</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
-  <span class="p">});</span>
-
-  <span class="k">return</span> <span class="nx">output</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="s1f40"></span><span class="s1770">// the function treats arguments as a list of streams
+</span><span class="s1770"></span><span class="s7df">module</span><span class="s1388">.</span><span class="s7df">exports</span><span class="s1388">.</span><span class="s7df">merge</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">(</span><span class="s1770">/* streams... */</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">sources</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s1388">[];</span><span class="s1f40"> </span><span class="s1770">// keep a track of streams merged
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">output</span><span class="s1f40">  </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">gutil</span><span class="s1388">.</span><span class="s7df">noop</span><span class="s1388">();</span><span class="s1f40"> </span><span class="s1770">// this will be the output,
+</span><span class="s1770"></span><span class="s1f40">                              </span><span class="s1770">// a simple stream which does nothing
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// this function will be called when unpiping and when a source stream ends
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">function</span><span class="s1f40"> </span><span class="s7df">remove</span><span class="s1388">(</span><span class="s7df">source</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// remove the stream from sources array
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">sources</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">sources</span><span class="s1388">.</span><span class="s7df">filter</span><span class="s1388">(</span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">it</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40"> </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">it</span><span class="s1f40"> </span><span class="sfa0">!==</span><span class="s1f40"> </span><span class="s7df">source</span><span class="s1388">;</span><span class="s1f40"> </span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// if it is the last stream opened and if the output is not yet closed,
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s1770">// we close it
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s1388">(</span><span class="sfa0">!</span><span class="s7df">sources</span><span class="s1388">.</span><span class="s7df">length</span><span class="s1f40"> </span><span class="sfa0">&amp;&amp;</span><span class="s1f40"> </span><span class="s7df">output</span><span class="s1388">.</span><span class="s7df">readable</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s7df">output</span><span class="s1388">.</span><span class="s7df">end</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// when a stream is unpiped we remove it
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s7df">output</span><span class="s1388">.</span><span class="s7df">on</span><span class="s1388">(</span><span class="sc1c">&#39;unpipe&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">remove</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// for each stream (arguments is not a regular array this is why we use
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// this syntax)
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s7d0">Array</span><span class="s1388">.</span><span class="s7df">prototype</span><span class="s1388">.</span><span class="s7df">slice</span><span class="s1388">.</span><span class="s7df">call</span><span class="s1388">(</span><span class="s7df">arguments</span><span class="s1388">).</span><span class="s7df">forEach</span><span class="s1388">(</span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">source</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// add the stream to our array of sources
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">sources</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s7df">source</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// bind the remove function to the end event of the source
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">source</span><span class="s1388">.</span><span class="s7df">once</span><span class="s1388">(</span><span class="sc1c">&#39;end&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">remove</span><span class="s1388">.</span><span class="s7df">bind</span><span class="s1388">(</span><span class="s3e8">null</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">source</span><span class="s1388">));</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// pipe the stream to our output, and let it open (the output)
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s1770">// even when the stream ends (in order to handle the others)
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">source</span><span class="s1388">.</span><span class="s7df">pipe</span><span class="s1388">(</span><span class="s7df">output</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s7df">end</span><span class="sfa0">:</span><span class="s1f40"> </span><span class="s3e8">false</span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">output</span><span class="s1388">;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">};</span></code></pre>
+</div>
 <p>Here again we replace an entire module with few lines of code (~15 SLOC).</p>
 
 <h3 id="vinyl-buffer">vinyl-buffer</h3>
@@ -231,42 +228,41 @@ developper to compose with multiple inputs.</p>
 from a stream and return them as a nodejs buffer. Like the others, this
 one is quite simple and only requires to know a bit of node internal
 operations and libraries.</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span></span><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-
-  <span class="c1">// like the others we will create a stream object</span>
-  <span class="k">return</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-
-    <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// keep an internal reference of this across js scoping</span>
-    <span class="kd">var</span> <span class="nx">bufs</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// array of buffer we will populate</span>
-
-    <span class="c1">// if it is already a buffer or it contains nothing, just push and finish</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">isNull</span><span class="p">()</span> <span class="o">||</span> <span class="nx">file</span><span class="p">.</span><span class="nx">isBuffer</span><span class="p">())</span> <span class="p">{</span>
-      <span class="nx">that</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
-      <span class="k">return</span> <span class="nx">cb</span><span class="p">();</span>
-    <span class="p">}</span>
-
-    <span class="c1">// otherwise we take the content of the stream and we pipe it</span>
-    <span class="nx">file</span><span class="p">.</span><span class="nx">contents</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span>
-      <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// create a new buffer with data if it is not and push it to our array</span>
-        <span class="nx">bufs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Buffer</span><span class="p">.</span><span class="nx">isBuffer</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">?</span> <span class="nx">data</span> <span class="o">:</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
-        <span class="nx">cb</span><span class="p">();</span>
-      <span class="p">},</span>
-      <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// when we have retrieved all the chunks, create a copy of file</span>
-        <span class="nx">file</span> <span class="o">=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">clone</span><span class="p">();</span>
-        <span class="c1">// and replace the content with only one huge buffer</span>
-        <span class="nx">file</span><span class="p">.</span><span class="nx">contents</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">bufs</span><span class="p">);</span>
-
-        <span class="c1">// push it and that&#39;s it</span>
-        <span class="nx">that</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">file</span><span class="p">);</span>
-        <span class="nx">cb</span><span class="p">();</span>
-      <span class="p">}</span>
-    <span class="p">));</span>
-  <span class="p">});</span>
-<span class="p">};</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="s7df">module</span><span class="s1388">.</span><span class="s7df">exports</span><span class="s1388">.</span><span class="s7df">buffer</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">()</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// like the others we will create a stream object
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">through</span><span class="s1388">.</span><span class="s7df">obj</span><span class="s1388">(</span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">file</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">_</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">cb</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">that</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">this</span><span class="s1388">;</span><span class="s1f40"> </span><span class="s1770">// keep an internal reference of this across js scoping
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">bufs</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s1388">[];</span><span class="s1f40"> </span><span class="s1770">// array of buffer we will populate
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// if it is already a buffer or it contains nothing, just push and finish
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s3e8">if</span><span class="s1f40"> </span><span class="s1388">(</span><span class="s7df">file</span><span class="s1388">.</span><span class="s7df">isNull</span><span class="s1388">()</span><span class="s1f40"> </span><span class="sfa0">||</span><span class="s1f40"> </span><span class="s7df">file</span><span class="s1388">.</span><span class="s7df">isBuffer</span><span class="s1388">())</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s7df">that</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s7df">file</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">cb</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// otherwise we take the content of the stream and we pipe it
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s7df">file</span><span class="s1388">.</span><span class="s7df">contents</span><span class="s1388">.</span><span class="s7df">pipe</span><span class="s1388">(</span><span class="s7df">through</span><span class="s1388">.</span><span class="s7df">obj</span><span class="s1388">(</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">data</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">_</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">cb</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1770">// create a new buffer with data if it is not and push it to our array
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s7df">bufs</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s7df">Buffer</span><span class="s1388">.</span><span class="s7df">isBuffer</span><span class="s1388">(</span><span class="s7df">data</span><span class="s1388">)</span><span class="s1f40"> </span><span class="sfa0">?</span><span class="s1f40"> </span><span class="s7df">data</span><span class="s1f40"> </span><span class="sfa0">:</span><span class="s1f40"> </span><span class="s3e8">new</span><span class="s1f40"> </span><span class="s7df">Buffer</span><span class="s1388">(</span><span class="s7df">data</span><span class="s1388">));</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s7df">cb</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1388">},</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s3e8">function</span><span class="s1388">()</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1770">// when we have retrieved all the chunks, create a copy of file
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s7df">file</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">file</span><span class="s1388">.</span><span class="s7df">clone</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1770">// and replace the content with only one huge buffer
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s7df">file</span><span class="s1388">.</span><span class="s7df">contents</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">Buffer</span><span class="s1388">.</span><span class="s7df">concat</span><span class="s1388">(</span><span class="s7df">bufs</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1770">// push it and that&#39;s it
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s7df">that</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s7df">file</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s7df">cb</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1388">));</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">};</span></code></pre>
+</div>
 <p>We are still under 20 lines (we start to have a pattern here&hellip; just trolling).
 This part is done !</p>
 
@@ -283,55 +279,54 @@ globbing module which does exactly the same things
 (one dependency removed, Yay \o/).</p>
 
 <p>Here is how I implemented this:</p>
-<div class="highlight"><pre><code class="language-js" data-lang="js"><span></span><span class="c1">// we need the browserify module</span>
-<span class="kd">var</span> <span class="nx">browserify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;browserify&#39;</span><span class="p">);</span>
-
-<span class="c1">// we create a utils.browserify kind of plugin here, which can take options</span>
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">browserify</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-
-  <span class="c1">// initialize browserify with options</span>
-  <span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">browserify</span><span class="p">(</span><span class="nx">options</span> <span class="o">||</span> <span class="p">{</span><span class="nx">debug</span><span class="o">:</span> <span class="kc">true</span><span class="p">});</span>
-
-  <span class="c1">// here we create a stream which will be pluggable through a pipe</span>
-  <span class="c1">// in order to avoid spending resources we will use it like this</span>
-  <span class="c1">// gulp.src(&#39;**/*.js&#39;, {read: false}).pipe(utils.browserify()).pipe(whatever)</span>
-  <span class="c1">// note the &quot;read: false&quot; which will avoid reading file content and only</span>
-  <span class="c1">// provide vinyl file object (not opened) to the stream</span>
-  <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span>
-
-    <span class="c1">// here we only retrieve the files provided by the stream</span>
-    <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">b</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">);</span>
-      <span class="nx">cb</span><span class="p">();</span>
-    <span class="p">},</span>
-
-    <span class="c1">// and at flush, we bundle the result through browserify</span>
-    <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-      <span class="nx">b</span><span class="p">.</span><span class="nx">bundle</span><span class="p">()</span>
-
-      <span class="c1">// on error we provide a helpful message to the user through gutil.log</span>
-      <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">err</span><span class="p">.</span><span class="nx">annotated</span> <span class="o">||</span> <span class="nx">err</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
-        <span class="nx">gutil</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="k">new</span> <span class="nx">gutil</span><span class="p">.</span><span class="nx">PluginError</span><span class="p">(</span><span class="s1">&#39;browserify&#39;</span><span class="p">,</span> <span class="nx">message</span><span class="p">).</span><span class="nx">toString</span><span class="p">());</span>
-
-        <span class="c1">// and here is the magic not provided before, we notice gulp that</span>
-        <span class="c1">// the stream as ended, and it can continue to watch our files states</span>
-        <span class="nx">s</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">);</span>
-      <span class="p">})</span>
-
-      <span class="c1">// when data is provided by the stream we simply push it into the</span>
-      <span class="c1">// returned one</span>
-      <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span> <span class="p">{</span> <span class="nx">s</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">chunk</span><span class="p">);</span> <span class="p">})</span>
-
-      <span class="c1">// do not forget to pass the end event also</span>
-      <span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">s</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">);</span> <span class="p">});</span>
-    <span class="p">}</span>
-  <span class="p">);</span>
-
-  <span class="k">return</span> <span class="nx">s</span><span class="p">;</span>
-<span class="p">};</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="s1f40"></span><span class="s1770">// we need the browserify module
+</span><span class="s1770"></span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">browserify</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">require</span><span class="s1388">(</span><span class="sc1c">&#39;browserify&#39;</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770">// we create a utils.browserify kind of plugin here, which can take options
+</span><span class="s1770"></span><span class="s7df">module</span><span class="s1388">.</span><span class="s7df">exports</span><span class="s1388">.</span><span class="s7df">browserify</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">options</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// initialize browserify with options
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">b</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">browserify</span><span class="s1388">(</span><span class="s7df">options</span><span class="s1f40"> </span><span class="sfa0">||</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s7df">debug</span><span class="sfa0">:</span><span class="s1f40"> </span><span class="s3e8">true</span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1770">// here we create a stream which will be pluggable through a pipe
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// in order to avoid spending resources we will use it like this
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// gulp.src(&#39;**/*.js&#39;, {read: false}).pipe(utils.browserify()).pipe(whatever)
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// note the &#34;read: false&#34; which will avoid reading file content and only
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s1770">// provide vinyl file object (not opened) to the stream
+</span><span class="s1770"></span><span class="s1f40">  </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">s</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">through</span><span class="s1388">.</span><span class="s7df">obj</span><span class="s1388">(</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// here we only retrieve the files provided by the stream
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">file</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">_</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">cb</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s7df">b</span><span class="s1388">.</span><span class="s7df">add</span><span class="s1388">(</span><span class="s7df">file</span><span class="s1388">.</span><span class="s7df">path</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s7df">cb</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1388">},</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1770">// and at flush, we bundle the result through browserify
+</span><span class="s1770"></span><span class="s1f40">    </span><span class="s3e8">function</span><span class="s1388">()</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s7df">b</span><span class="s1388">.</span><span class="s7df">bundle</span><span class="s1388">()</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1770">// on error we provide a helpful message to the user through gutil.log
+</span><span class="s1770"></span><span class="s1f40">      </span><span class="s1388">.</span><span class="s7df">on</span><span class="s1388">(</span><span class="sc1c">&#39;error&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">err</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s3e8">var</span><span class="s1f40"> </span><span class="s7df">message</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7df">err</span><span class="s1388">.</span><span class="s7df">annotated</span><span class="s1f40"> </span><span class="sfa0">||</span><span class="s1f40"> </span><span class="s7df">err</span><span class="s1388">.</span><span class="s7df">toString</span><span class="s1388">();</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s7df">gutil</span><span class="s1388">.</span><span class="s7df">log</span><span class="s1388">(</span><span class="s3e8">new</span><span class="s1f40"> </span><span class="s7df">gutil</span><span class="s1388">.</span><span class="s7df">PluginError</span><span class="s1388">(</span><span class="sc1c">&#39;browserify&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7df">message</span><span class="s1388">).</span><span class="s7df">toString</span><span class="s1388">());</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">        </span><span class="s1770">// and here is the magic not provided before, we notice gulp that
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s1770">// the stream as ended, and it can continue to watch our files states
+</span><span class="s1770"></span><span class="s1f40">        </span><span class="s7df">s</span><span class="s1388">.</span><span class="s7df">emit</span><span class="s1388">(</span><span class="sc1c">&#39;end&#39;</span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1388">})</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1770">// when data is provided by the stream we simply push it into the
+</span><span class="s1770"></span><span class="s1f40">      </span><span class="s1770">// returned one
+</span><span class="s1770"></span><span class="s1f40">      </span><span class="s1388">.</span><span class="s7df">on</span><span class="s1388">(</span><span class="sc1c">&#39;data&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">(</span><span class="s7df">chunk</span><span class="s1388">)</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40"> </span><span class="s7df">s</span><span class="s1388">.</span><span class="s7df">push</span><span class="s1388">(</span><span class="s7df">chunk</span><span class="s1388">);</span><span class="s1f40"> </span><span class="s1388">})</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">      </span><span class="s1770">// do not forget to pass the end event also
+</span><span class="s1770"></span><span class="s1f40">      </span><span class="s1388">.</span><span class="s7df">on</span><span class="s1388">(</span><span class="sc1c">&#39;end&#39;</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s3e8">function</span><span class="s1388">()</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40"> </span><span class="s7df">s</span><span class="s1388">.</span><span class="s7df">emit</span><span class="s1388">(</span><span class="sc1c">&#39;end&#39;</span><span class="s1388">);</span><span class="s1f40"> </span><span class="s1388">});</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s1388">}</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s1388">);</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40">  </span><span class="s3e8">return</span><span class="s1f40"> </span><span class="s7df">s</span><span class="s1388">;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1388">};</span></code></pre>
+</div>
 <p>This one was quite more complicated but it finally works and I am happy to stay
 in the &ldquo;gulp world&rdquo; and do not provide any tricky thing.</p>
 
@@ -349,26 +344,31 @@ future.</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/getting_rid_of_gulp_bunch_of_dependencies\/';
-    var disqus_title = 'Getting rid of gulp bunch of dependencies';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/getting_rid_of_gulp_bunch_of_dependencies\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

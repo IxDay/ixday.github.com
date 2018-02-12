@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -142,36 +142,40 @@ having to dig in the code or documentation (when you wanted to activate ipdb).</
 <h2 id="simple-config">Simple config</h2>
 
 <p>Here is my config (a real simple one):</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">pdb</span>
-
-<span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">DefaultConfig</span><span class="p">):</span>
-    <span class="n">sticky_by_default</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># start in sticky mode</span>
-    <span class="n">current_line_color</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># black</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">pdb</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">class</span><span class="s1f40"> </span><span class="s7d4">Config</span><span class="s1388">(</span><span class="s7d0">pdb</span><span class="sfa0">.</span><span class="s7d0">DefaultConfig</span><span class="s1388">):</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">sticky_by_default</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">True</span><span class="s1f40"> </span><span class="s1770"># start in sticky mode</span><span class="s1f40">
+</span><span class="s1f40">    </span><span class="s7d0">current_line_color</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">40</span><span class="s1f40">  </span><span class="s1770"># black</span></code></pre>
+</div>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/pdbpp\/';
-    var disqus_title = 'Pdbpp';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/pdbpp\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

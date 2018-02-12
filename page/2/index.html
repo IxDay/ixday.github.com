@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -50,6 +50,48 @@
     <div class="meta">
   <time class="date">
     
+    Wed Jul 20 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/bash_shortcuts/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/bash_shortcuts/">Bash Shortcuts</a></h2>
+    <p>
+    Here is just a small reminder of common bash shortcuts for everyday use:
+Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go to the end of the line you are currently typing on Ctrl + L Clears the Screen, similar to the clear command Ctrl + U Clears the line before the cursor position. If you are at the end of the line, clears the entire line.
+    
+    <a href="/post/bash_shortcuts/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Tue Jul 19 2016
     
   </time>
@@ -71,7 +113,7 @@
     <h2 class="caption-title"><a href="/post/curl_utils/">Curl utils</a></h2>
     <p>
     Here are some options and command I use with curl when dealing with stuff I have to develop.
-curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &quot;Content-Type: application/json&quot; -u &quot;admin:admin&quot; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &quot;header_name: value&quot; # -u support for Basic Auth, format is: &quot;user:password&quot; # -d set up data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.
+curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &#34;Content-Type: application/json&#34;-u &#34;admin:admin&#34;-d &#39;{}&#39;&lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &#34;header_name: value&#34; # -u support for Basic Auth, format is: &#34;user:password&#34; # -d setup data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.
     
     <a href="/post/curl_utils/">Read More...</a>
     
@@ -418,50 +460,6 @@ The second thing I will need is an iconic font for the power button. Font Awesom
 </article>
 
   
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Thu Aug 20 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/bash_expansion/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/bash_expansion/">Bash Expansion</a></h2>
-    <p>
-    A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-for i in {1..50} do echo &quot;Hello World $i&quot; done  It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echo something/{foo,bar} &gt; something/foo something/bar  Still not amazed, ok now type this one:
-cp some_file{,.old}  It will copy your file adding a .
-    
-    <a href="/post/bash_expansion/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/bash ">bash</a>
-, <a href="/tags/cli ">cli</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
 
     </div>
     
@@ -485,7 +483,7 @@ cp some_file{,.old}  It will copy your file adding a .
 
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

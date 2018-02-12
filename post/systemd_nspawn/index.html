@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -94,18 +94,16 @@ so everything has to be done &ldquo;by hand&rdquo;. First, as long as we do not 
 registery we need to retrieve an &ldquo;image&rdquo; of the distribution we need.</p>
 
 <p>(all the commands are ran on behalf of the root user)</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>apt-get install debootstrap
-debootstrap --arch<span class="o">=</span>amd64 stable /tmp/my-debian-machine
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">apt-get install debootstrap
+</span><span class="s1f40">debootstrap --arch</span><span class="sfa0">=</span><span class="s1f40">amd64 stable /tmp/my-debian-machine</span></code></pre>
+</div>
 <p>This is a quite long to retrieve, so you can go and take a coffee during the
 download ;)</p>
 
 <p>Now, we have a folder containing the debian basic configuration, we can &ldquo;spawn&rdquo;
 it.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>systemd-nspawn -D /tmp/my-debian-machine
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">systemd-nspawn -D /tmp/my-debian-machine</span></code></pre>
+</div>
 <p>And that&rsquo;s it! You now have your own container up and running.
 The main difference is that, it is not running on AUFS, and every change will
 be definitive.</p>
@@ -116,21 +114,19 @@ be definitive.</p>
 
 <p>Now, we will see a feature that I didn&rsquo;t find in docker, the ability to boot
 your system.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>systemd-nspawn -D /tmp/my-debian-machine -b
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">systemd-nspawn -D /tmp/my-debian-machine -b</span></code></pre>
+</div>
 <p>And a prompt will appear, so to log in just &lsquo;type the root password&rsquo;.
 I&rsquo;m sure you forget to set that before ;). Just stop your container,
 relaunch it without boot and set the password.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># stop the container</span>
-machinectl poweroff my-debian-machine
-<span class="c1"># launch without boot</span>
-systemd-nspawn -D /tmp/my-debian-machine
-
-<span class="c1"># when you have the prompt type a new password</span>
-passwd
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># stop the container
+</span><span class="s1770"></span><span class="s1f40">machinectl poweroff my-debian-machine
+</span><span class="s1f40"></span><span class="s1770"># launch without boot
+</span><span class="s1770"></span><span class="s1f40">systemd-nspawn -D /tmp/my-debian-machine
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># when you have the prompt type a new password
+</span><span class="s1770"></span><span class="s1f40">passwd</span></code></pre>
+</div>
 <p>Now, you can reboot and loggin normally. And the most interesting thing about
 the normal boot, is that now you can profit of all the power of <em>systemd</em>.</p>
 
@@ -151,12 +147,11 @@ to the console is <em>console-getty@.service</em></p>
 directory in <code>/etc/systemd/system</code> and a file <em>whatever_name.conf</em>.</p>
 
 <p>So, I created the dedicated file and put this inside:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># /etc/systemd/system/console-getty.service.d/autologin.conf</span>
-<span class="o">[</span>Service<span class="o">]</span>
-<span class="nv">ExecStart</span><span class="o">=</span>
-<span class="nv">ExecStart</span><span class="o">=</span>-/sbin/agetty --noclear --autologin root --keep-baud console <span class="m">115200</span>,38400,9600 <span class="nv">$TERM</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># /etc/systemd/system/console-getty.service.d/autologin.conf
+</span><span class="s1770"></span><span class="sfa0">[</span><span class="s1f40">Service</span><span class="sfa0">]</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">ExecStart</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">ExecStart</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">-/sbin/agetty --noclear --autologin root --keep-baud console </span><span class="sc80">115200</span><span class="s1f40">,38400,9600 </span><span class="s7d0">$TERM</span></code></pre>
+</div>
 <p>The first <code>ExecStart=</code> clean the old call so that we can override it in the
 following line.</p>
 
@@ -176,26 +171,31 @@ of interesting suffs.</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/systemd_nspawn\/';
-    var disqus_title = 'Systemd-nspawn';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/systemd_nspawn\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

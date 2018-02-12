@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -50,6 +50,50 @@
     <div class="meta">
   <time class="date">
     
+    Thu Aug 20 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/bash_expansion/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/bash_expansion/">Bash Expansion</a></h2>
+    <p>
+    A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
+fori in {1..50}doecho&#34;Hello World $i&#34;done  It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echosomething/{foo,bar}&gt; something/foo something/bar  Still not amazed, ok now type this one:
+cp some_file{,.old}  It will copy your file adding a .old extension. I do a lot of things like this and it saves me a lot of time, so think about it.
+    
+    <a href="/post/bash_expansion/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Wed Aug 19 2015
     
   </time>
@@ -73,11 +117,10 @@
     <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  Volume group &quot;vg_ssd&quot; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">  Volume group &#34;vg_ssd&#34; not found
+</span><span class="s1f40">  Skipping volume group vg_ssd
+</span><span class="s1f40">Unable to find LVM volume vg_ssd/lv_root</span></code></pre>
+</div>
 <p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 
@@ -389,7 +432,7 @@ sudo A sudo file is important in order to correctly manage a computer, a simple 
     I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
 I also use Flask a lot, so today I will show you some of my snippets.
 First one the app fixture:
-@pytest.fixture(autouse=True) def app(): &quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
+@pytest.fixture(autouse=True)defapp():&#34;&#34;&#34;Load flask in testing mode&#34;&#34;&#34;app_test=myappapp_test.config[&#39;TESTING&#39;]=Trueapp_test.json_encoder=my_encoderreturnapp_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
     
     <a href="/post/pytest_fixture/">Read More...</a>
     
@@ -451,49 +494,6 @@ What I have learned  Docker, especially with boot2docker (I am on MacOSX shame o
 </article>
 
   
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Mon Mar 2 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/rsync_fswatch/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/tuto">Tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
-    <p>
-    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
-ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
-ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
-    
-    <a href="/post/rsync_fswatch/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-, <a href="/tags/bash ">bash</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
 
     </div>
     
@@ -515,7 +515,7 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
 
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

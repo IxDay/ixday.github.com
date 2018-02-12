@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -82,72 +82,69 @@
     <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  Volume group &quot;vg_ssd&quot; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">  Volume group &#34;vg_ssd&#34; not found
+</span><span class="s1f40">  Skipping volume group vg_ssd
+</span><span class="s1f40">Unable to find LVM volume vg_ssd/lv_root</span></code></pre>
+</div>
 <p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 
 <p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code>
 
 which starts like this:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/sh</span>
-
-<span class="nv">PREREQ</span><span class="o">=</span><span class="s2">&quot;cryptroot-prepare&quot;</span>
-
-<span class="c1">#</span>
-<span class="c1"># Standard initramfs preamble</span>
-<span class="c1">#</span>
-prereqs<span class="o">()</span>
-<span class="o">{</span>
-	<span class="c1"># Make sure that cryptroot is run last in local-top</span>
-	<span class="k">for</span> req in <span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span>/*<span class="p">;</span> <span class="k">do</span>
-		<span class="nv">script</span><span class="o">=</span><span class="si">${</span><span class="nv">req</span><span class="p">##*/</span><span class="si">}</span>
-		<span class="k">if</span> <span class="o">[</span> <span class="nv">$script</span> !<span class="o">=</span> cryptroot <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-			<span class="nb">echo</span> <span class="nv">$script</span>
-		<span class="k">fi</span>
-	<span class="k">done</span>
-<span class="o">}</span>
-
-<span class="k">case</span> <span class="nv">$1</span> in
-prereqs<span class="o">)</span>
-	prereqs
-	<span class="nb">exit</span> <span class="m">0</span>
-	<span class="p">;;</span>
-<span class="k">esac</span>
-
-<span class="c1"># source for log_*_msg() functions, see LP: #272301</span>
-. /scripts/functions
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/sh
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">PREREQ</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;cryptroot-prepare&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770">#
+</span><span class="s1770"># Standard initramfs preamble
+</span><span class="s1770">#
+</span><span class="s1770"></span><span class="s1f40">prereqs</span><span class="sfa0">()</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="sfa0">{</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1770"># Make sure that cryptroot is run last in local-top
+</span><span class="s1770"></span><span class="s1f40">	</span><span class="s3e8">for</span><span class="s1f40"> req in </span><span class="s3e8">$(</span><span class="s1f40">dirname </span><span class="s7d0">$0</span><span class="s3e8">)</span><span class="s1f40">/*</span><span class="s1388">;</span><span class="s1f40"> </span><span class="s3e8">do</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s7d0">script</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">${</span><span class="s7d0">req</span><span class="s1388">##*/</span><span class="sc1c">}</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s3e8">if</span><span class="s1f40"> </span><span class="sfa0">[</span><span class="s1f40"> </span><span class="s7d0">$script</span><span class="s1f40"> !</span><span class="sfa0">=</span><span class="s1f40"> cryptroot </span><span class="sfa0">]</span><span class="s1388">;</span><span class="s1f40"> </span><span class="s3e8">then</span><span class="s1f40">
+</span><span class="s1f40">			</span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="s7d0">$script</span><span class="s1f40">
+</span><span class="s1f40">		</span><span class="s3e8">fi</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s3e8">done</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="sfa0">}</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">case</span><span class="s1f40"> </span><span class="s7d0">$1</span><span class="s1f40"> in
+</span><span class="s1f40">prereqs</span><span class="sfa0">)</span><span class="s1f40">
+</span><span class="s1f40">	prereqs
+</span><span class="s1f40">	</span><span class="s7d0">exit</span><span class="s1f40"> </span><span class="sc80">0</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1388">;;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">esac</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># source for log_*_msg() functions, see LP: #272301
+</span><span class="s1770"></span><span class="s1f40">. /scripts/functions</span></code></pre>
+</div>
 <p>Line 10 to 16 it says that cryptroot is run last, in the same directory there is a <code>lvm2</code>
 script. So, what is happening is that cryptroot is launched after lvm2 which is not what we want.
 To fix this remove lines 10 to 16 and replace them with <code>echo &quot;$PREREQ&quot;</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/sh</span>
-
-<span class="nv">PREREQ</span><span class="o">=</span><span class="s2">&quot;cryptroot-prepare&quot;</span>
-
-<span class="c1">#</span>
-<span class="c1"># Standard initramfs preamble</span>
-<span class="c1">#</span>
-prereqs<span class="o">()</span>
-<span class="o">{</span>
-	<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$PREREQ</span><span class="s2">&quot;</span>
-<span class="o">}</span>
-
-<span class="k">case</span> <span class="nv">$1</span> in
-prereqs<span class="o">)</span>
-	prereqs
-	<span class="nb">exit</span> <span class="m">0</span>
-	<span class="p">;;</span>
-<span class="k">esac</span>
-
-<span class="c1"># source for log_*_msg() functions, see LP: #272301</span>
-. /scripts/functions
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770">#!/bin/sh
+</span><span class="s1770"></span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s7d0">PREREQ</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;cryptroot-prepare&#34;</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770">#
+</span><span class="s1770"># Standard initramfs preamble
+</span><span class="s1770">#
+</span><span class="s1770"></span><span class="s1f40">prereqs</span><span class="sfa0">()</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="sfa0">{</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;</span><span class="s7d0">$PREREQ</span><span class="sc1c">&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="sfa0">}</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">case</span><span class="s1f40"> </span><span class="s7d0">$1</span><span class="s1f40"> in
+</span><span class="s1f40">prereqs</span><span class="sfa0">)</span><span class="s1f40">
+</span><span class="s1f40">	prereqs
+</span><span class="s1f40">	</span><span class="s7d0">exit</span><span class="s1f40"> </span><span class="sc80">0</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s1388">;;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">esac</span><span class="s1f40">
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># source for log_*_msg() functions, see LP: #272301
+</span><span class="s1770"></span><span class="s1f40">. /scripts/functions</span></code></pre>
+</div>
 <p>At the init step files are taken in alphabetical order so <code>cryptroot</code> will come before
 <code>lvm2</code> (c &lt; l).</p>
 
@@ -155,26 +152,31 @@ prereqs<span class="o">)</span>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/unable_to_find_lvm_volume_with_lvm_on_top_of_luks\/';
-    var disqus_title = 'Unable to find LVM volume... with LVM on top of Luks';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/unable_to_find_lvm_volume_with_lvm_on_top_of_luks\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

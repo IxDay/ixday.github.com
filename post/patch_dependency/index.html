@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -91,15 +91,14 @@ and link it to your environment. Then you just have to modify the files in
 your filesystem and they will be provided to your project.</p>
 
 <p>Here are the command lines needed (two line is enough).</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># first I download the sources from wherever you want</span>
-git clone &lt;address of the project&gt;
-
-<span class="c1"># then I install and link the lib in my current env</span>
-pip install -e &lt;path of the downloaded lib&gt;
-
-<span class="c1"># now I can modify the lib file in order to debug it</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># first I download the sources from wherever you want
+</span><span class="s1770"></span><span class="s1f40">git clone &lt;address of the project&gt;
+</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s1770"># then I install and link the lib in my current env
+</span><span class="s1770"></span><span class="s1f40">pip install -e &lt;path of the downloaded lib&gt;
+</span><span class="s1f40">
+</span><span class="s1f40"># now I can modify the lib file in order to debug it</span></code></pre>
+</div>
 <p>The documentation for the feature can be found <a href="https://pip.pypa.io/en/latest/reference/pip_install.html#editable-installs">here</a></p>
 
 <p>This is really useful when developing with third part libraries, and it is not
@@ -108,26 +107,31 @@ so well explained when you use <code>pip</code>, even if this feature is really 
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/patch_dependency\/';
-    var disqus_title = 'Patch dependency';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/patch_dependency\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

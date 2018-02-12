@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.19" />
+  <meta name="generator" content="Hugo 0.29" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -83,22 +83,19 @@
     <p>A small post just to share a useful bashism the
 <a href="http://wiki.bash-hackers.org/syntax/expansion/brace">Brace Expansion</a>.
 It is really simple to make it works:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..50<span class="o">}</span>
-<span class="k">do</span>
-	<span class="nb">echo</span> <span class="s2">&quot;Hello World </span><span class="nv">$i</span><span class="s2">&quot;</span>
-<span class="k">done</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s3e8">for</span><span class="s1f40"> i in </span><span class="sfa0">{</span><span class="sc80">1</span><span class="s1f40">..50</span><span class="sfa0">}</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">do</span><span class="s1f40">
+</span><span class="s1f40">	</span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Hello World </span><span class="s7d0">$i</span><span class="sc1c">&#34;</span><span class="s1f40">
+</span><span class="s1f40"></span><span class="s3e8">done</span><span class="s1f40"></span></code></pre>
+</div>
 <p>It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing?
 Ok, now the second feature</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">echo</span> something/<span class="o">{</span>foo,bar<span class="o">}</span>
-&gt; something/foo something/bar
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">echo</span><span class="s1f40"> something/</span><span class="sfa0">{</span><span class="s1f40">foo,bar</span><span class="sfa0">}</span><span class="s1f40">
+</span><span class="s1f40">&gt; something/foo something/bar</span></code></pre>
+</div>
 <p>Still not amazed, ok now type this one:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp some_file<span class="o">{</span>,.old<span class="o">}</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">cp some_file</span><span class="sfa0">{</span><span class="s1f40">,.old</span><span class="sfa0">}</span></code></pre>
+</div>
 <p>It will copy your file
 adding a <code>.old</code> extension. I do a lot of things like this and it saves me a lot
 of time, so think about it.</p>
@@ -106,26 +103,31 @@ of time, so think about it.</p>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'IxDay';
-    var disqus_identifier = 'http:\/\/ixday.github.io\/post\/bash_expansion\/';
-    var disqus_title = 'Bash Expansion';
-    var disqus_url = 'http:\/\/ixday.github.io\/post\/bash_expansion\/';
-
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
     (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     </div>
     
 
     <footer id="footer">
-	<p>&copy; 2017 IxDay</p>
+	<p>&copy; 2018 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>
