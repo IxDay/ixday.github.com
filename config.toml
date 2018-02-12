@@ -4,7 +4,8 @@ title = "Not today..."
 
 theme = "chunk"
 
-pygmentsuseclasses = true
+pygmentsUseClassic=true
+pygmentsUseClasses = true
 PygmentsCodeFences = true
 disqusShortname = "IxDay"
 
