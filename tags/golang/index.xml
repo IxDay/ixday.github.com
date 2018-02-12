@@ -28,8 +28,8 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
       
       <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo:=&amp;#34;bar&amp;#34;  Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-iffoo:=&amp;#34;bar&amp;#34;;foo==&amp;#34;baz&amp;#34;{// do something }else{// do something else }  This is really handy when it comes to catch errors from an other function:</description>
+foo := &amp;quot;bar&amp;quot;  Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &amp;quot;bar&amp;quot;; foo == &amp;quot;baz&amp;quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:</description>
     </item>
     
   </channel>

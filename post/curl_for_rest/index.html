@@ -89,14 +89,16 @@ the second one is <a href="http://stedolan.github.io/jq/manual/">jq</a>.</p>
 
 <p>One important feature of curl is its hability to load external files for datas
 with <code>@</code> before file name:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">curl -X POST -H </span><span class="sc1c">&#34;Content-Type: application/json&#34;</span><span class="s1f40"> -d @filepath</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -d @filepath
+</code></pre></div>
+
 <p>Then you can remove the progress bar by adding <code>-s</code> in the options</p>
 
 <p>Finally, you can use jq for parsing the output with a request syntax, here is
 what the final line looks like:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">curl -X POST -H </span><span class="sc1c">&#34;Content-Type: application/json&#34;</span><span class="s1f40"> -s -d @filepath </span><span class="s1388">|</span><span class="s1f40"> jq </span><span class="sc1c">&#39;.&#39;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -s -d @filepath <span class="p">|</span> jq <span class="s1">&#39;.&#39;</span>
+</code></pre></div>
+
 <p>It is a small article but I just wanted to show that those tools are really
 great, we do not need complex software for this. I prefer using simple cli
 because it gives a better understanding on what we are doing, and on what we

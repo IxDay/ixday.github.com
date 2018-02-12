@@ -71,9 +71,9 @@
     <h2 class="caption-title"><a href="/post/bash_expansion/">Bash Expansion</a></h2>
     <p>
     A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-fori in {1..50}doecho&#34;Hello World $i&#34;done  It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echosomething/{foo,bar}&gt; something/foo something/bar  Still not amazed, ok now type this one:
-cp some_file{,.old}  It will copy your file adding a .old extension. I do a lot of things like this and it saves me a lot of time, so think about it.
+for i in {1..50} do echo &quot;Hello World $i&quot; done  It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echo something/{foo,bar} &gt; something/foo something/bar  Still not amazed, ok now type this one:
+cp some_file{,.old}  It will copy your file adding a .
     
     <a href="/post/bash_expansion/">Read More...</a>
     
@@ -160,7 +160,7 @@ It is pretty simple, but not well known (I checked some stackoverflow threads be
     Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:
-# stop script if something bad happen set-e # unzip need to have a tempfile to extract properly TMPFILE=&#34;/tmp/tempfile.
+# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.
     
     <a href="/post/html5-boilerplate/">Read More...</a>
     

@@ -131,20 +131,22 @@ the network is started.</p>
 <p>What we will do is reuse this bridge for the VMs we will start in our user space.
 To perform that we have to ensure that this network is started by libvirt at
 startup:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># start libvirt at computer startup
-</span><span class="s1770"></span><span class="s1f40">sudo systemctl </span><span class="s7d0">enable</span><span class="s1f40"> libvirtd
-</span><span class="s1f40"></span><span class="s1770"># ensure network is started by default
-</span><span class="s1770"></span><span class="s1f40">sudo virsh net-autostart default</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># start libvirt at computer startup</span>
+sudo systemctl <span class="nb">enable</span> libvirtd
+<span class="c1"># ensure network is started by default</span>
+sudo virsh net-autostart default
+</code></pre></div>
+
 <p>Now, just one last config, QEMU provides some ACL which will allow users to
 interact with parts of it, we will modificate it to add access to the virtual
 bridge. We also have to set suid on the qemu bridge command so a simple user
 can get permissions for setting up bridge configuration.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># create ACL directory and set the value
-</span><span class="s1770"></span><span class="s1f40">sudo mkdir -p /etc/qemu </span><span class="sfa0">&amp;&amp;</span><span class="s1f40"> </span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;allow virbr0&#34;</span><span class="s1f40"> </span><span class="s1388">|</span><span class="s1f40"> sudo tee /etc/qemu/bridge.conf
-</span><span class="s1f40"></span><span class="s1770"># enable suid on qemu bridge tool
-</span><span class="s1770"></span><span class="s1f40">locate qemu-bridge-helper </span><span class="s1388">|</span><span class="s1f40"> sudo xargs chmod +s</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># create ACL directory and set the value</span>
+sudo mkdir -p /etc/qemu <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&quot;allow virbr0&quot;</span> <span class="p">|</span> sudo tee /etc/qemu/bridge.conf
+<span class="c1"># enable suid on qemu bridge tool</span>
+locate qemu-bridge-helper <span class="p">|</span> sudo xargs chmod +s
+</code></pre></div>
+
 <p><strong>BEWARE:</strong> The default network bridge name has been used here (<code>virbr0</code>),
 check if it is the one from your default network.</p>
 
@@ -152,36 +154,38 @@ check if it is the one from your default network.</p>
 
 <p>We just have to start our new VM now, be sure to have correctly logged out and
 in again before running the following commands (it makes the group changes effective).</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># download the ISO
-</span><span class="s1770"></span><span class="s1f40">wget https://nl.alpinelinux.org/alpine/v3.5/releases/x86_64/alpine-virt-3.5.2-x86_64.iso
-</span><span class="s1f40"></span><span class="s1770"># start it
-</span><span class="s1770"></span><span class="s1f40">virt-install			</span><span class="s1770"># create a new VM through libvirt \
-</span><span class="s1770"></span><span class="s1f40">	--virt-type kvm		</span><span class="s1770"># use the kvm hypervisor \
-</span><span class="s1770"></span><span class="s1f40">	--name alpine		</span><span class="s1770"># VM name  \
-</span><span class="s1770"></span><span class="s1f40">	--memory </span><span class="sc80">1024</span><span class="s1f40">		</span><span class="s1770"># allocate 1024MB of RAM \
-</span><span class="s1770"></span><span class="s1f40">	--disk </span><span class="s7d0">size</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc80">10</span><span class="s1f40">		</span><span class="s1770"># allocate a volume of 10G for disk storage of the VM \
-</span><span class="s1770"></span><span class="s1f40">	--noautoconsole		</span><span class="s1770"># I don&#39;t want to start a gui on top of my VM (this part has to be investigated) \
-</span><span class="s1770"></span><span class="s1f40">	--cdrom alpine-virt-3.5.2-x86_64.iso	</span><span class="s1770"># the disk iso for the installation \
-</span><span class="s1770"></span><span class="s1f40">	--network </span><span class="s7d0">bridge</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">virbr0,model</span><span class="sfa0">=</span><span class="s1f40">virtio	</span><span class="s1770"># the tricky part now, I define the bridge to attach my VM to \
-</span><span class="s1770"></span><span class="s1f40">						</span><span class="s1770"># the model=virtio is something which makes it work properly, \
-</span><span class="s1770"></span><span class="s1f40">						</span><span class="s1770"># also have to investigate it
-</span><span class="s1770"></span><span class="s1f40">
-</span><span class="s1f40">virsh console --domain alpine # attach our console to the VM console</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># download the ISO</span>
+wget https://nl.alpinelinux.org/alpine/v3.5/releases/x86_64/alpine-virt-3.5.2-x86_64.iso
+<span class="c1"># start it</span>
+virt-install			<span class="c1"># create a new VM through libvirt \</span>
+	--virt-type kvm		<span class="c1"># use the kvm hypervisor \</span>
+	--name alpine		<span class="c1"># VM name  \</span>
+	--memory <span class="m">1024</span>		<span class="c1"># allocate 1024MB of RAM \</span>
+	--disk <span class="nv">size</span><span class="o">=</span><span class="m">10</span>		<span class="c1"># allocate a volume of 10G for disk storage of the VM \</span>
+	--noautoconsole		<span class="c1"># I don&#39;t want to start a gui on top of my VM (this part has to be investigated) \</span>
+	--cdrom alpine-virt-3.5.2-x86_64.iso	<span class="c1"># the disk iso for the installation \</span>
+	--network <span class="nv">bridge</span><span class="o">=</span>virbr0,model<span class="o">=</span>virtio	<span class="c1"># the tricky part now, I define the bridge to attach my VM to \</span>
+						<span class="c1"># the model=virtio is something which makes it work properly, \</span>
+						<span class="c1"># also have to investigate it</span>
+
+virsh console --domain alpine <span class="c1"># attach our console to the VM console</span>
+</code></pre></div>
+
 <p>You should have a running VM and be able to control it without any <code>sudo</code> command.
 Yay \o/</p>
 
 <h2 id="some-snippets">Some snippets</h2>
 
 <p>I use some shell snippets to control the destruction of my VM.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">vm</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">alpine
-</span><span class="s1f40"></span><span class="s1770"># stop a dedicated vm
-</span><span class="s1770"></span><span class="s1f40">virsh list </span><span class="s1388">|</span><span class="s1f40"> awk </span><span class="sc1c">&#39;$2 ~ /&#39;</span><span class="sc1c">&#34;</span><span class="sc1c">${</span><span class="s7d0">vm</span><span class="sc1c">}</span><span class="sc1c">&#34;</span><span class="sc1c">&#39;/ {system(&#34;virsh destroy &#34; $2)}&#39;</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># delete it
-</span><span class="s1770"></span><span class="s1f40">virsh list --all </span><span class="s1388">|</span><span class="s1f40"> awk </span><span class="sc1c">&#39;$2 ~ /&#39;</span><span class="sc1c">&#34;</span><span class="sc1c">${</span><span class="s7d0">vm</span><span class="sc1c">}</span><span class="sc1c">&#34;</span><span class="sc1c">&#39;/ {system(&#34;virsh undefine &#34; $2)}&#39;</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># delete all the volumes
-</span><span class="s1770"></span><span class="s1f40">virsh vol-list default </span><span class="s1388">|</span><span class="s1f40"> awk </span><span class="sc1c">&#39;NR &gt; 2 &amp;&amp; NF &gt; 0 {system(&#34;xargs virsh vol-delete --pool default &#34; $1)}&#39;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nv">vm</span><span class="o">=</span>alpine
+<span class="c1"># stop a dedicated vm</span>
+virsh list <span class="p">|</span> awk <span class="s1">&#39;$2 ~ /&#39;</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">vm</span><span class="si">}</span><span class="s2">&quot;</span><span class="s1">&#39;/ {system(&quot;virsh destroy &quot; $2)}&#39;</span>
+<span class="c1"># delete it</span>
+virsh list --all <span class="p">|</span> awk <span class="s1">&#39;$2 ~ /&#39;</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">vm</span><span class="si">}</span><span class="s2">&quot;</span><span class="s1">&#39;/ {system(&quot;virsh undefine &quot; $2)}&#39;</span>
+<span class="c1"># delete all the volumes</span>
+virsh vol-list default <span class="p">|</span> awk <span class="s1">&#39;NR &gt; 2 &amp;&amp; NF &gt; 0 {system(&quot;xargs virsh vol-delete --pool default &quot; $1)}&#39;</span>
+</code></pre></div>
+
   </div>
 </article>
 <div id="disqus_thread"></div>

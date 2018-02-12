@@ -83,19 +83,22 @@
     <p>A small post just to share a useful bashism the
 <a href="http://wiki.bash-hackers.org/syntax/expansion/brace">Brace Expansion</a>.
 It is really simple to make it works:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s3e8">for</span><span class="s1f40"> i in </span><span class="sfa0">{</span><span class="sc80">1</span><span class="s1f40">..50</span><span class="sfa0">}</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s3e8">do</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Hello World </span><span class="s7d0">$i</span><span class="sc1c">&#34;</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s3e8">done</span><span class="s1f40"></span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="k">for</span> i in <span class="o">{</span><span class="m">1</span>..50<span class="o">}</span>
+<span class="k">do</span>
+	<span class="nb">echo</span> <span class="s2">&quot;Hello World </span><span class="nv">$i</span><span class="s2">&quot;</span>
+<span class="k">done</span>
+</code></pre></div>
+
 <p>It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing?
 Ok, now the second feature</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">echo</span><span class="s1f40"> something/</span><span class="sfa0">{</span><span class="s1f40">foo,bar</span><span class="sfa0">}</span><span class="s1f40">
-</span><span class="s1f40">&gt; something/foo something/bar</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">echo</span> something/<span class="o">{</span>foo,bar<span class="o">}</span>
+&gt; something/foo something/bar
+</code></pre></div>
+
 <p>Still not amazed, ok now type this one:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">cp some_file</span><span class="sfa0">{</span><span class="s1f40">,.old</span><span class="sfa0">}</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp some_file<span class="o">{</span>,.old<span class="o">}</span>
+</code></pre></div>
+
 <p>It will copy your file
 adding a <code>.old</code> extension. I do a lot of things like this and it saves me a lot
 of time, so think about it.</p>

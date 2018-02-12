@@ -116,7 +116,7 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &#34;Content-Type: application/json&#34;-d @filepath  Then you can remove the progress bar by adding -s in the options
+curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then you can remove the progress bar by adding -s in the options
     
     <a href="/post/curl_for_rest/">Read More...</a>
     
@@ -378,7 +378,7 @@ It is pretty simple to do that, but it is not clearly explained in the angular d
     Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:
-# stop script if something bad happen set-e # unzip need to have a tempfile to extract properly TMPFILE=&#34;/tmp/tempfile.
+# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&quot;/tmp/tempfile.
     
     <a href="/post/html5-boilerplate/">Read More...</a>
     

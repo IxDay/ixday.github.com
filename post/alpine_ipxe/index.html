@@ -105,11 +105,12 @@ main entry used:</p>
 <li><code>alpine-pxe.packages</code> which will be empty (those packages are installed in the iso not in the initrd)</li>
 
 <li><p><code>alpine-pxe.conf.mk</code> with the following content:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40"> ALPINE_NAME     := alpine-pxe
-</span><span class="s1f40"> KERNEL_FLAVOR   := grsec
-</span><span class="s1f40"> INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
-</span><span class="s1f40"> MODLOOP_EXTRA   :=</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> ALPINE_NAME     := alpine-pxe
+ KERNEL_FLAVOR   := grsec
+ INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
+ MODLOOP_EXTRA   :=
+</code></pre></div>
+
 <p>some options may not be needed, I did not had the time to check this correctly,
 <code>virtio</code> and <code>network</code> are needed according to
 <a href="https://wiki.alpinelinux.org/wiki/PXE_boot#Using_pxelinux_instead_of_gPXE">the wiki</a></p></li>
@@ -125,18 +126,19 @@ main entry used:</p>
 </ul></li>
 
 <li><p>create your ipxe script with an adaptation of the following to your own url</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">#!ipxe
-</span><span class="s1f40">
-</span><span class="s1f40">dhcp
-</span><span class="s1f40">
-</span><span class="s1f40">set base-url http://192.168.122.0:5050
-</span><span class="s1f40">set kernel-params ip=dhcp modules=loop,squashfs,usb-storage nomodeset
-</span><span class="s1f40">
-</span><span class="s1f40">kernel ${base-url}/vmlinuz-grsec ${kernel-params}
-</span><span class="s1f40">initrd ${base-url}/initramfs-grsec
-</span><span class="s1f40">
-</span><span class="s1f40">boot</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>#!ipxe
+
+dhcp
+
+set base-url http://192.168.122.0:5050
+set kernel-params ip=dhcp modules=loop,squashfs,usb-storage nomodeset
+
+kernel ${base-url}/vmlinuz-grsec ${kernel-params}
+initrd ${base-url}/initramfs-grsec
+
+boot
+</code></pre></div>
+
 <p>Here again I am not sure that all the options are needed, still have to perform some tests.</p></li>
 
 <li><p>start your network boot!</p></li>

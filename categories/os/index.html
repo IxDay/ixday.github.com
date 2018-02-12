@@ -243,10 +243,11 @@ Why ?  It is based on debian a distribution which I really like (and not Ubuntu)
     <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">  Volume group &#34;vg_ssd&#34; not found
-</span><span class="s1f40">  Skipping volume group vg_ssd
-</span><span class="s1f40">Unable to find LVM volume vg_ssd/lv_root</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  Volume group &quot;vg_ssd&quot; not found
+  Skipping volume group vg_ssd
+Unable to find LVM volume vg_ssd/lv_root
+</code></pre></div>
+
 <p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 

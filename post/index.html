@@ -157,8 +157,8 @@ layout python  That&rsquo;s it! It sets up a virtualenv in your .direnv director
     <h2 class="caption-title"><a href="/post/golang-err-shadowing/">golang err shadowing</a></h2>
     <p>
     A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo:=&#34;bar&#34;  Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-iffoo:=&#34;bar&#34;;foo==&#34;baz&#34;{// do something }else{// do something else }  This is really handy when it comes to catch errors from an other function:
+foo := &quot;bar&quot;  Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &quot;bar&quot;; foo == &quot;baz&quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:
     
     <a href="/post/golang-err-shadowing/">Read More...</a>
     

@@ -91,14 +91,15 @@ and link it to your environment. Then you just have to modify the files in
 your filesystem and they will be provided to your project.</p>
 
 <p>Here are the command lines needed (two line is enough).</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># first I download the sources from wherever you want
-</span><span class="s1770"></span><span class="s1f40">git clone &lt;address of the project&gt;
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># then I install and link the lib in my current env
-</span><span class="s1770"></span><span class="s1f40">pip install -e &lt;path of the downloaded lib&gt;
-</span><span class="s1f40">
-</span><span class="s1f40"># now I can modify the lib file in order to debug it</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># first I download the sources from wherever you want</span>
+git clone &lt;address of the project&gt;
+
+<span class="c1"># then I install and link the lib in my current env</span>
+pip install -e &lt;path of the downloaded lib&gt;
+
+<span class="c1"># now I can modify the lib file in order to debug it</span>
+</code></pre></div>
+
 <p>The documentation for the feature can be found <a href="https://pip.pypa.io/en/latest/reference/pip_install.html#editable-installs">here</a></p>
 
 <p>This is really useful when developing with third part libraries, and it is not

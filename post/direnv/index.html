@@ -91,18 +91,20 @@ things I use in my daily basis.</p>
 
 <p>This is well documented but here is what I use in python projects to set up
 a default virtualenv.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">layout python</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>layout python
+</code></pre></div>
+
 <p>That&rsquo;s it! It sets up a virtualenv in your <code>.direnv</code> directory,
 and load the updated <code>PATH</code>.</p>
 
 <h2 id="golang-projects">Golang projects</h2>
 
 <p>This one is a bit trickier.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">export</span><span class="s1f40"> </span><span class="s7d0">GOPATH</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;</span><span class="s3e8">$(</span><span class="s7d0">pwd</span><span class="s3e8">)</span><span class="sc1c">/.go&#34;</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s7d0">export</span><span class="s1f40"> </span><span class="s7d0">GOBIN</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;</span><span class="s7d0">$GOPATH</span><span class="sc1c">/bin&#34;</span><span class="s1f40">
-</span><span class="s1f40">PATH_add </span><span class="sc1c">&#34;</span><span class="s7d0">$GOBIN</span><span class="sc1c">&#34;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">export</span> <span class="nv">GOPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/.go&quot;</span>
+<span class="nb">export</span> <span class="nv">GOBIN</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$GOPATH</span><span class="s2">/bin&quot;</span>
+PATH_add <span class="s2">&quot;</span><span class="nv">$GOBIN</span><span class="s2">&quot;</span>
+</code></pre></div>
+
 <p>I usually put my <code>$GOPATH</code> in an hidden directory, here it&rsquo;s <code>.go</code> and link
 the project to the top directory. But you can also set up the <code>vendor</code> directory,
 depending on your needs.</p>
@@ -111,11 +113,13 @@ depending on your needs.</p>
 
 <p>This is a trick I use with a bunch of project to move quickly around. I set up
 this in <code>.envrc</code> file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">export</span><span class="s1f40"> </span><span class="s7d0">PROJECT</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;</span><span class="s3e8">$(</span><span class="s7d0">pwd</span><span class="s3e8">)</span><span class="sc1c">&#34;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">export</span> <span class="nv">PROJECT</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
 <p>And then in the <code>.zshrc</code> (works also with <code>.bashrc</code>), I put this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">alias</span><span class="s1f40"> </span><span class="s7d0">cd</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#39;HOME=${PROJECT:-$HOME} cd&#39;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">alias</span> <span class="nv">cd</span><span class="o">=</span><span class="s1">&#39;HOME=${PROJECT:-$HOME} cd&#39;</span>
+</code></pre></div>
+
 <p>This will make my <code>cd</code> command to go back to the root of my project (where the
 <code>.envrc</code> file lands) instead of going to <code>$HOME</code>. But only inside my project
 and without overriding my <code>$HOME</code> variable globally. Which is something you

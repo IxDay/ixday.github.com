@@ -101,11 +101,12 @@ really flexible:</p>
 <li>you can not store a variable through multiple run, you will need to do
 a oneliner e.g:</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">  </span><span class="s1770"># you will need to write this in the Dockerfile
-</span><span class="s1770"></span><span class="s1f40">  RUN </span><span class="s7d0">TMPFILE</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s3e8">$(</span><span class="s1f40">tempfile</span><span class="s3e8">)</span><span class="s1f40"> </span><span class="sfa0">&amp;&amp;</span><span class="s1f40"> </span><span class="sc25">\
-</span><span class="sc25"></span><span class="s1f40">    </span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;Hello World&#34;</span><span class="s1f40"> &gt; </span><span class="s7d0">$TMPFILE</span><span class="s1f40"> </span><span class="sfa0">&amp;&amp;</span><span class="s1f40"> </span><span class="sc25">\
-</span><span class="sc25"></span><span class="s1f40">    rm </span><span class="s7d0">$TMPFILE</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>  <span class="c1"># you will need to write this in the Dockerfile</span>
+  RUN <span class="nv">TMPFILE</span><span class="o">=</span><span class="k">$(</span>tempfile<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Hello World&quot;</span> &gt; <span class="nv">$TMPFILE</span> <span class="o">&amp;&amp;</span> <span class="se">\</span>
+    rm <span class="nv">$TMPFILE</span>
+</code></pre></div>
+
 <ul>
 <li>you cannot build remotely from a custom branch:
 <a href="http://stackoverflow.com/questions/25509828/

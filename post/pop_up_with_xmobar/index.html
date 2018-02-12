@@ -96,24 +96,25 @@ update the font cache of my machine.</p>
 <p>And that&rsquo;s all, now let&rsquo;s configure</p>
 
 <h2 id="configuration">Configuration</h2>
-<div class="highlight"><pre class="chroma"><code class="language-haskell" data-lang="haskell"><span class="s3e8">Config</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s7d9">font</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#34;xft:Droid Sans Mono-10&#34;</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">additionalFonts</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s1388">[</span><span class="sc1c">&#34;xft:FontAwesome-10&#34;</span><span class="s1388">]</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">border</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">FullB</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">borderColor</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#34;#8a8a8a&#34;</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">borderWidth</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">2</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">bgColor</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#34;#3c3b37&#34;</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">fgColor</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#34;#ffffff&#34;</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">lowerOnStart</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">False</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">position</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s3e8">Static</span><span class="s1f40"> </span><span class="s1388">{</span><span class="s1f40"> </span><span class="s7d9">xpos</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">660</span><span class="s1f40"> </span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">ypos</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">490</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">width</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">600</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">height</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">100</span><span class="s1f40"> </span><span class="s1388">}</span><span class="s1f40">
-</span><span class="s1f40">	</span><span class="s1388">,</span><span class="s1f40"> </span><span class="s7d9">template</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc1c">&#34;}&lt;fn=1&gt;&lt;/fn&gt;   </span><span class="sc25">\
-</span><span class="sc25">				  \</span><span class="sc1c">&lt;action=`systemctl poweroff`&gt; Shutdown &lt;/action&gt;    </span><span class="sc25">\
-</span><span class="sc25">				  \</span><span class="sc1c">&lt;action=`systemctl reboot`&gt;Reboot&lt;/action&gt;    </span><span class="sc25">\
-</span><span class="sc25">				  \</span><span class="sc1c">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill &amp;&amp; systemctl suspend`&gt;</span><span class="sc25">\
-</span><span class="sc25">				  \</span><span class="sc1c">Suspend&lt;/action&gt;    </span><span class="sc25">\
-</span><span class="sc25">				  \</span><span class="sc1c">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill`&gt;Exit&lt;/action&gt;{&#34;</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1388">}</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span></span><span class="kt">Config</span> <span class="p">{</span>
+	<span class="n">font</span> <span class="ow">=</span> <span class="s">&quot;xft:Droid Sans Mono-10&quot;</span>
+	<span class="p">,</span> <span class="n">additionalFonts</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;xft:FontAwesome-10&quot;</span><span class="p">]</span>
+	<span class="p">,</span> <span class="n">border</span> <span class="ow">=</span> <span class="kt">FullB</span>
+	<span class="p">,</span> <span class="n">borderColor</span> <span class="ow">=</span> <span class="s">&quot;#8a8a8a&quot;</span>
+	<span class="p">,</span> <span class="n">borderWidth</span> <span class="ow">=</span> <span class="mi">2</span>
+	<span class="p">,</span> <span class="n">bgColor</span> <span class="ow">=</span> <span class="s">&quot;#3c3b37&quot;</span>
+	<span class="p">,</span> <span class="n">fgColor</span> <span class="ow">=</span> <span class="s">&quot;#ffffff&quot;</span>
+	<span class="p">,</span> <span class="n">lowerOnStart</span> <span class="ow">=</span> <span class="kt">False</span>
+	<span class="p">,</span> <span class="n">position</span> <span class="ow">=</span> <span class="kt">Static</span> <span class="p">{</span> <span class="n">xpos</span> <span class="ow">=</span> <span class="mi">660</span> <span class="p">,</span> <span class="n">ypos</span> <span class="ow">=</span> <span class="mi">490</span><span class="p">,</span> <span class="n">width</span> <span class="ow">=</span> <span class="mi">600</span><span class="p">,</span> <span class="n">height</span> <span class="ow">=</span> <span class="mi">100</span> <span class="p">}</span>
+	<span class="p">,</span> <span class="n">template</span> <span class="ow">=</span> <span class="s">&quot;}&lt;fn=1&gt;&lt;/fn&gt;   </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`systemctl poweroff`&gt; Shutdown &lt;/action&gt;    </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`systemctl reboot`&gt;Reboot&lt;/action&gt;    </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill &amp;&amp; systemctl suspend`&gt;</span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">Suspend&lt;/action&gt;    </span><span class="se">\</span>
+<span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill`&gt;Exit&lt;/action&gt;{&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
 <p>Explanation line by line:</p>
 
 <ul>

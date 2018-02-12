@@ -43,7 +43,7 @@ It is pretty simple to do that, but it is not clearly explained in the angular d
       <description>Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:
-# stop script if something bad happen set-e # unzip need to have a tempfile to extract properly TMPFILE=&amp;#34;/tmp/tempfile.</description>
+# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&amp;quot;/tmp/tempfile.</description>
     </item>
     
   </channel>

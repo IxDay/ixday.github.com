@@ -91,28 +91,32 @@ web interface on my local machine.</p>
 
 <p>First, ssh! For this I need a ssh connection to the remote server, here I use
 a particular ssh key.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># urls also work
-</span><span class="s1770"></span><span class="s1f40">ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1
+
+<span class="c1"># urls also work</span>
+ssh -i ~/.ssh/my_ssh.key mylogin@my.url.com
+</code></pre></div>
+
 <p>Okay, at this moment we can use a config file for ssh: <code>$HOME/.ssh/config</code> :)</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">Host 192.168.0.1 my.url.com
-</span><span class="s1f40">   user mylogin
-</span><span class="s1f40">   IdentityFile ~/.ssh/my_ssh.key</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>Host 192.168.0.1 my.url.com
+   user mylogin
+   IdentityFile ~/.ssh/my_ssh.key
+</code></pre></div>
+
 <p>The CLI is now:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># with IP
-</span><span class="s1770"></span><span class="s1f40">ssh </span><span class="sc80">192</span><span class="s1f40">.168.0.1
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># with url
-</span><span class="s1770"></span><span class="s1f40">ssh my.url.com</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># with IP</span>
+ssh <span class="m">192</span>.168.0.1
+
+<span class="c1"># with url</span>
+ssh my.url.com
+</code></pre></div>
+
 <p>I have a connection but now I want to share my dev server on the remote host to
 my local web browser. For that I will use the <code>-L</code> of ssh, this will forward
 the local port with the remote one.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">ssh -L </span><span class="sc80">5000</span><span class="s1f40">:localhost:9999 </span><span class="sc80">192</span><span class="s1f40">.168.0.1 # same as before it works with url</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ssh -L <span class="m">5000</span>:localhost:9999 <span class="m">192</span>.168.0.1 <span class="c1"># same as before it works with url</span>
+</code></pre></div>
+
 <p>This command will connect my local port 5000 to the port 9999 of the remote
 host local interface (so I do not have to open another port on the remote
 except the ssh one)</p>
@@ -120,8 +124,9 @@ except the ssh one)</p>
 <h2 id="rsync">rsync</h2>
 
 <p>Then, we will use rsync to send files to our server</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">rsync -avz -e </span><span class="sc1c">&#34;ssh&#34;</span><span class="s1f40"> local/folder my.url.com:/home/username/remote_folder</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>rsync -avz -e <span class="s2">&quot;ssh&quot;</span> local/folder my.url.com:/home/username/remote_folder
+</code></pre></div>
+
 <ul>
 <li>-a the archive option (recursive, preserve links, times, permissions,
 group, owner, devices files</li>
@@ -137,21 +142,23 @@ mylogin@my.url.com:/home/username/remote_folder</code></li>
 (.git folder, generated files, etc&hellip;), so we will use the <code>--exclude-from</code>
 option. In the folder we want to synchronize, we create a file <code>exclude.txt</code>
 (the name is not important), then we fill it with the needed files or folder:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"><span class="s1f40">.git
-</span><span class="s1f40">/static
-</span><span class="s1f40">*.pyc</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>.git
+/static
+*.pyc
+</code></pre></div>
+
 <p>Take care that the <code>/</code> apply at the point where the rsync command is launched.
 So it will not have the same effect if we change the working directory.</p>
 
 <p>The command will look like:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># move to working dir
-</span><span class="s1770"></span><span class="s7d0">cd</span><span class="s1f40"> local/folder
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s7d0">remote_loc</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;my.url.com:/home/username/remote_folder&#34;</span><span class="s1f40">
-</span><span class="s1f40">
-</span><span class="s1f40">rsync -avz -e </span><span class="sc1c">&#34;ssh&#34;</span><span class="s1f40"> . </span><span class="s3e8">$(</span><span class="s1f40">remote_loc</span><span class="s3e8">)</span><span class="s1f40"> --exclude-from </span><span class="sc1c">&#39;exclude.txt&#39;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># move to working dir</span>
+<span class="nb">cd</span> local/folder
+
+<span class="nv">remote_loc</span><span class="o">=</span><span class="s2">&quot;my.url.com:/home/username/remote_folder&quot;</span>
+
+rsync -avz -e <span class="s2">&quot;ssh&quot;</span> . <span class="k">$(</span>remote_loc<span class="k">)</span> --exclude-from <span class="s1">&#39;exclude.txt&#39;</span>
+</code></pre></div>
+
 <h2 id="fswatch-or-inotify">fswatch (or inotify)</h2>
 
 <p>I also want my folder to synchronize automatically with the remote one when a
@@ -159,8 +166,9 @@ file change. For this purpose I will use <code>fswatch</code> because I use MacO
 (shame on me), <code>inotify</code> can be use on linux platforms.</p>
 
 <p>First, check the changes on my working directory:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">fswatch -e .git/ -e .pyc -e </span><span class="s3e8">$(</span><span class="s7d0">pwd</span><span class="s3e8">)</span><span class="s1f40">/static .</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>fswatch -e .git/ -e .pyc -e <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/static .
+</code></pre></div>
+
 <p>Here I use <code>$(pwd)</code> in order to not catch the <code>/static</code> folder at the root of
 the folder, but keep the nested one included. This catch the same files as the
 exclude file from rsync. At this point I haven&rsquo;t found any solution to unify
@@ -174,13 +182,14 @@ each entry.</p>
 <h2 id="all-together">All together</h2>
 
 <p>Here is my final command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">cd</span><span class="s1f40"> local/folder
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s7d0">remote_loc</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;my.url.com:/home/username/remote_folder&#34;</span><span class="s1f40">
-</span><span class="s1f40">
-</span><span class="s1f40">fswatch -0 -o -e .git/ -e .pyc -e </span><span class="s3e8">$(</span><span class="s7d0">pwd</span><span class="s3e8">)</span><span class="s1f40">/static . </span><span class="s1388">|</span><span class="s1f40"> </span><span class="sc25">\
-</span><span class="sc25"></span><span class="s1f40">xargs -0 -I </span><span class="sfa0">{}</span><span class="s1f40"> rsync -avz -e </span><span class="sc1c">&#34;ssh&#34;</span><span class="s1f40"> . </span><span class="s7d0">$remote_loc</span><span class="s1f40"> --exclude-from </span><span class="sc1c">&#39;exclude.txt&#39;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">cd</span> local/folder
+
+<span class="nv">remote_loc</span><span class="o">=</span><span class="s2">&quot;my.url.com:/home/username/remote_folder&quot;</span>
+
+fswatch -0 -o -e .git/ -e .pyc -e <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/static . <span class="p">|</span> <span class="se">\</span>
+xargs -0 -I <span class="o">{}</span> rsync -avz -e <span class="s2">&quot;ssh&quot;</span> . <span class="nv">$remote_loc</span> --exclude-from <span class="s1">&#39;exclude.txt&#39;</span>
+</code></pre></div>
+
 <ul>
 <li>The option <code>-0</code> indicates that fswatch will use <code>\0</code> as a line separator.</li>
 

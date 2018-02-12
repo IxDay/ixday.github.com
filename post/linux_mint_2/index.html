@@ -89,23 +89,25 @@ I needed to fixup when installing LMDE on my Macbook.
 
 <p>First, for the creation of the usb key, I ended up using the method described
 in the <a href="https://wiki.archlinux.org/index.php/USB_flash_installation_media#In_GNU.2FLinux">archlinux wiki</a>. Basically, this was the command line I entered:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">dd </span><span class="s7d0">bs</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">4M </span><span class="s3e8">if</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">/path/to/lmde.iso </span><span class="s7d0">of</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">/dev/sdb # /dev/sdb is my usb key </span><span class="sfa0">(</span><span class="s1f40">lsblk FTW</span><span class="sfa0">)</span><span class="s1f40"> </span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>dd <span class="nv">bs</span><span class="o">=</span>4M <span class="k">if</span><span class="o">=</span>/path/to/lmde.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="c1"># /dev/sdb is my usb key (lsblk FTW) </span>
+</code></pre></div>
+
 <p>Then, for the partitioning I forgot to tell the filesystem needed by each part,
 so here is lsblk to the rescue:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">$ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
-</span><span class="s1f40">NAME               FSTYPE      MOUNTPOINT
-</span><span class="s1f40">sda
-</span><span class="s1f40">├─sda1             hfsplus
-</span><span class="s1f40">├─sda2             vfat        /boot/efi
-</span><span class="s1f40">├─sda3             ext4        /boot
-</span><span class="s1f40">└─sda4             LVM2_member
-</span><span class="s1f40">  ├─vg_ssd-lv_root ext4        /
-</span><span class="s1f40">  └─vg_ssd-lv_swap swap        </span><span class="sfa0">[</span><span class="s1f40">SWAP</span><span class="sfa0">]</span><span class="s1f40">
-</span><span class="s1f40">sdb                iso9660
-</span><span class="s1f40">├─sdb1             iso9660     /media/max/LMDE </span><span class="sc80">2</span><span class="s1f40"> Cinnamon </span><span class="sc80">64</span><span class="s1f40">-bit
-</span><span class="s1f40">└─sdb2             vfat</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>$ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
+NAME               FSTYPE      MOUNTPOINT
+sda
+├─sda1             hfsplus
+├─sda2             vfat        /boot/efi
+├─sda3             ext4        /boot
+└─sda4             LVM2_member
+  ├─vg_ssd-lv_root ext4        /
+  └─vg_ssd-lv_swap swap        <span class="o">[</span>SWAP<span class="o">]</span>
+sdb                iso9660
+├─sdb1             iso9660     /media/max/LMDE <span class="m">2</span> Cinnamon <span class="m">64</span>-bit
+└─sdb2             vfat
+</code></pre></div>
+
 <p>(sudo needed to output the fs, see <code>man lsblk</code> for more informations)</p>
 
 <h2 id="configuration">Configuration</h2>
@@ -117,28 +119,30 @@ done.</p>
 
 <p>I want to add unstable and experimental repos, so I created a source file:
 <code>/etc/apt/sources.list.d/debian-package-repositories.list</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># https://wiki.debian.org/SourcesList
-</span><span class="s1770"></span><span class="s1f40">
-</span><span class="s1f40">deb http://httpredir.debian.org/debian sid main contrib non-free
-</span><span class="s1f40">deb-src http://httpredir.debian.org/debian sid main contrib non-free
-</span><span class="s1f40">
-</span><span class="s1f40">deb http://httpredir.debian.org/debian experimental main contrib non-free
-</span><span class="s1f40">deb-src http://httpredir.debian.org/debian experimental main contrib non-free</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># https://wiki.debian.org/SourcesList</span>
+
+deb http://httpredir.debian.org/debian sid main contrib non-free
+deb-src http://httpredir.debian.org/debian sid main contrib non-free
+
+deb http://httpredir.debian.org/debian experimental main contrib non-free
+deb-src http://httpredir.debian.org/debian experimental main contrib non-free
+</code></pre></div>
+
 <p>Now it is time to set up the preferences. But here is the trick, by default
 Mint set up a Pin-Priority 700 to all the Debian packages.
 This will bring unstable packages at the same level as those from stable.</p>
 
 <p>See the file <code>/etc/apt/preferences.d/debian-package-repositories.pref</code>, in
 order to have a good priority across those repos replace the content with:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">Package: *
-</span><span class="s1f40">Pin: release </span><span class="s7d0">a</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">stable
-</span><span class="s1f40">Pin-Priority: </span><span class="sc80">550</span><span class="s1f40">
-</span><span class="s1f40">
-</span><span class="s1f40">Package: *
-</span><span class="s1f40">Pin: release </span><span class="s7d0">a</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">unstable
-</span><span class="s1f40">Pin-Priority: </span><span class="sc80">450</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Package: *
+Pin: release <span class="nv">a</span><span class="o">=</span>stable
+Pin-Priority: <span class="m">550</span>
+
+Package: *
+Pin: release <span class="nv">a</span><span class="o">=</span>unstable
+Pin-Priority: <span class="m">450</span>
+</code></pre></div>
+
 <p>Now, just a <code>apt-get update</code> and we are ready to install packages safely</p>
 
 <h3 id="tearing">Tearing</h3>
@@ -148,14 +152,15 @@ order to have a good priority across those repos replace the content with:</p>
 
 <p>I followed the instructions from the <a href="https://wiki.archlinux.org/index.php/intel_graphics#Tear-free_video">arch wiki</a>. It makes me create <code>/etc/X11/xorg.conf.d/20-intel.conf</code> file, and
 fill it with:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">Section </span><span class="sc1c">&#34;Device&#34;</span><span class="s1f40">
-</span><span class="s1f40">   Identifier  </span><span class="sc1c">&#34;Intel Graphics&#34;</span><span class="s1f40">
-</span><span class="s1f40">   Driver      </span><span class="sc1c">&#34;intel&#34;</span><span class="s1f40">
-</span><span class="s1f40">   Option      </span><span class="sc1c">&#34;AccelMethod&#34;</span><span class="s1f40">  </span><span class="sc1c">&#34;sna&#34;</span><span class="s1f40">
-</span><span class="s1f40">   Option      </span><span class="sc1c">&#34;TearFree&#34;</span><span class="s1f40">     </span><span class="sc1c">&#34;true&#34;</span><span class="s1f40">
-</span><span class="s1f40">   Option      </span><span class="sc1c">&#34;DRI&#34;</span><span class="s1f40">          </span><span class="sc1c">&#34;3&#34;</span><span class="s1f40">
-</span><span class="s1f40">EndSection</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>Section <span class="s2">&quot;Device&quot;</span>
+   Identifier  <span class="s2">&quot;Intel Graphics&quot;</span>
+   Driver      <span class="s2">&quot;intel&quot;</span>
+   Option      <span class="s2">&quot;AccelMethod&quot;</span>  <span class="s2">&quot;sna&quot;</span>
+   Option      <span class="s2">&quot;TearFree&quot;</span>     <span class="s2">&quot;true&quot;</span>
+   Option      <span class="s2">&quot;DRI&quot;</span>          <span class="s2">&quot;3&quot;</span>
+EndSection
+</code></pre></div>
+
 <p>I restarted X (restart the computer in order to be sure :p), and it now works
 (hopefully).</p>
 
@@ -164,8 +169,9 @@ fill it with:</p>
 <p>I had issues with my webcam too. <a href="https://wiki.archlinux.org/index.php/MacBook#Webcam">I followed archwiki again</a>. This one is not
 confirmed but no command failed, and the test with mplayer at the end seemed
 to work:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">mplayer tv:// -tv </span><span class="s7d0">driver</span><span class="s1f40"></span><span class="sfa0">=</span><span class="s1f40">v4l2:width</span><span class="sfa0">=</span><span class="sc80">320</span><span class="s1f40">:height</span><span class="sfa0">=</span><span class="sc80">240</span><span class="s1f40">:device</span><span class="sfa0">=</span><span class="s1f40">/dev/video0 -fps </span><span class="sc80">30</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mplayer tv:// -tv <span class="nv">driver</span><span class="o">=</span>v4l2:width<span class="o">=</span><span class="m">320</span>:height<span class="o">=</span><span class="m">240</span>:device<span class="o">=</span>/dev/video0 -fps <span class="m">30</span>
+</code></pre></div>
+
 <h2 id="programs">Programs</h2>
 
 <h3 id="neovim">Neovim</h3>
@@ -193,23 +199,24 @@ from different versions.</p>
 <p>Docker is available in the unstable repository, but this one broke some other
 dependencies. I had to install it with a custom repo following
 <a href="https://gist.github.com/bhgraham/ed9f8242dc610b1f38e5">those instructions</a>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># Add the repo to a dedicated source.list file
-</span><span class="s1770"></span><span class="s7d0">echo</span><span class="s1f40"> </span><span class="sc1c">&#34;deb https://get.docker.com/ubuntu docker main&#34;</span><span class="s1f40"> &gt; </span><span class="sc25">\
-</span><span class="sc25"></span><span class="s1f40">       /etc/apt/sources.list.d/docker.list
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># Add repo keyring
-</span><span class="s1770"></span><span class="s1f40">apt-key adv --keyserver keyserver.ubuntu.com --recv-keys </span><span class="sc25">\
-</span><span class="sc25"></span><span class="s1f40">       36A1D7869245C8950F966E92D8576A8BA88D21E9
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># Update and install the package
-</span><span class="s1770"></span><span class="s1f40">apt-get update -qq </span><span class="sfa0">&amp;&amp;</span><span class="s1f40"> sudo apt-get install -y lxc-docker
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># Add my user to the docker group
-</span><span class="s1770"></span><span class="s1f40">gpasswd -a &lt;my_user_name&gt; docker
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s1770"># Enable the docker service for the next start
-</span><span class="s1770"></span><span class="s1f40">systemctl </span><span class="s7d0">enable</span><span class="s1f40"> docker</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Add the repo to a dedicated source.list file</span>
+<span class="nb">echo</span> <span class="s2">&quot;deb https://get.docker.com/ubuntu docker main&quot;</span> &gt; <span class="se">\</span>
+       /etc/apt/sources.list.d/docker.list
+
+<span class="c1"># Add repo keyring</span>
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys <span class="se">\</span>
+       36A1D7869245C8950F966E92D8576A8BA88D21E9
+
+<span class="c1"># Update and install the package</span>
+apt-get update -qq <span class="o">&amp;&amp;</span> sudo apt-get install -y lxc-docker
+
+<span class="c1"># Add my user to the docker group</span>
+gpasswd -a &lt;my_user_name&gt; docker
+
+<span class="c1"># Enable the docker service for the next start</span>
+systemctl <span class="nb">enable</span> docker
+</code></pre></div>
+
 <p>Now logout, and reconnect and it should work.</p>
 
 <h3 id="python">Python</h3>

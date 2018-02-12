@@ -142,12 +142,13 @@ having to dig in the code or documentation (when you wanted to activate ipdb).</
 <h2 id="simple-config">Simple config</h2>
 
 <p>Here is my config (a real simple one):</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s3eb">import</span><span class="s1f40"> </span><span class="s7d0">pdb</span><span class="s1f40">
-</span><span class="s1f40">
-</span><span class="s1f40"></span><span class="s3e8">class</span><span class="s1f40"> </span><span class="s7d4">Config</span><span class="s1388">(</span><span class="s7d0">pdb</span><span class="sfa0">.</span><span class="s7d0">DefaultConfig</span><span class="s1388">):</span><span class="s1f40">
-</span><span class="s1f40">    </span><span class="s7d0">sticky_by_default</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="s7d0">True</span><span class="s1f40"> </span><span class="s1770"># start in sticky mode</span><span class="s1f40">
-</span><span class="s1f40">    </span><span class="s7d0">current_line_color</span><span class="s1f40"> </span><span class="sfa0">=</span><span class="s1f40"> </span><span class="sc80">40</span><span class="s1f40">  </span><span class="s1770"># black</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">pdb</span>
+
+<span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">DefaultConfig</span><span class="p">):</span>
+    <span class="n">sticky_by_default</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># start in sticky mode</span>
+    <span class="n">current_line_color</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># black</span>
+</code></pre></div>
+
   </div>
 </article>
 <div id="disqus_thread"></div>

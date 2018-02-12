@@ -93,8 +93,9 @@ then the
 <a href="https://github.com/IxDay/config_files/tree/new_conf/source.list.d">sources.list</a>.</p>
 
 <p>Just run an <code>aptitude update</code>, and you will some missing gpg keys, now run</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;
+</code></pre></div>
+
 <p>To have your keys installed.</p>
 
 <h2 id="sudo">sudo</h2>
@@ -103,9 +104,10 @@ then the
 <code>aptitude install sudo</code> will give you the tool.</p>
 
 <p>Then uncomment the following line</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1770"># Allow members of group sudo to execute any command
-</span><span class="s1770"></span><span class="s1f40">%sudo   </span><span class="s7d0">ALL</span><span class="s1f40"></span><span class="sfa0">=(</span><span class="s1f40">ALL:ALL</span><span class="sfa0">)</span><span class="s1f40"> ALL</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Allow members of group sudo to execute any command</span>
+%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
+</code></pre></div>
+
 <p>Then add your user to the group sudo <code>gpasswd -a &lt;your_user&gt; sudo</code></p>
 
 <h2 id="install-all-the-packages-o">install all the packages o/</h2>
@@ -206,11 +208,13 @@ Xserver startup from the <code>.xinitrc</code> file.</p>
 * <a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitignore_global</a></p>
 
 <p>After copying those files you can create a rsa key:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s1f40">ssh-keygen -t rsa -b </span><span class="sc80">4096</span><span class="s1f40"> -C </span><span class="sc1c">&#34;your_email@example.com&#34;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&quot;your_email@example.com&quot;</span>
+</code></pre></div>
+
 <p>And to manage the keys passphrase I use <code>keychain</code> in an alias</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="s7d0">alias</span><span class="s1f40"> </span><span class="s7d0">keychain_default</span><span class="s1f40"></span><span class="sfa0">=</span><span class="sc1c">&#34;eval </span><span class="s3e8">$(</span><span class="s1f40">keychain --eval --agents ssh -Q --quiet id_rsa</span><span class="s3e8">)</span><span class="sc1c">&#34;</span></code></pre>
-</div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&quot;eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&quot;</span>
+</code></pre></div>
+
 <p>It is possible to configure multiple keys, in order to separate some services.
 The archlinux wiki has a good article about the SSH keys management:
 <a href="https://wiki.archlinux.org/index.php/SSH_keys">here</a></p>
