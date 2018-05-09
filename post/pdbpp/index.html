@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.29" />
+  <meta name="generator" content="Hugo 0.40.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -94,7 +94,7 @@ and I found it so great that I no more use ipdb, here is why.</p>
 The first and more well known is the sticky mode:</p>
 
 
-<figure >
+<figure>
     
         <img src="/img/pdbpp_sticky.png" />
     
@@ -142,13 +142,11 @@ having to dig in the code or documentation (when you wanted to activate ipdb).</
 <h2 id="simple-config">Simple config</h2>
 
 <p>Here is my config (a real simple one):</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">pdb</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pdb</span>
 
 <span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">DefaultConfig</span><span class="p">):</span>
     <span class="n">sticky_by_default</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># start in sticky mode</span>
-    <span class="n">current_line_color</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># black</span>
-</code></pre></div>
-
+    <span class="n">current_line_color</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># black</span></code></pre></div>
   </div>
 </article>
 <div id="disqus_thread"></div>

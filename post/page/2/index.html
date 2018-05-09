@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.29" />
+  <meta name="generator" content="Hugo 0.40.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,50 @@
     <h2 class="taxonomy-title">Filed under Posts...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Mon Aug 8 2016
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/linux_mint_2/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/linux_mint_2/">Linux Mint 2</a></h2>
+    <p>
+    <p>I recently messed up my laptop (do not play with <code>/etc/apt/preferences</code> too much!),
+and I had to reinstall my distro. I checked my <a href="http://ixday.github.io/post/linux_mint/">previous article</a>
+and noticed some missing informations. So here is a second article of things
+I needed to fixup when installing LMDE on my Macbook.
+</p>
+    
+    <a href="/post/linux_mint_2/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -113,7 +157,7 @@ Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go
     <h2 class="caption-title"><a href="/post/curl_utils/">Curl utils</a></h2>
     <p>
     Here are some options and command I use with curl when dealing with stuff I have to develop.
-curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &quot;Content-Type: application/json&quot; -u &quot;admin:admin&quot; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &quot;header_name: value&quot; # -u support for Basic Auth, format is: &quot;user:password&quot; # -d set up data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.
+curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress  # -i displays the headers  curl -X POST -H &#34;Content-Type: application/json&#34; -u &#34;admin:admin&#34; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &#34;header_name: value&#34; # -u support for Basic Auth, format is: &#34;user:password&#34; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.
     
     <a href="/post/curl_utils/">Read More...</a>
     
@@ -326,7 +370,7 @@ Here is the command I run when I just made some devs: py.test -xvvvs --tb=line -
     <p>
     I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
- This will display the code currently, executed and shows you with an arrow at which exact line you are.
+  This will display the code currently, executed and shows you with an arrow at which exact line you are.
     
     <a href="/post/pdbpp/">Read More...</a>
     
@@ -419,41 +463,6 @@ I really loved experienced with it, it does not require a lot of dependencies on
     <a href="/tags/admin ">admin</a>
 , <a href="/tags/cli ">cli</a>
 
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Mon Aug 24 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/pop_up_with_xmobar/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/pop_up_with_xmobar/">Pop-up with xmobar</a></h2>
-    <p>
-    Sometimes I just want to click, even for simple things. So I created a little popup to shutdown, restart, suspend my computer, which looks like this:
-{:.image-process-article-image}{:target=&rdquo;_blank&rdquo;}
-Preparation First of all install xmobar, apt-get install xmobar/testing. Here I will use testing because I need the multiple fonts support, see here for the release note.
-The second thing I will need is an iconic font for the power button. Font Awesome fits my need.
-    
-    <a href="/post/pop_up_with_xmobar/">Read More...</a>
-    
     </p>
     
   </div>

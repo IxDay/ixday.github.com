@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.29" />
+  <meta name="generator" content="Hugo 0.40.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -103,43 +103,41 @@ code in order to insert hooks.</li>
 
 <p>But in Go, extends is done through interfacing, and the copy function uses
 interfaces as arguments. I can sneak in this! Here is how I achieved this:</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&quot;io&quot;</span>
-	<span class="s">&quot;context&quot;</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;io&#34;</span>
+	<span class="s">&#34;context&#34;</span>
 <span class="p">)</span>
 
-<span class="c1">// here is some syntaxic sugar inspired by the Tomas Senart&#39;s video,</span>
-<span class="c1">// it allows me to inline the Reader interface</span>
-<span class="kd">type</span> <span class="nx">readerFunc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span>
+<span class="c1">// here is some syntaxic sugar inspired by the Tomas Senart&#39;s video,
+</span><span class="c1">// it allows me to inline the Reader interface
+</span><span class="c1"></span><span class="kd">type</span> <span class="nx">readerFunc</span> <span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span>
 <span class="kd">func</span> <span class="p">(</span><span class="nx">rf</span> <span class="nx">readerFunc</span><span class="p">)</span> <span class="nx">Read</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">rf</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">}</span>
 
-<span class="c1">// slightly modified function signature:</span>
-<span class="c1">// - context has been added in order to propagate cancelation</span>
-<span class="c1">// - I do not return the number of bytes written, has it is not useful in my use case</span>
-<span class="kd">func</span> <span class="nx">Copy</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">dst</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span> <span class="nx">src</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+<span class="c1">// slightly modified function signature:
+</span><span class="c1">// - context has been added in order to propagate cancelation
+</span><span class="c1">// - I do not return the number of bytes written, has it is not useful in my use case
+</span><span class="c1"></span><span class="kd">func</span> <span class="nx">Copy</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">dst</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span> <span class="nx">src</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
 
-	<span class="c1">// Copy will call the Reader and Writer interface multiple time, in order</span>
-	<span class="c1">// to copy by chunk (avoiding loading the whole file in memory).</span>
-	<span class="c1">// I insert the ability to cancel before read time as it is the earliest</span>
-	<span class="c1">// possible in the call process.</span>
-	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span> <span class="nx">readerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Copy will call the Reader and Writer interface multiple time, in order
+</span><span class="c1"></span>	<span class="c1">// to copy by chunk (avoiding loading the whole file in memory).
+</span><span class="c1"></span>	<span class="c1">// I insert the ability to cancel before read time as it is the earliest
+</span><span class="c1"></span>	<span class="c1">// possible in the call process.
+</span><span class="c1"></span>	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Copy</span><span class="p">(</span><span class="nx">out</span><span class="p">,</span> <span class="nx">readerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 
-		<span class="c1">// golang non-blocking channel: https://gobyexample.com/non-blocking-channel-operations</span>
-		<span class="k">select</span> <span class="p">{</span>
+		<span class="c1">// golang non-blocking channel: https://gobyexample.com/non-blocking-channel-operations
+</span><span class="c1"></span>		<span class="k">select</span> <span class="p">{</span>
 
-		<span class="c1">// if context has been canceled</span>
-		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Done</span><span class="p">():</span>
-			<span class="c1">// stop process and propagate &quot;context canceled&quot; error</span>
-			<span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">Err</span><span class="p">()</span>
+		<span class="c1">// if context has been canceled
+</span><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Done</span><span class="p">():</span>
+			<span class="c1">// stop process and propagate &#34;context canceled&#34; error
+</span><span class="c1"></span>			<span class="k">return</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">ctx</span><span class="p">.</span><span class="nx">Err</span><span class="p">()</span>
 		<span class="k">default</span><span class="p">:</span>
-			<span class="c1">// otherwise just run default io.Reader implementation</span>
-			<span class="k">return</span> <span class="nx">in</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+			<span class="c1">// otherwise just run default io.Reader implementation
+</span><span class="c1"></span>			<span class="k">return</span> <span class="nx">in</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="p">}))</span>
 	<span class="k">return</span> <span class="nx">err</span>
-<span class="p">}</span>
-</code></pre></div>
-
+<span class="p">}</span></code></pre></div>
 <p>There is a huge topic in Go community around the use of context. Should all the
 standard lib use contexts in order to be able to cancel some calls. I think
 interfaces can be the start of a solution. Allowing you to extend what is needed

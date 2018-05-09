@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.29" />
+  <meta name="generator" content="Hugo 0.40.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -92,17 +92,13 @@ permissions and pass my user to the container as well.</p>
 <h2 id="set-test-env">Set test env</h2>
 
 <p>Here is my setup, a Dockerfile with a container and git installed</p>
-<div class="highlight"><pre><code class="language-dockerfile" data-lang="dockerfile"><span></span><span class="k">FROM</span><span class="s"> alpine:3.2</span>
-<span class="k">RUN</span> apk --update add git
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> apk --update add git</code></pre></div>
 <p>Then simply run the git clone command inside a volume mounted with correct uid
 and gid.</p>
-<div class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="go">docker build -t foo --rm .</span>
-<span class="go">docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \</span>
-<span class="go">	git clone https://github.com/octocat/Spoon-Knife</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-console" data-lang="console">docker build -t foo --rm .
+docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \
+	git clone https://github.com/octocat/Spoon-Knife</code></pre></div>
 <p>And I get the following error:
 <code>fatal: unable to look up current user in the passwd file: no such user</code>. This
 is actually right, my user only exists on the host and not into my container.</p>
@@ -137,12 +133,10 @@ for the root user.</p>
 <h2 id="final-setup">Final setup</h2>
 
 <p>We modify our Dockerfile according to the last results.</p>
-<div class="highlight"><pre><code class="language-dockerfile" data-lang="dockerfile"><span></span><span class="k">FROM</span><span class="s"> alpine:3.2</span>
-
-<span class="k">RUN</span> apk --update add git
-<span class="k">RUN</span> git config --system core.logallrefupdates false
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> git config --system core.logallrefupdates false</code></pre></div>
 <p>The git config command is case insensitive, so all lowercase will work here.
 Now just run the previous build and run again your git clone.</p>
 

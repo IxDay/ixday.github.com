@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.29" />
+  <meta name="generator" content="Hugo 0.40.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -93,9 +93,7 @@ then the
 <a href="https://github.com/IxDay/config_files/tree/new_conf/source.list.d">sources.list</a>.</p>
 
 <p>Just run an <code>aptitude update</code>, and you will some missing gpg keys, now run</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;</code></pre></div>
 <p>To have your keys installed.</p>
 
 <h2 id="sudo">sudo</h2>
@@ -104,10 +102,8 @@ then the
 <code>aptitude install sudo</code> will give you the tool.</p>
 
 <p>Then uncomment the following line</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Allow members of group sudo to execute any command</span>
-%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Allow members of group sudo to execute any command
+</span><span class="c1"></span>%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL</code></pre></div>
 <p>Then add your user to the group sudo <code>gpasswd -a &lt;your_user&gt; sudo</code></p>
 
 <h2 id="install-all-the-packages-o">install all the packages o/</h2>
@@ -208,13 +204,9 @@ Xserver startup from the <code>.xinitrc</code> file.</p>
 * <a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitignore_global</a></p>
 
 <p>After copying those files you can create a rsa key:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&quot;your_email@example.com&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;your_email@example.com&#34;</span></code></pre></div>
 <p>And to manage the keys passphrase I use <code>keychain</code> in an alias</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&quot;eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&quot;</span>
-</code></pre></div>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&#34;eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&#34;</span></code></pre></div>
 <p>It is possible to configure multiple keys, in order to separate some services.
 The archlinux wiki has a good article about the SSH keys management:
 <a href="https://wiki.archlinux.org/index.php/SSH_keys">here</a></p>

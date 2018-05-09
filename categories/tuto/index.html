@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.29" />
+  <meta name="generator" content="Hugo 0.40.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -202,7 +202,7 @@ So I decided to make them work together in order to test that.
     <p>
     I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
- This will display the code currently, executed and shows you with an arrow at which exact line you are.
+  This will display the code currently, executed and shows you with an arrow at which exact line you are.
     
     <a href="/post/pdbpp/">Read More...</a>
     
@@ -373,7 +373,7 @@ Creating your first container So like docker I wanted to first start a container
     I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
 I also use Flask a lot, so today I will show you some of my snippets.
 First one the app fixture:
-@pytest.fixture(autouse=True) def app(): &quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
+@pytest.fixture(autouse=True) def app(): &#34;&#34;&#34;Load flask in testing mode&#34;&#34;&#34; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client() This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
     
     <a href="/post/pytest_fixture/">Read More...</a>
     
@@ -460,7 +460,7 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then you can remove the progress bar by adding -s in the options
+curl -X POST -H &#34;Content-Type: application/json&#34; -d @filepath Then you can remove the progress bar by adding -s in the options
     
     <a href="/post/curl_for_rest/">Read More...</a>
     

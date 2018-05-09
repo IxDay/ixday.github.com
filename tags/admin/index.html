@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.29" />
+  <meta name="generator" content="Hugo 0.40.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -372,11 +372,9 @@ I really loved experienced with it, it does not require a lot of dependencies on
     <p>Following <a href="{filename}/2015-08-18.debian-install-2.md">this article</a>
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>  Volume group &quot;vg_ssd&quot; not found
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
   Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-</code></pre></div>
-
+Unable to find LVM volume vg_ssd/lv_root</code></pre></div>
 <p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 
