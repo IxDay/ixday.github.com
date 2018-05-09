@@ -1,6 +1,6 @@
 +++
 title = "Future posts"
-date = 2018-04-25T08:42:05+02:00
+date = 2018-05-09
 draft = true
 categories = []
 tags = []
@@ -8,4 +8,6 @@ tags = []
 
 Here is a list of potential future posts:
 
-- returning SkipDir on file walking with filepath module
+- [X] returning SkipDir on file walking with filepath module
+- [ ] livereload using hugo implementation
+- [ ] writing a minimal golang http server framework
