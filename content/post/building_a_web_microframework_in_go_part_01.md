@@ -26,6 +26,11 @@ Here is a list of what we will try to achieve:
 	router.
 - __Part Three:__ write middleware and using a rendering engine.
 
+Furthermore, I will write a lot of code in the posts and it will be hard to
+follow up due to the fragmented parts. For this reason I put the code in
+this blog repository to test it. You can find those resources
+[here](https://github.com/IxDay/ixday.github.com/tree/source/content/code/microframework_in_go/).
+
 State of the ecosystem
 ----------------------
 
@@ -135,8 +140,12 @@ type (
 )
 
 // as prefix need to be reworked before being set we make it inaccessible
-func (pll *PrefixLevelLogger) Prefix() string     { return pll.prefix[:len(prefix)-1] }
-func (pll *PrefixLevelLogger) SetPrefix(p string) { pll.prefix = p + " " }
+func (pll *PrefixLevelLogger) Prefix() string { return pll.prefix[:len(pll.prefix)-2] }
+func (pll *PrefixLevelLogger) SetPrefix(p string) {
+	if p != "" {
+		pll.prefix = p + ": "
+	}
+}
 
 // logger will need to be a bit more reworked by the getter, we will show this later
 func (pll *PrefixLevelLogger) SetLogger(l *log.Logger) { pll.logger = l }
@@ -145,7 +154,7 @@ func (pll *PrefixLevelLogger) SetLogger(l *log.Logger) { pll.logger = l }
 func (pll *PrefixLevelLogger) Log(level int, format string, a ...interface{}) {
 	if level >= pll.Level {
 		a = append([]interface{}{lvlMap[level], pll.prefix}, a...)
-		pll.logger.Printf("[%s] %s: "+format, a...)
+		pll.logger.Printf("[%s] %s"+format, a...)
 	}
 }
 ```
@@ -154,6 +163,10 @@ First bits are here, this should be able to log, we will now use what Dave Chene
 taught us to build a functionnal API.
 
 ```go
+import (
+	"os"
+)
+
 var (
 	Std = log.New(os.Stderr, "", log.LstdFlags)
 )
@@ -162,7 +175,7 @@ var (
 func NewPrefixLevelLogger(options ...func(*PrefixLevelLogger)) *PrefixLevelLogger {
 
 	// build a default working logger, logging at INFO level to Stderr with date and time
-	pll := &PrefixLevelLogger{"", INFO, Std}
+	pll := &PrefixLevelLogger{INFO, "", Std}
 
 	// use options to customize our logger
 	for _, option := range options {
@@ -180,7 +193,7 @@ func LevelOpt(level int) func(*PrefixLevelLogger) {
 	return func(pll *PrefixLevelLogger) { pll.Level = level }
 }
 
-func LogOpt(logger *log.Logger) func(*PrefixLevelLogger) {
+func LoggerOpt(logger *log.Logger) func(*PrefixLevelLogger) {
 	return func(pll *PrefixLevelLogger) { pll.SetLogger(logger) }
 }
 
@@ -212,7 +225,7 @@ func (wf WriterFunc) Write(p []byte) (n int, err error) { return wf(p) }
 // signature is the same as a new logger, but populated with the current one fields
 func (pll *PrefixLevelLogger) Clone(options ...func(*PrefixLevelLogger)) *PrefixLevelLogger {
 	return NewPrefixLevelLogger(
-		append([]func(*PrefixLevelLogger){CloneOption(pll)}, options...)...,
+		append([]func(*PrefixLevelLogger){CloneOpt(pll)}, options...)...,
 	)
 }
 
@@ -248,6 +261,14 @@ import (
 	"os"
 )
 
+type (
+	HandleFunc func(http.ResponseWriter, *http.Request) // let's take advantage of what we learnt
+)
+
+// implement handler interface
+func (hf HandleFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) { hf(w, r) }
+
+
 // lets define a faulty handler to see the logger in action
 func handler(w http.ResponseWriter, r *http.Request) {
 	// a second call to WriteHeader trigger an error on http.Server.ErrorLog
@@ -266,11 +287,12 @@ func main() {
 
 	// now lets create a server, which will log errors at the ERROR level with another prefix
 	server := &http.Server{
-		Handler: handler,
-		ErrorLog: logger.Clone(PrefixOpt("server")).Logger(ERROR, cb) // conveniently chain functions
+		Addr:     "localhost:8000",
+		Handler:  handler,
+		ErrorLog: logger.Clone(PrefixOpt("server")).Logger(ERROR, cb), // conveniently chain functions
 	}
 	logger.Log(INFO, "Start serving requests...")
-	if err := s.Server.ListenAndServe(); err != nil {
+	if err := server.ListenAndServe(); err != nil {
 		logger.Log(ERROR, "Something bad happened trying to serve requests: %q", err)
 		// log.Fatal does not exist anymore, we need to exit with error code
 		// we can also do:
@@ -279,3 +301,23 @@ func main() {
 	}
 }
 ```
+
+Resources
+---------
+
+Books:
+
+- [The go programming language book](http://www.gopl.io/)
+
+Youtube links:
+
+- [Youtube video around the interface paradigm in golang](https://www.youtube.com/watch?v=xyDkyFjzFVc)
+- [Dave Cheney post around functional options](https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis)
+
+Code:
+
+- [Golang stdlib http](https://golang.org/pkg/net/http/)
+- [This blog post code](https://github.com/IxDay/ixday.github.com/tree/source/content/code/microframework_in_go/part_01/). There should be no further config required than a
+go compiler and running `go run *.go`.
+
+__Have fun!__
