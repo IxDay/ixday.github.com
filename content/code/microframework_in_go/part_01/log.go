@@ -27,16 +27,24 @@ var (
 	}
 )
 
-// our structure, contains a fixed level and two hidden members, those are here
-// for internal work.
 type (
-	WriterFunc        func(p []byte) (n int, err error)
+	LoggerFunc func(int, string, ...interface{})
+	Logger     interface {
+		Log(level int, format string, a ...interface{})
+	}
+	WriterFunc func(p []byte) (n int, err error)
+	// our structure, contains a fixed level and two hidden members, those are here
+	// for internal work.
 	PrefixLevelLogger struct {
 		Level  int
 		prefix string
 		logger *log.Logger
 	}
 )
+
+func (f LoggerFunc) Log(level int, format string, a ...interface{}) { f(level, format, a...) }
+
+func NewNoopLogger() Logger { return LoggerFunc(func(_ int, _ string, _ ...interface{}) {}) }
 
 // as prefix need to be reworked before being set we make it inaccessible
 func (pll *PrefixLevelLogger) Prefix() string { return pll.prefix[:len(pll.prefix)-2] }

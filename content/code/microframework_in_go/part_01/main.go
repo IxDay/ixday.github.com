@@ -6,13 +6,6 @@ import (
 	"os"
 )
 
-type (
-	HandleFunc func(http.ResponseWriter, *http.Request) // let's take advantage of what we learnt
-)
-
-// implement handler interface
-func (hf HandleFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) { hf(w, r) }
-
 // lets define a faulty handler to see the logger in action
 func handler(w http.ResponseWriter, r *http.Request) {
 	// a second call to WriteHeader trigger an error on http.Server.ErrorLog
@@ -32,7 +25,7 @@ func main() {
 	// now lets create a server, which will log errors at the ERROR level with another prefix
 	server := &http.Server{
 		Addr:     "localhost:8000",
-		Handler:  HandleFunc(handler),
+		Handler:  http.HandlerFunc(handler),
 		ErrorLog: logger.Clone(PrefixOpt("server")).Logger(ERROR, cb), // conveniently chain functions
 	}
 	logger.Log(INFO, "Start serving requests...")

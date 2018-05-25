@@ -29,7 +29,7 @@ Here is a list of what we will try to achieve:
 Furthermore, I will write a lot of code in the posts and it will be hard to
 follow up due to the fragmented parts. For this reason I put the code in
 this blog repository to test it. You can find those resources
-[here](https://github.com/IxDay/ixday.github.com/tree/source/content/code/microframework_in_go/).
+[here](https://github.com/IxDay/ixday.github.com/tree/source/content/code/microframework_in_go).
 
 State of the ecosystem
 ----------------------
@@ -261,14 +261,6 @@ import (
 	"os"
 )
 
-type (
-	HandleFunc func(http.ResponseWriter, *http.Request) // let's take advantage of what we learnt
-)
-
-// implement handler interface
-func (hf HandleFunc) ServeHTTP(w http.ResponseWriter, r *http.Request) { hf(w, r) }
-
-
 // lets define a faulty handler to see the logger in action
 func handler(w http.ResponseWriter, r *http.Request) {
 	// a second call to WriteHeader trigger an error on http.Server.ErrorLog
@@ -288,7 +280,7 @@ func main() {
 	// now lets create a server, which will log errors at the ERROR level with another prefix
 	server := &http.Server{
 		Addr:     "localhost:8000",
-		Handler:  handler,
+		Handler:  http.HandlerFunc(handler),
 		ErrorLog: logger.Clone(PrefixOpt("server")).Logger(ERROR, cb), // conveniently chain functions
 	}
 	logger.Log(INFO, "Start serving requests...")
@@ -317,7 +309,7 @@ Youtube links:
 Code:
 
 - [Golang stdlib http](https://golang.org/pkg/net/http/)
-- [This blog post code](https://github.com/IxDay/ixday.github.com/tree/source/content/code/microframework_in_go/part_01/). There should be no further config required than a
+- [This blog post code](https://github.com/IxDay/ixday.github.com/tree/source/content/code/microframework_in_go/part_01). There should be no further config required than a
 go compiler and running `go run *.go`.
 
 __Have fun!__
