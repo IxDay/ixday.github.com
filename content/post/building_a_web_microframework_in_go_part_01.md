@@ -14,9 +14,7 @@ have pro and cons.
 
 I built a various set of services using both approach and now I realize that
 building your own wrappers around stdlib is not that hard. So, in this serie of
-posts I will show you how to do it.
-
-Here is a list of what we will try to achieve:
+posts I will show you how to do it:
 
 - __Part One:__ write clean and extensible golang structures, we will start with
 	a level based prefix logger.
@@ -26,7 +24,7 @@ Here is a list of what we will try to achieve:
 	router.
 - __Part Three:__ write middleware and using a rendering engine.
 
-Furthermore, I will write a lot of code in the posts and it will be hard to
+__Note:__ I will write a lot of code in the posts and it will be hard to
 follow up due to the fragmented parts. For this reason I put the code in
 this blog repository to test it. You can find those resources
 [here](https://github.com/IxDay/ixday.github.com/tree/source/content/code/microframework_in_go).
@@ -37,30 +35,34 @@ State of the ecosystem
 Currently Golang ecosystem is splitted between those two approach. In order to
 build something it's important to get a tour of what is already existing.
 
-First, you can do without, 5mn on Google about golang frameworks will "propulse"
-you in threads were people will advocate for only using stdlib __TODO: refs here__.
-I think it is a bit more complicated, the `Handler` interface is a good abstraction
-but it is not flexible enough (just try to do some error handling for instance).
+First, you can do without, 5mn on Google about golang frameworks will _propulse_ you in
+[threads were people will advocate for only using stdlib](https://news.ycombinator.com/item?id=11427542).
+This is true if you are doing a simple JSON REST API but if you are going for
+a full service things will become harder pretty fast.
+The `Handler` interface from stdlib is a good abstraction
+but it leaves you with only a few number of helpers an almost no guidance.
 
-Then there's frameworks, and there's a lot of solutions out
+Then, there's frameworks, and you have a lot of solutions out
 [there](https://blog.usejournal.com/top-6-web-frameworks-for-go-as-of-2017-23270e059c4b).
 Currently, no clear leader as emerged yet, and the only standard way of plugging here is to use
 [the stdlib handler interface](https://golang.org/pkg/net/http/#Handler).
-However, those solutions provides a set of basic features we will try to mimic here.
+However, those solutions usually provide convenient utilities to start writing
+web services, and we will try to mimic some of them.
 
-Both approaches have pros and cons, the first one allows you to start faster and
-provide a default architecture which will avoid some common pitfalls. The other
-one, is lower level and gives more power, the cons are mostly the pros of a framework.
-The pros are mostly the flexibility and power it provides, code is not tied to
-an implementation.
+Both approaches have pros and cons:
+
+- Framework: default architecture, faster start. Problem appears when you
+want to go out of the common use cases.
+- Stdlib: simple primitives which give full control. Code can get messy if
+you do not think of the architecture ahead.
 
 Architecture and write some Golang
 ----------------------------------
 
 Before starting, I'd like to share some resources which helped me a lot in writing
 Go. I am extensively writing Golang for more than two years now, I've read:
-[The go programming language book](http://www.gopl.io/) but nothing changed my
-way of programming as those two resources:
+[The go programming language book](http://www.gopl.io/) but nothing improved my
+Golang programming skills as those two resources:
 
 - [Youtube video around the interface paradigm in golang](https://www.youtube.com/watch?v=xyDkyFjzFVc)
 - [Dave Cheney post around functional options](https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis)
@@ -68,17 +70,19 @@ way of programming as those two resources:
 First module
 ------------
 
-__TODO: add a disclaimer, this is example and not production ready. You can
-use more advanced modules to handle logs in your project__
+__This example is here to think around interfaces and Golang APIs.
+It is not meant to be a production ready solution.
+You can (and maybe should) use more advanced modules to handle logs in your project.__
 
 Golang implementation of a simple logger is subject to some criticism. First,
 it does not use any extendable pattern, the only interface we can inject to
 modify the behavior of the logger is a [writer interface](https://golang.org/pkg/log/#New).
 Also, the lack of a proper log level control is a subject of discussion in
-the community. __TODO: refs here + other issues on log library, like Fatal calls
-which can leak resources, or lack of utility on Println__.
+the community [here](https://twitter.com/bketelsen/status/820768241849077760),
+[here](https://groups.google.com/forum/#!topic/golang-dev/F3l9Iz1JX4g), or
+[this](https://dave.cheney.net/2015/11/05/lets-talk-about-logging) blog post.
 
-Let's define what we need. Basically, a way to log at a certain level
+Let's define what we need: a way to log at a certain level
 (we will also use what was described in the youtube video from
 [previous section](#architecture-and-write-some-golang)).
 
@@ -98,11 +102,11 @@ func NewNoopLogger() Logger { return LoggerFunc(func(_ int, _ string, _ ...inter
 ```
 
 It defines a simple Logger interface with a `Log` function, this function
-is using the same signature as `fmt.Printf` and `log.Printf` but also add
-a level at which we want to log. We define a `NoopLogger` in order to discard
-logs.
+is using the same signature as `fmt.Printf` and `log.Printf` with an additional
+argument: a level at which we want to log.
+We also define a `NoopLogger` in order to discard logs.
 
-Now, let's implement our prefix level logger (just add the following code):
+Now, let's implement our prefix level logger:
 
 ```go
 import (
@@ -212,8 +216,8 @@ the second will allow to inject our logger in external services relying on
 
 We could have added it to the `Logger` interface but it may have cluttered it.
 For the moment we will stay with it, but later we can create a `Cloner` interface and add
-a `CloneLogger` composition. A very good example of interface composition can
-be found in [the io package](https://golang.org/pkg/io/#ReadCloser)
+a `CloneLogger` composition. A good example of interface composition can
+be found in [the io package](https://golang.org/pkg/io/#ReadCloser).
 
 ```go
 type (
@@ -247,8 +251,8 @@ members require some rework before being set or handed to the user. That's
 why we are writing getters and setters and put the underlying reference as
 private.
 
-Using the logger!
------------------
+Use the logger Luke!
+--------------------
 
 Lets write a logger for `http.Server`.
 
