@@ -6,10 +6,19 @@
     <description>Recent content on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 May 2018 10:22:33 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 01 Jul 2018 17:28:16 +0200</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Parallel runners with teardown in go</title>
+      <link>http://ixday.github.io/post/teardown_runner/</link>
+      <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/teardown_runner/</guid>
+      <description>From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.</description>
+    </item>
     
     <item>
       <title>Filepath Walk bug?</title>
@@ -20,7 +29,7 @@
       <description>During the development of a small project I noticed something strange with golang&amp;rsquo;s function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&amp;rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux  Run the script Now, let&amp;rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
     </item>
     
     <item>
@@ -41,7 +50,7 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
+layout python  That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
     </item>
     
     <item>
@@ -51,8 +60,8 @@ layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv direc
       
       <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &amp;#34;bar&amp;#34; Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:</description>
+foo := &amp;quot;bar&amp;quot;  Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &amp;quot;bar&amp;quot;; foo == &amp;quot;baz&amp;quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:</description>
     </item>
     
     <item>
@@ -150,7 +159,7 @@ Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go
       
       <guid>http://ixday.github.io/post/curl_utils/</guid>
       <description>Here are some options and command I use with curl when dealing with stuff I have to develop.
-curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress  # -i displays the headers  curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -u &amp;#34;admin:admin&amp;#34; -d &amp;#39;{}&amp;#39; &amp;lt;ip&amp;gt; # -X set up the http method (here POST) # -H set up an header, format is: &amp;#34;header_name: value&amp;#34; # -u support for Basic Auth, format is: &amp;#34;user:password&amp;#34; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.</description>
+curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -u &amp;quot;admin:admin&amp;quot; -d &amp;#39;{}&amp;#39; &amp;lt;ip&amp;gt; # -X set up the http method (here POST) # -H set up an header, format is: &amp;quot;header_name: value&amp;quot; # -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot; # -d set up data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.</description>
     </item>
     
     <item>
@@ -246,9 +255,9 @@ The second thing I will need is an iconic font for the power button. Font Awesom
       
       <guid>http://ixday.github.io/post/bash_expansion/</guid>
       <description>A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-for i in {1..50} do echo &amp;#34;Hello World $i&amp;#34; done It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echo something/{foo,bar} &amp;gt; something/foo something/bar Still not amazed, ok now type this one:
-cp some_file{,.old} It will copy your file adding a .</description>
+for i in {1..50} do echo &amp;quot;Hello World $i&amp;quot; done  It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echo something/{foo,bar} &amp;gt; something/foo something/bar  Still not amazed, ok now type this one:
+cp some_file{,.old}  It will copy your file adding a .</description>
     </item>
     
     <item>
@@ -260,9 +269,11 @@ cp some_file{,.old} It will copy your file adding a .</description>
       <description>&lt;p&gt;Following &lt;a href=&#34;{filename}/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
   Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+Unable to find LVM volume vg_ssd/lv_root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 
@@ -339,7 +350,7 @@ Creating your first container So like docker I wanted to first start a container
       <description>After many days of configuration, I finally complete the installation of my perfect &amp;ldquo;workstation&amp;rdquo; ;).
 source.list I have to directory for this, first the preferences, then the sources.list.
 Just run an aptitude update, and you will some missing gpg keys, now run
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt; To have your keys installed.
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;  To have your keys installed.
 sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.</description>
     </item>
     
@@ -352,7 +363,7 @@ sudo A sudo file is important in order to correctly manage a computer, a simple 
       <description>I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
 I also use Flask a lot, so today I will show you some of my snippets.
 First one the app fixture:
-@pytest.fixture(autouse=True) def app(): &amp;#34;&amp;#34;&amp;#34;Load flask in testing mode&amp;#34;&amp;#34;&amp;#34; app_test = myapp app_test.config[&amp;#39;TESTING&amp;#39;] = True app_test.json_encoder = my_encoder return app_test.test_client() This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.</description>
+@pytest.fixture(autouse=True) def app(): &amp;quot;&amp;quot;&amp;quot;Load flask in testing mode&amp;quot;&amp;quot;&amp;quot; app_test = myapp app_test.config[&amp;#39;TESTING&amp;#39;] = True app_test.json_encoder = my_encoder return app_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.</description>
     </item>
     
     <item>
@@ -387,7 +398,7 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</descri
       <description>It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -d @filepath Then you can remove the progress bar by adding -s in the options</description>
+curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -d @filepath  Then you can remove the progress bar by adding -s in the options</description>
     </item>
     
     <item>
@@ -455,7 +466,18 @@ It is pretty simple to do that, but it is not clearly explained in the angular d
       <description>Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:
-# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&amp;#34;/tmp/tempfile.</description>
+# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&amp;quot;/tmp/tempfile.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>http://ixday.github.io/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/</guid>
+      <description>HttpRouter    HttpRouter is a lightweight high performance HTTP request router (also called multiplexer or just mux for short) for Go.
+In contrast to the default mux of Go&amp;rsquo;s net/http package, this router supports variables in the routing pattern and matches against the request method. It also scales better.
+The router is optimized for high performance and a small memory footprint. It scales well even with very long paths and a large number of routes.</description>
     </item>
     
   </channel>

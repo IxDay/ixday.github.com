@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.40.2" />
+  <meta name="generator" content="Hugo 0.42.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -50,6 +50,47 @@
     <div class="meta">
   <time class="date">
     
+    Sun Jul 1 2018
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/teardown_runner/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/teardown_runner/">Parallel runners with teardown in go</a></h2>
+    <p>
+    From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.
+    
+    <a href="/post/teardown_runner/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/golang ">golang</a>
+, <a href="/tags/dev ">dev</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Wed May 9 2018
     
   </time>
@@ -73,7 +114,7 @@
     During the development of a small project I noticed something strange with golang&rsquo;s function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux  Run the script Now, let&rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
     
     <a href="/post/filepath_walk/">Read More...</a>
     
@@ -157,7 +198,7 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     <p>
     I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That&rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+layout python  That&rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
     
     <a href="/post/direnv/">Read More...</a>
     
@@ -200,8 +241,8 @@ layout python That&rsquo;s it! It sets up a virtualenv in your .direnv directory
     <h2 class="caption-title"><a href="/post/golang-err-shadowing/">golang err shadowing</a></h2>
     <p>
     A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &#34;bar&#34; Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &#34;bar&#34;; foo == &#34;baz&#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:
+foo := &quot;bar&quot;  Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &quot;bar&quot;; foo == &quot;baz&quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:
     
     <a href="/post/golang-err-shadowing/">Read More...</a>
     
@@ -424,41 +465,6 @@ main entry used:</p>
     <strong>Tagged</strong>
     <a href="/tags/admin ">admin</a>
 
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Wed Nov 23 2016
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/docker_nspawn/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/docker_nspawn/">Docker Nspawn</a></h2>
-    <p>
-    Don&rsquo;t want to use Docker? Still want to start containers for tests or whatever? Don&rsquo;t want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
-Thanks to the CoreOS team (love those guys) a new hub for storing container now exists: quay. The other good news is the ACI, the container image format defined in the App Container (appc) spec.
-    
-    <a href="/post/docker_nspawn/">Read More...</a>
-    
     </p>
     
   </div>

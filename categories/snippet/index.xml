@@ -6,10 +6,19 @@
     <description>Recent content in Snippet on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 09 May 2018 10:22:33 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 01 Jul 2018 17:28:16 +0200</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Parallel runners with teardown in go</title>
+      <link>http://ixday.github.io/post/teardown_runner/</link>
+      <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/teardown_runner/</guid>
+      <description>From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.</description>
+    </item>
     
     <item>
       <title>Filepath Walk bug?</title>
@@ -20,7 +29,7 @@
       <description>During the development of a small project I noticed something strange with golang&amp;rsquo;s function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&amp;rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux  Run the script Now, let&amp;rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
     </item>
     
     <item>
@@ -41,7 +50,7 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
+layout python  That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
     </item>
     
     <item>
@@ -51,8 +60,8 @@ layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv direc
       
       <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &amp;#34;bar&amp;#34; Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:</description>
+foo := &amp;quot;bar&amp;quot;  Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &amp;quot;bar&amp;quot;; foo == &amp;quot;baz&amp;quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:</description>
     </item>
     
     <item>
@@ -92,7 +101,7 @@ Thanks to the CoreOS team (love those guys) a new hub for storing container now 
       
       <guid>http://ixday.github.io/post/curl_utils/</guid>
       <description>Here are some options and command I use with curl when dealing with stuff I have to develop.
-curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress  # -i displays the headers  curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -u &amp;#34;admin:admin&amp;#34; -d &amp;#39;{}&amp;#39; &amp;lt;ip&amp;gt; # -X set up the http method (here POST) # -H set up an header, format is: &amp;#34;header_name: value&amp;#34; # -u support for Basic Auth, format is: &amp;#34;user:password&amp;#34; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.</description>
+curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -u &amp;quot;admin:admin&amp;quot; -d &amp;#39;{}&amp;#39; &amp;lt;ip&amp;gt; # -X set up the http method (here POST) # -H set up an header, format is: &amp;quot;header_name: value&amp;quot; # -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot; # -d set up data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.</description>
     </item>
     
     <item>
@@ -134,9 +143,9 @@ Here is the command I run when I just made some devs: py.test -xvvvs --tb=line -
       
       <guid>http://ixday.github.io/post/bash_expansion/</guid>
       <description>A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-for i in {1..50} do echo &amp;#34;Hello World $i&amp;#34; done It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echo something/{foo,bar} &amp;gt; something/foo something/bar Still not amazed, ok now type this one:
-cp some_file{,.old} It will copy your file adding a .</description>
+for i in {1..50} do echo &amp;quot;Hello World $i&amp;quot; done  It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echo something/{foo,bar} &amp;gt; something/foo something/bar  Still not amazed, ok now type this one:
+cp some_file{,.old}  It will copy your file adding a .</description>
     </item>
     
     <item>
@@ -159,7 +168,7 @@ It is pretty simple, but not well known (I checked some stackoverflow threads be
       <description>Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:
-# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&amp;#34;/tmp/tempfile.</description>
+# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&amp;quot;/tmp/tempfile.</description>
     </item>
     
   </channel>

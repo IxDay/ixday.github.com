@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://ixday.github.io/post/teardown_runner/</loc>
+    <lastmod>2018-07-01T17:28:16+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://ixday.github.io/post/filepath_walk/</loc>
     <lastmod>2018-05-09T10:22:33+02:00</lastmod>
   </url>
@@ -198,6 +203,10 @@
   </url>
   
   <url>
+    <loc>http://ixday.github.io/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/</loc>
+  </url>
+  
+  <url>
     <loc>http://ixday.github.io/tags/admin/</loc>
     <lastmod>2017-05-01T11:41:14+02:00</lastmod>
     <priority>0</priority>
@@ -233,14 +242,19 @@
   </url>
   
   <url>
+    <loc>http://ixday.github.io/code/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://ixday.github.io/tags/dev/</loc>
-    <lastmod>2018-02-12T11:48:04+01:00</lastmod>
+    <lastmod>2018-07-01T17:28:16+02:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://ixday.github.io/tags/golang/</loc>
-    <lastmod>2018-05-09T10:22:33+02:00</lastmod>
+    <lastmod>2018-07-01T17:28:16+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -258,7 +272,7 @@
   
   <url>
     <loc>http://ixday.github.io/</loc>
-    <lastmod>2018-05-09T10:22:33+02:00</lastmod>
+    <lastmod>2018-07-01T17:28:16+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -270,7 +284,7 @@
   
   <url>
     <loc>http://ixday.github.io/post/</loc>
-    <lastmod>2018-05-09T10:22:33+02:00</lastmod>
+    <lastmod>2018-07-01T17:28:16+02:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -288,7 +302,7 @@
   
   <url>
     <loc>http://ixday.github.io/categories/snippet/</loc>
-    <lastmod>2018-05-09T10:22:33+02:00</lastmod>
+    <lastmod>2018-07-01T17:28:16+02:00</lastmod>
     <priority>0</priority>
   </url>
   

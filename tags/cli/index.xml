@@ -19,7 +19,7 @@
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
+layout python  That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
     </item>
     
     <item>
@@ -61,9 +61,9 @@ I really loved experienced with it, it does not require a lot of dependencies on
       
       <guid>http://ixday.github.io/post/bash_expansion/</guid>
       <description>A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-for i in {1..50} do echo &amp;#34;Hello World $i&amp;#34; done It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echo something/{foo,bar} &amp;gt; something/foo something/bar Still not amazed, ok now type this one:
-cp some_file{,.old} It will copy your file adding a .</description>
+for i in {1..50} do echo &amp;quot;Hello World $i&amp;quot; done  It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echo something/{foo,bar} &amp;gt; something/foo something/bar  Still not amazed, ok now type this one:
+cp some_file{,.old}  It will copy your file adding a .</description>
     </item>
     
     <item>
@@ -75,7 +75,7 @@ cp some_file{,.old} It will copy your file adding a .</description>
       <description>It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -d @filepath Then you can remove the progress bar by adding -s in the options</description>
+curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -d @filepath  Then you can remove the progress bar by adding -s in the options</description>
     </item>
     
   </channel>

@@ -64,9 +64,11 @@ Why ?  It is based on debian a distribution which I really like (and not Ubuntu)
       <description>&lt;p&gt;Following &lt;a href=&#34;{filename}/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
   Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+Unable to find LVM volume vg_ssd/lv_root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 
@@ -99,7 +101,7 @@ come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encr
       <description>After many days of configuration, I finally complete the installation of my perfect &amp;ldquo;workstation&amp;rdquo; ;).
 source.list I have to directory for this, first the preferences, then the sources.list.
 Just run an aptitude update, and you will some missing gpg keys, now run
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt; To have your keys installed.
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;  To have your keys installed.
 sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.</description>
     </item>
     

@@ -35,7 +35,7 @@ come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encr
       <description>After many days of configuration, I finally complete the installation of my perfect &amp;ldquo;workstation&amp;rdquo; ;).
 source.list I have to directory for this, first the preferences, then the sources.list.
 Just run an aptitude update, and you will some missing gpg keys, now run
-apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt; To have your keys installed.
+apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &amp;lt;key_number&amp;gt;  To have your keys installed.
 sudo A sudo file is important in order to correctly manage a computer, a simple aptitude install sudo will give you the tool.</description>
     </item>
     

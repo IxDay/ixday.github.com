@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.40.2" />
+  <meta name="generator" content="Hugo 0.42.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -246,7 +246,7 @@ The -e option allows you to pass a path (git, http, file) for a given module and
     I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
 I also use Flask a lot, so today I will show you some of my snippets.
 First one the app fixture:
-@pytest.fixture(autouse=True) def app(): &#34;&#34;&#34;Load flask in testing mode&#34;&#34;&#34; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client() This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
+@pytest.fixture(autouse=True) def app(): &quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
     
     <a href="/post/pytest_fixture/">Read More...</a>
     

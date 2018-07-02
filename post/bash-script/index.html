@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.40.2" />
+  <meta name="generator" content="Hugo 0.42.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -93,18 +93,22 @@ the maintainability of your shell scripts</p>
 
 <p>Everyone who already used a bash script will tell you to mark every variable
 reading with double quotes:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># like this
-</span><span class="c1"></span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$a</span><span class="s2">&#34;</span></code></pre></div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># like this</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$a</span><span class="s2">&quot;</span>
+</code></pre></div>
+
 <p>The question is why do we have to mark them, to show that just a little example,
 run the following script</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nv">LS</span><span class="o">=</span><span class="s2">&#34;ls *&#34;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">LS</span><span class="o">=</span><span class="s2">&quot;ls *&quot;</span>
 
-<span class="nb">echo</span> <span class="s2">&#34;Not Quoted&#34;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Not Quoted&quot;</span>
 <span class="nb">echo</span> <span class="nv">$LS</span>
 <span class="nb">echo</span>
-<span class="nb">echo</span> <span class="s2">&#34;Quoted&#34;</span>
-<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$LS</span><span class="s2">&#34;</span></code></pre></div>
+<span class="nb">echo</span> <span class="s2">&quot;Quoted&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$LS</span><span class="s2">&quot;</span>
+</code></pre></div>
+
 <p>As you can see there is a huge difference between the two versions, in fact,
 if there is no double quotes, the variable is subject to word splitting and
 file globbing see <a href="http://mywiki.wooledge.org/BashPitfalls#echo%5f.24foo">here</a>
@@ -114,19 +118,23 @@ failures.</p>
 <h3 id="the-braquets-notation">The braquets notation</h3>
 
 <p>To display a variable there is two notations</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nv">FOO</span><span class="o">=</span><span class="s2">&#34;foo&#34;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">FOO</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span>
 
-<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$FOO</span><span class="s2">&#34;</span>
-<span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">FOO</span><span class="si">}</span><span class="s2">&#34;</span></code></pre></div>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="nv">$FOO</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;</span><span class="si">${</span><span class="nv">FOO</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+
 <p>These two notations displays the same thing, so why do we need the second one?
 This notation is here to clarify an ambiguity, because variables can be used
 in a string interpolation it can lead to a miscomprehension.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nv">FO</span><span class="o">=</span><span class="s2">&#34;fo&#34;</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">FO</span><span class="o">=</span><span class="s2">&quot;fo&quot;</span>
 
-<span class="nb">echo</span> <span class="s2">&#34;because </span><span class="nv">$FOo</span><span class="s2"> you &#34;</span>
-<span class="nb">echo</span> <span class="s2">&#34;because </span><span class="si">${</span><span class="nv">FO</span><span class="si">}</span><span class="s2">o you&#34;</span></code></pre></div>
+<span class="nb">echo</span> <span class="s2">&quot;because </span><span class="nv">$FOo</span><span class="s2"> you &quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;because </span><span class="si">${</span><span class="nv">FO</span><span class="si">}</span><span class="s2">o you&quot;</span>
+</code></pre></div>
+
 <p>As you can see the result of the previous script the first line does not write
 what is contained into the variable, because bash interpreter try to display
 the content of the variable <code>FOo</code> which does not exist.</p>
@@ -140,62 +148,72 @@ script:</p>
 <ul>
 <li><code>set -e</code> Will stop the script if an error occurs</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nb">set</span> -e
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nb">set</span> -e
 
-<span class="nb">echo</span> <span class="s2">&#34;this command exist&#34;</span>
+<span class="nb">echo</span> <span class="s2">&quot;this command exist&quot;</span>
 ls
 <span class="nb">echo</span>
-<span class="nb">echo</span> <span class="s2">&#34;hope this one not&#34;</span>
+<span class="nb">echo</span> <span class="s2">&quot;hope this one not&quot;</span>
 foo
 <span class="nb">echo</span>
-<span class="nb">echo</span> <span class="s2">&#34;this will not be displayed&#34;</span>
-ls</code></pre></div>
+<span class="nb">echo</span> <span class="s2">&quot;this will not be displayed&quot;</span>
+ls
+</code></pre></div>
+
 <p>Try removing the second line and see what happened. Sometime this behaviour is
 needed, sometime not.</p>
 
 <ul>
 <li><code>set -x</code> Will display the line running and evaluate the variables</li>
 </ul>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span><span class="nb">set</span> -x
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
+<span class="nb">set</span> -x
 
-<span class="nv">FOO</span><span class="o">=</span><span class="s2">&#34;foo&#34;</span>
-<span class="nv">BAR</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$FOO</span><span class="s2">&#34;</span></code></pre></div>
+<span class="nv">FOO</span><span class="o">=</span><span class="s2">&quot;foo&quot;</span>
+<span class="nv">BAR</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$FOO</span><span class="s2">&quot;</span>
+</code></pre></div>
+
 <p>This will display</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">+ <span class="nv">FOO</span><span class="o">=</span>foo
-+ <span class="nv">BAR</span><span class="o">=</span>foo</code></pre></div>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>+ <span class="nv">FOO</span><span class="o">=</span>foo
++ <span class="nv">BAR</span><span class="o">=</span>foo
+</code></pre></div>
+
 <h3 id="command-return-code-testing">Command return code testing</h3>
 
 <p>There is a simple way to test some command return in bash if we do not need the
 result</p>
 
 <p>Here is the common way to do that</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span>
-<span class="nv">RESULT</span><span class="o">=</span><span class="k">$(</span>grep <span class="s2">&#34;toto&#34;</span> /dev/null<span class="k">)</span>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="nv">RESULT</span><span class="o">=</span><span class="k">$(</span>grep <span class="s2">&quot;toto&quot;</span> /dev/null<span class="k">)</span>
 
 <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]]</span>
 <span class="k">then</span>
-  <span class="nb">echo</span> <span class="s2">&#34;Command failed&#34;</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Command failed&quot;</span>
 <span class="k">fi</span>
 
 <span class="nv">RESULT</span><span class="o">=</span><span class="k">$(</span>ls /dev/null<span class="k">)</span>
 
 <span class="k">if</span> <span class="o">[[</span> ! <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]]</span>
 <span class="k">then</span>
-  <span class="nb">echo</span> <span class="s2">&#34;Command succeed&#34;</span>
-<span class="k">fi</span></code></pre></div>
+  <span class="nb">echo</span> <span class="s2">&quot;Command succeed&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+
 <p>But if we do not want the result, and just want to test some command return,
 here is the simple way to perform that</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
-</span><span class="cp"></span>
-<span class="k">if</span> grep <span class="s2">&#34;toto&#34;</span> /dev/null
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="k">if</span> grep <span class="s2">&quot;toto&quot;</span> /dev/null
 <span class="k">then</span>
-  <span class="nb">echo</span> <span class="s2">&#34;Command succeed&#34;</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Command succeed&quot;</span>
 <span class="k">else</span>
-  <span class="nb">echo</span> <span class="s2">&#34;Command failed&#34;</span>
-<span class="k">fi</span></code></pre></div>
+  <span class="nb">echo</span> <span class="s2">&quot;Command failed&quot;</span>
+<span class="k">fi</span>
+</code></pre></div>
+
   </div>
 </article>
 <div id="disqus_thread"></div>

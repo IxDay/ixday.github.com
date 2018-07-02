@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.40.2" />
+  <meta name="generator" content="Hugo 0.42.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -90,60 +90,70 @@ a file entry. The walker will stop.</p>
 <h2 id="setup-directory">Setup directory</h2>
 
 <p>First, set up a simple directory to walk</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mkdir -p foo/baz
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>mkdir -p foo/baz
 touch foo/bar
-touch foo/baz/qux</code></pre></div>
+touch foo/baz/qux
+</code></pre></div>
+
 <h2 id="run-the-script">Run the script</h2>
 
 <p>Now, let&rsquo;s run this example script, with the previous directory as the entry
 argument. I will reuse the example from golang documentation website with small
 changes.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;fmt&#34;</span>
-	<span class="s">&#34;os&#34;</span>
-	<span class="s">&#34;path/filepath&#34;</span>
+	<span class="s">&quot;fmt&quot;</span>
+	<span class="s">&quot;os&quot;</span>
+	<span class="s">&quot;path/filepath&quot;</span>
 <span class="p">)</span>
 
 <span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">dir</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">// this is not solid, but will work for the example
-</span><span class="c1"></span>	<span class="nx">fileToSkip</span> <span class="o">:=</span> <span class="s">&#34;bar&#34;</span> <span class="c1">// we skip on a file to highlight the bug
-</span><span class="c1"></span>
+	<span class="nx">dir</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>   <span class="c1">// this is not solid, but will work for the example</span>
+	<span class="nx">fileToSkip</span> <span class="o">:=</span> <span class="s">&quot;bar&quot;</span> <span class="c1">// we skip on a file to highlight the bug</span>
+
 	<span class="nx">err</span> <span class="o">:=</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">Walk</span><span class="p">(</span><span class="nx">dir</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">path</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">info</span> <span class="nx">os</span><span class="p">.</span><span class="nx">FileInfo</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
 		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
 			<span class="k">return</span> <span class="nx">err</span>
 		<span class="p">}</span>
-		<span class="k">if</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">()</span> <span class="o">==</span> <span class="nx">fileToSkip</span> <span class="p">{</span> <span class="c1">// no check on entry type info.IsDir()
-</span><span class="c1"></span>			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;skipping a dir without errors: %+v \n&#34;</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">())</span>
+		<span class="k">if</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">()</span> <span class="o">==</span> <span class="nx">fileToSkip</span> <span class="p">{</span> <span class="c1">// no check on entry type info.IsDir()</span>
+			<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;skipping a dir without errors: %+v \n&quot;</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">())</span>
 			<span class="k">return</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">SkipDir</span>
 		<span class="p">}</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;visited file: %q\n&#34;</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;visited file: %q\n&quot;</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span>
 		<span class="k">return</span> <span class="kc">nil</span>
 	<span class="p">})</span>
 
 	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;error walking the path %q: %v\n&#34;</span><span class="p">,</span> <span class="nx">dir</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;error walking the path %q: %v\n&quot;</span><span class="p">,</span> <span class="nx">dir</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
 	<span class="p">}</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
+
 <p>This will output:</p>
-<div class="highlight"><pre class="chroma"><code class="language-txt" data-lang="txt">visited <span class="nb">file</span><span class="o">:</span> &#34;foo&#34;
-skipping a dir without errors<span class="o">:</span> bar</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>visited file: &quot;foo&quot;
+skipping a dir without errors: bar
+</code></pre></div>
+
 <p>As you can notice, there&rsquo;s no trace of subdir <code>baz</code> and file <code>baz/qux</code>.</p>
 
 <h2 id="fix-the-script">Fix the script</h2>
 
 <p>To make this work <em>&ldquo;as expected&rdquo;</em> you will have to change line 17. With:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nx">info</span><span class="p">.</span><span class="nx">IsDir</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">()</span> <span class="o">==</span> <span class="nx">fileToSkip</span> <span class="p">{</span> <span class="c1">// now test on entry type
-</span><span class="c1"></span>	<span class="c1">//unchanged
-</span><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&#34;skipping a dir without errors: %+v \n&#34;</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">())</span>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="k">if</span> <span class="nx">info</span><span class="p">.</span><span class="nx">IsDir</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">()</span> <span class="o">==</span> <span class="nx">fileToSkip</span> <span class="p">{</span> <span class="c1">// now test on entry type</span>
+	<span class="c1">//unchanged</span>
+	<span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;skipping a dir without errors: %+v \n&quot;</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nx">Name</span><span class="p">())</span>
 	<span class="k">return</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">SkipDir</span>
-<span class="p">}</span></code></pre></div>
+<span class="p">}</span>
+</code></pre></div>
+
 <p>Output is now:</p>
-<div class="highlight"><pre class="chroma"><code class="language-txt" data-lang="txt">visited <span class="nb">file</span><span class="o">:</span> &#34;foo&#34;
-visited <span class="nb">file</span><span class="o">:</span> &#34;foo/bar&#34;
-visited <span class="nb">file</span><span class="o">:</span> &#34;foo/baz&#34;
-visited <span class="nb">file</span><span class="o">:</span> &#34;foo/baz/qux&#34;</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>visited file: &quot;foo&quot;
+visited file: &quot;foo/bar&quot;
+visited file: &quot;foo/baz&quot;
+visited file: &quot;foo/baz/qux&quot;
+</code></pre></div>
+
 <p><strong>So, next time using <code>filepath.Walk</code> be careful on this one!</strong></p>
 
   </div>
