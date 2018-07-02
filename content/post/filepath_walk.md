@@ -63,7 +63,7 @@ func main() {
 
 This will output:
 
-```txt
+```text
 visited file: "foo"
 skipping a dir without errors: bar
 ```
@@ -84,7 +84,7 @@ if info.IsDir() && info.Name() == fileToSkip { // now test on entry type
 
 Output is now:
 
-```txt
+```text
 visited file: "foo"
 visited file: "foo/bar"
 visited file: "foo/baz"
