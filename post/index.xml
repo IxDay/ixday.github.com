@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 01 Jul 2018 17:28:16 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 13 Jul 2018 12:09:32 +0200</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Log, FP and fun in Golang</title>
+      <link>http://ixday.github.io/post/log_fp_and_fun/</link>
+      <pubDate>Fri, 13 Jul 2018 12:09:32 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/log_fp_and_fun/</guid>
+      <description>Golang implementation of a simple logger is subject to some criticism. First, it does not use any extendable pattern, the only interface we can inject to modify the behavior of the logger is a writer interface. Also, the lack of a proper log level control is a subject of discussion in the community here, here, or this blog post.
+This post is more a reflexion around APIs and tricks in Golang than a production ready package.</description>
+    </item>
     
     <item>
       <title>Parallel runners with teardown in go</title>
