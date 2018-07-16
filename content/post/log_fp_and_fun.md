@@ -218,3 +218,24 @@ func main() {
 	log.Printf("error log level")
 }
 ```
+
+__Generate a valid logger from our custom implementation__
+
+As we want to integrate with some other libs (like the `ErrorLog` from
+[stdlib http package](https://golang.org/pkg/net/http/#Server), we need to provide
+some utilitaries. Here is a quick example:
+
+```go
+// The only pluggable point is using a writer, so we pipe writes to a fixed level of log
+func LoggerWriter(mark int, logger Logger) io.Writer {
+	return WriterFunc(func(p []byte) (int, error) {
+		logger.Log(mark, "%s", p)
+		return len(p), nil
+	})
+}
+
+// And we also provide a ready to use function, writing to a logger with no flags
+func StdLogger(mark int, logger Logger) *log.Logger {
+	return log.New(LoggerWriter(mark, logger), "", 0)
+}
+```
