@@ -266,6 +266,25 @@ It&rsquo;s possible to plug in there and here is an example:</p>
 <span class="p">}</span>
 </code></pre></div>
 
+<p><strong>Generate a valid logger from our custom implementation</strong></p>
+
+<p>As we want to integrate with some other libs (like the <code>ErrorLog</code> from
+<a href="https://golang.org/pkg/net/http/#Server">stdlib http package</a>, we need to provide
+some utilitaries. Here is a quick example:</p>
+<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="c1">// The only pluggable point is using a writer, so we pipe writes to a fixed level of log</span>
+<span class="kd">func</span> <span class="nx">LoggerWriter</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">WriterFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">logger</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">),</span> <span class="kc">nil</span>
+	<span class="p">})</span>
+<span class="p">}</span>
+
+<span class="c1">// And we also provide a ready to use function, writing to a logger with no flags</span>
+<span class="kd">func</span> <span class="nx">StdLogger</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">LoggerWriter</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="nx">logger</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
   </div>
 </article>
 <div id="disqus_thread"></div>
