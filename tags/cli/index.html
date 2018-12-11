@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.42.2" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,48 @@
     <h2 class="taxonomy-title">Filed under Cli...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Dec 11 2018
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/simple_https/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/simple_https/">Simple HTTPs server</a></h2>
+    <p>
+    Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &quot;/CN=foo.com&quot; # concatenate key and certificate to create a pem file cat foo.key foo.crt &gt; foo.pem # then we start a server using socat sudo socat &quot;ssl-l:443,cafile=foo.
+    
+    <a href="/post/simple_https/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/cli ">cli</a>
+, <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">

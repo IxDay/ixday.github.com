@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Jul 2018 12:09:32 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 11 Dec 2018 15:46:28 +0100</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Simple HTTPs server</title>
+      <link>http://ixday.github.io/post/simple_https/</link>
+      <pubDate>Tue, 11 Dec 2018 15:46:28 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/simple_https/</guid>
+      <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;quot;/CN=foo.com&amp;quot; # concatenate key and certificate to create a pem file cat foo.key foo.crt &amp;gt; foo.pem # then we start a server using socat sudo socat &amp;quot;ssl-l:443,cafile=foo.</description>
+    </item>
     
     <item>
       <title>Log, FP and fun in Golang</title>
@@ -148,8 +158,7 @@ Thanks to the CoreOS team (love those guys) a new hub for storing container now 
       <description>&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
 and I had to reinstall my distro. I checked my &lt;a href=&#34;http://ixday.github.io/post/linux_mint/&#34;&gt;previous article&lt;/a&gt;
 and noticed some missing informations. So here is a second article of things
-I needed to fixup when installing LMDE on my Macbook.
-&lt;/p&gt;</description>
+I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -287,9 +296,7 @@ Unable to find LVM volume vg_ssd/lv_root
 &lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 
-&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;
-
-which starts like this:&lt;/p&gt;</description>
+&lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -302,9 +309,7 @@ which starts like this:&lt;/p&gt;</description>
 And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 
 &lt;p&gt;I want it to look like that (like this scheme, a lot of reference
-come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>

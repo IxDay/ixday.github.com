@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.42.2" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,48 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Dec 11 2018
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/simple_https/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/simple_https/">Simple HTTPs server</a></h2>
+    <p>
+    Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &quot;/CN=foo.com&quot; # concatenate key and certificate to create a pem file cat foo.key foo.crt &gt; foo.pem # then we start a server using socat sudo socat &quot;ssl-l:443,cafile=foo.
+    
+    <a href="/post/simple_https/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/cli ">cli</a>
+, <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -405,47 +447,6 @@ DISCLAIMER: This will contain some of my conclusions with my partial understandi
 I ran into an interesting issue lastly. I wanted to mount a volume inside a container and clone a repo in it. I also wanted to avoid messing with the permissions and pass my user to the container as well.
     
     <a href="/post/docker_git_volume/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/dev ">dev</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Wed Feb 15 2017
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/makefile/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/makefile/">Makefile</a></h2>
-    <p>
-    Recently, I had to build some project involving a lot of files. Two choices were possible:
- use a script to build use a Makefile  I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &ldquo;source&rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)
-    
-    <a href="/post/makefile/">Read More...</a>
     
     </p>
     

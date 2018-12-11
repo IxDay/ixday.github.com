@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.42.2" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -116,8 +116,7 @@ DISCLAIMER: This will contain some of my conclusions with my partial understandi
     <p>I recently messed up my laptop (do not play with <code>/etc/apt/preferences</code> too much!),
 and I had to reinstall my distro. I checked my <a href="http://ixday.github.io/post/linux_mint/">previous article</a>
 and noticed some missing informations. So here is a second article of things
-I needed to fixup when installing LMDE on my Macbook.
-</p>
+I needed to fixup when installing LMDE on my Macbook.</p>
     
     <a href="/post/linux_mint_2/">Read More...</a>
     
@@ -251,9 +250,7 @@ Unable to find LVM volume vg_ssd/lv_root
 <p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 
-<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code>
-
-which starts like this:</p>
+<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code></p>
     
     <a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Read More...</a>
     
@@ -298,8 +295,6 @@ And I want to crypt the FS using Luks, and add LVM on top.</p>
 
 <p>I want it to look like that (like this scheme, a lot of reference
 come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">arch wiki</a></p>
-
-<p></p>
     
     <a href="/post/debian_install_3/">Read More...</a>
     

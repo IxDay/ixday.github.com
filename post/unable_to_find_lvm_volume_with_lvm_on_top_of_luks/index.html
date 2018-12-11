@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.42.2" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -90,9 +90,9 @@ Unable to find LVM volume vg_ssd/lv_root
 <p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 
-<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code>
+<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code></p>
 
-which starts like this:</p>
+<p>which starts like this:</p>
 <div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="ch">#!/bin/sh</span>
 
 <span class="nv">PREREQ</span><span class="o">=</span><span class="s2">&quot;cryptroot-prepare&quot;</span>
@@ -155,7 +155,7 @@ prereqs<span class="o">)</span>
   </div>
 </article>
 <div id="disqus_thread"></div>
-<script>
+<script type="application/javascript">
     var disqus_config = function () {
     
     

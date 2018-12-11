@@ -21,9 +21,7 @@
 And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 
 &lt;p&gt;I want it to look like that (like this scheme, a lot of reference
-come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system&#34;&gt;arch wiki&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>

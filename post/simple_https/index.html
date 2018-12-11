@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
   <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
   
-  <title>Not today... - vuecc</title>
-  <meta property='og:title' content="vuecc - Not today...">
+  <title>Not today... - Simple HTTPs server</title>
+  <meta property='og:title' content="Simple HTTPs server - Not today...">
   <meta property="og:type" content="article">
   
 
@@ -49,11 +49,11 @@
   <div class="meta">
   <time class="date">
     
-    Sat Jul 1 2017
+    Tue Dec 11 2018
     
   </time>
   <div class="comments">
-    <a href="http://ixday.github.io/post/vuecc/#disqus_thread">
+    <a href="http://ixday.github.io/post/simple_https/#disqus_thread">
       <span class="disqus-comment-count" data-disqus-identifier="IxDay">
       </span>
       comments
@@ -61,46 +61,49 @@
   </div>
   <p class="categories">
   
-  <a href="/categories/project">Project</a>
+  <a href="/categories/snippet">Snippet</a>
   
   </p>
 </div>
 
   <div class="caption">
     <header>
-      <h2>vuecc</h2>
+      <h2>Simple HTTPs server</h2>
 
       
       <p class="tags">
       <strong>Tagged</strong>
-      <a href="/tags/dev ">dev</a>
-, <a href="/tags/javascript ">javascript</a>
+      <a href="/tags/cli ">cli</a>
+, <a href="/tags/admin ">admin</a>
 
       </p>
       
 
     </header>
-    <p>I recently discovered <a href="https://vuejs.org">Vue.js</a> and I really liked it.
-You just have to add a script tag and you can start coding using this framework.</p>
+    <p>Sometimes we need to create a simple server saying hello through https.
+Here is a simple snippet to achieve this in a shell.</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># first we generate a self signed certificate for domain foo</span>
+openssl req -new -newkey rsa:4096 -x509 -sha256 -days <span class="m">365</span> -nodes <span class="se">\</span>
+	-out foo.crt -keyout foo.key -subj <span class="s2">&quot;/CN=foo.com&quot;</span>
 
-<p>After a few hours of development, I decided to use <a href="https://vuejs.org/v2/guide/single-file-components.html">SFC (Single File Components)</a> to separate business code from components.
-And I got a really bad surpise! In order to compile those templates I needed
-to use a build system (Webpack or Browserify). The tutorial is really good, but&hellip;</p>
+<span class="c1"># concatenate key and certificate to create a pem file</span>
+cat foo.key foo.crt &gt; foo.pem
 
-<p><strong>GOD I DON&rsquo;T WANT TO INSTALL 200MB OF DEPENDENCIES AND WRITE 200+SLOC BUILD
-FILE.</strong></p>
+<span class="c1"># then we start a server using socat</span>
+sudo socat <span class="s2">&quot;ssl-l:443,cafile=foo.crt,cert=foo.pem,verify=0,fork,reuseaddr&quot;</span> <span class="se">\</span>
+	SYSTEM:<span class="s2">&quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!;&quot;</span>
+</code></pre></div>
 
-<p>I need to keep things simple, I don&rsquo;t need Babel, I know how to write JS. I can
-rant on this for hours. I started looking around for an alternative solution.
-And found <a href="https://www.reddit.com/r/vuejs/comments/5ops4d/light_weight_and_simple_way_to_use_single_file/">this interesting thread</a>. So no simple solution out there.</p>
+<p>You can now request using curl</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># using ip address</span>
+curl -k <span class="s2">&quot;https://127.0.0.1:443&quot;</span>
 
-<p>This is why I started <a href="https://github.com/BackInMyDays/vuecc">vuecc project</a>.
-It only depends on <a href="https://www.npmjs.com/package/html-minifier">html-minifier</a>
-and brings less than 3MB of dependencies.</p>
+<span class="c1"># providing a resolve entry matching our domain name</span>
+curl -k --resolve <span class="s2">&quot;foo.com:443:127.0.0.1&quot;</span> https://foo.com
+</code></pre></div>
 
-<p>Not everything is supported but for the moment it fits my needs. Simple to use,
-it outputs understandable javascript. I will surely add features when time will
-come to support things like isolation or javascript compression.</p>
+<p>If you got time, take a look at <a href="https://linux.die.net/man/1/socat"><code>socat</code></a>,
+it&rsquo;s a super powerful tool.</p>
 
   </div>
 </article>
