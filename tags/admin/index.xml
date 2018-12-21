@@ -18,7 +18,7 @@
       
       <guid>http://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;quot;/CN=foo.com&amp;quot; # concatenate key and certificate to create a pem file cat foo.key foo.crt &amp;gt; foo.pem # then we start a server using socat sudo socat &amp;quot;ssl-l:443,cafile=foo.</description>
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;quot;/CN=foo.com&amp;quot; # then we start a server using socat sudo socat &amp;quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;quot; \ SYSTEM:&amp;quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
     </item>
     
     <item>

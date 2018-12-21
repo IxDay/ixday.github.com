@@ -71,7 +71,7 @@
     <h2 class="caption-title"><a href="/post/simple_https/">Simple HTTPs server</a></h2>
     <p>
     Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &quot;/CN=foo.com&quot; # concatenate key and certificate to create a pem file cat foo.key foo.crt &gt; foo.pem # then we start a server using socat sudo socat &quot;ssl-l:443,cafile=foo.
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &quot;/CN=foo.com&quot; # then we start a server using socat sudo socat &quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&quot; \ SYSTEM:&quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!
     
     <a href="/post/simple_https/">Read More...</a>
     
