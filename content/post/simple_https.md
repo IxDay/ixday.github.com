@@ -13,11 +13,8 @@ Here is a simple snippet to achieve this in a shell.
 openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
 	-out foo.crt -keyout foo.key -subj "/CN=foo.com"
 
-# concatenate key and certificate to create a pem file
-cat foo.key foo.crt > foo.pem
-
 # then we start a server using socat
-sudo socat "ssl-l:443,cafile=foo.crt,cert=foo.pem,verify=0,fork,reuseaddr" \
+sudo socat "ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr" \
 	SYSTEM:"echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!;"
 ```
 
@@ -30,6 +27,29 @@ curl -k "https://127.0.0.1:443"
 # providing a resolve entry matching our domain name
 curl -k --resolve "foo.com:443:127.0.0.1" https://foo.com
 ```
+
+If you don't want to use the `-k/--insecure` option you can install the root
+certificate on your machine by running the following commands (may vary on distributions):
+
+```bash
+cp foo.crt /usr/local/share/ca-certificates/
+update-ca-certificates
+```
+
+Last but not list, you can use socat as an ssl termination proxy. It is pretty
+straightforward:
+
+```bash
+# start a simple http server, here darkhttpd to serve some directory
+darkhttpd /tmp --port 8080 --daemon
+
+# now start your socat proxy
+sudo socat "ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr" \
+	'tcp4:0.0.0.0:8080'
+```
+
+Et voilà! Simplest way I ever found to perform some testing or run ad-hoc
+simple https servers.
 
 If you got time, take a look at [`socat`](https://linux.die.net/man/1/socat),
 it's a super powerful tool.
