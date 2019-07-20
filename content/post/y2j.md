@@ -1,0 +1,61 @@
++++
+title = "Introducing Y2J (Yaml to Json converter)"
+date = 2019-07-20T11:12:02+02:00
+categories = ["Project"]
+tags = ["dev", "rust"]
++++
+
+This post is only to present a small project and the reasons behind it.
+Hope it can help other people.
+
+Why this project
+----------------
+
+I am massively using [jq](https://stedolan.github.io/jq/) in my shell scripts
+to deal with APIs. It is a powerfull tool and really help my day to day work.
+A few weeks ago I had to do the same kind of operations on a Yaml file, I started
+looking out there for alternative, and found some tooling which are translating
+Yaml to Json then push it to jq: [here is an example](https://github.com/kislyuk/yq).
+
+I liked the idea, simple and easy, however, it relies on python, and even worse
+it has python dependencies. This will bring not only a full python VM (which is
+more than 30MB) but also a whole python toolchain to get those dependencies.
+
+All the other solutions where relying on a VM based language and a full set of
+dependencies, it was a no-go.
+
+The project
+-----------
+
+First, I needed a decision about which language, choices were
+Rust, Go, C++, C; all able to provide me with a single binary.
+Go was quick to eliminate as I did not want
+a 10MB binary for such a simple thing. My C and C++ skills are super rusty (no
+pun intended here), and the toolchain is a bit hard to manage.
+
+During my search for a Yaml to Json converter I came
+accross [serde](https://github.com/serde-rs/serde). This library seems
+to provide everything I need and was all writen in pure Rust.
+
+I ended up plumbing only 10 lines of code:
+
+```rust
+extern crate serde_json;
+extern crate serde_yaml;
+use std::io::{self};
+
+fn main() {
+	let value: serde_json::Value = serde_yaml::from_reader(io::stdin()).unwrap();
+	// Write out the JSON.
+	println!("{}", value.to_string());
+}
+```
+
+__TADA! It works!__ I did not even have to learn Rust syntax at all.
+The only knowledge I had to collect was around the Cargo toolchain, which was
+about 30 minutes of Googling. Last but not least, binary is only ~550KB which
+was exactly what I was aiming for.
+
+It only support converting in one way and from stdin, but this is the bare minimum
+I needed. I may later add some features but for the moment this first version
+is really satisfying.
