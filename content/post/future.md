@@ -13,3 +13,4 @@ Here is a list of potential future posts:
 - [ ] writing a web microframework in go
 - [ ] proxy pattern in go for debug logs
 - [ ] ssh with go (certificates, tunneling)
+- [ ] workers, throttling, concurrent access in Golang
