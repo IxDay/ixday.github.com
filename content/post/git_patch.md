@@ -1,0 +1,39 @@
++++
+title = "Git amend history"
+date = 2019-07-20T09:51:29+02:00
+categories = ["Snippet"]
+tags = ["cli", "git"]
++++
+
+This post is a simple copy of [this answer](https://stackoverflow.com/questions/2719579/how-to-add-a-changed-file-to-an-older-not-last-commit-in-git#answer-27721031),
+go there to see the original.
+
+As I am using git extensively in my day to day life/job, I encountered the issue
+to simply amend a commit which is already two or three commits before the current one.
+
+I could use `git rebase -i` with some stashing to apply the changes at the proper
+moment. This is most of the time a viable solution, however, it may be complicated
+because I have too much new code and stashing would be complicated.
+
+So another solution is to create a simple commit with only the changes I want
+to apply to the old commit, and then run some magic to apply it at the proper
+moment.
+
+Here is the flow:
+
+```bash
+# add the changes you want to see there
+git add -p
+
+# find the hash your are looking for (use part of this command to see what happens)
+export OLDCOMMIT=$(git log --oneline | sed -e 's/ .*//g' -e '3q;d')
+
+# create a commit with it on top of your stack with a proper reference
+git commit --fixup=${OLDCOMMIT}
+
+# you will may need to stash the rest of the changes
+git stash
+
+# now rework the history to apply the change
+git rebase --interactive --autosquash "${OLDCOMMIT}^"
+```
