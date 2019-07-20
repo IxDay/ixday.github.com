@@ -6,10 +6,20 @@
     <description>Recent content in Project on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Jul 2017 11:46:41 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jul 2019 11:12:02 +0200</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/categories/project/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Introducing Y2J (Yaml to Json converter)</title>
+      <link>http://ixday.github.io/post/y2j/</link>
+      <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/y2j/</guid>
+      <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
+Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.</description>
+    </item>
     
     <item>
       <title>vuecc</title>
