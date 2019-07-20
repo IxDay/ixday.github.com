@@ -6,13 +6,31 @@
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Dec 2018 15:46:28 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jul 2019 09:51:29 +0200</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Admin</title>
+      <title>cli</title>
+      <link>http://ixday.github.io/tags/cli/</link>
+      <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/tags/cli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>http://ixday.github.io/tags/git/</link>
+      <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>admin</title>
       <link>http://ixday.github.io/tags/admin/</link>
       <pubDate>Tue, 11 Dec 2018 15:46:28 +0100</pubDate>
       
@@ -21,43 +39,7 @@
     </item>
     
     <item>
-      <title>Adminsys</title>
-      <link>http://ixday.github.io/tags/adminsys/</link>
-      <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/tags/adminsys/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Angular</title>
-      <link>http://ixday.github.io/tags/angular/</link>
-      <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/tags/angular/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bash</title>
-      <link>http://ixday.github.io/tags/bash/</link>
-      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
-      
-      <guid>http://ixday.github.io/tags/bash/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cli</title>
-      <link>http://ixday.github.io/tags/cli/</link>
-      <pubDate>Tue, 11 Dec 2018 15:46:28 +0100</pubDate>
-      
-      <guid>http://ixday.github.io/tags/cli/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Dev</title>
+      <title>dev</title>
       <link>http://ixday.github.io/tags/dev/</link>
       <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
       
@@ -66,7 +48,7 @@
     </item>
     
     <item>
-      <title>Golang</title>
+      <title>golang</title>
       <link>http://ixday.github.io/tags/golang/</link>
       <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
       
@@ -75,16 +57,16 @@
     </item>
     
     <item>
-      <title>Jasmine</title>
-      <link>http://ixday.github.io/tags/jasmine/</link>
-      <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
+      <title>bash</title>
+      <link>http://ixday.github.io/tags/bash/</link>
+      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
       
-      <guid>http://ixday.github.io/tags/jasmine/</guid>
+      <guid>http://ixday.github.io/tags/bash/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Javascript</title>
+      <title>javascript</title>
       <link>http://ixday.github.io/tags/javascript/</link>
       <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
       
@@ -93,7 +75,7 @@
     </item>
     
     <item>
-      <title>Python</title>
+      <title>python</title>
       <link>http://ixday.github.io/tags/python/</link>
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
@@ -102,16 +84,7 @@
     </item>
     
     <item>
-      <title>Systemd</title>
-      <link>http://ixday.github.io/tags/systemd/</link>
-      <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
-      
-      <guid>http://ixday.github.io/tags/systemd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tests</title>
+      <title>tests</title>
       <link>http://ixday.github.io/tags/tests/</link>
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
@@ -120,7 +93,43 @@
     </item>
     
     <item>
-      <title>Web</title>
+      <title>adminsys</title>
+      <link>http://ixday.github.io/tags/adminsys/</link>
+      <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/adminsys/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>systemd</title>
+      <link>http://ixday.github.io/tags/systemd/</link>
+      <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/systemd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jasmine</title>
+      <link>http://ixday.github.io/tags/jasmine/</link>
+      <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/jasmine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>angular</title>
+      <link>http://ixday.github.io/tags/angular/</link>
+      <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://ixday.github.io/tags/angular/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web</title>
       <link>http://ixday.github.io/tags/web/</link>
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       

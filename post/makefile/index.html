@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.55.6" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -109,7 +109,7 @@ can be set up at the <code>make</code> command run i.e: <code>make ARCH=i686</co
 <h3 id="watch-all-files-from-a-directory-to-change">Watch all files from a directory to change</h3>
 
 <p>This is perfectly correct and usable in a Makefile</p>
-<div class="highlight"><pre><code class="language-make" data-lang="make"><span></span><span class="nf">archive.tgz</span><span class="o">:</span> <span class="k">$(</span><span class="nv">shell</span> <span class="nv">find</span> <span class="nv">root</span> -<span class="nv">type</span> <span class="nv">f</span> | <span class="nv">sed</span> &#39;<span class="nv">s</span>/ /\\ /<span class="nv">g</span>&#39;<span class="k">)</span>
+<div class="highlight"><pre><code class="language-make" data-lang="make"><span></span><span class="nf">archive.tgz</span><span class="o">:</span> <span class="k">$(</span><span class="nv">shell</span> <span class="nv">find</span> <span class="nv">root</span> <span class="nv">-type</span> <span class="nv">f</span> | <span class="nv">sed</span> &#39;<span class="nv">s</span>/ /\\ /<span class="nv">g</span>&#39;<span class="k">)</span>
 	@tar cvzf <span class="nv">$@</span> $^
 </code></pre></div>
 
@@ -187,7 +187,7 @@ make --debug<span class="o">=</span>basic -n &lt;target&gt;
     
 
     <footer id="footer">
-	<p>&copy; 2018 IxDay</p>
+	<p>&copy; 2019 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

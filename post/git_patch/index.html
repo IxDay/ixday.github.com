@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
   <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
   
-  <title>Not today... - Simple HTTPs server</title>
-  <meta property='og:title' content="Simple HTTPs server - Not today...">
+  <title>Not today... - Git amend history</title>
+  <meta property='og:title' content="Git amend history - Not today...">
   <meta property="og:type" content="article">
   
 
@@ -49,11 +49,11 @@
   <div class="meta">
   <time class="date">
     
-    Tue Dec 11 2018
+    Sat Jul 20 2019
     
   </time>
   <div class="comments">
-    <a href="http://ixday.github.io/post/simple_https/#disqus_thread">
+    <a href="http://ixday.github.io/post/git_patch/#disqus_thread">
       <span class="disqus-comment-count" data-disqus-identifier="IxDay">
       </span>
       comments
@@ -68,58 +68,48 @@
 
   <div class="caption">
     <header>
-      <h2>Simple HTTPs server</h2>
+      <h2>Git amend history</h2>
 
       
       <p class="tags">
       <strong>Tagged</strong>
       <a href="/tags/cli ">cli</a>
-, <a href="/tags/admin ">admin</a>
+, <a href="/tags/git ">git</a>
 
       </p>
       
 
     </header>
-    <p>Sometimes we need to create a simple server saying hello through https.
-Here is a simple snippet to achieve this in a shell.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># first we generate a self signed certificate for domain foo</span>
-openssl req -new -newkey rsa:4096 -x509 -sha256 -days <span class="m">365</span> -nodes <span class="se">\</span>
-	-out foo.crt -keyout foo.key -subj <span class="s2">&quot;/CN=foo.com&quot;</span>
+    <p>This post is a simple copy of <a href="https://stackoverflow.com/questions/2719579/how-to-add-a-changed-file-to-an-older-not-last-commit-in-git#answer-27721031">this answer</a>,
+go there to see the original.</p>
 
-<span class="c1"># then we start a server using socat</span>
-sudo socat <span class="s2">&quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&quot;</span> <span class="se">\</span>
-	SYSTEM:<span class="s2">&quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!;&quot;</span>
+<p>As I am using git extensively in my day to day life/job, I encountered the issue
+to simply amend a commit which is already two or three commits before the current one.</p>
+
+<p>I could use <code>git rebase -i</code> with some stashing to apply the changes at the proper
+moment. This is most of the time a viable solution, however, it may be complicated
+because I have too much new code and stashing would be complicated.</p>
+
+<p>So another solution is to create a simple commit with only the changes I want
+to apply to the old commit, and then run some magic to apply it at the proper
+moment.</p>
+
+<p>Here is the flow:</p>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># add the changes you want to see there</span>
+git add -p
+
+<span class="c1"># find the hash your are looking for (use part of this command to see what happens)</span>
+<span class="nb">export</span> <span class="nv">OLDCOMMIT</span><span class="o">=</span><span class="k">$(</span>git log --oneline <span class="p">|</span> sed -e <span class="s1">&#39;s/ .*//g&#39;</span> -e <span class="s1">&#39;3q;d&#39;</span><span class="k">)</span>
+
+<span class="c1"># create a commit with it on top of your stack with a proper reference</span>
+git commit --fixup<span class="o">=</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span>
+
+<span class="c1"># you will may need to stash the rest of the changes</span>
+git stash
+
+<span class="c1"># now rework the history to apply the change</span>
+git rebase --interactive --autosquash <span class="s2">&quot;</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span><span class="s2">^&quot;</span>
 </code></pre></div>
-
-<p>You can now request using curl</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># using ip address</span>
-curl -k <span class="s2">&quot;https://127.0.0.1:443&quot;</span>
-
-<span class="c1"># providing a resolve entry matching our domain name</span>
-curl -k --resolve <span class="s2">&quot;foo.com:443:127.0.0.1&quot;</span> https://foo.com
-</code></pre></div>
-
-<p>If you don&rsquo;t want to use the <code>-k/--insecure</code> option you can install the root
-certificate on your machine by running the following commands (may vary on distributions):</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>cp foo.crt /usr/local/share/ca-certificates/
-update-ca-certificates
-</code></pre></div>
-
-<p>Last but not list, you can use socat as an ssl termination proxy. It is pretty
-straightforward:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># start a simple http server, here darkhttpd to serve some directory</span>
-darkhttpd /tmp --port <span class="m">8080</span> --daemon
-
-<span class="c1"># now start your socat proxy</span>
-sudo socat <span class="s2">&quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&quot;</span> <span class="se">\</span>
-	<span class="s1">&#39;tcp4:0.0.0.0:8080&#39;</span>
-</code></pre></div>
-
-<p>Et voilà! Simplest way I ever found to perform some testing or run ad-hoc
-simple https servers.</p>
-
-<p>If you got time, take a look at <a href="https://linux.die.net/man/1/socat"><code>socat</code></a>,
-it&rsquo;s a super powerful tool.</p>
 
   </div>
 </article>

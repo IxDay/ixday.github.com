@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.52" />
+  <meta name="generator" content="Hugo 0.55.6" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -184,8 +184,8 @@
 
 <ol>
 <li>Nodes which are part of the most routing paths are evaluated first. This helps to make as much routes as possible to be reachable as fast as possible.</li>
-<li>It is some sort of cost compensation. The longest reachable path (highest cost) can always be evaluated first. The following scheme visualizes the tree structure. Nodes are evaluated from top to bottom and from left to right.</li>
-</ol>
+
+<li><p>It is some sort of cost compensation. The longest reachable path (highest cost) can always be evaluated first. The following scheme visualizes the tree structure. Nodes are evaluated from top to bottom and from left to right.</p>
 
 <pre><code>├------------
 ├---------
@@ -194,7 +194,8 @@
 ├--
 ├--
 └-
-</code></pre>
+</code></pre></li>
+</ol>
 
 <h2 id="why-doesn-t-this-work-with-http-handler">Why doesn&rsquo;t this work with <code>http.Handler</code>?</h2>
 
@@ -359,7 +360,7 @@ Define a router per host!</p>
     
 
     <footer id="footer">
-	<p>&copy; 2018 IxDay</p>
+	<p>&copy; 2019 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

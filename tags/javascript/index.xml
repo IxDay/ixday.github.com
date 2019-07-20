@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Javascript on Not today...</title>
+    <title>javascript on Not today...</title>
     <link>http://ixday.github.io/tags/javascript/</link>
-    <description>Recent content in Javascript on Not today...</description>
+    <description>Recent content in javascript on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 01 Jul 2017 11:46:41 +0200</lastBuildDate>

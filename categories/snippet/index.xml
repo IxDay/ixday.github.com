@@ -6,10 +6,21 @@
     <description>Recent content in Snippet on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Dec 2018 15:46:28 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jul 2019 09:51:29 +0200</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Git amend history</title>
+      <link>http://ixday.github.io/post/git_patch/</link>
+      <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
+      
+      <guid>http://ixday.github.io/post/git_patch/</guid>
+      <description>This post is a simple copy of this answer, go there to see the original.
+As I am using git extensively in my day to day life/job, I encountered the issue to simply amend a commit which is already two or three commits before the current one.
+I could use git rebase -i with some stashing to apply the changes at the proper moment. This is most of the time a viable solution, however, it may be complicated because I have too much new code and stashing would be complicated.</description>
+    </item>
     
     <item>
       <title>Simple HTTPs server</title>
