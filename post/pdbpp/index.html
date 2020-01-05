@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -80,71 +80,51 @@
       
 
     </header>
-    
-
-<p>I am a huge fan of ipython and its debugger ipdb (I have also done a
+    <p>I am a huge fan of ipython and its debugger ipdb (I have also done a
 patch on it). Then I discovered <a href="https://pypi.python.org/pypi/pdbpp/">pdbpp</a>
 and I found it so great that I no more use ipdb, here is why.</p>
-
 <h2 id="more-features">More features</h2>
-
 <h3 id="sticky-mode">Sticky mode</h3>
-
 <p>Pdbpp comes with a lot of additional features which are really convenient.
 The first and more well known is the sticky mode:</p>
-
 <figure>
     <img src="/img/pdbpp_sticky.png"/> 
 </figure>
 
-
 <p>This will display the code currently, executed and shows you with an arrow at
 which exact line you are. Just type <code>sticky</code> to enable this mode and &ldquo;voila&rdquo; it
 works</p>
-
 <h3 id="pdb-disable">Pdb disable</h3>
-
 <p>This one is quite usefull when debugging in tests. For example, you have
 a pdb statement in a fixture which is called by a bunch of tests.
 Maybe there is something I do not really understand but when I want
 to exit, I am stuck pressing Ctrl+d Ctrl+c hoping it will stop the tests
 before another fixture call happen.</p>
-
 <p>Pdbpp extends the pdb command with a disable statement
 (<code>pdb.disable()</code> in the console), which will ignore subsequent calls to pdb.</p>
-
 <h3 id="no-variable-overrides">No variable overrides</h3>
-
 <p>When using ipdb, sometimes in the code I use some reserved variables:
 &ldquo;c&rdquo;, &ldquo;rv&rdquo;, &ldquo;args&rdquo;,.. when entering the debugger they are overriden by
 keywords, and I have to change their name and start again to see what they
 contain.</p>
-
 <p>With pdbpp, this no longer happens, as explained in the documentation, pdbpp
 can infers which variable is currently used and avoid the override.</p>
-
 <h3 id="and-many-more">And many more</h3>
-
 <p>Just read the documentation and looks at the other features, this library
 is pure gold.</p>
-
 <h2 id="just-a-simple-wrapper">Just a simple wrapper</h2>
-
 <p>This is just a wrapper around pdb, which means that you can simply call it
 with <code>import pdb; pdb.set_trace()</code>. And more importantly, when a tool provides
 a postmortem feature (scrapy, pytest) it brings you directly to pdbpp without
 having to dig in the code or documentation (when you wanted to activate ipdb).</p>
-
 <h2 id="simple-config">Simple config</h2>
-
 <p>Here is my config (a real simple one):</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">pdb</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pdb</span>
 
-<span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">DefaultConfig</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">pdb</span><span class="o">.</span><span class="n">DefaultConfig</span><span class="p">)</span><span class="p">:</span>
     <span class="n">sticky_by_default</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># start in sticky mode</span>
     <span class="n">current_line_color</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># black</span>
 </code></pre></div>
-
   </div>
 </article>
 <div id="disqus_thread"></div>
@@ -172,7 +152,7 @@ having to dig in the code or documentation (when you wanted to activate ipdb).</
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

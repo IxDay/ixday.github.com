@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -82,20 +82,16 @@
     </header>
     <p>This post is a simple copy of <a href="https://stackoverflow.com/questions/2719579/how-to-add-a-changed-file-to-an-older-not-last-commit-in-git#answer-27721031">this answer</a>,
 go there to see the original.</p>
-
 <p>As I am using git extensively in my day to day life/job, I encountered the issue
 to simply amend a commit which is already two or three commits before the current one.</p>
-
 <p>I could use <code>git rebase -i</code> with some stashing to apply the changes at the proper
 moment. This is most of the time a viable solution, however, it may be complicated
 because I have too much new code and stashing would be complicated.</p>
-
 <p>So another solution is to create a simple commit with only the changes I want
 to apply to the old commit, and then run some magic to apply it at the proper
 moment.</p>
-
 <p>Here is the flow:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># add the changes you want to see there</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># add the changes you want to see there</span>
 git add -p
 
 <span class="c1"># find the hash your are looking for (use part of this command to see what happens)</span>
@@ -108,9 +104,8 @@ git commit --fixup<span class="o">=</span><span class="si">${</span><span class=
 git stash
 
 <span class="c1"># now rework the history to apply the change</span>
-git rebase --interactive --autosquash <span class="s2">&quot;</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span><span class="s2">^&quot;</span>
+git rebase --interactive --autosquash <span class="s2">&#34;</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span><span class="s2">^</span><span class="s2">&#34;</span>
 </code></pre></div>
-
   </div>
 </article>
 <div id="disqus_thread"></div>
@@ -138,7 +133,7 @@ git rebase --interactive --autosquash <span class="s2">&quot;</span><span class=
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

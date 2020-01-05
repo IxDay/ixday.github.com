@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on Not today...</title>
@@ -26,10 +26,10 @@
       <pubDate>Wed, 09 May 2018 10:22:33 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/filepath_walk/</guid>
-      <description>During the development of a small project I noticed something strange with golang&amp;rsquo;s function filepath.Walk.
+      <description>During the development of a small project I noticed something strange with golang&#39;s function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux  Run the script Now, let&amp;rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&#39;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
     </item>
     
     <item>
@@ -49,8 +49,8 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
       
       <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &amp;quot;bar&amp;quot;  Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &amp;quot;bar&amp;quot;; foo == &amp;quot;baz&amp;quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:</description>
+foo := &amp;#34;bar&amp;#34; Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:</description>
     </item>
     
   </channel>

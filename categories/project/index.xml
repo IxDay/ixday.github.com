@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Project on Not today...</title>
@@ -37,7 +37,7 @@ After a few hours of development, I decided to use SFC (Single File Components) 
       <pubDate>Thu, 02 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/listing_directory_with_wsgi/</guid>
-      <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain [here]()) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
+      <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain here) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
 I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
 Specifications Here are the features I wanted:
  Define a directory as the root (/) directory from which all the files will be served.</description>
@@ -49,10 +49,11 @@ Specifications Here are the features I wanted:
       <pubDate>Mon, 30 Mar 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/small_tool/</guid>
-      <description>I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
+      <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
-What I have learned  Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
- no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.</description>
+What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+  no evaluation for environment variables
+  you can not store a variable through multiple run, you will need to do a oneliner e.</description>
     </item>
     
   </channel>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -79,19 +79,15 @@
       
 
     </header>
-    
-
-<p>I will not install VirtualBox! That&rsquo;s all (nor VMWare, don&rsquo;t be ridiculous).
+    <p>I will not install VirtualBox! That's all (nor VMWare, don't be ridiculous).
 But I really like <a href="https://www.vagrantup.com/">Vagrant</a>, and use it every time
 I need something closer to a running machine. So, I dig up the internet and
 found that there is an unofficial support of libvirt.</p>
-
 <h2 id="installation">Installation</h2>
-
 <p>I do not remember where I found the documentation to do this or if I did it by
 myself, so no link here, just what I do in order to make this work. I use a
 debian jessie distribution, so packages name may vary.</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Install packages</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Install packages</span>
 apt-get install qemu-kvm libvirt-daemon-system libvirt-dev zlib1g-dev vagrant
 
 <span class="c1"># Install vagrant plugin</span>
@@ -102,49 +98,40 @@ gpasswd -a user_name libvirt
 
 <span class="c1"># Reboot in order to load kvm and group change</span>
 reboot
-</code></pre></div>
-
-<p>Now everything is installed and ready to work with the libvirt provider.
+</code></pre></div><p>Now everything is installed and ready to work with the libvirt provider.
 In order to verify that everything works, run:
 <code>vagrant init debian/jessie64; vagrant up --provider libvirt</code>.
 It must download a debian/jessie image then run it through vagrant.</p>
-
 <h2 id="in-action">In action</h2>
-
 <p>For this example, I will just run a Coreos image, and show you how you can
 migrate an existing Vagrantfile to the libvirt provider.</p>
-
-<p>Clone this repo <a href="https://github.com/coreos/coreos-vagrant">https://github.com/coreos/coreos-vagrant</a>, and follow the
+<p>Clone this repo <a href="https://github.com/coreos/coreos-vagrant,">https://github.com/coreos/coreos-vagrant,</a> and follow the
 instructions.</p>
-
 <p>Then according to this PR, I made a modification to the Vagrantfile
-<a href="https://github.com/coreos/coreos-vagrant/pull/290/files">https://github.com/coreos/coreos-vagrant/pull/290/files</a>, I also added
+<a href="https://github.com/coreos/coreos-vagrant/pull/290/files,">https://github.com/coreos/coreos-vagrant/pull/290/files,</a> I also added
 a valid <code>box_url</code></p>
-<div class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span></span>  <span class="c1"># if the provider asked is libvirt</span>
+<div class="highlight"><pre class="chroma"><code class="language-ruby" data-lang="ruby">
+  <span class="c1"># if the provider asked is libvirt</span>
   <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="ss">:libvirt</span> <span class="k">do</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
 
     <span class="c1"># change the box to a libvirt compatible one</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&quot;dongsupark/coreos-%s&quot;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="s2">dongsupark/coreos-%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
 
     <span class="c1"># this line indicates where the box can be found</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&quot;https://atlas.hashicorp.com/dongsupark/boxes/coreos-%s&quot;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="s2">https://atlas.hashicorp.com/dongsupark/boxes/coreos-%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
 
     <span class="c1"># change the driver name and pass the parameters needed to comply with</span>
     <span class="c1"># specifications</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="s2">&quot;kvm&quot;</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="s2">kvm</span><span class="s2">&#34;</span>
     <span class="n">v</span><span class="o">.</span><span class="n">memory</span> <span class="o">=</span> <span class="vg">$vm_memory</span>
     <span class="n">v</span><span class="o">.</span><span class="n">cpus</span> <span class="o">=</span> <span class="vg">$vm_cpus</span>
 
   <span class="k">end</span>
-</code></pre></div>
-
-<p>Now you can do a <code>vagrant up</code> and it will work (it works on my machine :p).</p>
-
+</code></pre></div><p>Now you can do a <code>vagrant up</code> and it will work (it works on my machine :p).</p>
 <h2 id="bonus">Bonus</h2>
-
 <p>You can migrate Vagrant images to libvirt with another plugin:
 <code>vagrant-mutate</code></p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Install the plugin</span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Install the plugin</span>
 vagrant plugin install vagrant-mutate
 
 <span class="c1"># Mutate an image</span>
@@ -155,9 +142,7 @@ mv ~/.vagrant.d/boxes/virtualbox ~/.vagrant.d/boxes/debian-VAGRANTSLASH-jessie64
 
 <span class="c1"># Then run it</span>
 vagrant init debian/jessie64<span class="p">;</span> vagrant up --provider libvirt
-</code></pre></div>
-
-<p>This is no longer really needed as there is more and more images with libvirt
+</code></pre></div><p>This is no longer really needed as there is more and more images with libvirt
 provider.</p>
 
   </div>
@@ -187,7 +172,7 @@ provider.</p>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

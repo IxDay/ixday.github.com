@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -73,13 +73,10 @@
       
 
     </header>
-    
-
-<p>Don&rsquo;t want to use Docker? Still want to start containers for tests or whatever?
-Don&rsquo;t want to install yet another software to perform this? Want to understand
+    <p>Don't want to use Docker? Still want to start containers for tests or whatever?
+Don't want to install yet another software to perform this? Want to understand
 a bit of how all those things work? Great! I will show you how to boot a
 container from the internet only through <code>systemd-nspawn</code></p>
-
 <p>Thanks to the CoreOS team (love those guys) a new hub for storing container now exists:
 <a href="https://quay.io/">quay</a>. The other good news is the ACI,
 the container image format defined in the
@@ -89,28 +86,22 @@ directory with a <code>manifest</code> file. The <code>manifest</code> file is
 furnish metadatas for the container (env variables, run command at start, &hellip;).
 It is a good news because this specification does not include the <strong>sh**y</strong>
 layer system of Docker (will publish a rant someday about this).</p>
-
 <p>Okay, so&hellip; what the point? Good question! If I simplify all those informations,
 it means that there is a point in the internet where I can download filesystem
 archives and directly boot them through systemd-nspawn.</p>
-
 <h2 id="find-the-url">Find the url</h2>
-
 <p>Just go to <a href="https://quay.io">https://quay.io</a> and type the kind of image you
 want in the search bar. For this example, I will retrieve an
 <a href="https://alpinelinux.org/">Alpine linux</a> image. I take the first one available,
 which is a clone of the one in the docker hub
 <a href="https://quay.io/repository/aptible/alpine">https://quay.io/repository/aptible/alpine</a>.
 In the page open the web debugger and in the console enter the following:</p>
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span></span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;meta[name=&#39;ac-discovery&#39;]&quot;</span><span class="p">).</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// simple jquery request</span>
-
-<span class="c1">// this should be the output</span>
-<span class="p">[</span><span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&quot;ac-discovery&quot;</span> <span class="nx">content</span><span class="o">=</span><span class="s2">&quot;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&quot;</span><span class="o">&gt;</span><span class="p">]</span>
-</code></pre></div>
-
-<p>The part between <code>{}</code> are variables, and should be replaced by what we want to
+<div class="highlight"><pre class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&#34;meta[name=&#39;ac-discovery&#39;]&#34;</span><span class="p">)</span><span class="p">.</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// simple jquery request
+</span><span class="c1"></span>
+<span class="c1">// this should be the output
+</span><span class="c1"></span><span class="p">[</span><span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&#34;ac-discovery&#34;</span> <span class="nx">content</span><span class="o">=</span><span class="s2">&#34;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&#34;</span><span class="o">&gt;</span><span class="p">]</span>
+</code></pre></div><p>The part between <code>{}</code> are variables, and should be replaced by what we want to
 retrieve, spec <a href="https://github.com/appc/spec/blob/master/spec/discovery.md">here</a></p>
-
 <ul>
 <li><strong>name</strong>: the name of the image, here it is <code>alpine</code>, but there is a trick
 the name is a full qualified one, and is the one you usually pull with the
@@ -124,12 +115,10 @@ the signature.</li>
 <li><strong>os</strong>: <code>linux</code> of course</li>
 <li><strong>arch</strong>: <code>amd64</code> for my part</li>
 </ul>
-
 <p>Resulting URL will be:
 <code>https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64</code></p>
-
-<h2 id="retrieve-deflate-start">Retrieve - Deflate - Start</h2>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Download the image inside a alpine.tgz file</span>
+<h2 id="retrieve---deflate---start">Retrieve - Deflate - Start</h2>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Download the image inside a alpine.tgz file</span>
 wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
 
 <span class="c1"># Untar it</span>
@@ -138,17 +127,13 @@ tar xvf alpine.tgz
 <span class="c1"># Boot it, with systemd-nspawn</span>
 sudo systemd-nspawn -M alpine -D rootfs
 
-<span class="c1"># TADAAA! You are now inside a container </span>
-</code></pre></div>
-
-<p>You can also download, untar, rename and place the directory in your tree with
+<span class="c1"># TADAAA! You are now inside a container</span> 
+</code></pre></div><p>You can also download, untar, rename and place the directory in your tree with
 one command:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>wget -O - <span class="s2">&quot;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&quot;</span> <span class="p">|</span> <span class="se">\</span>
-		tar -C <span class="s2">&quot;/tmp/alpine&quot;</span> --transform<span class="o">=</span><span class="s2">&quot;s|rootfs/|/|&quot;</span> -xzf -
-</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">wget -O - <span class="s2">&#34;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&#34;</span> <span class="p">|</span> <span class="se">\
+</span><span class="se"></span>		tar -C <span class="s2">&#34;/tmp/alpine&#34;</span> --transform<span class="o">=</span><span class="s2">&#34;s|rootfs/|/|&#34;</span> -xzf -
 
-<h2 id="conclusion">Conclusion</h2>
-
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>Easy duh!?</p>
 
   </div>
@@ -178,7 +163,7 @@ one command:</p>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

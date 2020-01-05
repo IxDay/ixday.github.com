@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -197,7 +197,8 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     <p>
     I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python  That&rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+layout python That's it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+Golang projects This one is a bit trickier.
     
     <a href="/post/direnv/">Read More...</a>
     
@@ -240,8 +241,8 @@ layout python  That&rsquo;s it! It sets up a virtualenv in your .direnv director
     <h2 class="caption-title"><a href="/post/golang-err-shadowing/">golang err shadowing</a></h2>
     <p>
     A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &quot;bar&quot;  Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &quot;bar&quot;; foo == &quot;baz&quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:
+foo := &#34;bar&#34; Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &#34;bar&#34;; foo == &#34;baz&#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:
     
     <a href="/post/golang-err-shadowing/">Read More...</a>
     
@@ -486,7 +487,7 @@ More features Sticky mode Pdbpp comes with a lot of additional features which ar
 
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

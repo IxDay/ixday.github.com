@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -73,7 +73,6 @@
     <p>For a personal project I want to iPXE boot alpine. I did not found any step by
 step guide, so I ended up testing multiple solutions until it works. This
 post is a &ldquo;copy&rdquo; of the answer I made <a href="https://github.com/antonym/netboot.xyz/issues/30#issuecomment-276722892">here</a> for the <a href="https://netboot.xyz">netboot.xyz project</a>.</p>
-
 <p>To fix this issue I used a bunch of thread and resources but here are the three
 main entry used:</p>
     
@@ -115,7 +114,7 @@ main entry used:</p>
     <div class="caption">
     <h2 class="caption-title"><a href="/post/libvirt_through_vagrant/">Libvirt through vagrant</a></h2>
     <p>
-    I will not install VirtualBox! That&rsquo;s all (nor VMWare, don&rsquo;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
+    I will not install VirtualBox! That's all (nor VMWare, don't be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
 Installation I do not remember where I found the documentation to do this or if I did it by myself, so no link here, just what I do in order to make this work.
     
     <a href="/post/libvirt_through_vagrant/">Read More...</a>
@@ -158,7 +157,7 @@ Installation I do not remember where I found the documentation to do this or if 
     <div class="caption">
     <h2 class="caption-title"><a href="/post/gogs_drone_compose/">Gogs &#43; Drone</a></h2>
     <p>
-    Jenkins is everywhere now, but I really don&rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
+    Jenkins is everywhere now, but I really don't like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
 And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
 So I decided to make them work together in order to test that.
     
@@ -373,7 +372,7 @@ Creating your first container So like docker I wanted to first start a container
     I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
 I also use Flask a lot, so today I will show you some of my snippets.
 First one the app fixture:
-@pytest.fixture(autouse=True) def app(): &quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client()  This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
+@pytest.fixture(autouse=True) def app(): &#34;&#34;&#34;Load flask in testing mode&#34;&#34;&#34; app_test = myapp app_test.config[&#39;TESTING&#39;] = True app_test.json_encoder = my_encoder return app_test.test_client() This create an app fixture which will be used to test the application, it returns a test client to interact with my Flask application.
     
     <a href="/post/pytest_fixture/">Read More...</a>
     
@@ -414,7 +413,7 @@ First one the app fixture:
     <div class="caption">
     <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
     <p>
-    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+    Sometimes I just can't work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     
@@ -460,7 +459,7 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then you can remove the progress bar by adding -s in the options
+curl -X POST -H &#34;Content-Type: application/json&#34; -d @filepath Then you can remove the progress bar by adding -s in the options
     
     <a href="/post/curl_for_rest/">Read More...</a>
     
@@ -497,7 +496,7 @@ curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then yo
 
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -81,15 +81,11 @@
       
 
     </header>
-    
-
-<p>I have recently dug into pytest documentation, and moreover into
+    <p>I have recently dug into pytest documentation, and moreover into
 the command line arguments and I finally found a better workflow
 for running tests while I develop.</p>
-
 <p>Here is the command I run when I just made some devs:
 <code>py.test -xvvvs --tb=line --pdb</code></p>
-
 <ul>
 <li><strong>-x</strong> will stop execution on first failue, useful when debugging tests
 in order of appearance (recommended)</li>
@@ -106,7 +102,6 @@ and the name of the error.</li>
 <a href="https://pypi.python.org/pypi/pdbpp/">pdbpp</a> installed, this will be
 a real debugger :p</li>
 </ul>
-
 <p>The second command I usually ran is: <code>py.test -v --tb=line --cov=src --cov-report=html</code>.
 This one is my code coverage command. I run it on small changes or after the first
 command described here, in order to check that my coverage has evolved.
@@ -114,23 +109,19 @@ I put a <code>-v</code> for displaying the path of the current test, and <code>-
 to not pollute the screen with stack traces. Those two options are here in the case
 of an error during the coverage. It allows me to be faster on isolating tests to
 debug.</p>
-
 <h2 id="bonus">Bonus</h2>
-
 <p>Here I discussed about the coverage, and py.test commands. I use specific options
 on CI (travis) in coordination with <a href="https://coveralls.io/">coveralls</a>.</p>
-
 <p>My <code>.travis.yml</code> file which run py.test with coverage.</p>
-<div class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="nt">language</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">python</span>
-<span class="nt">install</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pip install coveralls</span>
-<span class="nt">script</span><span class="p">:</span>
-  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">py.test -v -tb=line -cov-report= --cov=src</span>
-<span class="nt">after_success</span><span class="p">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">coveralls</span>
-</code></pre></div>
-
-<p>It will just put the report into coveralls and displays the
+<div class="highlight"><pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="w">
+</span><span class="w"></span>language<span class="p">:</span><span class="w"> </span>python<span class="w">
+</span><span class="w"></span>install<span class="p">:</span><span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>coveralls<span class="w">
+</span><span class="w"></span>script<span class="p">:</span><span class="w">
+</span><span class="w">  </span>-<span class="w"> </span>py.test<span class="w"> </span>-v<span class="w"> </span>-tb=line<span class="w"> </span>-cov-report=<span class="w"> </span>--cov=src<span class="w">
+</span><span class="w"></span>after_success<span class="p">:</span><span class="w">
+</span><span class="w">  </span>coveralls<span class="w">
+</span></code></pre></div><p>It will just put the report into coveralls and displays the
 same informations as the other command explained above.</p>
 
   </div>
@@ -160,7 +151,7 @@ same informations as the other command explained above.</p>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

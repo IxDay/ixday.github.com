@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -50,6 +50,48 @@
     <div class="meta">
   <time class="date">
     
+    Sat Jul 1 2017
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/vuecc/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/project">Project</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/vuecc/">vuecc</a></h2>
+    <p>
+    I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
+After a few hours of development, I decided to use SFC (Single File Components) to separate business code from components. And I got a really bad surpise! In order to compile those templates I needed to use a build system (Webpack or Browserify). The tutorial is really good, but&hellip;
+    
+    <a href="/post/vuecc/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/dev ">dev</a>
+, <a href="/tags/javascript ">javascript</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Mon May 1 2017
     
   </time>
@@ -72,7 +114,7 @@
     <p>
     Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
 I want to start an alpine virt iso (from here) inside kvm through libvirt. But I am sick to run all my virsh commands prefixed with sudo.
-DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&rsquo;t have time to invest on this for the moment.
+DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don't have time to invest on this for the moment.
     
     <a href="/post/unprivileged_libvirt/">Read More...</a>
     
@@ -198,7 +240,6 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
     <p>For a personal project I want to iPXE boot alpine. I did not found any step by
 step guide, so I ended up testing multiple solutions until it works. This
 post is a &ldquo;copy&rdquo; of the answer I made <a href="https://github.com/antonym/netboot.xyz/issues/30#issuecomment-276722892">here</a> for the <a href="https://netboot.xyz">netboot.xyz project</a>.</p>
-
 <p>To fix this issue I used a bunch of thread and resources but here are the three
 main entry used:</p>
     
@@ -240,7 +281,7 @@ main entry used:</p>
     <div class="caption">
     <h2 class="caption-title"><a href="/post/docker_nspawn/">Docker Nspawn</a></h2>
     <p>
-    Don&rsquo;t want to use Docker? Still want to start containers for tests or whatever? Don&rsquo;t want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
+    Don't want to use Docker? Still want to start containers for tests or whatever? Don't want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
 Thanks to the CoreOS team (love those guys) a new hub for storing container now exists: quay. The other good news is the ACI, the container image format defined in the App Container (appc) spec.
     
     <a href="/post/docker_nspawn/">Read More...</a>
@@ -361,7 +402,7 @@ Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go
     <h2 class="caption-title"><a href="/post/curl_utils/">Curl utils</a></h2>
     <p>
     Here are some options and command I use with curl when dealing with stuff I have to develop.
-curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &quot;Content-Type: application/json&quot; -u &quot;admin:admin&quot; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &quot;header_name: value&quot; # -u support for Basic Auth, format is: &quot;user:password&quot; # -d set up data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.
+curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &#34;Content-Type: application/json&#34; -u &#34;admin:admin&#34; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &#34;header_name: value&#34; # -u support for Basic Auth, format is: &#34;user:password&#34; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.
     
     <a href="/post/curl_utils/">Read More...</a>
     
@@ -401,54 +442,10 @@ curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displa
     <div class="caption">
     <h2 class="caption-title"><a href="/post/libvirt_through_vagrant/">Libvirt through vagrant</a></h2>
     <p>
-    I will not install VirtualBox! That&rsquo;s all (nor VMWare, don&rsquo;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
+    I will not install VirtualBox! That's all (nor VMWare, don't be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
 Installation I do not remember where I found the documentation to do this or if I did it by myself, so no link here, just what I do in order to make this work.
     
     <a href="/post/libvirt_through_vagrant/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Thu May 12 2016
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/gogs_drone_compose/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  <a href="/categories/tuto">Tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/gogs_drone_compose/">Gogs &#43; Drone</a></h2>
-    <p>
-    Jenkins is everywhere now, but I really don&rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
-And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
-So I decided to make them work together in order to test that.
-    
-    <a href="/post/gogs_drone_compose/">Read More...</a>
     
     </p>
     
@@ -483,7 +480,7 @@ So I decided to make them work together in order to test that.
 
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

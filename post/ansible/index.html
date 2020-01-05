@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -78,71 +78,48 @@
       
 
     </header>
-    
-
-<p>I have a home media server, and I spent a lot of time configuring,
+    <p>I have a home media server, and I spent a lot of time configuring,
 testing and installing on it. But I was never really satisfied by
 the way I had to perform the installation (which happens way too often).</p>
-
 <p>And I recently discovered <a href="https://www.ansible.com/">Ansible</a>, which
 is a tool for doing a lot of stuff with a server
 (configuration, run repetitive command, installation) over ssh.</p>
-
 <p>I really loved experienced with it, it does not require a lot
 of dependencies on the targeted server, and can be easily run.</p>
-
 <h2 id="the-project">The project</h2>
-
 <p>I decided to install my home server with it, because it can at
 last allow me to versionned my installation in an easy way
 (which seems too complicated with chef or puppet). It also allows
 me to test this installation against a virtual machine and have
 a reproductible installation.</p>
-
 <p>For the installation I choose to switch on <a href="https://www.archlinux.org/">Archlinux</a>
 (hipsters for the win), for a lot of reasons, but mainly because I can easily
 install zfs and nvidia drivers (because I also play on
 this computer).</p>
-
 <p>I decided to create a github organisation in order to push the various git
 projects I created. You can check this out: <a href="https://github.com/T0rt4nk">here</a></p>
-
 <p>This repository is separated in three sub project which I will explain.</p>
-
 <h3 id="development-environment">Development environment</h3>
-
 <p>The development environment is based on a VM with Vagrant,
 it also contains the configuration to deploy on the targeted machine.</p>
-
 <p>You can check the sources here -&gt;
 <a href="https://github.com/T0rt4nk/ansible-arch">https://github.com/T0rt4nk/ansible-arch</a></p>
-
 <h3 id="setup-scripts">Setup scripts</h3>
-
 <p>When installing on the server we need a basic operating system with
 the ssh service started. I created some scripts which can be retrieved
 easily and setup the default config.</p>
-
 <p>Check it out here -&gt;
 <a href="https://github.com/T0rt4nk/setup">https://github.com/T0rt4nk/setup</a></p>
-
 <h3 id="the-installation">The installation</h3>
-
 <p>A really great experience so far, it was reliable and easy, it &ldquo;kind of&rdquo; works
 (ansible is young currently, a lot of things have to be fixed).</p>
-
 <p>You can look at the code here -&gt;
 <a href="https://github.com/T0rt4nk/setup">https://github.com/T0rt4nk/setup</a></p>
-
 <p>I tried to follow the best practices but there is a need to involve in this
-technology and I don&rsquo;t have the time right now (it was a side project here).</p>
-
+technology and I don't have the time right now (it was a side project here).</p>
 <h2 id="return-on-experience">Return on experience</h2>
-
 <p>Ansible was a really good experience and here are some throughts</p>
-
 <h3 id="pro">PRO</h3>
-
 <ul>
 <li>easy, understandable, it does not require advanced knowledge, nor
 configuration.</li>
@@ -157,15 +134,12 @@ and/or hack the code to make it better.</li>
 <li>kind of good documentation (this can be hugely improved, but at this moment
 it is still better than many projects).</li>
 </ul>
-
 <h3 id="cons">CONS</h3>
-
 <p>I encountered some issues, some are fixable, some will need evolution on
 Ansible part.</p>
-
 <ul>
 <li>debug was a bit complicated, as a lot of code is wrapped on client side
-the debugging is hard (I didn&rsquo;t figure how to perform this well). I think
+the debugging is hard (I didn't figure how to perform this well). I think
 this one will quickly became a priority for the community.</li>
 <li>the tool is not fully mature, some behaviours are counter intuitive and
 we have the impression that it is not predicable. This is mostly due
@@ -178,7 +152,7 @@ bring some regression between versions (migration from 1.4 to 2.0 was a
 real pain)</li>
 <li>issue with procedural execution, and state management. This is one of the
 most complicated question when coming to issues which tools like Ansible
-tries to solve: which part need to be declarative, which doesn&rsquo;t. I think
+tries to solve: which part need to be declarative, which doesn't. I think
 that the use of jinja templates (and python code through plugins in the
 library) is a great idea, but it is not advertised in the documentation
 whereas it could save plenty of time and provide a real</li>
@@ -186,7 +160,6 @@ whereas it could save plenty of time and provide a real</li>
 approach. Ansible tries to solve it, but the tool lacks of features and
 extensibility. See previous point for thoughts on how to solve this.</li>
 </ul>
-
 <p><strong>NOTE</strong> This was done during the transition between 1.4 and 2.0, maybe some
 behaviours moved the good way and are now fixed. I will try to write an update
 later when my project will need to evolve.</p>
@@ -218,7 +191,7 @@ later when my project will need to evolve.</p>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,49 @@
     <h2 class="taxonomy-title">Filed under admin...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Jul 16 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/weechat/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/weechat/">weechat</a></h2>
+    <p>
+    Weechat is an ncurse client for IRC, which I use and have tweaked to fit my needs.
+But Weechat have one major issue: IT IS NOT USER FRIENDLY. The documentation is poor, there is a lot of plugins, which documentation is even poorer, and the configuration is a hell.
+WELCOME!
+First of all the installation, apt-get install weechat will be sufficient on a real OS. Then, just type weechat in order to launch the client.
+    
+    <a href="/post/weechat/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -112,10 +155,11 @@ Creating your first container So like docker I wanted to first start a container
     <div class="caption">
     <h2 class="caption-title"><a href="/post/small_tool/">Small docker project</a></h2>
     <p>
-    I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
+    I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
-What I have learned  Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
- no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.
+What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+  no evaluation for environment variables
+  you can not store a variable through multiple run, you will need to do a oneliner e.
     
     <a href="/post/small_tool/">Read More...</a>
     
@@ -157,7 +201,7 @@ What I have learned  Docker, especially with boot2docker (I am on MacOSX shame o
     <div class="caption">
     <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
     <p>
-    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+    Sometimes I just can't work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     
@@ -203,7 +247,7 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then you can remove the progress bar by adding -s in the options
+curl -X POST -H &#34;Content-Type: application/json&#34; -d @filepath Then you can remove the progress bar by adding -s in the options
     
     <a href="/post/curl_for_rest/">Read More...</a>
     
@@ -245,7 +289,7 @@ curl -X POST -H &quot;Content-Type: application/json&quot; -d @filepath  Then yo
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian-install/">Debian Install</a></h2>
     <p>
-    That&rsquo;s a fact: I can not install a new system without getting into troubles!
+    That's a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.
     
@@ -283,7 +327,7 @@ Creating a bootable USB key on a Mac # plug your USB key, then find it with disk
 
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

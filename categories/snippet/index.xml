@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Snippet on Not today...</title>
@@ -29,7 +29,7 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
       
       <guid>http://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;quot;/CN=foo.com&amp;quot; # then we start a server using socat sudo socat &amp;quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;quot; \ SYSTEM:&amp;quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ 	SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
     </item>
     
     <item>
@@ -47,10 +47,10 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
       <pubDate>Wed, 09 May 2018 10:22:33 +0200</pubDate>
       
       <guid>http://ixday.github.io/post/filepath_walk/</guid>
-      <description>During the development of a small project I noticed something strange with golang&amp;rsquo;s function filepath.Walk.
+      <description>During the development of a small project I noticed something strange with golang&#39;s function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux  Run the script Now, let&amp;rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&#39;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.</description>
     </item>
     
     <item>
@@ -71,7 +71,8 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python  That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
+layout python That&#39;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+Golang projects This one is a bit trickier.</description>
     </item>
     
     <item>
@@ -81,8 +82,8 @@ layout python  That&amp;rsquo;s it! It sets up a virtualenv in your .direnv dire
       
       <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &amp;quot;bar&amp;quot;  Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &amp;quot;bar&amp;quot;; foo == &amp;quot;baz&amp;quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:</description>
+foo := &amp;#34;bar&amp;#34; Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:</description>
     </item>
     
     <item>
@@ -111,7 +112,7 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
       <pubDate>Wed, 23 Nov 2016 09:48:08 +0100</pubDate>
       
       <guid>http://ixday.github.io/post/docker_nspawn/</guid>
-      <description>Don&amp;rsquo;t want to use Docker? Still want to start containers for tests or whatever? Don&amp;rsquo;t want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
+      <description>Don&#39;t want to use Docker? Still want to start containers for tests or whatever? Don&#39;t want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
 Thanks to the CoreOS team (love those guys) a new hub for storing container now exists: quay. The other good news is the ACI, the container image format defined in the App Container (appc) spec.</description>
     </item>
     
@@ -122,7 +123,7 @@ Thanks to the CoreOS team (love those guys) a new hub for storing container now 
       
       <guid>http://ixday.github.io/post/curl_utils/</guid>
       <description>Here are some options and command I use with curl when dealing with stuff I have to develop.
-curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -u &amp;quot;admin:admin&amp;quot; -d &amp;#39;{}&amp;#39; &amp;lt;ip&amp;gt; # -X set up the http method (here POST) # -H set up an header, format is: &amp;quot;header_name: value&amp;quot; # -u support for Basic Auth, format is: &amp;quot;user:password&amp;quot; # -d set up data to send to the server  I mostly use those options, the -s is really interesting when you want to grep the content.</description>
+curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -u &amp;#34;admin:admin&amp;#34; -d &amp;#39;{}&amp;#39; &amp;lt;ip&amp;gt; # -X set up the http method (here POST) # -H set up an header, format is: &amp;#34;header_name: value&amp;#34; # -u support for Basic Auth, format is: &amp;#34;user:password&amp;#34; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.</description>
     </item>
     
     <item>
@@ -131,7 +132,7 @@ curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress # -
       <pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/gogs_drone_compose/</guid>
-      <description>Jenkins is everywhere now, but I really don&amp;rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
+      <description>Jenkins is everywhere now, but I really don&#39;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
 And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
 So I decided to make them work together in order to test that.</description>
     </item>
@@ -164,9 +165,9 @@ Here is the command I run when I just made some devs: py.test -xvvvs --tb=line -
       
       <guid>http://ixday.github.io/post/bash_expansion/</guid>
       <description>A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-for i in {1..50} do echo &amp;quot;Hello World $i&amp;quot; done  It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echo something/{foo,bar} &amp;gt; something/foo something/bar  Still not amazed, ok now type this one:
-cp some_file{,.old}  It will copy your file adding a .</description>
+for i in {1..50} do echo &amp;#34;Hello World $i&amp;#34; done It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echo something/{foo,bar} &amp;gt; something/foo something/bar Still not amazed, ok now type this one:
+cp some_file{,.old} It will copy your file adding a .</description>
     </item>
     
     <item>
@@ -189,7 +190,7 @@ It is pretty simple, but not well known (I checked some stackoverflow threads be
       <description>Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:
-# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&amp;quot;/tmp/tempfile.</description>
+# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&amp;#34;/tmp/tempfile.</description>
     </item>
     
   </channel>

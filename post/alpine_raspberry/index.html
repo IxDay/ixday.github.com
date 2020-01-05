@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.62.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Alpine on a Raspberry</title>
+  <meta property='og:title' content="Alpine on a Raspberry - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Sun Jan 5 2020
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/alpine_raspberry/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Alpine on a Raspberry</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+
+      </p>
+      
+
+    </header>
+    <p>Lately, I decided to re-install my old <a href="https://www.raspberrypi.org/">Raspberry Pi</a>
+(version 1, yes I'm that old) to create a small home server.
+Since I am using <a href="https://alpinelinux.org/">Alpine</a> and liking it quite a lot,
+I wanted to install it on my new little toy project.</p>
+<p>I followed documentations and tutorials (
+<a href="https://wiki.alpinelinux.org/wiki/Raspberry_Pi">here</a> and
+<a href="https://www.rigon.tk/documentation/alpine-raspberry-pi">here</a>)
+and finally succeeded.
+I am now writing it down so I remember what has been achieved.</p>
+<h2 id="setup-sd-card">Setup SD Card</h2>
+<p>This one was quite tricky because if anything is not exactly what is expected
+your raspberry will never boot! I am copy-pasting here the commands executed
+to properly setup the SD card partitions
+(I took the fdisk automation from <a href="https://superuser.com/questions/332252/how-to-create-and-format-a-partition-using-a-bash-script#answer-984637">this stack overflow answer</a>):</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># replace /dev/...  with your sdcard entry</span>
+sed -e <span class="s1">&#39;s/\s*\([\+0-9a-zA-Z]*\).*/\1/&#39;</span> <span class="s">&lt;&lt; EOF | fdisk /dev/mmcblk0
+</span><span class="s">  o # clear the in memory partition table
+</span><span class="s">  n # new partition
+</span><span class="s">  p # primary partition
+</span><span class="s">  1 # partition number 1
+</span><span class="s">    # default - start at beginning of disk
+</span><span class="s">  +256M # 256 MB boot parttion
+</span><span class="s">  n # new partition
+</span><span class="s">  p # primary partition
+</span><span class="s">  2 # partion number 2
+</span><span class="s">    # default, start immediately after preceding partition
+</span><span class="s">    # default, extend partition to end of disk
+</span><span class="s">  t # change partition type
+</span><span class="s">  1 # for partition 1
+</span><span class="s">  c # partition type is W95 FAT32 (LBA)
+</span><span class="s">  p # print the in-memory partition table
+</span><span class="s">  w # write the partition table
+</span><span class="s">  q # and we&#39;re done
+</span><span class="s">EOF</span>
+
+<span class="c1"># here as well replace with proper path (lsblk will help you)</span>
+mkfs.vfat /dev/mmcblk0p1
+mkfs.ext4 /dev/mmcblk0p2
+</code></pre></div><p>Now, we have to run some commands because the raspberry I am using need so.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p1 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
+curl -o - http://dl-cdn.alpinelinux.org/alpine/v3.11/releases/armhf/alpine-rpi-3.11.2-armhf.tar.gz <span class="p">|</span> <span class="se">\
+</span><span class="se"></span>	tar xzf -
+rm boot/*-rpi2
+mv boot/* .
+
+cat &gt; config.txt <span class="s">&lt;&lt;-EOF
+</span><span class="s">	disable_splash=0
+</span><span class="s">	boot_delay=0
+</span><span class="s">	gpu_mem=256
+</span><span class="s">	gpu_mem_256=32
+</span><span class="s">	kernel=vmlinuz-rpi
+</span><span class="s">	initramfs initramfs-rpi
+</span><span class="s">EOF</span>
+</code></pre></div><p>Once this is done, the SD card is ready to be plugged and the Raspberry to be booted.</p>
+<h2 id="first-boot-and-in-memory-setup">First boot and in-memory setup</h2>
+<p>When the booting is done, you will get a prompt, user is <code>root</code> and no password
+should be required.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># run the setup and answer the various questions</span>
+setup-alpine
+
+<span class="c1"># be sure to have properly installed ssh as it ease the administration,</span>
+<span class="c1"># we now create a user to be able to connect in</span>
+adduser -G wheel foo
+
+<span class="c1"># the clock may display some errors, better fix it</span>
+ntpd -q -p ptbtime1.ptb.de
+
+<span class="c1"># we can now commit the changes</span>
+lbu commit -d
+<span class="c1"># if you want reboot in order to ensure that changes are properly saved</span>
+reboot
+</code></pre></div><h2 id="doing-the-persistent-install">Doing the persistent install</h2>
+<p>The <code>sys</code> install is the next phase, it will allow your installation to survive
+reboots (as you would expect from a regular machine).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># we mount the ext4 partition</span>
+<span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p2 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
+
+<span class="c1"># we copy from the previous commited image (you can ignore the syslinux/extlinux errors)</span>
+setup-disk -o /media/mmcblk0p1/MYHOSTNAME.apkovl.tar.gz <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+
+<span class="c1"># now we update the fstab</span>
+<span class="nb">echo</span> <span class="s2">&#34;/dev/mmcblk0p1 /media/mmcblk0p1 vfat defaults 0 0&#34;</span> &gt;&gt; ./etc/fstab
+
+</code></pre></div><p>We now need to change the boot partition a bit in order to switch to our newly
+installed system.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mount -o remount,rw /media/mmcblk0p1 <span class="o">&amp;&amp;</span> <span class="nb">cd</span> media/mmcblk0p1
+sed -i <span class="s1">&#39;$ s/^/root=\/dev\/mmcblk0p2 /&#39;</span> /media/mmcblk0p1/cmdline.txt
+
+mkdir kernel-installer
+mv System.map-rpi config-rpi initramfs-rpi vmlinuz-rpi kernel-installer
+<span class="nb">cd</span> - <span class="o">&amp;&amp;</span> cp -v ./boot/* /media/mmcblk0p1
+</code></pre></div><p><strong>Everything should now works on next boot! You have successfully installed Alpine
+on a Raspberry!</strong></p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2020 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

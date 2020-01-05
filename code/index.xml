@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Codes on Not today...</title>
@@ -17,7 +17,7 @@
       
       <guid>http://ixday.github.io/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/</guid>
       <description>HttpRouter    HttpRouter is a lightweight high performance HTTP request router (also called multiplexer or just mux for short) for Go.
-In contrast to the default mux of Go&amp;rsquo;s net/http package, this router supports variables in the routing pattern and matches against the request method. It also scales better.
+In contrast to the default mux of Go&#39;s net/http package, this router supports variables in the routing pattern and matches against the request method. It also scales better.
 The router is optimized for high performance and a small memory footprint. It scales well even with very long paths and a large number of routes.</description>
     </item>
     

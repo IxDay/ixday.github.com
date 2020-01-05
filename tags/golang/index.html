@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -111,10 +111,10 @@
     <div class="caption">
     <h2 class="caption-title"><a href="/post/filepath_walk/">Filepath Walk bug?</a></h2>
     <p>
-    During the development of a small project I noticed something strange with golang&rsquo;s function filepath.Walk.
+    During the development of a small project I noticed something strange with golang's function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux  Run the script Now, let&rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let's run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
     
     <a href="/post/filepath_walk/">Read More...</a>
     
@@ -197,8 +197,8 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     <h2 class="caption-title"><a href="/post/golang-err-shadowing/">golang err shadowing</a></h2>
     <p>
     A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &quot;bar&quot;  Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &quot;bar&quot;; foo == &quot;baz&quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:
+foo := &#34;bar&#34; Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &#34;bar&#34;; foo == &#34;baz&#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:
     
     <a href="/post/golang-err-shadowing/">Read More...</a>
     
@@ -223,7 +223,7 @@ if foo := &quot;bar&quot;; foo == &quot;baz&quot; { // do something } else { // 
 
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

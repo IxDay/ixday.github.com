@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>admin on Not today...</title>
@@ -6,10 +6,21 @@
     <description>Recent content in admin on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Dec 2018 15:46:28 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jan 2020 17:46:45 +0100</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/tags/admin/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Alpine on a Raspberry</title>
+      <link>http://ixday.github.io/post/alpine_raspberry/</link>
+      <pubDate>Sun, 05 Jan 2020 17:46:45 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/alpine_raspberry/</guid>
+      <description>Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&#39;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
+I followed documentations and tutorials ( here and here) and finally succeeded. I am now writing it down so I remember what has been achieved.
+Setup SD Card This one was quite tricky because if anything is not exactly what is expected your raspberry will never boot!</description>
+    </item>
     
     <item>
       <title>Simple HTTPs server</title>
@@ -18,7 +29,7 @@
       
       <guid>http://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;quot;/CN=foo.com&amp;quot; # then we start a server using socat sudo socat &amp;quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;quot; \ SYSTEM:&amp;quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ 	SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
     </item>
     
     <item>
@@ -29,7 +40,7 @@
       <guid>http://ixday.github.io/post/unprivileged_libvirt/</guid>
       <description>Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
 I want to start an alpine virt iso (from here) inside kvm through libvirt. But I am sick to run all my virsh commands prefixed with sudo.
-DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&amp;rsquo;t have time to invest on this for the moment.</description>
+DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&#39;t have time to invest on this for the moment.</description>
     </item>
     
     <item>
@@ -41,7 +52,6 @@ DISCLAIMER: This will contain some of my conclusions with my partial understandi
       <description>&lt;p&gt;For a personal project I want to iPXE boot alpine. I did not found any step by
 step guide, so I ended up testing multiple solutions until it works. This
 post is a &amp;ldquo;copy&amp;rdquo; of the answer I made &lt;a href=&#34;https://github.com/antonym/netboot.xyz/issues/30#issuecomment-276722892&#34;&gt;here&lt;/a&gt; for the &lt;a href=&#34;https://netboot.xyz&#34;&gt;netboot.xyz project&lt;/a&gt;.&lt;/p&gt;
-
 &lt;p&gt;To fix this issue I used a bunch of thread and resources but here are the three
 main entry used:&lt;/p&gt;</description>
     </item>
@@ -64,7 +74,7 @@ I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;</description>
       <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/libvirt_through_vagrant/</guid>
-      <description>I will not install VirtualBox! That&amp;rsquo;s all (nor VMWare, don&amp;rsquo;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
+      <description>I will not install VirtualBox! That&#39;s all (nor VMWare, don&#39;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
 Installation I do not remember where I found the documentation to do this or if I did it by myself, so no link here, just what I do in order to make this work.</description>
     </item>
     
@@ -74,7 +84,7 @@ Installation I do not remember where I found the documentation to do this or if 
       <pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/gogs_drone_compose/</guid>
-      <description>Jenkins is everywhere now, but I really don&amp;rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
+      <description>Jenkins is everywhere now, but I really don&#39;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
 And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
 So I decided to make them work together in order to test that.</description>
     </item>
@@ -86,7 +96,7 @@ So I decided to make them work together in order to test that.</description>
       
       <guid>http://ixday.github.io/post/linux_mint/</guid>
       <description>After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition
-Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
+Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&#39;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
     </item>
     
     <item>
@@ -106,17 +116,14 @@ I really loved experienced with it, it does not require a lot of dependencies on
       <pubDate>Wed, 19 Aug 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/</guid>
-      <description>&lt;p&gt;Following &lt;a href=&#34;{filename}/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
+      <description>&lt;p&gt;Following &lt;a href=&#34;%7Bfilename%7D/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span&gt;&lt;/span&gt;  Volume group &amp;quot;vg_ssd&amp;quot; not found
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-
-&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
-
 &lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     
@@ -148,10 +155,11 @@ Creating your first container So like docker I wanted to first start a container
       <pubDate>Mon, 30 Mar 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/small_tool/</guid>
-      <description>I really like docker (even if I will look at systemd-nspawn), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
+      <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
-What I have learned  Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
- no evaluation for environment variables you can not store a variable through multiple run, you will need to do a oneliner e.</description>
+What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+  no evaluation for environment variables
+  you can not store a variable through multiple run, you will need to do a oneliner e.</description>
     </item>
     
     <item>
@@ -160,7 +168,7 @@ What I have learned  Docker, especially with boot2docker (I am on MacOSX shame o
       <pubDate>Mon, 02 Mar 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/rsync_fswatch/</guid>
-      <description>Sometimes I just can&amp;rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+      <description>Sometimes I just can&#39;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</description>
     </item>
@@ -174,7 +182,7 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</descri
       <description>It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -d @filepath  Then you can remove the progress bar by adding -s in the options</description>
+curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -d @filepath Then you can remove the progress bar by adding -s in the options</description>
     </item>
     
     <item>
@@ -183,7 +191,7 @@ curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -d @filepath 
       <pubDate>Sun, 12 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/debian-install/</guid>
-      <description>That&amp;rsquo;s a fact: I can not install a new system without getting into troubles!
+      <description>That&#39;s a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.</description>
     </item>

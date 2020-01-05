@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,48 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Sun Jan 5 2020
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/alpine_raspberry/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/alpine_raspberry/">Alpine on a Raspberry</a></h2>
+    <p>
+    Lately, I decided to re-install my old Raspberry Pi (version 1, yes I'm that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
+I followed documentations and tutorials ( here and here) and finally succeeded. I am now writing it down so I remember what has been achieved.
+Setup SD Card This one was quite tricky because if anything is not exactly what is expected your raspberry will never boot!
+    
+    <a href="/post/alpine_raspberry/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -156,7 +198,7 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
     <h2 class="caption-title"><a href="/post/simple_https/">Simple HTTPs server</a></h2>
     <p>
     Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &quot;/CN=foo.com&quot; # then we start a server using socat sudo socat &quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&quot; \ SYSTEM:&quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &#34;/CN=foo.com&#34; # then we start a server using socat sudo socat &#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&#34; \ 	SYSTEM:&#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!
     
     <a href="/post/simple_https/">Read More...</a>
     
@@ -271,10 +313,10 @@ This post is more a reflexion around APIs and tricks in Golang than a production
     <div class="caption">
     <h2 class="caption-title"><a href="/post/filepath_walk/">Filepath Walk bug?</a></h2>
     <p>
-    During the development of a small project I noticed something strange with golang&rsquo;s function filepath.Walk.
+    During the development of a small project I noticed something strange with golang's function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux  Run the script Now, let&rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let's run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
     
     <a href="/post/filepath_walk/">Read More...</a>
     
@@ -358,7 +400,8 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     <p>
     I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python  That&rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+layout python That's it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+Golang projects This one is a bit trickier.
     
     <a href="/post/direnv/">Read More...</a>
     
@@ -401,8 +444,8 @@ layout python  That&rsquo;s it! It sets up a virtualenv in your .direnv director
     <h2 class="caption-title"><a href="/post/golang-err-shadowing/">golang err shadowing</a></h2>
     <p>
     A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &quot;bar&quot;  Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &quot;bar&quot;; foo == &quot;baz&quot; { // do something } else { // do something else }  This is really handy when it comes to catch errors from an other function:
+foo := &#34;bar&#34; Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &#34;bar&#34;; foo == &#34;baz&#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:
     
     <a href="/post/golang-err-shadowing/">Read More...</a>
     
@@ -412,48 +455,6 @@ if foo := &quot;bar&quot;; foo == &quot;baz&quot; { // do something } else { // 
     <strong>Tagged</strong>
     <a href="/tags/golang ">golang</a>
 , <a href="/tags/dev ">dev</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Sat Jul 1 2017
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/vuecc/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/project">Project</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/vuecc/">vuecc</a></h2>
-    <p>
-    I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
-After a few hours of development, I decided to use SFC (Single File Components) to separate business code from components. And I got a really bad surpise! In order to compile those templates I needed to use a build system (Webpack or Browserify). The tutorial is really good, but&hellip;
-    
-    <a href="/post/vuecc/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/dev ">dev</a>
-, <a href="/tags/javascript ">javascript</a>
 
     </p>
     
@@ -482,7 +483,7 @@ After a few hours of development, I decided to use SFC (Single File Components) 
 
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

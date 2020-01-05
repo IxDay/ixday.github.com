@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Not today...</title>
@@ -6,10 +6,19 @@
     <description>Recent content in Categories on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Jul 2019 11:12:02 +0200</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jan 2020 17:46:45 +0100</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>OS</title>
+      <link>http://ixday.github.io/categories/os/</link>
+      <pubDate>Sun, 05 Jan 2020 17:46:45 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/categories/os/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Project</title>
@@ -26,15 +35,6 @@
       <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
       
       <guid>http://ixday.github.io/categories/snippet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>os</title>
-      <link>http://ixday.github.io/categories/os/</link>
-      <pubDate>Mon, 01 May 2017 11:41:14 +0200</pubDate>
-      
-      <guid>http://ixday.github.io/categories/os/</guid>
       <description></description>
     </item>
     

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -71,52 +71,41 @@
       
 
     </header>
-    
-
-<p>Sometimes I just want to click, even for simple things.
+    <p>Sometimes I just want to click, even for simple things.
 So I created a little popup to shutdown, restart, suspend my computer,
 which looks like this:</p>
-
-<p><a href="{filename}/images/xmobar_popup.png"><img src="{filename}/images/xmobar_popup.png" alt="Xmobar popup" />{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
-
+<p><a href="%7Bfilename%7D/images/xmobar_popup.png"><img src="%7Bfilename%7D/images/xmobar_popup.png" alt="Xmobar popup">{:.image-process-article-image}</a>{:target=&rdquo;_blank&rdquo;}</p>
 <h2 id="preparation">Preparation</h2>
-
 <p>First of all install <a href="http://projects.haskell.org/xmobar/">xmobar</a>,
 <code>apt-get install xmobar/testing</code>. Here I will use testing because
 I need the multiple fonts support,
 see <a href="http://projects.haskell.org/xmobar/releases.html#version-0.23-mar-8-2015">here</a>
 for the release note.</p>
-
 <p>The second thing I will need is an iconic font for the power button.
 <a href="https://fortawesome.github.io/Font-Awesome/">Font Awesome</a> fits my need.
 I downloaded the <code>.ttf</code> file <a href="https://github.com/FortAwesome/Font-Awesome/blob/master/fonts/fontawesome-webfont.ttf?raw=true">here</a>
 and placed it under <code>~/.local/share/fonts</code>. I ran <code>fc-cache -vf</code> in order to
 update the font cache of my machine.</p>
-
-<p>And that&rsquo;s all, now let&rsquo;s configure</p>
-
+<p>And that's all, now let's configure</p>
 <h2 id="configuration">Configuration</h2>
-<div class="highlight"><pre><code class="language-haskell" data-lang="haskell"><span></span><span class="kt">Config</span> <span class="p">{</span>
-	<span class="n">font</span> <span class="ow">=</span> <span class="s">&quot;xft:Droid Sans Mono-10&quot;</span>
-	<span class="p">,</span> <span class="n">additionalFonts</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&quot;xft:FontAwesome-10&quot;</span><span class="p">]</span>
+<div class="highlight"><pre class="chroma"><code class="language-haskell" data-lang="haskell"><span class="kt">Config</span> <span class="p">{</span>
+	<span class="n">font</span> <span class="ow">=</span> <span class="s">&#34;</span><span class="s">xft:Droid Sans Mono-10</span><span class="s">&#34;</span>
+	<span class="p">,</span> <span class="n">additionalFonts</span> <span class="ow">=</span> <span class="p">[</span><span class="s">&#34;</span><span class="s">xft:FontAwesome-10</span><span class="s">&#34;</span><span class="p">]</span>
 	<span class="p">,</span> <span class="n">border</span> <span class="ow">=</span> <span class="kt">FullB</span>
-	<span class="p">,</span> <span class="n">borderColor</span> <span class="ow">=</span> <span class="s">&quot;#8a8a8a&quot;</span>
+	<span class="p">,</span> <span class="n">borderColor</span> <span class="ow">=</span> <span class="s">&#34;</span><span class="s">#8a8a8a</span><span class="s">&#34;</span>
 	<span class="p">,</span> <span class="n">borderWidth</span> <span class="ow">=</span> <span class="mi">2</span>
-	<span class="p">,</span> <span class="n">bgColor</span> <span class="ow">=</span> <span class="s">&quot;#3c3b37&quot;</span>
-	<span class="p">,</span> <span class="n">fgColor</span> <span class="ow">=</span> <span class="s">&quot;#ffffff&quot;</span>
+	<span class="p">,</span> <span class="n">bgColor</span> <span class="ow">=</span> <span class="s">&#34;</span><span class="s">#3c3b37</span><span class="s">&#34;</span>
+	<span class="p">,</span> <span class="n">fgColor</span> <span class="ow">=</span> <span class="s">&#34;</span><span class="s">#ffffff</span><span class="s">&#34;</span>
 	<span class="p">,</span> <span class="n">lowerOnStart</span> <span class="ow">=</span> <span class="kt">False</span>
 	<span class="p">,</span> <span class="n">position</span> <span class="ow">=</span> <span class="kt">Static</span> <span class="p">{</span> <span class="n">xpos</span> <span class="ow">=</span> <span class="mi">660</span> <span class="p">,</span> <span class="n">ypos</span> <span class="ow">=</span> <span class="mi">490</span><span class="p">,</span> <span class="n">width</span> <span class="ow">=</span> <span class="mi">600</span><span class="p">,</span> <span class="n">height</span> <span class="ow">=</span> <span class="mi">100</span> <span class="p">}</span>
-	<span class="p">,</span> <span class="n">template</span> <span class="ow">=</span> <span class="s">&quot;}&lt;fn=1&gt;&lt;/fn&gt;   </span><span class="se">\</span>
-<span class="se">				  \</span><span class="s">&lt;action=`systemctl poweroff`&gt; Shutdown &lt;/action&gt;    </span><span class="se">\</span>
-<span class="se">				  \</span><span class="s">&lt;action=`systemctl reboot`&gt;Reboot&lt;/action&gt;    </span><span class="se">\</span>
-<span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill &amp;&amp; systemctl suspend`&gt;</span><span class="se">\</span>
-<span class="se">				  \</span><span class="s">Suspend&lt;/action&gt;    </span><span class="se">\</span>
-<span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill`&gt;Exit&lt;/action&gt;{&quot;</span>
+	<span class="p">,</span> <span class="n">template</span> <span class="ow">=</span> <span class="s">&#34;</span><span class="s">}&lt;fn=1&gt;&lt;/fn&gt;   </span><span class="se">\</span><span class="se">
+</span><span class="se">				  \</span><span class="s">&lt;action=`systemctl poweroff`&gt; Shutdown &lt;/action&gt;    </span><span class="se">\</span><span class="se">
+</span><span class="se">				  \</span><span class="s">&lt;action=`systemctl reboot`&gt;Reboot&lt;/action&gt;    </span><span class="se">\</span><span class="se">
+</span><span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill &amp;&amp; systemctl suspend`&gt;</span><span class="se">\</span><span class="se">
+</span><span class="se">				  \</span><span class="s">Suspend&lt;/action&gt;    </span><span class="se">\</span><span class="se">
+</span><span class="se">				  \</span><span class="s">&lt;action=`ps -o pid | sed &#39;3q;d&#39; |xargs kill`&gt;Exit&lt;/action&gt;{</span><span class="s">&#34;</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<p>Explanation line by line:</p>
-
+</code></pre></div><p>Explanation line by line:</p>
 <ul>
 <li>line 2: Define the font which will be use, this is my default font for my
 machine, which is available in the package <code>fonts-droid</code>.</li>
@@ -130,9 +119,7 @@ I want a popup 600x100, so <code>xpos = (1920 - 600) / 2</code> and <code>ypos =
 <li>line 11 to 16: The template to display, see <a href="#template">the template section</a>
 for a full description</li>
 </ul>
-
-<h3 id="the-template-a-name-template-a">The template <a name="template"></a></h3>
-
+<h3 id="the-template-a-nametemplatea">The template <!-- raw HTML omitted --><!-- raw HTML omitted --></h3>
 <ul>
 <li><code>}{</code> symbol describe the text alignment, in a template like this <code>foo}bar{qux</code>,
 foo will be left align, bar will be centered and qux will be left align.
@@ -182,7 +169,7 @@ the popup, by killing its process.</li>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

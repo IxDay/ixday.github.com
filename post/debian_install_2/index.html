@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -80,57 +80,44 @@
       
 
     </header>
-    
-
-<p>After many days of configuration, I finally complete the installation of my
+    <p>After many days of configuration, I finally complete the installation of my
 perfect &ldquo;workstation&rdquo; ;).</p>
-
-<h2 id="source-list">source.list</h2>
-
+<h2 id="sourcelist">source.list</h2>
 <p>I have to directory for this, first the
 <a href="https://github.com/IxDay/config_files/tree/new_conf/preferences.d">preferences</a>,
 then the
 <a href="https://github.com/IxDay/config_files/tree/new_conf/source.list.d">sources.list</a>.</p>
-
 <p>Just run an <code>aptitude update</code>, and you will some missing gpg keys, now run</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;
-</code></pre></div>
-
-<p>To have your keys installed.</p>
-
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;
+</code></pre></div><p>To have your keys installed.</p>
 <h2 id="sudo">sudo</h2>
-
 <p>A sudo file is important in order to correctly manage a computer, a simple
 <code>aptitude install sudo</code> will give you the tool.</p>
-
 <p>Then uncomment the following line</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="c1"># Allow members of group sudo to execute any command</span>
-%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
-</code></pre></div>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Allow members of group sudo to execute any command</span>
+%sudo   <span class="nv">ALL</span><span class="o">=</span><span class="o">(</span>ALL:ALL<span class="o">)</span> ALL
 
-<p>Then add your user to the group sudo <code>gpasswd -a &lt;your_user&gt; sudo</code></p>
-
+</code></pre></div><p>Then add your user to the group sudo <code>gpasswd -a &lt;your_user&gt; sudo</code></p>
 <h2 id="install-all-the-packages-o">install all the packages o/</h2>
-
 <p>Here is the list of packages I install by default, you can click on them to go
-to the proper section
-* <a href="#shell">rxvt-unicode-256color</a>
-* <a href="#shell">zsh</a>
-* <a href="#vim">vim-gtk</a>
-* <a href="#xserver-i3-gtk">xserver-xorg</a>, <a href="#xserver-i3-gtk">i3</a>
-* <a href="#xserver-i3-gtk">fonts-droid</a>, <a href="#theming">feh</a>
-* <a href="#xserver-i3-gtk">gtk2-engine-murrine</a>,
+to the proper section</p>
+<ul>
+<li><a href="#shell">rxvt-unicode-256color</a></li>
+<li><a href="#shell">zsh</a></li>
+<li><a href="#vim">vim-gtk</a></li>
+<li><a href="#xserver-i3-gtk">xserver-xorg</a>, <a href="#xserver-i3-gtk">i3</a></li>
+<li><a href="#xserver-i3-gtk">fonts-droid</a>, <a href="#theming">feh</a></li>
+<li><a href="#xserver-i3-gtk">gtk2-engine-murrine</a>,
 <a href="#xserver-i3-gtk">gtk2-engine-pixbuf</a>, <a href="#xserver-i3-gtk">libgtk2.0-0</a>,
-<a href="#xserver-i3-gtk">libgtk-3-0</a>
-* <a href="#notifications">libnotify-bin</a>, <a href="#notifications">dunst</a>
-* xclip, jq
-* <a href="#git">git</a>, <a href="#git">keychain</a>
-* <a href="#google-chrome">google-chrome-stable</a>
-* <a href="#docker">docker.io</a>
-*</p>
-
-<h2 id="a-name-shell-a-shell"><a name="shell"></a> Shell</h2>
-
+<a href="#xserver-i3-gtk">libgtk-3-0</a></li>
+<li><a href="#notifications">libnotify-bin</a>, <a href="#notifications">dunst</a></li>
+<li>xclip, jq</li>
+<li><a href="#git">git</a>, <a href="#git">keychain</a></li>
+<li><a href="#google-chrome">google-chrome-stable</a></li>
+<li><a href="#docker">docker.io</a></li>
+<li></li>
+</ul>
+<h2 id="a-nameshella-shell"><!-- raw HTML omitted --><!-- raw HTML omitted --> Shell</h2>
 <p>First thing first, a computer is not a real computer without a good shell.
 So, I install zsh, then I change my default shell <code>chsh -s $(which zsh)</code>, and
 to finish <a href="rxvt-unicode-256color">Oh My Zsh</a>. I have a custom
@@ -139,98 +126,79 @@ which is placed in <code>.oh-my-zsh/themes/</code>. The promp is loaded in my
 <a href="https://github.com/IxDay/config_files/blob/new_conf/zshrc">zshrc file</a>
 and some <a href="https://github.com/IxDay/config_files/blob/new_conf/zshrc">aliases</a>
 are sourced for convenience.</p>
-
-<h2 id="a-name-vim-a-vim"><a name="vim"></a> Vim</h2>
-
+<h2 id="a-namevima-vim"><!-- raw HTML omitted --><!-- raw HTML omitted --> Vim</h2>
 <p>I use vim for quite everything so I have some customization here.
 I directly install the gtk version in order to have support for the clipboard
 see <a href="http://stackoverflow.com/questions/11489428/how-to-make-vim-paste-from-and-copy-to-systems-clipboard">here</a>
 for the explanation.</p>
-
 <p>First a <a href="https://github.com/IxDay/config_files/blob/new_conf/vimrc">.vimrc</a>,
 the plugin system is based on
 <a href="https://github.com/gmarik/Vundle.vim">Vundle</a>. To install it just run
 <code>git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim</code>
 and <code>vim +PluginInstall +qall</code></p>
-
 <p>I also use a global <a href="https://github.com/IxDay/config_files/blob/new_conf/editorconfig">editorconfig file</a>
 to keep tidy the maximum of files.</p>
-
-<h2 id="a-name-xserver-i3-gtk-a-xserver-i3-and-gtk"><a name="xserver-i3-gtk"></a> Xserver, i3 and GTK</h2>
-
+<h2 id="a-namexserver-i3-gtka-xserver-i3-and-gtk"><!-- raw HTML omitted --><!-- raw HTML omitted --> Xserver, i3 and GTK</h2>
 <p>I use i3 for my window manager directly on top of X, all the configuration can
-be found easily on my github, here are the files used to configure my desktop.
-* The i3 config directory: <a href="https://github.com/IxDay/config_files/tree/new_conf/i3">here</a>
-* The i3status config file: <a href="https://github.com/IxDay/config_files/blob/new_conf/i3status.conf">here</a>
-* The gtkrc2 file: <a href="https://github.com/IxDay/config_files/blob/new_conf/gtkrc-2.0">here</a>
-* The settings.ini file for gtk3: <a href="https://github.com/IxDay/config_files/blob/new_conf/gtkrc-2.0">here</a>
-* The Xresource file: <a href="https://github.com/IxDay/config_files/blob/new_conf/Xresources">here</a></p>
-
+be found easily on my github, here are the files used to configure my desktop.</p>
+<ul>
+<li>The i3 config directory: <a href="https://github.com/IxDay/config_files/tree/new_conf/i3">here</a></li>
+<li>The i3status config file: <a href="https://github.com/IxDay/config_files/blob/new_conf/i3status.conf">here</a></li>
+<li>The gtkrc2 file: <a href="https://github.com/IxDay/config_files/blob/new_conf/gtkrc-2.0">here</a></li>
+<li>The settings.ini file for gtk3: <a href="https://github.com/IxDay/config_files/blob/new_conf/gtkrc-2.0">here</a></li>
+<li>The Xresource file: <a href="https://github.com/IxDay/config_files/blob/new_conf/Xresources">here</a></li>
+</ul>
 <p>In order to launch X with i3 the following files are required in your home
-directory:
-* <a href="https://github.com/IxDay/config_files/blob/new_conf/zprofile">.zprofile</a> is
+directory:</p>
+<ul>
+<li><a href="https://github.com/IxDay/config_files/blob/new_conf/zprofile">.zprofile</a> is
 the first file automatically sourced at the login, it launch the Xserver for
-the session.
-* <a href="https://github.com/IxDay/config_files/blob/new_conf/xinitrc">.xinitrc</a>
+the session.</li>
+<li><a href="https://github.com/IxDay/config_files/blob/new_conf/xinitrc">.xinitrc</a>
 contains the configuration for Xserver, it loads the keyboard layout,
 initialize some properties from the <code>.Xresource</code> file (colors, fonts, etc&hellip;),
-and finally load the i3 window manager.</p>
-
+and finally load the i3 window manager.</li>
+</ul>
 <p>There is some issues with the dmenu provided by suckless-tools.
 In order to support xft font I have reinstalled it from the minos repository,
 mentionned <a href="https://wiki.archlinux.org/index.php/Dmenu#Fonts">here</a></p>
-
-<h3 id="a-name-notification-a-notification"><a name="notification"></a>Notification</h3>
-
+<h3 id="a-namenotificationanotification"><!-- raw HTML omitted --><!-- raw HTML omitted -->Notification</h3>
 <p>For the notifications I use dunst, which is a notification service, it is
 started at i3 startup and will display in a configurable way the notifications
 from the system. It needs <code>libnotify-bin</code> to run, and has a
 <a href="https://github.com/IxDay/config_files/blob/new_conf/dunstrc">configuration file</a></p>
-
-<h3 id="a-name-theming-a-theming"><a name="theming"></a>Theming</h3>
-
+<h3 id="a-namethemingatheming"><!-- raw HTML omitted --><!-- raw HTML omitted -->Theming</h3>
 <p>I have installed the <a href="https://github.com/horst3180/Vertex-theme">Vertex theme</a>,
 and the <a href="https://github.com/IxDay/config_files/blob/new_conf/AwOken-2.5.zip">Awoken White icon pack</a>.</p>
-
-<p>For the last one some packages are required in order to configure it correctly:
-* imagemagick
-* zenity</p>
-
+<p>For the last one some packages are required in order to configure it correctly:</p>
+<ul>
+<li>imagemagick</li>
+<li>zenity</li>
+</ul>
 <p>I also use <code>feh</code> for managing the desktop wallpaper, it is launched at the
 Xserver startup from the <code>.xinitrc</code> file.</p>
-
-<h2 id="a-name-git-a-git"><a name="git"></a>git</h2>
-
+<h2 id="a-namegitagit"><!-- raw HTML omitted --><!-- raw HTML omitted -->git</h2>
 <p>The versionning tool!</p>
-
-<p>My configuration require here the two following files:
-* <a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitconfig</a>
-* <a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitignore_global</a></p>
-
+<p>My configuration require here the two following files:</p>
+<ul>
+<li><a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitconfig</a></li>
+<li><a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitignore_global</a></li>
+</ul>
 <p>After copying those files you can create a rsa key:</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span>ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&quot;your_email@example.com&quot;</span>
-</code></pre></div>
-
-<p>And to manage the keys passphrase I use <code>keychain</code> in an alias</p>
-<div class="highlight"><pre><code class="language-bash" data-lang="bash"><span></span><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&quot;eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&quot;</span>
-</code></pre></div>
-
-<p>It is possible to configure multiple keys, in order to separate some services.
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;your_email@example.com&#34;</span>
+</code></pre></div><p>And to manage the keys passphrase I use <code>keychain</code> in an alias</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&#34;</span><span class="s2">eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&#34;</span>
+</code></pre></div><p>It is possible to configure multiple keys, in order to separate some services.
 The archlinux wiki has a good article about the SSH keys management:
 <a href="https://wiki.archlinux.org/index.php/SSH_keys">here</a></p>
-
-<h2 id="a-name-google-chrome-a-google-chrome"><a name="google-chrome"></a>Google Chrome</h2>
-
+<h2 id="a-namegoogle-chromeagoogle-chrome"><!-- raw HTML omitted --><!-- raw HTML omitted -->Google Chrome</h2>
 <p>Why Chrome, and not Chromium? I had a lot of issues with Chromium, on flash,
 with google-talk and so on. It was too complicated and never works,
-I wasn&rsquo;t able to figure out why so I give up on this</p>
-
-<h2 id="a-name-docker-a-docker"><a name="docker"></a>Docker</h2>
-
+I wasn't able to figure out why so I give up on this</p>
+<h2 id="a-namedockeradocker"><!-- raw HTML omitted --><!-- raw HTML omitted -->Docker</h2>
 <p>Docker is now vastly known by the community of developpers. For the moment,
 I do not think it is a good production tool. But, for the development it is
 awesome.</p>
-
 <p>Simply install the package and add your user to the docker group
 <code>sudo gpasswd -a &lt;your_user&gt; docker</code></p>
 
@@ -261,7 +229,7 @@ awesome.</p>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

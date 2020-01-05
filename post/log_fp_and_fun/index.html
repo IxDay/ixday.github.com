@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -71,65 +71,55 @@
       
 
     </header>
-    
-
-<p>Golang implementation of a simple logger is subject to some criticism. First,
+    <p>Golang implementation of a simple logger is subject to some criticism. First,
 it does not use any extendable pattern, the only interface we can inject to
 modify the behavior of the logger is a <a href="https://golang.org/pkg/log/#New">writer interface</a>.
 Also, the lack of a proper log level control is a subject of discussion in
 the community <a href="https://twitter.com/bketelsen/status/820768241849077760">here</a>,
 <a href="https://groups.google.com/forum/#!topic/golang-dev/F3l9Iz1JX4g">here</a>, or
 <a href="https://dave.cheney.net/2015/11/05/lets-talk-about-logging">this</a> blog post.</p>
-
 <p>This post is more a reflexion around APIs and tricks in Golang than a production
-ready package. Take things from this post with a grain of salt as there&rsquo;s always
+ready package. Take things from this post with a grain of salt as there's always
 a more solutions to a given problem, especially in programming.</p>
-
 <p>The final implementation is living in
 <a href="https://github.com/IxDay/snippets/tree/master/golang/src/logger">my snippet repository</a>.</p>
-
 <h2 id="define-the-basis">Define the basis</h2>
-
 <p>What do we need? A way to log at a certain level and pass some computed
 values as a context. The <code>log.Printf</code> function is a good start and we will
 just add a level to log to in order to be able to perform some filtering.</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kd">type</span> <span class="p">(</span>
-	<span class="c1">// Basic interface</span>
-	<span class="nx">Logger</span> <span class="kd">interface</span> <span class="p">{</span>
-		<span class="nx">Log</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span>
+	<span class="c1">// Basic interface
+</span><span class="c1"></span>	<span class="nx">Logger</span> <span class="kd">interface</span> <span class="p">{</span>
+		<span class="nf">Log</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
 	<span class="p">}</span>
 
-	<span class="c1">// Convenient type to inline interface with a function</span>
-	<span class="nx">LoggerFunc</span> <span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span>
+	<span class="c1">// Convenient type to inline interface with a function
+</span><span class="c1"></span>	<span class="nx">LoggerFunc</span> <span class="kd">func</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">string</span><span class="p">,</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span>
 <span class="p">)</span>
 
-<span class="kd">func</span> <span class="p">(</span><span class="nx">f</span> <span class="nx">LoggerFunc</span><span class="p">)</span> <span class="nx">Log</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span> <span class="nx">f</span><span class="p">(</span><span class="nx">level</span><span class="p">,</span> <span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span> <span class="p">}</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">f</span> <span class="nx">LoggerFunc</span><span class="p">)</span> <span class="nf">Log</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="p">{</span> <span class="nf">f</span><span class="p">(</span><span class="nx">level</span><span class="p">,</span> <span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span> <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nx">NewNoopLogger</span><span class="p">()</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">_</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">_</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">_</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{})</span> <span class="p">}</span>
-</code></pre></div>
-
-<p>Now we&rsquo;d like to be able to use the stdlib <code>*log.Logger</code> object to manage the
+<span class="kd">func</span> <span class="nf">NewNoopLogger</span><span class="p">(</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">_</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">_</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">_</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="p">}</span>
+</code></pre></div><p>Now we'd like to be able to use the stdlib <code>*log.Logger</code> object to manage the
 burden of writing to the filesystem and filter messages on a fixed mark.</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kd">func</span> <span class="nx">BaseLogger</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">BaseLogger</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
 
-	<span class="c1">// Use the inline function to avoid declaring unneeded structs</span>
-	<span class="k">return</span> <span class="nx">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
+	<span class="c1">// Use the inline function to avoid declaring unneeded structs
+</span><span class="c1"></span>	<span class="k">return</span> <span class="nf">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="p">{</span>
 
-		<span class="c1">// Ensure that the level is higher than the one we fixed</span>
-		<span class="k">if</span> <span class="nx">level</span> <span class="o">&gt;=</span> <span class="nx">mark</span> <span class="p">{</span>
+		<span class="c1">// Ensure that the level is higher than the one we fixed
+</span><span class="c1"></span>		<span class="k">if</span> <span class="nx">level</span> <span class="o">&gt;=</span> <span class="nx">mark</span> <span class="p">{</span>
 
-			<span class="c1">// Delegate to stdlib logger</span>
-			<span class="nx">logger</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span>
+			<span class="c1">// Delegate to stdlib logger
+</span><span class="c1"></span>			<span class="nx">logger</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span>
 		<span class="p">}</span>
-	<span class="p">})</span>
+	<span class="p">}</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<p>And just a simple enumeration to make this <code>lvl</code> integer a bit more understandable.
+</code></pre></div><p>And just a simple enumeration to make this <code>lvl</code> integer a bit more understandable.
 A basic logger can also make things easier (one with flags the other without).</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kd">const</span> <span class="p">(</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">const</span> <span class="p">(</span>
 	<span class="nx">DEBUG</span> <span class="kt">int</span> <span class="p">=</span> <span class="kc">iota</span> <span class="o">+</span> <span class="mi">1</span>
 	<span class="nx">INFO</span>
 	<span class="nx">WARN</span>
@@ -138,153 +128,132 @@ A basic logger can also make things easier (one with flags the other without).</
 <span class="p">)</span>
 
 <span class="kd">var</span> <span class="p">(</span>
-	<span class="nx">Std</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="p">)</span>
-	<span class="nx">StdF</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="nx">Std</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">LstdFlags</span><span class="p">)</span>
+	<span class="nx">StdF</span> <span class="p">=</span> <span class="nx">log</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="p">)</span>
-</code></pre></div>
-
-<p>Now we can log as we want!</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">l</span> <span class="o">:=</span> <span class="nx">BaseLogger</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="nx">Std</span><span class="p">)</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">DEBUG</span><span class="p">,</span> <span class="s">&quot;debug log level&quot;</span><span class="p">)</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">INFO</span><span class="p">,</span> <span class="s">&quot;info log level&quot;</span><span class="p">)</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="s">&quot;warn log level&quot;</span><span class="p">)</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">ERROR</span><span class="p">,</span> <span class="s">&quot;error log level&quot;</span><span class="p">)</span>
+</code></pre></div><p>Now we can log as we want!</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">l</span> <span class="o">:=</span> <span class="nf">BaseLogger</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="nx">Std</span><span class="p">)</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">DEBUG</span><span class="p">,</span> <span class="s">&#34;debug log level&#34;</span><span class="p">)</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">INFO</span><span class="p">,</span> <span class="s">&#34;info log level&#34;</span><span class="p">)</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="s">&#34;warn log level&#34;</span><span class="p">)</span>
+	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">ERROR</span><span class="p">,</span> <span class="s">&#34;error log level&#34;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<h2 id="going-further">Going further!</h2>
-
-<p>Basis is here, let&rsquo;s see how we can go further. For instance, let&rsquo;s
+</code></pre></div><h2 id="going-further">Going further!</h2>
+<p>Basis is here, let's see how we can go further. For instance, let's
 add some prefixes:</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kd">func</span> <span class="nx">LevelLogger</span><span class="p">(</span><span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
-		<span class="nx">logger</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">level</span><span class="p">,</span> <span class="s">&quot;[&quot;</span><span class="o">+</span><span class="nx">LvlMap</span><span class="p">[</span><span class="nx">level</span><span class="p">]</span><span class="o">+</span><span class="s">&quot;] &quot;</span><span class="o">+</span><span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span>
-	<span class="p">})</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">LevelLogger</span><span class="p">(</span><span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nf">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">logger</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">level</span><span class="p">,</span> <span class="s">&#34;[&#34;</span><span class="o">+</span><span class="nx">LvlMap</span><span class="p">[</span><span class="nx">level</span><span class="p">]</span><span class="o">+</span><span class="s">&#34;] &#34;</span><span class="o">+</span><span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span>
+	<span class="p">}</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nx">PrefixLogger</span><span class="p">(</span><span class="nx">prefix</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
-	<span class="k">if</span> <span class="nx">prefix</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span> <span class="p">{</span>
-		<span class="nx">prefix</span> <span class="p">=</span> <span class="nx">prefix</span> <span class="o">+</span> <span class="s">&quot;: &quot;</span>
+<span class="kd">func</span> <span class="nf">PrefixLogger</span><span class="p">(</span><span class="nx">prefix</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="nx">prefix</span> <span class="o">!=</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+		<span class="nx">prefix</span> <span class="p">=</span> <span class="nx">prefix</span> <span class="o">+</span> <span class="s">&#34;: &#34;</span>
 	<span class="p">}</span>
-	<span class="k">return</span> <span class="nx">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
-		<span class="nx">logger</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">level</span><span class="p">,</span> <span class="nx">prefix</span><span class="o">+</span><span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span>
-	<span class="p">})</span>
+	<span class="k">return</span> <span class="nf">LoggerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">level</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">a</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{</span><span class="p">}</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">logger</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">level</span><span class="p">,</span> <span class="nx">prefix</span><span class="o">+</span><span class="nx">format</span><span class="p">,</span> <span class="nx">a</span><span class="o">...</span><span class="p">)</span>
+	<span class="p">}</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre></div><p>Now lets compose and print:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">l</span> <span class="o">:=</span> <span class="nf">PrefixLogger</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">,</span> <span class="nf">LevelLogger</span><span class="p">(</span><span class="nf">BaseLogger</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="nx">StdF</span><span class="p">)</span><span class="p">)</span><span class="p">)</span>
 
-<p>Now lets compose and print:</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="nx">l</span> <span class="o">:=</span> <span class="nx">PrefixLogger</span><span class="p">(</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="nx">LevelLogger</span><span class="p">(</span><span class="nx">BaseLogger</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="nx">StdF</span><span class="p">)))</span>
-
-	<span class="c1">// print nothing debug &lt; warn</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">DEBUG</span><span class="p">,</span> <span class="s">&quot;debug log level&quot;</span><span class="p">)</span>
-	<span class="c1">// print nothing info &lt; warn</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">INFO</span><span class="p">,</span> <span class="s">&quot;info log level&quot;</span><span class="p">)</span>
-	<span class="c1">// print &quot;[WARN] foo: warn log level&quot;</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="s">&quot;warn log level&quot;</span><span class="p">)</span>
-	<span class="c1">// print &quot;[ERROR] foo: error log level&quot;</span>
-	<span class="nx">l</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">ERROR</span><span class="p">,</span> <span class="s">&quot;error log level&quot;</span><span class="p">)</span>
+	<span class="c1">// print nothing debug &lt; warn
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">DEBUG</span><span class="p">,</span> <span class="s">&#34;debug log level&#34;</span><span class="p">)</span>
+	<span class="c1">// print nothing info &lt; warn
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">INFO</span><span class="p">,</span> <span class="s">&#34;info log level&#34;</span><span class="p">)</span>
+	<span class="c1">// print &#34;[WARN] foo: warn log level&#34;
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">WARN</span><span class="p">,</span> <span class="s">&#34;warn log level&#34;</span><span class="p">)</span>
+	<span class="c1">// print &#34;[ERROR] foo: error log level&#34;
+</span><span class="c1"></span>	<span class="nx">l</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">ERROR</span><span class="p">,</span> <span class="s">&#34;error log level&#34;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<h2 id="going-functional-programming">Going functional programming</h2>
-
-<p>All of those are functions, let&rsquo;s see what we can do to compose them and
+</code></pre></div><h2 id="going-functional-programming">Going functional programming</h2>
+<p>All of those are functions, let's see what we can do to compose them and
 create loggers with more features!</p>
+<p>First, let's compose loggers</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Here we take an array of callback functions, it allows us to pass wrapped
+</span><span class="c1"></span><span class="c1">// loggers, but keep the possibility of injecting paramaters with closures
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">ComposerLogger</span><span class="p">(</span><span class="nx">loggers</span> <span class="o">...</span><span class="kd">func</span><span class="p">(</span><span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
 
-<p>First, let&rsquo;s compose loggers</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="c1">// Here we take an array of callback functions, it allows us to pass wrapped</span>
-<span class="c1">// loggers, but keep the possibility of injecting paramaters with closures</span>
-<span class="kd">func</span> <span class="nx">ComposerLogger</span><span class="p">(</span><span class="nx">loggers</span> <span class="o">...</span><span class="kd">func</span><span class="p">(</span><span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
-
-	<span class="c1">// Initialise with a the noop logger, you will have to provide a base logger</span>
-	<span class="c1">// for something to happen</span>
-	<span class="nx">base</span> <span class="o">:=</span> <span class="nx">NoopLogger</span><span class="p">()</span>
+	<span class="c1">// Initialise with a the noop logger, you will have to provide a base logger
+</span><span class="c1"></span>	<span class="c1">// for something to happen
+</span><span class="c1"></span>	<span class="nx">base</span> <span class="o">:=</span> <span class="nf">NoopLogger</span><span class="p">(</span><span class="p">)</span>
 	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">logger</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">loggers</span> <span class="p">{</span>
 
-		<span class="c1">// Wrap previous with new one</span>
-		<span class="nx">base</span> <span class="p">=</span> <span class="nx">logger</span><span class="p">(</span><span class="nx">base</span><span class="p">)</span>
+		<span class="c1">// Wrap previous with new one
+</span><span class="c1"></span>		<span class="nx">base</span> <span class="p">=</span> <span class="nf">logger</span><span class="p">(</span><span class="nx">base</span><span class="p">)</span>
 	<span class="p">}</span>
 	<span class="k">return</span> <span class="nx">base</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<p>And now we can provide some new kinds of loggers by combining others, for instance:</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kd">func</span> <span class="nx">PrefixLevelLogger</span><span class="p">(</span><span class="nx">prefix</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">ComposerLogger</span><span class="p">(</span>
-		<span class="kd">func</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">BaseLogger</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span> <span class="p">},</span>
-		<span class="kd">func</span><span class="p">(</span><span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">LevelLogger</span><span class="p">(</span><span class="nx">logger</span><span class="p">)</span> <span class="p">},</span>
-		<span class="kd">func</span><span class="p">(</span><span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">PrefixLogger</span><span class="p">(</span><span class="nx">prefix</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span> <span class="p">},</span>
+</code></pre></div><p>And now we can provide some new kinds of loggers by combining others, for instance:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">func</span> <span class="nf">PrefixLevelLogger</span><span class="p">(</span><span class="nx">prefix</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nf">ComposerLogger</span><span class="p">(</span>
+		<span class="kd">func</span><span class="p">(</span><span class="nx">_</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">BaseLogger</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span> <span class="p">}</span><span class="p">,</span>
+		<span class="kd">func</span><span class="p">(</span><span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">LevelLogger</span><span class="p">(</span><span class="nx">logger</span><span class="p">)</span> <span class="p">}</span><span class="p">,</span>
+		<span class="kd">func</span><span class="p">(</span><span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">Logger</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">PrefixLogger</span><span class="p">(</span><span class="nx">prefix</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span> <span class="p">}</span><span class="p">,</span>
 	<span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<p><strong>FUNCTIONNAL PROGRAMMING!</strong></p>
-
-<p>We can go for a lot of different configurations, there&rsquo;s more in my
-<a href="https://github.com/IxDay/snippets/tree/master/golang/src/logger">snippet repo</a> if you need more example (there&rsquo;s a systemd level logger, or even a json one check it out).</p>
-
+</code></pre></div><p><strong>FUNCTIONNAL PROGRAMMING!</strong></p>
+<p>We can go for a lot of different configurations, there's more in my
+<a href="https://github.com/IxDay/snippets/tree/master/golang/src/logger">snippet repo</a> if you need more example (there's a systemd level logger, or even a json one check it out).</p>
 <h2 id="hotpatching-stdlib">Hotpatching Stdlib</h2>
-
 <p>Some libraries are logging directly using the <code>log.Printf</code>, <code>log.Println</code>, &hellip;
-It&rsquo;s possible to plug in there and here is an example:</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="c1">// We create a singleton of patchers</span>
-<span class="kd">var</span> <span class="nx">LogPatchers</span> <span class="p">=</span> <span class="p">[]</span><span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">{}</span>
+It's possible to plug in there and here is an example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go">
+<span class="c1">// We create a singleton of patchers
+</span><span class="c1"></span><span class="kd">var</span> <span class="nx">LogPatchers</span> <span class="p">=</span> <span class="p">[</span><span class="p">]</span><span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">{</span><span class="p">}</span>
 
-<span class="c1">// A bit of boilerplate</span>
-<span class="kd">type</span> <span class="p">(</span>
-	<span class="nx">WriterFunc</span>  <span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span>
+<span class="c1">// A bit of boilerplate
+</span><span class="c1"></span><span class="kd">type</span> <span class="p">(</span>
+	<span class="nx">WriterFunc</span>  <span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="kd">func</span> <span class="p">(</span><span class="nx">wf</span> <span class="nx">WriterFunc</span><span class="p">)</span> <span class="nx">Write</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">wf</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">}</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">wf</span> <span class="nx">WriterFunc</span><span class="p">)</span> <span class="nf">Write</span><span class="p">(</span><span class="nx">p</span> <span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">wf</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span> <span class="p">}</span>
 
-<span class="c1">// Use golang init function</span>
-<span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
-	<span class="c1">// Hot patch log, remove flags to ensure to avoid parsing unwanted strings</span>
-	<span class="nx">log</span><span class="p">.</span><span class="nx">SetFlags</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1">// Use golang init function
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">init</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Hot patch log, remove flags to ensure to avoid parsing unwanted strings
+</span><span class="c1"></span>	<span class="nx">log</span><span class="p">.</span><span class="nf">SetFlags</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-	<span class="c1">// Override the output from standard lib</span>
-	<span class="nx">log</span><span class="p">.</span><span class="nx">SetOutput</span><span class="p">(</span><span class="nx">WriterFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-		<span class="c1">// Write to all our patchers</span>
-		<span class="k">return</span> <span class="nx">io</span><span class="p">.</span><span class="nx">MultiWriter</span><span class="p">(</span><span class="nx">LogPatchers</span><span class="o">...</span><span class="p">).</span><span class="nx">Write</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
-	<span class="p">}))</span>
+	<span class="c1">// Override the output from standard lib
+</span><span class="c1"></span>	<span class="nx">log</span><span class="p">.</span><span class="nf">SetOutput</span><span class="p">(</span><span class="nf">WriterFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// Write to all our patchers
+</span><span class="c1"></span>		<span class="k">return</span> <span class="nx">io</span><span class="p">.</span><span class="nf">MultiWriter</span><span class="p">(</span><span class="nx">LogPatchers</span><span class="o">...</span><span class="p">)</span><span class="p">.</span><span class="nf">Write</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
+	<span class="p">}</span><span class="p">)</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">LogPatchers</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span>
-		<span class="c1">// Add our own log patcher which logs everything at the ERROR level</span>
-		<span class="c1">// there&#39;s possibility to do some string matching if you want to</span>
-		<span class="c1">// filter logs.</span>
-		<span class="nx">LogPatchers</span><span class="p">,</span> <span class="nx">WriterFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nx">PrefixLevelLogger</span><span class="p">(</span><span class="s">&quot;stdlib&quot;</span><span class="p">,</span> <span class="nx">ERROR</span><span class="p">,</span> <span class="nx">Std</span><span class="p">).</span><span class="nx">Log</span><span class="p">(</span><span class="nx">ERROR</span><span class="p">,</span> <span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
+		<span class="c1">// Add our own log patcher which logs everything at the ERROR level
+</span><span class="c1"></span>		<span class="c1">// there&#39;s possibility to do some string matching if you want to
+</span><span class="c1"></span>		<span class="c1">// filter logs.
+</span><span class="c1"></span>		<span class="nx">LogPatchers</span><span class="p">,</span> <span class="nf">WriterFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nf">PrefixLevelLogger</span><span class="p">(</span><span class="s">&#34;stdlib&#34;</span><span class="p">,</span> <span class="nx">ERROR</span><span class="p">,</span> <span class="nx">Std</span><span class="p">)</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">ERROR</span><span class="p">,</span> <span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
 
-			<span class="c1">// Just mark the operation as a success</span>
-			<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">),</span> <span class="kc">nil</span>
-		<span class="p">}),</span>
+			<span class="c1">// Just mark the operation as a success
+</span><span class="c1"></span>			<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span><span class="p">,</span> <span class="kc">nil</span>
+		<span class="p">}</span><span class="p">)</span><span class="p">,</span>
 	<span class="p">)</span>
-	<span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;error log level&quot;</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;error log level&#34;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div>
-
-<p><strong>Generate a valid logger from our custom implementation</strong></p>
-
+</code></pre></div><p><strong>Generate a valid logger from our custom implementation</strong></p>
 <p>As we want to integrate with some other libs (like the <code>ErrorLog</code> from
 <a href="https://golang.org/pkg/net/http/#Server">stdlib http package</a>, we need to provide
 some utilitaries. Here is a quick example:</p>
-<div class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="c1">// The only pluggable point is using a writer, so we pipe writes to a fixed level of log</span>
-<span class="kd">func</span> <span class="nx">LoggerWriter</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">WriterFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">logger</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="s">&quot;%s&quot;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
-		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">),</span> <span class="kc">nil</span>
-	<span class="p">})</span>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// The only pluggable point is using a writer, so we pipe writes to a fixed level of log
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">LoggerWriter</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nf">WriterFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">p</span> <span class="p">[</span><span class="p">]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">logger</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="s">&#34;%s&#34;</span><span class="p">,</span> <span class="nx">p</span><span class="p">)</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span><span class="p">,</span> <span class="kc">nil</span>
+	<span class="p">}</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="c1">// And we also provide a ready to use function, writing to a logger with no flags</span>
-<span class="kd">func</span> <span class="nx">StdLogger</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">LoggerWriter</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="nx">logger</span><span class="p">),</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c1">// And we also provide a ready to use function, writing to a logger with no flags
+</span><span class="c1"></span><span class="kd">func</span> <span class="nf">StdLogger</span><span class="p">(</span><span class="nx">mark</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">logger</span> <span class="nx">Logger</span><span class="p">)</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">log</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="nf">LoggerWriter</span><span class="p">(</span><span class="nx">mark</span><span class="p">,</span> <span class="nx">logger</span><span class="p">)</span><span class="p">,</span> <span class="s">&#34;&#34;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-
   </div>
 </article>
 <div id="disqus_thread"></div>
@@ -312,7 +281,7 @@ some utilitaries. Here is a quick example:</p>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

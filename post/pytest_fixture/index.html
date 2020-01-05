@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -82,67 +82,57 @@
     </header>
     <p>I am a huge fan of python (one of the best language in my toolbox). And
 when it comes to tests, <a href="http://pytest.org/">pytest</a> is <em>THE</em> library to use.</p>
-
 <p>I also use <a href="http://flask.pocoo.org/">Flask</a> a lot, so today I will show you
 some of my snippets.</p>
-
 <p>First one the app fixture:</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">app</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Load flask in testing mode&quot;&quot;&quot;</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">app</span><span class="p">(</span><span class="p">)</span><span class="p">:</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;</span><span class="s2">Load flask in testing mode</span><span class="s2">&#34;&#34;&#34;</span>
     <span class="n">app_test</span> <span class="o">=</span> <span class="n">myapp</span>
-    <span class="n">app_test</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">app_test</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">TESTING</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="n">app_test</span><span class="o">.</span><span class="n">json_encoder</span> <span class="o">=</span> <span class="n">my_encoder</span>
 
-    <span class="k">return</span> <span class="n">app_test</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
-</code></pre></div>
-
-<p>This create an app fixture which will be used to test the application, it
+    <span class="k">return</span> <span class="n">app_test</span><span class="o">.</span><span class="n">test_client</span><span class="p">(</span><span class="p">)</span>
+</code></pre></div><p>This create an app fixture which will be used to test the application, it
 returns a test client to interact with my Flask application.</p>
-
-<p>It is an adaptation of the documentation <a href="http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton">testing skeleton</a></p>
-
+<p>It is an adaptation of the documentation [testing skeleton]
+(<a href="http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton">http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton</a>)</p>
 <p>I also replace the json encoder by a custom one (it allows me to dump mock
 object for example).</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="nd">@pytest.yield_fixture</span>
-<span class="k">def</span> <span class="nf">request_context</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Provide a Flask request context for testing purpose&quot;&quot;&quot;</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pytest.yield_fixture</span>
+<span class="k">def</span> <span class="nf">request_context</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="p">:</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;</span><span class="s2">Provide a Flask request context for testing purpose</span><span class="s2">&#34;&#34;&#34;</span>
 
-    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">req_context</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">app</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">test_request_context</span><span class="p">(</span><span class="p">)</span> <span class="k">as</span> <span class="n">req_context</span><span class="p">:</span>
         <span class="k">yield</span> <span class="n">req_context</span>
-</code></pre></div>
-
-<p>This one applies a request context on a testing function, this can be
+</code></pre></div><p>This one applies a request context on a testing function, this can be
 useful if you manipulate werzeug interactions (flask request attribute mostly).
 This has to be use when the
 <code>RuntimeError: working outside of application context</code> error is raised.</p>
-
 <p>In the most common use case you will not need the <code>req_context</code> variable during
 your test. To avoid to have an unused argument, you can simply use the
 <code>@pytest.mark.usefixtures('request_context')</code> decorator on your testing
 function.</p>
-
 <p>Last one is also an opportunity to talk about
 <a href="http://peewee.readthedocs.org/en/latest/">peewee</a> which is a great lightweight
-ORM. Like a lot of ORM peewee provides a <a href="http://docs.peewee-orm.com/en/latest/peewee/transactions.html">transaction decorator</a>
+ORM. Like a lot of ORM peewee provides a [transaction decorator]
+(<a href="http://docs.peewee-orm.com/en/latest/peewee/transactions.html">http://docs.peewee-orm.com/en/latest/peewee/transactions.html</a>)
 , in unittest you may want to test endpoints without connecting to a db.
 So, here is an example on how you can replace the decorator
 (or contextmanager) by a dummy one.</p>
-<div class="highlight"><pre><code class="language-python" data-lang="python"><span></span><span class="kn">import</span> <span class="nn">imp</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">imp</span>
 <span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">pytest</span>
 
 <span class="kn">import</span> <span class="nn">database</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">mock_transaction</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;Replace the atomic decorator from peewee to a noop one&quot;&quot;&quot;</span>
+<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="sa"></span><span class="s1">&#39;</span><span class="s1">session</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mock_transaction</span><span class="p">(</span><span class="p">)</span><span class="p">:</span>
+    <span class="sa"></span><span class="s2">&#34;&#34;&#34;</span><span class="s2">Replace the atomic decorator from peewee to a noop one</span><span class="s2">&#34;&#34;&#34;</span>
 
-    <span class="n">database</span><span class="o">.</span><span class="n">atomic</span> <span class="o">=</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">contextmanager</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="k">yield</span><span class="p">))</span>
+    <span class="n">database</span><span class="o">.</span><span class="n">atomic</span> <span class="o">=</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">contextmanager</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">(</span><span class="k">yield</span><span class="p">)</span><span class="p">)</span>
     <span class="n">imp</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">using</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">transactions</span><span class="p">)</span>
-</code></pre></div>
-
-<p>Pytest use a lot of the python flexibility and I must confess that I love it.</p>
+</code></pre></div><p>Pytest use a lot of the python flexibility and I must confess that I love it.</p>
 
   </div>
 </article>
@@ -171,7 +161,7 @@ So, here is an example on how you can replace the decorator
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

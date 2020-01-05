@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -82,10 +82,8 @@
     <p>For a personal project I want to iPXE boot alpine. I did not found any step by
 step guide, so I ended up testing multiple solutions until it works. This
 post is a &ldquo;copy&rdquo; of the answer I made <a href="https://github.com/antonym/netboot.xyz/issues/30#issuecomment-276722892">here</a> for the <a href="https://netboot.xyz">netboot.xyz project</a>.</p>
-
 <p>To fix this issue I used a bunch of thread and resources but here are the three
 main entry used:</p>
-
 <ul>
 <li>Alpine documentation to create a custom ISO image:
 <a href="https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image">https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image</a></li>
@@ -94,40 +92,45 @@ main entry used:</p>
 <li>This post on the Alpine forum from a guy who managed to successfully boot from PXE:
 <a href="https://forum.alpinelinux.org/forum/installation/boot-pxe">https://forum.alpinelinux.org/forum/installation/boot-pxe</a></li>
 </ul>
-
 <p>Now here is the process to make all of this work:</p>
-
 <ul>
-<li>clone the <a href="http://git.alpinelinux.org/cgit/alpine-iso/">alpine-iso git repo</a></li>
-
-<li><p>cd to the directory and create the following two files:</p>
-
+<li>
+<p>clone the <a href="http://git.alpinelinux.org/cgit/alpine-iso/">alpine-iso git repo</a></p>
+</li>
+<li>
+<p>cd to the directory and create the following two files:</p>
 <ul>
-<li><code>alpine-pxe.packages</code> which will be empty (those packages are installed in the iso not in the initrd)</li>
-
-<li><p><code>alpine-pxe.conf.mk</code> with the following content:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span> ALPINE_NAME     := alpine-pxe
+<li>
+<p><code>alpine-pxe.packages</code> which will be empty (those packages are installed in the iso not in the initrd)</p>
+</li>
+<li>
+<p><code>alpine-pxe.conf.mk</code> with the following content:</p>
+<pre><code> ```text
+ ALPINE_NAME     := alpine-pxe
  KERNEL_FLAVOR   := grsec
  INITFS_FEATURES := ata base bootchart squashfs ext4 usb virtio network dhcp
  MODLOOP_EXTRA   :=
-</code></pre></div>
-
+ ```
+</code></pre>
 <p>some options may not be needed, I did not had the time to check this correctly,
 <code>virtio</code> and <code>network</code> are needed according to
-<a href="https://wiki.alpinelinux.org/wiki/PXE_boot#Using_pxelinux_instead_of_gPXE">the wiki</a></p></li>
-</ul></li>
-
-<li><p>create the image following the instructions <a href="https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image">here</a> and pass your new profile: <code>make PROFILE=alpine-pxe</code></p></li>
-
-<li><p>start a simple http server in <code>isotmp.alpine-pxe/isofs/boot/</code> the ipxe boot will need the two following files:</p>
-
+<a href="https://wiki.alpinelinux.org/wiki/PXE_boot#Using_pxelinux_instead_of_gPXE">the wiki</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p>create the image following the instructions <a href="https://wiki.alpinelinux.org/wiki/How_to_make_a_custom_ISO_image">here</a> and pass your new profile: <code>make PROFILE=alpine-pxe</code></p>
+</li>
+<li>
+<p>start a simple http server in <code>isotmp.alpine-pxe/isofs/boot/</code> the ipxe boot will need the two following files:</p>
 <ul>
 <li><code>initramfs-grsec</code></li>
 <li><code>vmlinuz-grsec</code></li>
-</ul></li>
-
-<li><p>create your ipxe script with an adaptation of the following to your own url</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>#!ipxe
+</ul>
+</li>
+<li>
+<p>create your ipxe script with an adaptation of the following to your own url</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">#!ipxe
 
 dhcp
 
@@ -138,10 +141,11 @@ kernel ${base-url}/vmlinuz-grsec ${kernel-params}
 initrd ${base-url}/initramfs-grsec
 
 boot
-</code></pre></div>
-
-<p>Here again I am not sure that all the options are needed, still have to perform some tests.
-- start your network boot!</p></li>
+</code></pre></div><p>Here again I am not sure that all the options are needed, still have to perform some tests.</p>
+</li>
+<li>
+<p>start your network boot!</p>
+</li>
 </ul>
   </div>
 </article>
@@ -170,7 +174,7 @@ boot
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

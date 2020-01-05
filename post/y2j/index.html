@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.62.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -80,55 +80,42 @@
       
 
     </header>
-    
-
-<p>This post is only to present a small project and the reasons behind it.
+    <p>This post is only to present a small project and the reasons behind it.
 Hope it can help other people.</p>
-
 <h2 id="why-this-project">Why this project</h2>
-
 <p>I am massively using <a href="https://stedolan.github.io/jq/">jq</a> in my shell scripts
 to deal with APIs. It is a powerfull tool and really help my day to day work.
 A few weeks ago I had to do the same kind of operations on a Yaml file, I started
 looking out there for alternative, and found some tooling which are translating
 Yaml to Json then push it to jq: <a href="https://github.com/kislyuk/yq">here is an example</a>.</p>
-
 <p>I liked the idea, simple and easy, however, it relies on python, and even worse
 it has python dependencies. This will bring not only a full python VM (which is
 more than 30MB) but also a whole python toolchain to get those dependencies.</p>
-
 <p>All the other solutions where relying on a VM based language and a full set of
 dependencies, it was a no-go.</p>
-
 <h2 id="the-project">The project</h2>
-
 <p>First, I needed a decision about which language, choices were
 Rust, Go, C++, C; all able to provide me with a single binary.
 Go was quick to eliminate as I did not want
 a 10MB binary for such a simple thing. My C and C++ skills are super rusty (no
 pun intended here), and the toolchain is a bit hard to manage.</p>
-
 <p>During my search for a Yaml to Json converter I came
 accross <a href="https://github.com/serde-rs/serde">serde</a>. This library seems
 to provide everything I need and was all writen in pure Rust.</p>
-
 <p>I ended up plumbing only 10 lines of code:</p>
-<div class="highlight"><pre><code class="language-rust" data-lang="rust"><span></span><span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">serde_json</span><span class="p">;</span><span class="w"></span>
-<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">serde_yaml</span><span class="p">;</span><span class="w"></span>
-<span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">};</span><span class="w"></span>
-
-<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="n">value</span>: <span class="nc">serde_json</span>::<span class="n">Value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_yaml</span>::<span class="n">from_reader</span><span class="p">(</span><span class="n">io</span>::<span class="n">stdin</span><span class="p">()).</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
-<span class="w">	</span><span class="c1">// Write out the JSON.</span>
-<span class="w">	</span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</code></pre></div>
-
-<p><strong>TADA! It works!</strong> I did not even have to learn Rust syntax at all.
+<div class="highlight"><pre class="chroma"><code class="language-rust" data-lang="rust"><span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">serde_json</span><span class="p">;</span><span class="w">
+</span><span class="w"></span><span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">serde_yaml</span><span class="p">;</span><span class="w">
+</span><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">io</span>::<span class="p">{</span><span class="bp">self</span><span class="p">}</span><span class="p">;</span><span class="w">
+</span><span class="w"></span><span class="w">
+</span><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span><span class="w"></span><span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="n">value</span>: <span class="nc">serde_json</span>::<span class="n">Value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_yaml</span>::<span class="n">from_reader</span><span class="p">(</span><span class="n">io</span>::<span class="n">stdin</span><span class="p">(</span><span class="p">)</span><span class="p">)</span><span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="p">)</span><span class="p">;</span><span class="w">
+</span><span class="w"></span><span class="w">	</span><span class="c1">// Write out the JSON.
+</span><span class="c1"></span><span class="w">	</span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">to_string</span><span class="p">(</span><span class="p">)</span><span class="p">)</span><span class="p">;</span><span class="w">
+</span><span class="w"></span><span class="p">}</span><span class="w">
+</span></code></pre></div><p><strong>TADA! It works!</strong> I did not even have to learn Rust syntax at all.
 The only knowledge I had to collect was around the Cargo toolchain, which was
 about 30 minutes of Googling. Last but not least, binary is only ~550KB which
 was exactly what I was aiming for.</p>
-
 <p>It only support converting in one way and from stdin, but this is the bare minimum
 I needed. I may later add some features but for the moment this first version
 is really satisfying.</p>
@@ -160,7 +147,7 @@ is really satisfying.</p>
     
 
     <footer id="footer">
-	<p>&copy; 2019 IxDay</p>
+	<p>&copy; 2020 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

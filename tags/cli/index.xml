@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cli on Not today...</title>
@@ -29,7 +29,7 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
       
       <guid>http://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;quot;/CN=foo.com&amp;quot; # then we start a server using socat sudo socat &amp;quot;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;quot; \ SYSTEM:&amp;quot;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ 	SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
     </item>
     
     <item>
@@ -40,7 +40,8 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python  That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.</description>
+layout python That&#39;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+Golang projects This one is a bit trickier.</description>
     </item>
     
     <item>
@@ -82,9 +83,9 @@ I really loved experienced with it, it does not require a lot of dependencies on
       
       <guid>http://ixday.github.io/post/bash_expansion/</guid>
       <description>A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
-for i in {1..50} do echo &amp;quot;Hello World $i&amp;quot; done  It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
-echo something/{foo,bar} &amp;gt; something/foo something/bar  Still not amazed, ok now type this one:
-cp some_file{,.old}  It will copy your file adding a .</description>
+for i in {1..50} do echo &amp;#34;Hello World $i&amp;#34; done It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echo something/{foo,bar} &amp;gt; something/foo something/bar Still not amazed, ok now type this one:
+cp some_file{,.old} It will copy your file adding a .</description>
     </item>
     
     <item>
@@ -96,7 +97,7 @@ cp some_file{,.old}  It will copy your file adding a .</description>
       <description>It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &amp;quot;Content-Type: application/json&amp;quot; -d @filepath  Then you can remove the progress bar by adding -s in the options</description>
+curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -d @filepath Then you can remove the progress bar by adding -s in the options</description>
     </item>
     
   </channel>
