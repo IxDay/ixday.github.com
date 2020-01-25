@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.0" />
+  <meta name="generator" content="Hugo 0.62.2" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,54 @@
     <h2 class="taxonomy-title">Filed under admin...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Wed Aug 19 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Unable to find LVM volume... with LVM on top of Luks</a></h2>
+    <p>
+    <p>Following <a href="%7Bfilename%7D/2015-08-18.debian-install-2.md">this article</a>
+I have LVM on top of Luks for my system.
+When I boot I encounter the following message:</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
+  Skipping volume group vg_ssd
+Unable to find LVM volume vg_ssd/lv_root
+</code></pre></div><p>It appears that LVM is started before I open the crypted partition and display this error.
+To fix this we will manipulate the initramfs \o/.</p>
+<p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code></p>
+    
+    <a href="/post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
