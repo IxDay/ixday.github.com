@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -96,16 +96,16 @@ download ;)</p>
 <p>Now, we have a folder containing the debian basic configuration, we can &ldquo;spawn&rdquo;
 it.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">systemd-nspawn -D /tmp/my-debian-machine
-</code></pre></div><p>And that's it! You now have your own container up and running.
+</code></pre></div><p>And that&rsquo;s it! You now have your own container up and running.
 The main difference is that, it is not running on AUFS, and every change will
 be definitive.</p>
 <p>Your machine is now visible if you run <code>machinectl</code>.</p>
 <h2 id="booting-a-container-like-a-real-vm">Booting a container like a real VM</h2>
-<p>Now, we will see a feature that I didn't find in docker, the ability to boot
+<p>Now, we will see a feature that I didn&rsquo;t find in docker, the ability to boot
 your system.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">systemd-nspawn -D /tmp/my-debian-machine -b
 </code></pre></div><p>And a prompt will appear, so to log in just &lsquo;type the root password&rsquo;.
-I'm sure you forget to set that before ;). Just stop your container,
+I&rsquo;m sure you forget to set that before ;). Just stop your container,
 relaunch it without boot and set the password.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># stop the container</span>
 machinectl poweroff my-debian-machine

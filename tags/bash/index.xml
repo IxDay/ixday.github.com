@@ -19,7 +19,7 @@
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That&#39;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
 Golang projects This one is a bit trickier.</description>
     </item>
     
@@ -31,7 +31,7 @@ Golang projects This one is a bit trickier.</description>
       <guid>http://ixday.github.io/post/unprivileged_libvirt/</guid>
       <description>Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
 I want to start an alpine virt iso (from here) inside kvm through libvirt. But I am sick to run all my virsh commands prefixed with sudo.
-DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&#39;t have time to invest on this for the moment.</description>
+DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&amp;rsquo;t have time to invest on this for the moment.</description>
     </item>
     
     <item>
@@ -110,7 +110,7 @@ What I have learned   Docker, especially with boot2docker (I am on MacOSX shame 
       <pubDate>Mon, 02 Mar 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/rsync_fswatch/</guid>
-      <description>Sometimes I just can&#39;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+      <description>Sometimes I just can&amp;rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</description>
     </item>
@@ -144,7 +144,7 @@ Double quotes Everyone who already used a bash script will tell you to mark ever
       <pubDate>Sun, 12 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/debian-install/</guid>
-      <description>That&#39;s a fact: I can not install a new system without getting into troubles!
+      <description>That&amp;rsquo;s a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.</description>
     </item>

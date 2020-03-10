@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,51 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Wed Jan 7 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/curl_for_rest/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/curl_for_rest/">Curl for REST</a></h2>
+    <p>
+    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
+First one is the well known curl and the second one is jq.
+One important feature of curl is its hability to load external files for datas with @ before file name:
+curl -X POST -H &#34;Content-Type: application/json&#34; -d @filepath Then you can remove the progress bar by adding -s in the options
+    
+    <a href="/post/curl_for_rest/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+, <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -199,7 +244,7 @@ Double quotes Everyone who already used a bash script will tell you to mark ever
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian-install/">Debian Install</a></h2>
     <p>
-    That's a fact: I can not install a new system without getting into troubles!
+    That&rsquo;s a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.
     
@@ -330,7 +375,7 @@ So here is an example:
     <h2 class="caption-title"><a href="/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/"></a></h2>
     <p>
     HttpRouter    HttpRouter is a lightweight high performance HTTP request router (also called multiplexer or just mux for short) for Go.
-In contrast to the default mux of Go's net/http package, this router supports variables in the routing pattern and matches against the request method. It also scales better.
+In contrast to the default mux of Go&rsquo;s net/http package, this router supports variables in the routing pattern and matches against the request method. It also scales better.
 The router is optimized for high performance and a small memory footprint. It scales well even with very long paths and a large number of routes.
     
     <a href="/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/">Read More...</a>

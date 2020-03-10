@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -80,7 +80,7 @@
       
 
     </header>
-    <p>Sometimes I just can't work on a local environment (particular architecture,
+    <p>Sometimes I just can&rsquo;t work on a local environment (particular architecture,
 particular services, local configuration too complex, etc&hellip;).
 So, I have to synchronize my local directory with a remote one and test the
 web interface on my local machine.</p>
@@ -117,7 +117,7 @@ group, owner, devices files</li>
 <li>-v the verbose option</li>
 <li>-z the compress option</li>
 <li>-e remote shell to use (basically we specify here all the ssh configuration
-needed. If we didn't had the .ssh/config file the command line should have been
+needed. If we didn&rsquo;t had the .ssh/config file the command line should have been
 <code>rsync -avz -e &quot;ssh -i ~/.ssh/my_ssh.key&quot; local/folder mylogin@my.url.com:/home/username/remote_folder</code></li>
 </ul>
 <p>It is possible to not want to synchronize all files
@@ -144,7 +144,7 @@ file change. For this purpose I will use <code>fswatch</code> because I use MacO
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">fswatch -e .git/ -e .pyc -e <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/static .
 </code></pre></div><p>Here I use <code>$(pwd)</code> in order to not catch the <code>/static</code> folder at the root of
 the folder, but keep the nested one included. This catch the same files as the
-exclude file from rsync. At this point I haven't found any solution to unify
+exclude file from rsync. At this point I haven&rsquo;t found any solution to unify
 those two commands.</p>
 <h2 id="xargs">xargs</h2>
 <p>The last piece needed is xargs, this will read stdin and execute a command on
@@ -156,7 +156,7 @@ each entry.</p>
 <span class="nv">remote_loc</span><span class="o">=</span><span class="s2">&#34;my.url.com:/home/username/remote_folder&#34;</span>
 
 fswatch -0 -o -e .git/ -e .pyc -e <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/static . <span class="p">|</span> <span class="se">\
-</span><span class="se"></span>xargs -0 -I <span class="o">{</span><span class="o">}</span> rsync -avz -e <span class="s2">&#34;ssh&#34;</span> . <span class="nv">$remote_loc</span> --exclude-from <span class="s1">&#39;exclude.txt&#39;</span>
+</span><span class="se"></span>xargs -0 -I <span class="o">{}</span> rsync -avz -e <span class="s2">&#34;ssh&#34;</span> . <span class="nv">$remote_loc</span> --exclude-from <span class="s1">&#39;exclude.txt&#39;</span>
 </code></pre></div><ul>
 <li>
 <p>The option <code>-0</code> indicates that fswatch will use <code>\0</code> as a line separator.</p>

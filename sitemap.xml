@@ -4,7 +4,42 @@
   
   <url>
     <loc>http://ixday.github.io/tags/admin/</loc>
-    <lastmod>2020-01-24T12:59:34+01:00</lastmod>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ixday.github.io/categories/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ixday.github.io/tags/cli/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ixday.github.io/post/gopass/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ixday.github.io/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ixday.github.io/post/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ixday.github.io/tags/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://ixday.github.io/categories/tuto/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
   </url>
   
   <url>
@@ -13,27 +48,7 @@
   </url>
   
   <url>
-    <loc>http://ixday.github.io/categories/</loc>
-    <lastmod>2020-01-24T12:59:34+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://ixday.github.io/</loc>
-    <lastmod>2020-01-24T12:59:34+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://ixday.github.io/categories/os/</loc>
-    <lastmod>2020-01-24T12:59:34+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://ixday.github.io/post/</loc>
-    <lastmod>2020-01-24T12:59:34+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://ixday.github.io/tags/</loc>
     <lastmod>2020-01-24T12:59:34+01:00</lastmod>
   </url>
   
@@ -60,11 +75,6 @@
   <url>
     <loc>http://ixday.github.io/tags/rust/</loc>
     <lastmod>2019-07-20T11:12:02+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://ixday.github.io/tags/cli/</loc>
-    <lastmod>2019-07-20T09:51:29+02:00</lastmod>
   </url>
   
   <url>
@@ -154,11 +164,6 @@
   
   <url>
     <loc>http://ixday.github.io/post/alpine_ipxe/</loc>
-    <lastmod>2017-02-02T10:08:35+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://ixday.github.io/categories/tuto/</loc>
     <lastmod>2017-02-02T10:08:35+01:00</lastmod>
   </url>
   
@@ -349,7 +354,6 @@
   
   <url>
     <loc>http://ixday.github.io/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/</loc>
-    <priority>0</priority>
   </url>
   
   <url>

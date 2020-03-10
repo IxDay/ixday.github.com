@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -79,7 +79,7 @@
       
 
     </header>
-    <p>I will not install VirtualBox! That's all (nor VMWare, don't be ridiculous).
+    <p>I will not install VirtualBox! That&rsquo;s all (nor VMWare, don&rsquo;t be ridiculous).
 But I really like <a href="https://www.vagrantup.com/">Vagrant</a>, and use it every time
 I need something closer to a running machine. So, I dig up the internet and
 found that there is an unofficial support of libvirt.</p>
@@ -115,14 +115,14 @@ a valid <code>box_url</code></p>
   <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">provider</span> <span class="ss">:libvirt</span> <span class="k">do</span> <span class="o">|</span><span class="n">v</span><span class="o">|</span>
 
     <span class="c1"># change the box to a libvirt compatible one</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="s2">dongsupark/coreos-%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="s2">&#34;dongsupark/coreos-%s&#34;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
 
     <span class="c1"># this line indicates where the box can be found</span>
-    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="s2">https://atlas.hashicorp.com/dongsupark/boxes/coreos-%s</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">box_url</span> <span class="o">=</span> <span class="s2">&#34;https://atlas.hashicorp.com/dongsupark/boxes/coreos-%s&#34;</span> <span class="o">%</span> <span class="vg">$update_channel</span>
 
     <span class="c1"># change the driver name and pass the parameters needed to comply with</span>
     <span class="c1"># specifications</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="s2">kvm</span><span class="s2">&#34;</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">driver</span> <span class="o">=</span> <span class="s2">&#34;kvm&#34;</span>
     <span class="n">v</span><span class="o">.</span><span class="n">memory</span> <span class="o">=</span> <span class="vg">$vm_memory</span>
     <span class="n">v</span><span class="o">.</span><span class="n">cpus</span> <span class="o">=</span> <span class="vg">$vm_cpus</span>
 

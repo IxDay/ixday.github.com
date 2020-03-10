@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -121,7 +121,7 @@ for the root user.</p>
 <h2 id="final-setup">Final setup</h2>
 <p>We modify our Dockerfile according to the last results.</p>
 <div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
-</span><span class="err"></span><span class="err">
+</span><span class="err">
 </span><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
 </span><span class="err"></span><span class="k">RUN</span> git config --system core.logallrefupdates false<span class="err">
 </span></code></pre></div><p>The git config command is case insensitive, so all lowercase will work here.

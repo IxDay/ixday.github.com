@@ -2,15 +2,15 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
   <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
   <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
   
-  <title>Not today... - Tuto</title>
-  <meta property='og:title' content="Tuto - Not today...">
+  <title>Not today... - tuto</title>
+  <meta property='og:title' content="tuto - Not today...">
   <meta property="og:type" content="article">
   
 
@@ -42,9 +42,51 @@
   </nav>
 </header>
 
-    <h2 class="taxonomy-title">Filed under Tuto...</h2>
+    <h2 class="taxonomy-title">Filed under tuto...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Mar 10 2020
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/gopass/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/gopass/">Gopass</a></h2>
+    <p>
+    A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
+First of all, let me say it right away, the CLI interface is not that good. Took me a lot of time to set things properly as options may be cryptic and behavior is not obvious as first sight.
+    
+    <a href="/post/gopass/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -114,7 +156,7 @@ main entry used:</p>
     <div class="caption">
     <h2 class="caption-title"><a href="/post/libvirt_through_vagrant/">Libvirt through vagrant</a></h2>
     <p>
-    I will not install VirtualBox! That's all (nor VMWare, don't be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
+    I will not install VirtualBox! That&rsquo;s all (nor VMWare, don&rsquo;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
 Installation I do not remember where I found the documentation to do this or if I did it by myself, so no link here, just what I do in order to make this work.
     
     <a href="/post/libvirt_through_vagrant/">Read More...</a>
@@ -157,7 +199,7 @@ Installation I do not remember where I found the documentation to do this or if 
     <div class="caption">
     <h2 class="caption-title"><a href="/post/gogs_drone_compose/">Gogs &#43; Drone</a></h2>
     <p>
-    Jenkins is everywhere now, but I really don't like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
+    Jenkins is everywhere now, but I really don&rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
 And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
 So I decided to make them work together in order to test that.
     
@@ -413,7 +455,7 @@ First one the app fixture:
     <div class="caption">
     <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
     <p>
-    Sometimes I just can't work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     
@@ -424,51 +466,6 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     <p class="tags">
     <strong>Tagged</strong>
     <a href="/tags/admin ">admin</a>
-, <a href="/tags/bash ">bash</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Wed Jan 7 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/curl_for_rest/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/tuto">tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/curl_for_rest/">Curl for REST</a></h2>
-    <p>
-    It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
-First one is the well known curl and the second one is jq.
-One important feature of curl is its hability to load external files for datas with @ before file name:
-curl -X POST -H &#34;Content-Type: application/json&#34; -d @filepath Then you can remove the progress bar by adding -s in the options
-    
-    <a href="/post/curl_for_rest/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-, <a href="/tags/cli ">cli</a>
 , <a href="/tags/bash ">bash</a>
 
     </p>

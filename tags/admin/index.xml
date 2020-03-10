@@ -6,10 +6,20 @@
     <description>Recent content in admin on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 24 Jan 2020 12:59:34 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 10 Mar 2020 11:20:59 +0100</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/tags/admin/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gopass</title>
+      <link>http://ixday.github.io/post/gopass/</link>
+      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/gopass/</guid>
+      <description>A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
+First of all, let me say it right away, the CLI interface is not that good. Took me a lot of time to set things properly as options may be cryptic and behavior is not obvious as first sight.</description>
+    </item>
     
     <item>
       <title>Alpine on a Raspberry (part 2)</title>
@@ -28,7 +38,7 @@ First boot and in-memory setup Here a few changes, using a version 3A+ requires 
       <pubDate>Sun, 05 Jan 2020 17:46:45 +0100</pubDate>
       
       <guid>http://ixday.github.io/post/alpine_raspberry/</guid>
-      <description>Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&#39;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
+      <description>Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&amp;rsquo;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
 I followed documentations and tutorials ( here and here) and finally succeeded. I am now writing it down so I remember what has been achieved.
 Setup SD Card This one was quite tricky because if anything is not exactly what is expected your raspberry will never boot!</description>
     </item>
@@ -51,7 +61,7 @@ Setup SD Card This one was quite tricky because if anything is not exactly what 
       <guid>http://ixday.github.io/post/unprivileged_libvirt/</guid>
       <description>Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
 I want to start an alpine virt iso (from here) inside kvm through libvirt. But I am sick to run all my virsh commands prefixed with sudo.
-DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&#39;t have time to invest on this for the moment.</description>
+DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&amp;rsquo;t have time to invest on this for the moment.</description>
     </item>
     
     <item>
@@ -85,7 +95,7 @@ I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;</description>
       <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/libvirt_through_vagrant/</guid>
-      <description>I will not install VirtualBox! That&#39;s all (nor VMWare, don&#39;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
+      <description>I will not install VirtualBox! That&amp;rsquo;s all (nor VMWare, don&amp;rsquo;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
 Installation I do not remember where I found the documentation to do this or if I did it by myself, so no link here, just what I do in order to make this work.</description>
     </item>
     
@@ -95,7 +105,7 @@ Installation I do not remember where I found the documentation to do this or if 
       <pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/gogs_drone_compose/</guid>
-      <description>Jenkins is everywhere now, but I really don&#39;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
+      <description>Jenkins is everywhere now, but I really don&amp;rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
 And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
 So I decided to make them work together in order to test that.</description>
     </item>
@@ -107,7 +117,7 @@ So I decided to make them work together in order to test that.</description>
       
       <guid>http://ixday.github.io/post/linux_mint/</guid>
       <description>After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition
-Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&#39;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
+Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
     </item>
     
     <item>
@@ -179,7 +189,7 @@ What I have learned   Docker, especially with boot2docker (I am on MacOSX shame 
       <pubDate>Mon, 02 Mar 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/rsync_fswatch/</guid>
-      <description>Sometimes I just can&#39;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+      <description>Sometimes I just can&amp;rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</description>
     </item>
@@ -202,7 +212,7 @@ curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -d @filepath Th
       <pubDate>Sun, 12 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/debian-install/</guid>
-      <description>That&#39;s a fact: I can not install a new system without getting into troubles!
+      <description>That&amp;rsquo;s a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.</description>
     </item>

@@ -48,7 +48,7 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That&#39;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
 Golang projects This one is a bit trickier.</description>
     </item>
     

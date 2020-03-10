@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tuto on Not today...</title>
+    <title>tuto on Not today...</title>
     <link>http://ixday.github.io/categories/tuto/</link>
-    <description>Recent content in Tuto on Not today...</description>
+    <description>Recent content in tuto on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Feb 2017 10:08:35 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 10 Mar 2020 11:20:59 +0100</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/categories/tuto/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gopass</title>
+      <link>http://ixday.github.io/post/gopass/</link>
+      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/gopass/</guid>
+      <description>A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
+First of all, let me say it right away, the CLI interface is not that good. Took me a lot of time to set things properly as options may be cryptic and behavior is not obvious as first sight.</description>
+    </item>
     
     <item>
       <title>Alpine iPXE</title>
@@ -30,7 +40,7 @@ main entry used:&lt;/p&gt;</description>
       <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/libvirt_through_vagrant/</guid>
-      <description>I will not install VirtualBox! That&#39;s all (nor VMWare, don&#39;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
+      <description>I will not install VirtualBox! That&amp;rsquo;s all (nor VMWare, don&amp;rsquo;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
 Installation I do not remember where I found the documentation to do this or if I did it by myself, so no link here, just what I do in order to make this work.</description>
     </item>
     
@@ -40,7 +50,7 @@ Installation I do not remember where I found the documentation to do this or if 
       <pubDate>Thu, 12 May 2016 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/gogs_drone_compose/</guid>
-      <description>Jenkins is everywhere now, but I really don&#39;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
+      <description>Jenkins is everywhere now, but I really don&amp;rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
 And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
 So I decided to make them work together in order to test that.</description>
     </item>
@@ -106,7 +116,7 @@ First one the app fixture:
       <pubDate>Mon, 02 Mar 2015 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/rsync_fswatch/</guid>
-      <description>Sometimes I just can&#39;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+      <description>Sometimes I just can&amp;rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</description>
     </item>

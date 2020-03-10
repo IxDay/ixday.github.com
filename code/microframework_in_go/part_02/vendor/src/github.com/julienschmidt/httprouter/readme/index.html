@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -73,11 +73,11 @@
     </header>
     <h1 id="httprouter-build-statushttpstravis-ciorgjulienschmidthttproutersvgbranchmasterhttpstravis-ciorgjulienschmidthttprouter-coverage-statushttpscoverallsioreposgithubjulienschmidthttprouterbadgesvgbranchmasterhttpscoverallsiogithubjulienschmidthttprouterbranchmaster-godochttpsgodocorggithubcomjulienschmidthttprouterstatussvghttpgodocorggithubcomjulienschmidthttprouter">HttpRouter <a href="https://travis-ci.org/julienschmidt/httprouter"><img src="https://travis-ci.org/julienschmidt/httprouter.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/github/julienschmidt/httprouter?branch=master"><img src="https://coveralls.io/repos/github/julienschmidt/httprouter/badge.svg?branch=master" alt="Coverage Status"></a> <a href="http://godoc.org/github.com/julienschmidt/httprouter"><img src="https://godoc.org/github.com/julienschmidt/httprouter?status.svg" alt="GoDoc"></a></h1>
 <p>HttpRouter is a lightweight high performance HTTP request router (also called <em>multiplexer</em> or just <em>mux</em> for short) for <a href="https://golang.org/">Go</a>.</p>
-<p>In contrast to the <a href="https://golang.org/pkg/net/http/#ServeMux">default mux</a> of Go's <code>net/http</code> package, this router supports variables in the routing pattern and matches against the request method. It also scales better.</p>
+<p>In contrast to the <a href="https://golang.org/pkg/net/http/#ServeMux">default mux</a> of Go&rsquo;s <code>net/http</code> package, this router supports variables in the routing pattern and matches against the request method. It also scales better.</p>
 <p>The router is optimized for high performance and a small memory footprint. It scales well even with very long paths and a large number of routes. A compressing dynamic trie (radix tree) structure is used for efficient matching.</p>
 <h2 id="features">Features</h2>
 <p><strong>Only explicit matches:</strong> With other routers, like <a href="https://golang.org/pkg/net/http/#ServeMux"><code>http.ServeMux</code></a>, a requested URL path could match multiple patterns. Therefore they have some awkward pattern priority rules, like <em>longest match</em> or <em>first registered, first matched</em>. By design of this router, a request can only match exactly one or no route. As a result, there are also no unintended matches, which makes it great for SEO and improves the user experience.</p>
-<p><strong>Stop caring about trailing slashes:</strong> Choose the URL style you like, the router automatically redirects the client if a trailing slash is missing or if there is one extra. Of course it only does so, if the new path has a handler. If you don't like it, you can <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.RedirectTrailingSlash">turn off this behavior</a>.</p>
+<p><strong>Stop caring about trailing slashes:</strong> Choose the URL style you like, the router automatically redirects the client if a trailing slash is missing or if there is one extra. Of course it only does so, if the new path has a handler. If you don&rsquo;t like it, you can <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.RedirectTrailingSlash">turn off this behavior</a>.</p>
 <p><strong>Path auto-correction:</strong> Besides detecting the missing or additional trailing slash at no extra cost, the router can also fix wrong cases and remove superfluous path elements (like <code>../</code> or <code>//</code>). Is <a href="http://www.urbandictionary.com/define.php?term=Captain+Caps+Lock">CAPTAIN CAPS LOCK</a> one of your users? HttpRouter can help him by making a case-insensitive look-up and redirecting him to the correct URL.</p>
 <p><strong>Parameters in your routing pattern:</strong> Stop parsing the requested URL path, just give the path segment a name and the router delivers the dynamic value to you. Because of the design of the router, path parameters are very cheap.</p>
 <p><strong>Zero Garbage:</strong> The matching and dispatching process generates zero bytes of garbage. The only heap allocations that are made are building the slice of the key-value pairs for path parameters, and building new context and request objects (the latter only in the standard <code>Handler</code>/<code>HandlerFunc</code> api). In the 3-argument API, if the request path contains no parameters not a single heap allocation is necessary.</p>
@@ -87,7 +87,7 @@
 <p>Of course you can also set <strong>custom <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.NotFound"><code>NotFound</code></a> and  <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.MethodNotAllowed"><code>MethodNotAllowed</code></a> handlers</strong> and <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.ServeFiles"><strong>serve static files</strong></a>.</p>
 <h2 id="usage">Usage</h2>
 <p>This is just a quick introduction, view the <a href="http://godoc.org/github.com/julienschmidt/httprouter">GoDoc</a> for details.</p>
-<p>Let's start with a trivial example:</p>
+<p>Let&rsquo;s start with a trivial example:</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
@@ -102,15 +102,15 @@
 <span class="p">}</span>
 
 <span class="kd">func</span> <span class="nf">Hello</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span> <span class="nx">ps</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nx">Params</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&#34;hello, %s!\n&#34;</span><span class="p">,</span> <span class="nx">ps</span><span class="p">.</span><span class="nf">ByName</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">)</span><span class="p">)</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&#34;hello, %s!\n&#34;</span><span class="p">,</span> <span class="nx">ps</span><span class="p">.</span><span class="nf">ByName</span><span class="p">(</span><span class="s">&#34;name&#34;</span><span class="p">))</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">router</span> <span class="o">:=</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">router</span> <span class="o">:=</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
     <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="nx">Index</span><span class="p">)</span>
     <span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/hello/:name&#34;</span><span class="p">,</span> <span class="nx">Hello</span><span class="p">)</span>
 
-    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:8080&#34;</span><span class="p">,</span> <span class="nx">router</span><span class="p">)</span><span class="p">)</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:8080&#34;</span><span class="p">,</span> <span class="nx">router</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div><h3 id="named-parameters">Named parameters</h3>
 <p>As you can see, <code>:name</code> is a <em>named parameter</em>. The values are accessible via <code>httprouter.Params</code>, which is just a slice of <code>httprouter.Param</code>s. You can get the value of a parameter either by its index in the slice, or by using the <code>ByName(name)</code> method: <code>:name</code> can be retrived by <code>ByName(&quot;name&quot;)</code>.</p>
@@ -156,26 +156,26 @@
 ├--
 ├--
 └-
-</code></pre><h2 id="why-doesnt-this-work-with-httphandler">Why doesn't this work with <code>http.Handler</code>?</h2>
+</code></pre><h2 id="why-doesnt-this-work-with-httphandler">Why doesn&rsquo;t this work with <code>http.Handler</code>?</h2>
 <p><strong>It does!</strong> The router itself implements the <code>http.Handler</code> interface. Moreover the router provides convenient <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.Handler">adapters for <code>http.Handler</code></a>s and <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.HandlerFunc"><code>http.HandlerFunc</code></a>s which allows them to be used as a <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.Handle"><code>httprouter.Handle</code></a> when registering a route. The only disadvantage is, that no parameter values can be retrieved when a <code>http.Handler</code> or <code>http.HandlerFunc</code> is used, since there is no efficient way to pass the values with the existing function parameters. Therefore <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.Handle"><code>httprouter.Handle</code></a> has a third function parameter.</p>
 <p>Just try it out for yourself, the usage of HttpRouter is very straightforward. The package is compact and minimalistic, but also probably one of the easiest routers to set up.</p>
 <h2 id="where-can-i-find-middleware-x">Where can I find Middleware <em>X</em>?</h2>
-<p>This package just provides a very efficient request router with a few extra features. The router is just a <a href="https://golang.org/pkg/net/http/#Handler"><code>http.Handler</code></a>, you can chain any http.Handler compatible middleware before the router, for example the <a href="http://www.gorillatoolkit.org/pkg/handlers">Gorilla handlers</a>. Or you could <a href="https://justinas.org/writing-http-middleware-in-go/">just write your own</a>, it's very easy!</p>
+<p>This package just provides a very efficient request router with a few extra features. The router is just a <a href="https://golang.org/pkg/net/http/#Handler"><code>http.Handler</code></a>, you can chain any http.Handler compatible middleware before the router, for example the <a href="http://www.gorillatoolkit.org/pkg/handlers">Gorilla handlers</a>. Or you could <a href="https://justinas.org/writing-http-middleware-in-go/">just write your own</a>, it&rsquo;s very easy!</p>
 <p>Alternatively, you could try <a href="#web-frameworks-based-on-httprouter">a web framework based on HttpRouter</a>.</p>
 <h3 id="multi-domain--sub-domains">Multi-domain / Sub-domains</h3>
 <p>Here is a quick example: Does your server serve multiple domains / hosts?
 You want to use sub-domains?
 Define a router per host!</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// We need an object that implements the http.Handler interface.
-</span><span class="c1"></span><span class="c1">// Therefore we need a type for which we implement the ServeHTTP method.
-</span><span class="c1"></span><span class="c1">// We just use a map here, in which we map host names (with port) to http.Handlers
+</span><span class="c1">// Therefore we need a type for which we implement the ServeHTTP method.
+</span><span class="c1">// We just use a map here, in which we map host names (with port) to http.Handlers
 </span><span class="c1"></span><span class="kd">type</span> <span class="nx">HostSwitch</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="nx">http</span><span class="p">.</span><span class="nx">Handler</span>
 
 <span class="c1">// Implement the ServeHTTP method on our new type
 </span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">hs</span> <span class="nx">HostSwitch</span><span class="p">)</span> <span class="nf">ServeHTTP</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span> <span class="p">{</span>
 	<span class="c1">// Check if a http.Handler is registered for the given host.
 </span><span class="c1"></span>	<span class="c1">// If yes, use it to handle the request.
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">handler</span> <span class="o">:=</span> <span class="nx">hs</span><span class="p">[</span><span class="nx">r</span><span class="p">.</span><span class="nx">Host</span><span class="p">]</span><span class="p">;</span> <span class="nx">handler</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">handler</span> <span class="o">:=</span> <span class="nx">hs</span><span class="p">[</span><span class="nx">r</span><span class="p">.</span><span class="nx">Host</span><span class="p">];</span> <span class="nx">handler</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
 		<span class="nx">handler</span><span class="p">.</span><span class="nf">ServeHTTP</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">r</span><span class="p">)</span>
 	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 		<span class="c1">// Handle host names for which no handler is registered
@@ -183,9 +183,9 @@ Define a router per host!</p>
 </span><span class="c1"></span>	<span class="p">}</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 	<span class="c1">// Initialize a router as usual
-</span><span class="c1"></span>	<span class="nx">router</span> <span class="o">:=</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="p">)</span>
+</span><span class="c1"></span>	<span class="nx">router</span> <span class="o">:=</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
 	<span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="nx">Index</span><span class="p">)</span>
 	<span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/hello/:name&#34;</span><span class="p">,</span> <span class="nx">Hello</span><span class="p">)</span>
 
@@ -195,7 +195,7 @@ Define a router per host!</p>
 	<span class="nx">hs</span><span class="p">[</span><span class="s">&#34;example.com:12345&#34;</span><span class="p">]</span> <span class="p">=</span> <span class="nx">router</span>
 
 	<span class="c1">// Use the HostSwitch to listen and serve on port 12345
-</span><span class="c1"></span>	<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:12345&#34;</span><span class="p">,</span> <span class="nx">hs</span><span class="p">)</span><span class="p">)</span>
+</span><span class="c1"></span>	<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:12345&#34;</span><span class="p">,</span> <span class="nx">hs</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div><h3 id="basic-authentication">Basic Authentication</h3>
 <p>Another quick example: Basic Authentication (RFC 2617) for handles:</p>
@@ -212,15 +212,15 @@ Define a router per host!</p>
 <span class="kd">func</span> <span class="nf">BasicAuth</span><span class="p">(</span><span class="nx">h</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nx">Handle</span><span class="p">,</span> <span class="nx">requiredUser</span><span class="p">,</span> <span class="nx">requiredPassword</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nx">Handle</span> <span class="p">{</span>
 	<span class="k">return</span> <span class="kd">func</span><span class="p">(</span><span class="nx">w</span> <span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">,</span> <span class="nx">ps</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nx">Params</span><span class="p">)</span> <span class="p">{</span>
 		<span class="c1">// Get the Basic Authentication credentials
-</span><span class="c1"></span>		<span class="nx">user</span><span class="p">,</span> <span class="nx">password</span><span class="p">,</span> <span class="nx">hasAuth</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">BasicAuth</span><span class="p">(</span><span class="p">)</span>
+</span><span class="c1"></span>		<span class="nx">user</span><span class="p">,</span> <span class="nx">password</span><span class="p">,</span> <span class="nx">hasAuth</span> <span class="o">:=</span> <span class="nx">r</span><span class="p">.</span><span class="nf">BasicAuth</span><span class="p">()</span>
 
 		<span class="k">if</span> <span class="nx">hasAuth</span> <span class="o">&amp;&amp;</span> <span class="nx">user</span> <span class="o">==</span> <span class="nx">requiredUser</span> <span class="o">&amp;&amp;</span> <span class="nx">password</span> <span class="o">==</span> <span class="nx">requiredPassword</span> <span class="p">{</span>
 			<span class="c1">// Delegate request to the given handle
 </span><span class="c1"></span>			<span class="nf">h</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">r</span><span class="p">,</span> <span class="nx">ps</span><span class="p">)</span>
 		<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
 			<span class="c1">// Request Basic Authentication otherwise
-</span><span class="c1"></span>			<span class="nx">w</span><span class="p">.</span><span class="nf">Header</span><span class="p">(</span><span class="p">)</span><span class="p">.</span><span class="nf">Set</span><span class="p">(</span><span class="s">&#34;WWW-Authenticate&#34;</span><span class="p">,</span> <span class="s">&#34;Basic realm=Restricted&#34;</span><span class="p">)</span>
-			<span class="nx">http</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">http</span><span class="p">.</span><span class="nf">StatusText</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">)</span><span class="p">,</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">)</span>
+</span><span class="c1"></span>			<span class="nx">w</span><span class="p">.</span><span class="nf">Header</span><span class="p">().</span><span class="nf">Set</span><span class="p">(</span><span class="s">&#34;WWW-Authenticate&#34;</span><span class="p">,</span> <span class="s">&#34;Basic realm=Restricted&#34;</span><span class="p">)</span>
+			<span class="nx">http</span><span class="p">.</span><span class="nf">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="nx">http</span><span class="p">.</span><span class="nf">StatusText</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">),</span> <span class="nx">http</span><span class="p">.</span><span class="nx">StatusUnauthorized</span><span class="p">)</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
 <span class="p">}</span>
@@ -233,15 +233,15 @@ Define a router per host!</p>
 	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Fprint</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span> <span class="s">&#34;Protected!\n&#34;</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="kd">func</span> <span class="nf">main</span><span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 	<span class="nx">user</span> <span class="o">:=</span> <span class="s">&#34;gordon&#34;</span>
 	<span class="nx">pass</span> <span class="o">:=</span> <span class="s">&#34;secret!&#34;</span>
 
-	<span class="nx">router</span> <span class="o">:=</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nf">New</span><span class="p">(</span><span class="p">)</span>
+	<span class="nx">router</span> <span class="o">:=</span> <span class="nx">httprouter</span><span class="p">.</span><span class="nf">New</span><span class="p">()</span>
 	<span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/&#34;</span><span class="p">,</span> <span class="nx">Index</span><span class="p">)</span>
-	<span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/protected/&#34;</span><span class="p">,</span> <span class="nf">BasicAuth</span><span class="p">(</span><span class="nx">Protected</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">pass</span><span class="p">)</span><span class="p">)</span>
+	<span class="nx">router</span><span class="p">.</span><span class="nf">GET</span><span class="p">(</span><span class="s">&#34;/protected/&#34;</span><span class="p">,</span> <span class="nf">BasicAuth</span><span class="p">(</span><span class="nx">Protected</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">pass</span><span class="p">))</span>
 
-	<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:8080&#34;</span><span class="p">,</span> <span class="nx">router</span><span class="p">)</span><span class="p">)</span>
+	<span class="nx">log</span><span class="p">.</span><span class="nf">Fatal</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">ListenAndServe</span><span class="p">(</span><span class="s">&#34;:8080&#34;</span><span class="p">,</span> <span class="nx">router</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div><h2 id="chaining-with-the-notfound-handler">Chaining with the NotFound handler</h2>
 <p><strong>NOTE: It might be required to set <a href="https://godoc.org/github.com/julienschmidt/httprouter#Router.HandleMethodNotAllowed"><code>Router.HandleMethodNotAllowed</code></a> to <code>false</code> to avoid problems.</strong></p>
@@ -249,7 +249,7 @@ Define a router per host!</p>
 <h3 id="static-files">Static files</h3>
 <p>The <code>NotFound</code> handler can for example be used to serve static files from the root path <code>/</code> (like an <code>index.html</code> file along with other assets):</p>
 <div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Serve static files from the ./public directory
-</span><span class="c1"></span><span class="nx">router</span><span class="p">.</span><span class="nx">NotFound</span> <span class="p">=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">FileServer</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">Dir</span><span class="p">(</span><span class="s">&#34;public&#34;</span><span class="p">)</span><span class="p">)</span>
+</span><span class="c1"></span><span class="nx">router</span><span class="p">.</span><span class="nx">NotFound</span> <span class="p">=</span> <span class="nx">http</span><span class="p">.</span><span class="nf">FileServer</span><span class="p">(</span><span class="nx">http</span><span class="p">.</span><span class="nf">Dir</span><span class="p">(</span><span class="s">&#34;public&#34;</span><span class="p">))</span>
 </code></pre></div><p>But this approach sidesteps the strict core rules of this router to avoid routing problems. A cleaner approach is to use a distinct sub-path for serving files, like <code>/static/*filepath</code> or <code>/files/*filepath</code>.</p>
 <h2 id="web-frameworks-based-on-httprouter">Web Frameworks based on HttpRouter</h2>
 <p>If the HttpRouter is a bit too minimalistic for you, you might try one of the following more high-level 3rd-party web frameworks building upon the HttpRouter package:</p>
@@ -263,7 +263,7 @@ Define a router per host!</p>
 <li><a href="https://github.com/nbio/hitch">Hitch</a>: Hitch ties httprouter, <a href="https://github.com/nbio/httpcontext">httpcontext</a>, and middleware up in a bow</li>
 <li><a href="https://github.com/corneldamian/httpway">httpway</a>: Simple middleware extension with context for httprouter and a server with gracefully shutdown support</li>
 <li><a href="https://github.com/guregu/kami">kami</a>: A tiny web framework using x/net/context</li>
-<li><a href="https://github.com/imdario/medeina">Medeina</a>: Inspired by Ruby's Roda and Cuba</li>
+<li><a href="https://github.com/imdario/medeina">Medeina</a>: Inspired by Ruby&rsquo;s Roda and Cuba</li>
 <li><a href="https://github.com/rocwong/neko">Neko</a>: A lightweight web application framework for Golang</li>
 <li><a href="https://github.com/abiosoft/river">River</a>: River is a simple and lightweight REST server</li>
 <li><a href="https://github.com/iamthemuffinman/Roxanna">Roxanna</a>: An amalgamation of httprouter, better logging, and hot reload</li>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -91,7 +91,7 @@ before finding this).</p>
 </span><span class="cm">  We will define the promise helper to be accessible through the this keyword in
 </span><span class="cm">  jasmine
 </span><span class="cm"> */</span>
-<span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
 
   <span class="cm">/*
 </span><span class="cm">   The this keyword is accessible in every jasmine tests, and you can populate
@@ -100,20 +100,20 @@ before finding this).</p>
 </span><span class="cm">   */</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">promiseHelper</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">promise</span><span class="p">)</span> <span class="p">{</span>
 
-    <span class="kd">var</span> <span class="nx">successCallback</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">createSpy</span><span class="p">(</span><span class="s1">&#39;successCallback&#39;</span><span class="p">)</span><span class="p">;</span>
-    <span class="kd">var</span> <span class="nx">failCallback</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">createSpy</span><span class="p">(</span><span class="s1">&#39;failCallback&#39;</span><span class="p">)</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">successCallback</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">createSpy</span><span class="p">(</span><span class="s1">&#39;successCallback&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">failCallback</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">createSpy</span><span class="p">(</span><span class="s1">&#39;failCallback&#39;</span><span class="p">);</span>
 
     <span class="cm">/*
 </span><span class="cm">     Promises are chainable so we can make some tests before sending the promise
 </span><span class="cm">     to this function, here we just insert the two spies in the
 </span><span class="cm">     */</span>
-    <span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">successCallback</span><span class="p">,</span> <span class="nx">failCallback</span><span class="p">)</span><span class="p">[</span><span class="s1">&#39;finally&#39;</span><span class="p">]</span><span class="p">(</span>
-      <span class="kd">function</span> <span class="p">(</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">expect</span><span class="p">(</span><span class="nx">successCallback</span><span class="p">)</span><span class="p">.</span><span class="nx">toHaveBeenCalled</span><span class="p">(</span><span class="p">)</span><span class="p">;</span>
-        <span class="nx">expect</span><span class="p">(</span><span class="nx">failCallback</span><span class="p">)</span><span class="p">.</span><span class="nx">not</span><span class="p">.</span><span class="nx">toHaveBeenCalled</span><span class="p">(</span><span class="p">)</span><span class="p">;</span>
-      <span class="p">}</span><span class="p">)</span><span class="p">;</span>
+    <span class="nx">promise</span><span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">successCallback</span><span class="p">,</span> <span class="nx">failCallback</span><span class="p">)[</span><span class="s1">&#39;finally&#39;</span><span class="p">](</span>
+      <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">successCallback</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">();</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">failCallback</span><span class="p">).</span><span class="nx">not</span><span class="p">.</span><span class="nx">toHaveBeenCalled</span><span class="p">();</span>
+      <span class="p">});</span>
   <span class="p">}</span>
-<span class="p">}</span><span class="p">)</span><span class="p">;</span>
+<span class="p">});</span>
 
 </code></pre></div><p>Do not forget to test your code, it will save you a lot of time and debugging in
 the future if tests are correctly done ;)</p>

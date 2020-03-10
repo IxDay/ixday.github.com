@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 24 Jan 2020 12:59:34 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 10 Mar 2020 11:20:59 +0100</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,18 @@
     <item>
       <title>admin</title>
       <link>http://ixday.github.io/tags/admin/</link>
-      <pubDate>Fri, 24 Jan 2020 12:59:34 +0100</pubDate>
+      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
       
       <guid>http://ixday.github.io/tags/admin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cli</title>
+      <link>http://ixday.github.io/tags/cli/</link>
+      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/tags/cli/</guid>
       <description></description>
     </item>
     
@@ -35,15 +44,6 @@
       <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
       
       <guid>http://ixday.github.io/tags/rust/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cli</title>
-      <link>http://ixday.github.io/tags/cli/</link>
-      <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
-      
-      <guid>http://ixday.github.io/tags/cli/</guid>
       <description></description>
     </item>
     

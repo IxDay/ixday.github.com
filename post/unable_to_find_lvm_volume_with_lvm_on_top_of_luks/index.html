@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -96,7 +96,7 @@ To fix this we will manipulate the initramfs \o/.</p>
 #
 <span class="c1"># Standard initramfs preamble</span>
 #
-prereqs<span class="o">(</span><span class="o">)</span>
+prereqs<span class="o">()</span>
 <span class="o">{</span>
 	<span class="c1"># Make sure that cryptroot is run last in local-top</span>
 	<span class="k">for</span> req in <span class="k">$(</span>dirname <span class="nv">$0</span><span class="k">)</span>/*<span class="p">;</span> <span class="k">do</span>
@@ -111,7 +111,7 @@ prereqs<span class="o">(</span><span class="o">)</span>
 prereqs<span class="o">)</span>
 	prereqs
 	<span class="nb">exit</span> <span class="m">0</span>
-	<span class="p">;</span><span class="p">;</span>
+	<span class="p">;;</span>
 <span class="k">esac</span>
 
 <span class="c1"># source for log_*_msg() functions, see LP: #272301</span>
@@ -126,7 +126,7 @@ To fix this remove lines 10 to 16 and replace them with <code>echo &quot;$PREREQ
 #
 <span class="c1"># Standard initramfs preamble</span>
 #
-prereqs<span class="o">(</span><span class="o">)</span>
+prereqs<span class="o">()</span>
 <span class="o">{</span>
 	<span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$PREREQ</span><span class="s2">&#34;</span>
 <span class="o">}</span>
@@ -135,7 +135,7 @@ prereqs<span class="o">(</span><span class="o">)</span>
 prereqs<span class="o">)</span>
 	prereqs
 	<span class="nb">exit</span> <span class="m">0</span>
-	<span class="p">;</span><span class="p">;</span>
+	<span class="p">;;</span>
 <span class="k">esac</span>
 
 <span class="c1"># source for log_*_msg() functions, see LP: #272301</span>

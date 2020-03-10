@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -81,7 +81,7 @@
       
 
     </header>
-    <p>Jenkins is everywhere now, but I really don't like it. So I am looking at
+    <p>Jenkins is everywhere now, but I really don&rsquo;t like it. So I am looking at
 a replacement from day to day. I discovered <a href="https://gogs.io/">Gogs</a> an
 I though that a CI is also a good use case for the Golang language.</p>
 <p>And I finally found <a href="https://drone.io/">Drone</a> (which was not really difficult
@@ -102,25 +102,25 @@ Here is the architecture we will use:</p>
 </code></pre></div><h2 id="test-repo">Test repo</h2>
 <p>We just use the doctest feature of python here, this allow us to perform a
 simple test without bootstraping a bunch of code</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="sa"></span><span class="s2">&#34;&#34;&#34;</span><span class="s2">Simple hello world function testing with doctest</span><span class="s2">&#34;&#34;&#34;</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s2">&#34;&#34;&#34;Simple hello world function testing with doctest&#34;&#34;&#34;</span>
 
-<span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="p">)</span><span class="p">:</span>
-    <span class="sa"></span><span class="s2">&#34;&#34;&#34;</span><span class="s2">Simple hello world function</span><span class="s2">
-</span><span class="s2"></span><span class="s2">
-</span><span class="s2"></span><span class="s2">    Here the test we want to perform</span><span class="s2">
-</span><span class="s2"></span><span class="s2">    &gt;&gt;&gt; hello()</span><span class="s2">
-</span><span class="s2"></span><span class="s2">    </span><span class="s2">&#39;</span><span class="s2">Hello World!</span><span class="s2">&#39;</span><span class="s2">
-</span><span class="s2"></span><span class="s2">    </span><span class="s2">&#34;&#34;&#34;</span>
-    <span class="k">return</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">Hello World!</span><span class="s1">&#39;</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+    <span class="s2">&#34;&#34;&#34;Simple hello world function
+</span><span class="s2">
+</span><span class="s2">    Here the test we want to perform
+</span><span class="s2">    &gt;&gt;&gt; hello()
+</span><span class="s2">    &#39;Hello World!&#39;
+</span><span class="s2">    &#34;&#34;&#34;</span>
+    <span class="k">return</span> <span class="s1">&#39;Hello World!&#39;</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="sa"></span><span class="s1">&#39;</span><span class="s1">__main__</span><span class="s1">&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">doctest</span>
-    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="p">)</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </code></pre></div><p>And this is the run</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ python hello.py -v
 Trying:
-    hello<span class="o">(</span><span class="o">)</span>
+    hello<span class="o">()</span>
 Expecting:
     <span class="s1">&#39;Hello World!&#39;</span>
 ok
@@ -133,7 +133,7 @@ ok
 Test passed.
 </code></pre></div><h2 id="gogs">Gogs</h2>
 <p>This one is really basic, the tutorial is really simple and it works out
-of the box with the docker container provided. I haven't tested it through
+of the box with the docker container provided. I haven&rsquo;t tested it through
 ssh, but there is some disclaimer so I will test this later.</p>
 <p>docs: <a href="https://github.com/gogits/gogs/tree/master/docker">https://github.com/gogits/gogs/tree/master/docker</a></p>
 <p>I choose the sqlite backend, which is easier to configure because there is

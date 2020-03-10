@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -89,20 +89,20 @@ want. But sometimes, having a snippet in the bash prompt can be needed.</p>
 <span class="nb">set</span> -e
 
 <span class="c1"># unzip need to have a tempfile to extract properly</span>
-<span class="nv">TMPFILE</span><span class="o">=</span><span class="s2">&#34;</span><span class="s2">/tmp/tempfile.</span><span class="k">$(</span>date +%s<span class="k">)</span><span class="s2">&#34;</span>
+<span class="nv">TMPFILE</span><span class="o">=</span><span class="s2">&#34;/tmp/tempfile.</span><span class="k">$(</span>date +%s<span class="k">)</span><span class="s2">&#34;</span>
 
 <span class="nv">PWD</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
 <span class="nv">DEST</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$1</span><span class="s2">&#34;</span>
 
 <span class="c1"># here is the link of my configuration, but you can easily create yours</span>
 <span class="nv">URL</span><span class="o">=</span><span class="s2">&#34;http://www.initializr.com/builder?h5bp-content&amp;html5shiv&amp;&#34;</span>
-<span class="nv">URL</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$URL</span><span class="s2">&#34;</span><span class="s2">&#34;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&#34;</span>
-<span class="nv">URL</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$URL</span><span class="s2">&#34;</span><span class="s2">&#34;simplehtmltag&amp;izr-emptyscript&#34;</span> <span class="c1"># string concatenation example</span>
+<span class="nv">URL</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$URL</span><span class="s2">&#34;&#34;h5bp-css&amp;h5bp-csshelpers&amp;h5bp-mediaqueryprint&amp;h5bp-mediaqueries&amp;&#34;</span>
+<span class="nv">URL</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$URL</span><span class="s2">&#34;&#34;simplehtmltag&amp;izr-emptyscript&#34;</span> <span class="c1"># string concatenation example</span>
 
 curl -o <span class="s2">&#34;</span><span class="nv">$TMPFILE</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$URL</span><span class="s2">&#34;</span> 2&gt; /dev/null
 
 <span class="c1"># if argument is provided, move to the specified directory</span>
-<span class="k">if</span> <span class="o">[</span><span class="o">[</span>  -z <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">]</span><span class="o">]</span>
+<span class="k">if</span> <span class="o">[[</span>  -z <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">]]</span>
 <span class="k">then</span>
     <span class="c1"># do not display what has been inflated</span>
     unzip -qq -d <span class="s2">&#34;</span><span class="nv">$PWD</span><span class="s2">&#34;</span> <span class="s2">&#34;</span><span class="nv">$TMPFILE</span><span class="s2">&#34;</span>
@@ -110,19 +110,19 @@ curl -o <span class="s2">&#34;</span><span class="nv">$TMPFILE</span><span class
 <span class="k">else</span>
 
     <span class="c1"># if the path provided is a file warn the user and exit</span>
-    <span class="k">if</span> <span class="o">[</span><span class="o">[</span> -f <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">]</span><span class="o">]</span>
+    <span class="k">if</span> <span class="o">[[</span> -f <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">]]</span>
     <span class="k">then</span>
-        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2"> already exists and is a file</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2"> already exists and is a file&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
     <span class="k">fi</span>
 
     <span class="c1"># if the directory is not empty warn the user and exit</span>
-    <span class="k">if</span> <span class="o">[</span><span class="o">[</span> -d <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> ! -z <span class="s2">&#34;</span><span class="k">$(</span>ls -A <span class="nv">$DIR</span><span class="k">)</span><span class="s2">&#34;</span> <span class="o">]</span><span class="o">]</span>
+    <span class="k">if</span> <span class="o">[[</span> -d <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> ! -z <span class="s2">&#34;</span><span class="k">$(</span>ls -A <span class="nv">$DIR</span><span class="k">)</span><span class="s2">&#34;</span> <span class="o">]]</span>
     <span class="k">then</span>
-        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2"> is not empty</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
+        <span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2"> is not empty&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">exit</span> <span class="m">1</span>
     <span class="k">fi</span>
 
     <span class="c1"># if the directory does not exist, we create it</span>
-    <span class="k">if</span> <span class="o">[</span><span class="o">[</span> ! -a <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">]</span><span class="o">]</span>
+    <span class="k">if</span> <span class="o">[[</span> ! -a <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span> <span class="o">]]</span>
     <span class="k">then</span>
         mkdir -p <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">&#34;</span>
     <span class="k">fi</span>
@@ -137,7 +137,7 @@ curl -o <span class="s2">&#34;</span><span class="nv">$TMPFILE</span><span class
 
     <span class="c1"># delete the other files</span>
     rm <span class="s2">&#34;</span><span class="nv">$TMPFILE</span><span class="s2">&#34;</span>
-    rmdir <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">/initializr</span><span class="s2">&#34;</span>
+    rmdir <span class="s2">&#34;</span><span class="nv">$DEST</span><span class="s2">/initializr&#34;</span>
 <span class="k">fi</span>
 </code></pre></div><p>it is also possible to create a sample on github or whatever, do not forget that
 automation will lead to time saving (maybe, &hellip;sometimes).</p>

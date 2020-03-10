@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -119,8 +119,8 @@ in a string interpolation it can lead to a miscomprehension.</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/bash
 </span><span class="cp"></span><span class="nv">FO</span><span class="o">=</span><span class="s2">&#34;fo&#34;</span>
 
-<span class="nb">echo</span> <span class="s2">&#34;</span><span class="s2">because </span><span class="nv">$FOo</span><span class="s2"> you </span><span class="s2">&#34;</span>
-<span class="nb">echo</span> <span class="s2">&#34;</span><span class="s2">because </span><span class="si">${</span><span class="nv">FO</span><span class="si">}</span><span class="s2">o you</span><span class="s2">&#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;because </span><span class="nv">$FOo</span><span class="s2"> you &#34;</span>
+<span class="nb">echo</span> <span class="s2">&#34;because </span><span class="si">${</span><span class="nv">FO</span><span class="si">}</span><span class="s2">o you&#34;</span>
 </code></pre></div><p>As you can see the result of the previous script the first line does not write
 what is contained into the variable, because bash interpreter try to display
 the content of the variable <code>FOo</code> which does not exist.</p>
@@ -163,14 +163,14 @@ result</p>
 </span><span class="cp"></span>
 <span class="nv">RESULT</span><span class="o">=</span><span class="k">$(</span>grep <span class="s2">&#34;toto&#34;</span> /dev/null<span class="k">)</span>
 
-<span class="k">if</span> <span class="o">[</span><span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]</span><span class="o">]</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]]</span>
 <span class="k">then</span>
   <span class="nb">echo</span> <span class="s2">&#34;Command failed&#34;</span>
 <span class="k">fi</span>
 
 <span class="nv">RESULT</span><span class="o">=</span><span class="k">$(</span>ls /dev/null<span class="k">)</span>
 
-<span class="k">if</span> <span class="o">[</span><span class="o">[</span> ! <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]</span><span class="o">]</span>
+<span class="k">if</span> <span class="o">[[</span> ! <span class="nv">$?</span> -eq <span class="m">1</span> <span class="o">]]</span>
 <span class="k">then</span>
   <span class="nb">echo</span> <span class="s2">&#34;Command succeed&#34;</span>
 <span class="k">fi</span>

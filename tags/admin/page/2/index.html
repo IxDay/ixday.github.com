@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,47 @@
     <h2 class="taxonomy-title">Filed under admin...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Sat Oct 3 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/ansible/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/ansible/">Ansible</a></h2>
+    <p>
+    I have a home media server, and I spent a lot of time configuring, testing and installing on it. But I was never really satisfied by the way I had to perform the installation (which happens way too often).
+And I recently discovered Ansible, which is a tool for doing a lot of stuff with a server (configuration, run repetitive command, installation) over ssh.
+I really loved experienced with it, it does not require a lot of dependencies on the targeted server, and can be easily run.
+    
+    <a href="/post/ansible/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -249,7 +290,7 @@ What I have learned   Docker, especially with boot2docker (I am on MacOSX shame 
     <div class="caption">
     <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
     <p>
-    Sometimes I just can't work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
+    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
     
@@ -337,7 +378,7 @@ curl -X POST -H &#34;Content-Type: application/json&#34; -d @filepath Then you c
     <div class="caption">
     <h2 class="caption-title"><a href="/post/debian-install/">Debian Install</a></h2>
     <p>
-    That's a fact: I can not install a new system without getting into troubles!
+    That&rsquo;s a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.
     

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,51 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Jul 27 2017
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/direnv/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/direnv/">direnv</a></h2>
+    <p>
+    I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
+Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
+layout python That&rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+Golang projects This one is a bit trickier.
+    
+    <a href="/post/direnv/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/cli ">cli</a>
+, <a href="/tags/dev ">dev</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -157,7 +202,7 @@ After a few hours of development, I decided to use SFC (Single File Components) 
     <p>
     Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
 I want to start an alpine virt iso (from here) inside kvm through libvirt. But I am sick to run all my virsh commands prefixed with sudo.
-DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don't have time to invest on this for the moment.
+DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&rsquo;t have time to invest on this for the moment.
     
     <a href="/post/unprivileged_libvirt/">Read More...</a>
     
@@ -324,7 +369,7 @@ main entry used:</p>
     <div class="caption">
     <h2 class="caption-title"><a href="/post/docker_nspawn/">Docker Nspawn</a></h2>
     <p>
-    Don't want to use Docker? Still want to start containers for tests or whatever? Don't want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
+    Don&rsquo;t want to use Docker? Still want to start containers for tests or whatever? Don&rsquo;t want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
 Thanks to the CoreOS team (love those guys) a new hub for storing container now exists: quay. The other good news is the ACI, the container image format defined in the App Container (appc) spec.
     
     <a href="/post/docker_nspawn/">Read More...</a>
@@ -413,47 +458,6 @@ Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go
     <strong>Tagged</strong>
     <a href="/tags/bash ">bash</a>
 , <a href="/tags/cli ">cli</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Tue Jul 19 2016
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/curl_utils/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/curl_utils/">Curl utils</a></h2>
-    <p>
-    Here are some options and command I use with curl when dealing with stuff I have to develop.
-curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &#34;Content-Type: application/json&#34; -u &#34;admin:admin&#34; -d &#39;{}&#39; &lt;ip&gt; # -X set up the http method (here POST) # -H set up an header, format is: &#34;header_name: value&#34; # -u support for Basic Auth, format is: &#34;user:password&#34; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.
-    
-    <a href="/post/curl_utils/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/bash ">bash</a>
 
     </p>
     

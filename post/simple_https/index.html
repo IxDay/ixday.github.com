@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -95,7 +95,7 @@ curl -k <span class="s2">&#34;https://127.0.0.1:443&#34;</span>
 
 <span class="c1"># providing a resolve entry matching our domain name</span>
 curl -k --resolve <span class="s2">&#34;foo.com:443:127.0.0.1&#34;</span> https://foo.com
-</code></pre></div><p>If you don't want to use the <code>-k/--insecure</code> option you can install the root
+</code></pre></div><p>If you don&rsquo;t want to use the <code>-k/--insecure</code> option you can install the root
 certificate on your machine by running the following commands (may vary on distributions):</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cp foo.crt /usr/local/share/ca-certificates/
 update-ca-certificates
@@ -110,7 +110,7 @@ sudo socat <span class="s2">&#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,for
 </code></pre></div><p>Et voilà! Simplest way I ever found to perform some testing or run ad-hoc
 simple https servers.</p>
 <p>If you got time, take a look at <a href="https://linux.die.net/man/1/socat"><code>socat</code></a>,
-it's a super powerful tool.</p>
+it&rsquo;s a super powerful tool.</p>
 
   </div>
 </article>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.66.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="http://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Gopass</title>
+  <meta property='og:title' content="Gopass - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="http://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Tue Mar 10 2020
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/gopass/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Gopass</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+
+      </p>
+      
+
+    </header>
+    <p>A pretty good security advice would be to never write down a password unencrypted
+on disk. This can be pretty tricky to achieve, especially on personal and development
+environments. So let me introduce <a href="https://www.gopass.pw/docs/">gopass</a>
+which is a tool aiming to help with this problem.</p>
+<p>First of all, let me say it right away, the CLI interface is not that good.
+Took me a lot of time to set things properly as options may be cryptic and
+behavior is not obvious as first sight.</p>
+<h2 id="installation-and-getting-started">Installation and getting started</h2>
+<p>Just follow the instruction from the official website. It should be packaged
+for your distribution as it is now pretty popular. If not, installation is
+pretty straightforward as it is a single binary. Do not forget to also install
+<a href="https://gnupg.org/">gpg</a> it&rsquo;s a hard dependency and potentially
+<a href="https://git-scm.com/">git</a> (even though a git implementation is shipped with the project).</p>
+<p>Run <code>gopass init</code> to set up your environment. It should now be ready to use!</p>
+<p>Once this is done, checkout the <a href="https://woile.github.io/gopass-cheat-sheet/">cheatsheet</a>
+as it contains good documentation and examples for usage of <code>gopass</code>.</p>
+<h2 id="set-up-stores-for-organizations-and-teams">Set up stores for organizations and teams</h2>
+<p>Initialization is pretty simple:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># creates a store named `foo` using binary embedded git implementation</span>
+gopass init --path ~/.local/share/password-store/foo --store foo
+
+<span class="c1"># you can then connect it to a remote git repository</span>
+gopass git remote add --store foo origin git@rulz.xyz/keys.git
+
+<span class="c1"># go to the directory and manually push, going through gopass cli is flacky</span>
+<span class="nb">cd</span>  ~/.local/share/password-store/foo <span class="o">&amp;&amp;</span> git push origin HEAD:master <span class="o">&amp;&amp;</span> <span class="nb">cd</span> -
+
+<span class="c1"># you can now sync the repo throught the cli</span>
+gopass sync
+</code></pre></div><p>If you need to clone an existing one:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">gopass clone --path ~/.local/share/password-store/foo git@rulz.xyz/keys.git foo
+</code></pre></div><h2 id="gopass-and-curl">Gopass and curl</h2>
+<p>Using <a href="https://brandur.org/fragments/gpg-curl">netrc</a> support from <code>curl</code> and
+<a href="https://github.com/gopasspw/gopass/blob/master/docs/features.md#support-for-binary-content">binary encoding</a>
+in gopass, we can run basic access authentication without leaking the password:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># first save the file (password will never hit the hdd here)</span>
+cat <span class="s">&lt;&lt; EOF |
+</span><span class="s">machine rulz.xyz
+</span><span class="s">login my_username
+</span><span class="s">password $(stty -echo; read p; echo &#34;$p&#34;; stty echo)
+</span><span class="s">EOF</span>
+gopass binary cat rulz_netrc
+
+<span class="c1"># you can now use curl and pipe the secret to it</span>
+gopass show rulz/netrc <span class="p">|</span> base64 -d <span class="p">|</span>
+	curl --netrc-file /dev/stdin -fsSL https://rulz.xyz/secrets/raw/branch/master/README.md
+</code></pre></div><h2 id="gopass-and-direnv">Gopass and direnv</h2>
+<p>Another thing you can do is to link it with your direnv environment
+(<a href="/post/direnv/">I wrote a post about it</a>).
+This will inject development password into environment variables, only for your
+the current directory and without the risk of committing them accidentally.</p>
+<p>Here is an example of an <code>.envrc</code> file:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">FOO</span><span class="o">=</span>BAR
+<span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="k">$(</span>gopass show foo/aws<span class="k">)</span>
+</code></pre></div><p>That&rsquo;s all for me folks! If I find other use cases, will try to post them.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2020 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>

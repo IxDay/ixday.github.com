@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -85,7 +85,7 @@ some useful snippets.</p>
 <p>I want to start an alpine virt iso (<a href="https://alpinelinux.org/downloads/">from here</a>)
 inside kvm through <code>libvirt</code>. But I am sick to run all my virsh commands prefixed with sudo.</p>
 <p><strong>DISCLAIMER</strong>: This will contain some of my conclusions with my partial understanding
-of those tools. I am quite sure that all of this can be improved, but I don't
+of those tools. I am quite sure that all of this can be improved, but I don&rsquo;t
 have time to invest on this for the moment.</p>
 <h2 id="packages-and-doc">Packages and doc</h2>
 <p>To do this I have to install all the libvirt stuff and dependencies. I recently
@@ -107,7 +107,7 @@ package is just a plugin of <code>libvirt</code> to manage VMs installations. Yo
 perform all those operations directly through <code>QEMU</code> if you want.</p>
 <h2 id="setup">Setup</h2>
 <p><em>Note: libvirt command line interface is <code>virsh</code>, because fuck logic, so
-you don't get lost in the following.</em></p>
+you don&rsquo;t get lost in the following.</em></p>
 <p>To make all this work I had to add myself to those groups: <code>kvm</code>, <code>libvirt</code>.</p>
 <p>Libvirt comes with a definition of a default network, you can see it by typing:
 <code>sudo virsh net-dumpxml default</code>. This will create and start a virtual bridge

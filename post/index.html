@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.62.2" />
+  <meta name="generator" content="Hugo 0.66.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,48 @@
     <h2 class="taxonomy-title">Filed under Posts...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Mar 10 2020
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/gopass/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/gopass/">Gopass</a></h2>
+    <p>
+    A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
+First of all, let me say it right away, the CLI interface is not that good. Took me a lot of time to set things properly as options may be cryptic and behavior is not obvious as first sight.
+    
+    <a href="/post/gopass/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -112,7 +154,7 @@ First boot and in-memory setup Here a few changes, using a version 3A+ requires 
     <div class="caption">
     <h2 class="caption-title"><a href="/post/alpine_raspberry/">Alpine on a Raspberry</a></h2>
     <p>
-    Lately, I decided to re-install my old Raspberry Pi (version 1, yes I'm that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
+    Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&rsquo;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
 I followed documentations and tutorials ( here and here) and finally succeeded. I am now writing it down so I remember what has been achieved.
 Setup SD Card This one was quite tricky because if anything is not exactly what is expected your raspberry will never boot!
     
@@ -355,10 +397,10 @@ This post is more a reflexion around APIs and tricks in Golang than a production
     <div class="caption">
     <h2 class="caption-title"><a href="/post/filepath_walk/">Filepath Walk bug?</a></h2>
     <p>
-    During the development of a small project I noticed something strange with golang's function filepath.Walk.
+    During the development of a small project I noticed something strange with golang&rsquo;s function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let's run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
     
     <a href="/post/filepath_walk/">Read More...</a>
     
@@ -409,51 +451,6 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     <strong>Tagged</strong>
     <a href="/tags/dev ">dev</a>
 , <a href="/tags/golang ">golang</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Thu Jul 27 2017
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/direnv/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/direnv/">direnv</a></h2>
-    <p>
-    I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
-Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That's it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
-Golang projects This one is a bit trickier.
-    
-    <a href="/post/direnv/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/bash ">bash</a>
-, <a href="/tags/cli ">cli</a>
-, <a href="/tags/dev ">dev</a>
 
     </p>
     

@@ -6,10 +6,20 @@
     <description>Recent content in cli on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Jul 2019 09:51:29 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 10 Mar 2020 11:20:59 +0100</lastBuildDate>
     
 	<atom:link href="http://ixday.github.io/tags/cli/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gopass</title>
+      <link>http://ixday.github.io/post/gopass/</link>
+      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
+      
+      <guid>http://ixday.github.io/post/gopass/</guid>
+      <description>A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
+First of all, let me say it right away, the CLI interface is not that good. Took me a lot of time to set things properly as options may be cryptic and behavior is not obvious as first sight.</description>
+    </item>
     
     <item>
       <title>Git amend history</title>
@@ -40,7 +50,7 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
       <guid>http://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
-layout python That&#39;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
+layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
 Golang projects This one is a bit trickier.</description>
     </item>
     

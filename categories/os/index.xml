@@ -28,7 +28,7 @@ First boot and in-memory setup Here a few changes, using a version 3A+ requires 
       <pubDate>Sun, 05 Jan 2020 17:46:45 +0100</pubDate>
       
       <guid>http://ixday.github.io/post/alpine_raspberry/</guid>
-      <description>Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&#39;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
+      <description>Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&amp;rsquo;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
 I followed documentations and tutorials ( here and here) and finally succeeded. I am now writing it down so I remember what has been achieved.
 Setup SD Card This one was quite tricky because if anything is not exactly what is expected your raspberry will never boot!</description>
     </item>
@@ -41,7 +41,7 @@ Setup SD Card This one was quite tricky because if anything is not exactly what 
       <guid>http://ixday.github.io/post/unprivileged_libvirt/</guid>
       <description>Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
 I want to start an alpine virt iso (from here) inside kvm through libvirt. But I am sick to run all my virsh commands prefixed with sudo.
-DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&#39;t have time to invest on this for the moment.</description>
+DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&amp;rsquo;t have time to invest on this for the moment.</description>
     </item>
     
     <item>
@@ -73,7 +73,7 @@ Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go
       
       <guid>http://ixday.github.io/post/linux_mint/</guid>
       <description>After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition
-Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&#39;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
+Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
     </item>
     
     <item>
@@ -124,7 +124,7 @@ sudo A sudo file is important in order to correctly manage a computer, a simple 
       <pubDate>Sun, 12 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>http://ixday.github.io/post/debian-install/</guid>
-      <description>That&#39;s a fact: I can not install a new system without getting into troubles!
+      <description>That&amp;rsquo;s a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.</description>
     </item>
