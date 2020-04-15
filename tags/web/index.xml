@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>web on Not today...</title>
-    <link>http://ixday.github.io/tags/web/</link>
+    <link>https://ixday.github.io/tags/web/</link>
     <description>Recent content in web on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 23 Oct 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/web/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/web/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Angular $parse</title>
-      <link>http://ixday.github.io/post/angular-parse/</link>
+      <link>https://ixday.github.io/post/angular-parse/</link>
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/angular-parse/</guid>
+      <guid>https://ixday.github.io/post/angular-parse/</guid>
       <description>Hey there, I have started to be tired of weak example of angular power, so I will go deeper on angular services and directives and wrote some articles about it.
 The service $parse is the one who runs on the html to bind data with your javascript. It provides a lot of useful features which can be really interesting especially with directive manipulation.
 So, we will illustrate with some examples:</description>
@@ -24,10 +24,10 @@ So, we will illustrate with some examples:</description>
     
     <item>
       <title>Outside Angular</title>
-      <link>http://ixday.github.io/post/outside-angular/</link>
+      <link>https://ixday.github.io/post/outside-angular/</link>
       <pubDate>Sun, 05 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/outside-angular/</guid>
+      <guid>https://ixday.github.io/post/outside-angular/</guid>
       <description>There are some cases when angular is accessible but we just want to access a specific service without bootstraping an entire application.
 For example, in some tests I can load some fixtures with the $http service, or use $compile for a simple template.
 It is pretty simple to do that, but it is not clearly explained in the angular documentation. So here is an example:
@@ -36,10 +36,10 @@ It is pretty simple to do that, but it is not clearly explained in the angular d
     
     <item>
       <title>HTML5 Boilerplate</title>
-      <link>http://ixday.github.io/post/html5-boilerplate/</link>
+      <link>https://ixday.github.io/post/html5-boilerplate/</link>
       <pubDate>Tue, 30 Sep 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/html5-boilerplate/</guid>
+      <guid>https://ixday.github.io/post/html5-boilerplate/</guid>
       <description>Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:

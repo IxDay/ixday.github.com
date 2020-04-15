@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>jasmine on Not today...</title>
-    <link>http://ixday.github.io/tags/jasmine/</link>
+    <link>https://ixday.github.io/tags/jasmine/</link>
     <description>Recent content in jasmine on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 30 Oct 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/jasmine/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/jasmine/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Test promises with jasmine</title>
-      <link>http://ixday.github.io/post/jasmine_promises/</link>
+      <link>https://ixday.github.io/post/jasmine_promises/</link>
       <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/jasmine_promises/</guid>
+      <guid>https://ixday.github.io/post/jasmine_promises/</guid>
       <description>Jasmine is a good testing framework, which I really like, it is really powerfull and has just the amount of features to perform a huge variety of tests.
 At some point I had to tests promises, and more generally testing that some part of a function is not called (you will have to adapt the snippet but the idea is here).
 It is pretty simple, but not well known (I checked some stackoverflow threads before finding this).</description>

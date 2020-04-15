@@ -2,41 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>javascript on Not today...</title>
-    <link>http://ixday.github.io/tags/javascript/</link>
+    <link>https://ixday.github.io/tags/javascript/</link>
     <description>Recent content in javascript on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 01 Jul 2017 11:46:41 +0200</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>vuecc</title>
-      <link>http://ixday.github.io/post/vuecc/</link>
+      <link>https://ixday.github.io/post/vuecc/</link>
       <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/vuecc/</guid>
+      <guid>https://ixday.github.io/post/vuecc/</guid>
       <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
 After a few hours of development, I decided to use SFC (Single File Components) to separate business code from components. And I got a really bad surpise! In order to compile those templates I needed to use a build system (Webpack or Browserify). The tutorial is really good, but&amp;hellip;</description>
     </item>
     
     <item>
       <title>Getting rid of gulp bunch of dependencies</title>
-      <link>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</link>
+      <link>https://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</link>
       <pubDate>Sun, 10 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</guid>
+      <guid>https://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</guid>
       <description>Recently Nodejs environment broke due the removal from npm of a small library (11 SLOC): leftpad. As it hit the world and broke a bunch of projects and CIs, I asked myself if my projects contains so much dependencies that if one break, everything collapse.
 The problem For developing my frontend I use a tool which I really like: Gulp. The issue there, is that for working with multiple building process involved a lot of glue and third party libraries.</description>
     </item>
     
     <item>
       <title>Angular $parse</title>
-      <link>http://ixday.github.io/post/angular-parse/</link>
+      <link>https://ixday.github.io/post/angular-parse/</link>
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/angular-parse/</guid>
+      <guid>https://ixday.github.io/post/angular-parse/</guid>
       <description>Hey there, I have started to be tired of weak example of angular power, so I will go deeper on angular services and directives and wrote some articles about it.
 The service $parse is the one who runs on the html to bind data with your javascript. It provides a lot of useful features which can be really interesting especially with directive manipulation.
 So, we will illustrate with some examples:</description>
@@ -44,10 +44,10 @@ So, we will illustrate with some examples:</description>
     
     <item>
       <title>Outside Angular</title>
-      <link>http://ixday.github.io/post/outside-angular/</link>
+      <link>https://ixday.github.io/post/outside-angular/</link>
       <pubDate>Sun, 05 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/outside-angular/</guid>
+      <guid>https://ixday.github.io/post/outside-angular/</guid>
       <description>There are some cases when angular is accessible but we just want to access a specific service without bootstraping an entire application.
 For example, in some tests I can load some fixtures with the $http service, or use $compile for a simple template.
 It is pretty simple to do that, but it is not clearly explained in the angular documentation. So here is an example:

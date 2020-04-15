@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on Not today...</title>
-    <link>http://ixday.github.io/tags/golang/</link>
+    <link>https://ixday.github.io/tags/golang/</link>
     <description>Recent content in golang on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 10 Apr 2020 15:55:12 +0200</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Golang SSH, marshalling, unmarshalling</title>
-      <link>http://ixday.github.io/post/golang_ssh_certs/</link>
+      <link>https://ixday.github.io/post/golang_ssh_certs/</link>
       <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/golang_ssh_certs/</guid>
+      <guid>https://ixday.github.io/post/golang_ssh_certs/</guid>
       <description>Golang is a wonderful language to deal with the SSH protocol. It&amp;rsquo;s mostly due to the SSH library which is pretty exhaustive.
 However, when I had to deal with external requirements like SSH Agent or OpenSSH I experienced a lack of example and struggled a bit interfacing.
 In this article we will see how to exchange keys between a program written in Go and those tools using files. This means to output our keys in a proper format (marshaling) and being able to read them (unmarshalling) from the external tool format.</description>
@@ -24,19 +24,19 @@ In this article we will see how to exchange keys between a program written in Go
     
     <item>
       <title>Parallel runners with teardown in go</title>
-      <link>http://ixday.github.io/post/teardown_runner/</link>
+      <link>https://ixday.github.io/post/teardown_runner/</link>
       <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/teardown_runner/</guid>
+      <guid>https://ixday.github.io/post/teardown_runner/</guid>
       <description>From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.</description>
     </item>
     
     <item>
       <title>Filepath Walk bug?</title>
-      <link>http://ixday.github.io/post/filepath_walk/</link>
+      <link>https://ixday.github.io/post/filepath_walk/</link>
       <pubDate>Wed, 09 May 2018 10:22:33 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/filepath_walk/</guid>
+      <guid>https://ixday.github.io/post/filepath_walk/</guid>
       <description>During the development of a small project I noticed something strange with golang&amp;rsquo;s function filepath.Walk.
 If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
 Setup directory First, set up a simple directory to walk
@@ -45,20 +45,20 @@ mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&amp;rsq
     
     <item>
       <title>Cancel copy of huge file in Go</title>
-      <link>http://ixday.github.io/post/golang-cancel-copy/</link>
+      <link>https://ixday.github.io/post/golang-cancel-copy/</link>
       <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
       
-      <guid>http://ixday.github.io/post/golang-cancel-copy/</guid>
+      <guid>https://ixday.github.io/post/golang-cancel-copy/</guid>
       <description>I recently came across this video on Golang programming. I think this was the moment I finally fully understood the power of Go. It is smart, simple and elegant, I love it.
 Then, a few days later, I was coding on a toy project and I was doing some stuff around the io package to copy huge files. I wanted to achieve copy cancelation during the processing, basically, being able to interrupt.</description>
     </item>
     
     <item>
       <title>golang err shadowing</title>
-      <link>http://ixday.github.io/post/golang-err-shadowing/</link>
+      <link>https://ixday.github.io/post/golang-err-shadowing/</link>
       <pubDate>Tue, 25 Jul 2017 10:44:02 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
+      <guid>https://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
 foo := &amp;#34;bar&amp;#34; Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
 if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:</description>

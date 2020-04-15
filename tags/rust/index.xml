@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>rust on Not today...</title>
-    <link>http://ixday.github.io/tags/rust/</link>
+    <link>https://ixday.github.io/tags/rust/</link>
     <description>Recent content in rust on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 20 Jul 2019 11:12:02 +0200</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Introducing Y2J (Yaml to Json converter)</title>
-      <link>http://ixday.github.io/post/y2j/</link>
+      <link>https://ixday.github.io/post/y2j/</link>
       <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/y2j/</guid>
+      <guid>https://ixday.github.io/post/y2j/</guid>
       <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
 Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.</description>
     </item>

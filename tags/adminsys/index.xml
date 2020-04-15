@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>adminsys on Not today...</title>
-    <link>http://ixday.github.io/tags/adminsys/</link>
+    <link>https://ixday.github.io/tags/adminsys/</link>
     <description>Recent content in adminsys on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 18 Aug 2015 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/adminsys/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/adminsys/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Debian Install 3</title>
-      <link>http://ixday.github.io/post/debian_install_3/</link>
+      <link>https://ixday.github.io/post/debian_install_3/</link>
       <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/debian_install_3/</guid>
+      <guid>https://ixday.github.io/post/debian_install_3/</guid>
       <description>&lt;p&gt;Today I want to install debian on my personal server.
 And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 &lt;p&gt;I want it to look like that (like this scheme, a lot of reference
@@ -25,10 +25,10 @@ come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encr
     
     <item>
       <title>Debian install 2</title>
-      <link>http://ixday.github.io/post/debian_install_2/</link>
+      <link>https://ixday.github.io/post/debian_install_2/</link>
       <pubDate>Thu, 14 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/debian_install_2/</guid>
+      <guid>https://ixday.github.io/post/debian_install_2/</guid>
       <description>After many days of configuration, I finally complete the installation of my perfect &amp;ldquo;workstation&amp;rdquo; ;).
 source.list I have to directory for this, first the preferences, then the sources.list.
 Just run an aptitude update, and you will some missing gpg keys, now run

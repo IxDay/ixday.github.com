@@ -2,41 +2,41 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Project on Not today...</title>
-    <link>http://ixday.github.io/categories/project/</link>
+    <link>https://ixday.github.io/categories/project/</link>
     <description>Recent content in Project on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 20 Jul 2019 11:12:02 +0200</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/categories/project/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/categories/project/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Introducing Y2J (Yaml to Json converter)</title>
-      <link>http://ixday.github.io/post/y2j/</link>
+      <link>https://ixday.github.io/post/y2j/</link>
       <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/y2j/</guid>
+      <guid>https://ixday.github.io/post/y2j/</guid>
       <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
 Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.</description>
     </item>
     
     <item>
       <title>vuecc</title>
-      <link>http://ixday.github.io/post/vuecc/</link>
+      <link>https://ixday.github.io/post/vuecc/</link>
       <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/vuecc/</guid>
+      <guid>https://ixday.github.io/post/vuecc/</guid>
       <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
 After a few hours of development, I decided to use SFC (Single File Components) to separate business code from components. And I got a really bad surpise! In order to compile those templates I needed to use a build system (Webpack or Browserify). The tutorial is really good, but&amp;hellip;</description>
     </item>
     
     <item>
       <title>Listing directory with wsgi</title>
-      <link>http://ixday.github.io/post/listing_directory_with_wsgi/</link>
+      <link>https://ixday.github.io/post/listing_directory_with_wsgi/</link>
       <pubDate>Thu, 02 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/listing_directory_with_wsgi/</guid>
+      <guid>https://ixday.github.io/post/listing_directory_with_wsgi/</guid>
       <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain here) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
 I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
 Specifications Here are the features I wanted:
@@ -45,10 +45,10 @@ Specifications Here are the features I wanted:
     
     <item>
       <title>Small docker project</title>
-      <link>http://ixday.github.io/post/small_tool/</link>
+      <link>https://ixday.github.io/post/small_tool/</link>
       <pubDate>Mon, 30 Mar 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/small_tool/</guid>
+      <guid>https://ixday.github.io/post/small_tool/</guid>
       <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
 What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:

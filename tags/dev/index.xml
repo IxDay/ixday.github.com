@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>dev on Not today...</title>
-    <link>http://ixday.github.io/tags/dev/</link>
+    <link>https://ixday.github.io/tags/dev/</link>
     <description>Recent content in dev on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 10 Apr 2020 15:55:12 +0200</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Golang SSH, marshalling, unmarshalling</title>
-      <link>http://ixday.github.io/post/golang_ssh_certs/</link>
+      <link>https://ixday.github.io/post/golang_ssh_certs/</link>
       <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/golang_ssh_certs/</guid>
+      <guid>https://ixday.github.io/post/golang_ssh_certs/</guid>
       <description>Golang is a wonderful language to deal with the SSH protocol. It&amp;rsquo;s mostly due to the SSH library which is pretty exhaustive.
 However, when I had to deal with external requirements like SSH Agent or OpenSSH I experienced a lack of example and struggled a bit interfacing.
 In this article we will see how to exchange keys between a program written in Go and those tools using files. This means to output our keys in a proper format (marshaling) and being able to read them (unmarshalling) from the external tool format.</description>
@@ -24,39 +24,39 @@ In this article we will see how to exchange keys between a program written in Go
     
     <item>
       <title>Introducing Y2J (Yaml to Json converter)</title>
-      <link>http://ixday.github.io/post/y2j/</link>
+      <link>https://ixday.github.io/post/y2j/</link>
       <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/y2j/</guid>
+      <guid>https://ixday.github.io/post/y2j/</guid>
       <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
 Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.</description>
     </item>
     
     <item>
       <title>Parallel runners with teardown in go</title>
-      <link>http://ixday.github.io/post/teardown_runner/</link>
+      <link>https://ixday.github.io/post/teardown_runner/</link>
       <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/teardown_runner/</guid>
+      <guid>https://ixday.github.io/post/teardown_runner/</guid>
       <description>From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.</description>
     </item>
     
     <item>
       <title>Cancel copy of huge file in Go</title>
-      <link>http://ixday.github.io/post/golang-cancel-copy/</link>
+      <link>https://ixday.github.io/post/golang-cancel-copy/</link>
       <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
       
-      <guid>http://ixday.github.io/post/golang-cancel-copy/</guid>
+      <guid>https://ixday.github.io/post/golang-cancel-copy/</guid>
       <description>I recently came across this video on Golang programming. I think this was the moment I finally fully understood the power of Go. It is smart, simple and elegant, I love it.
 Then, a few days later, I was coding on a toy project and I was doing some stuff around the io package to copy huge files. I wanted to achieve copy cancelation during the processing, basically, being able to interrupt.</description>
     </item>
     
     <item>
       <title>direnv</title>
-      <link>http://ixday.github.io/post/direnv/</link>
+      <link>https://ixday.github.io/post/direnv/</link>
       <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/direnv/</guid>
+      <guid>https://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
 layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
@@ -65,10 +65,10 @@ Golang projects This one is a bit trickier.</description>
     
     <item>
       <title>golang err shadowing</title>
-      <link>http://ixday.github.io/post/golang-err-shadowing/</link>
+      <link>https://ixday.github.io/post/golang-err-shadowing/</link>
       <pubDate>Tue, 25 Jul 2017 10:44:02 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/golang-err-shadowing/</guid>
+      <guid>https://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
 foo := &amp;#34;bar&amp;#34; Here the variable foo will automatically set up as a string with the value &amp;ldquo;bar&amp;rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
 if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:</description>
@@ -76,50 +76,50 @@ if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something 
     
     <item>
       <title>vuecc</title>
-      <link>http://ixday.github.io/post/vuecc/</link>
+      <link>https://ixday.github.io/post/vuecc/</link>
       <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/vuecc/</guid>
+      <guid>https://ixday.github.io/post/vuecc/</guid>
       <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
 After a few hours of development, I decided to use SFC (Single File Components) to separate business code from components. And I got a really bad surpise! In order to compile those templates I needed to use a build system (Webpack or Browserify). The tutorial is really good, but&amp;hellip;</description>
     </item>
     
     <item>
       <title>Git clone inside a mounted volume with Docker</title>
-      <link>http://ixday.github.io/post/docker_git_volume/</link>
+      <link>https://ixday.github.io/post/docker_git_volume/</link>
       <pubDate>Mon, 13 Mar 2017 14:52:21 +0100</pubDate>
       
-      <guid>http://ixday.github.io/post/docker_git_volume/</guid>
+      <guid>https://ixday.github.io/post/docker_git_volume/</guid>
       <description>DISCLAIMER: This is now fixed in git new releases and does not need to be done anymore. I use an old version of alpine in order to have an unpached version of git.
 I ran into an interesting issue lastly. I wanted to mount a volume inside a container and clone a repo in it. I also wanted to avoid messing with the permissions and pass my user to the container as well.</description>
     </item>
     
     <item>
       <title>Makefile</title>
-      <link>http://ixday.github.io/post/makefile/</link>
+      <link>https://ixday.github.io/post/makefile/</link>
       <pubDate>Wed, 15 Feb 2017 10:57:00 +0100</pubDate>
       
-      <guid>http://ixday.github.io/post/makefile/</guid>
+      <guid>https://ixday.github.io/post/makefile/</guid>
       <description>Recently, I had to build some project involving a lot of files. Two choices were possible:
  use a script to build use a Makefile  I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)</description>
     </item>
     
     <item>
       <title>Getting rid of gulp bunch of dependencies</title>
-      <link>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</link>
+      <link>https://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</link>
       <pubDate>Sun, 10 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</guid>
+      <guid>https://ixday.github.io/post/getting_rid_of_gulp_bunch_of_dependencies/</guid>
       <description>Recently Nodejs environment broke due the removal from npm of a small library (11 SLOC): leftpad. As it hit the world and broke a bunch of projects and CIs, I asked myself if my projects contains so much dependencies that if one break, everything collapse.
 The problem For developing my frontend I use a tool which I really like: Gulp. The issue there, is that for working with multiple building process involved a lot of glue and third party libraries.</description>
     </item>
     
     <item>
       <title>Pdbpp</title>
-      <link>http://ixday.github.io/post/pdbpp/</link>
+      <link>https://ixday.github.io/post/pdbpp/</link>
       <pubDate>Sun, 28 Feb 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/pdbpp/</guid>
+      <guid>https://ixday.github.io/post/pdbpp/</guid>
       <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
   This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
@@ -127,10 +127,10 @@ More features Sticky mode Pdbpp comes with a lot of additional features which ar
     
     <item>
       <title>Listing directory with wsgi</title>
-      <link>http://ixday.github.io/post/listing_directory_with_wsgi/</link>
+      <link>https://ixday.github.io/post/listing_directory_with_wsgi/</link>
       <pubDate>Thu, 02 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/listing_directory_with_wsgi/</guid>
+      <guid>https://ixday.github.io/post/listing_directory_with_wsgi/</guid>
       <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain here) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
 I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
 Specifications Here are the features I wanted:
@@ -139,20 +139,20 @@ Specifications Here are the features I wanted:
     
     <item>
       <title>Patch dependency</title>
-      <link>http://ixday.github.io/post/patch_dependency/</link>
+      <link>https://ixday.github.io/post/patch_dependency/</link>
       <pubDate>Tue, 09 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/patch_dependency/</guid>
+      <guid>https://ixday.github.io/post/patch_dependency/</guid>
       <description>When developing on a project it is possible that a dependency can have an issue. First you want to be able to debug it (pdb, ipdb), then modify it if you find a bug. To do that there is a naive way in python, which consist in editing directly the sources of the module. But there is a cleaner way based on pip.
 The -e option allows you to pass a path (git, http, file) for a given module and link it to your environment.</description>
     </item>
     
     <item>
       <title>Pytest Fixture</title>
-      <link>http://ixday.github.io/post/pytest_fixture/</link>
+      <link>https://ixday.github.io/post/pytest_fixture/</link>
       <pubDate>Tue, 14 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/pytest_fixture/</guid>
+      <guid>https://ixday.github.io/post/pytest_fixture/</guid>
       <description>I am a huge fan of python (one of the best language in my toolbox). And when it comes to tests, pytest is THE library to use.
 I also use Flask a lot, so today I will show you some of my snippets.
 First one the app fixture:
@@ -161,10 +161,10 @@ First one the app fixture:
     
     <item>
       <title>Small docker project</title>
-      <link>http://ixday.github.io/post/small_tool/</link>
+      <link>https://ixday.github.io/post/small_tool/</link>
       <pubDate>Mon, 30 Mar 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/small_tool/</guid>
+      <guid>https://ixday.github.io/post/small_tool/</guid>
       <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
 What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:

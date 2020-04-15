@@ -2,147 +2,147 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Not today...</title>
-    <link>http://ixday.github.io/tags/</link>
+    <link>https://ixday.github.io/tags/</link>
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 10 Apr 2020 15:55:12 +0200</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>dev</title>
-      <link>http://ixday.github.io/tags/dev/</link>
+      <link>https://ixday.github.io/tags/dev/</link>
       <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
       
-      <guid>http://ixday.github.io/tags/dev/</guid>
+      <guid>https://ixday.github.io/tags/dev/</guid>
       <description></description>
     </item>
     
     <item>
       <title>golang</title>
-      <link>http://ixday.github.io/tags/golang/</link>
+      <link>https://ixday.github.io/tags/golang/</link>
       <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
       
-      <guid>http://ixday.github.io/tags/golang/</guid>
+      <guid>https://ixday.github.io/tags/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>admin</title>
-      <link>http://ixday.github.io/tags/admin/</link>
+      <link>https://ixday.github.io/tags/admin/</link>
       <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
       
-      <guid>http://ixday.github.io/tags/admin/</guid>
+      <guid>https://ixday.github.io/tags/admin/</guid>
       <description></description>
     </item>
     
     <item>
       <title>cli</title>
-      <link>http://ixday.github.io/tags/cli/</link>
+      <link>https://ixday.github.io/tags/cli/</link>
       <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
       
-      <guid>http://ixday.github.io/tags/cli/</guid>
+      <guid>https://ixday.github.io/tags/cli/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rust</title>
-      <link>http://ixday.github.io/tags/rust/</link>
+      <link>https://ixday.github.io/tags/rust/</link>
       <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
       
-      <guid>http://ixday.github.io/tags/rust/</guid>
+      <guid>https://ixday.github.io/tags/rust/</guid>
       <description></description>
     </item>
     
     <item>
       <title>git</title>
-      <link>http://ixday.github.io/tags/git/</link>
+      <link>https://ixday.github.io/tags/git/</link>
       <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
       
-      <guid>http://ixday.github.io/tags/git/</guid>
+      <guid>https://ixday.github.io/tags/git/</guid>
       <description></description>
     </item>
     
     <item>
       <title>bash</title>
-      <link>http://ixday.github.io/tags/bash/</link>
+      <link>https://ixday.github.io/tags/bash/</link>
       <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
       
-      <guid>http://ixday.github.io/tags/bash/</guid>
+      <guid>https://ixday.github.io/tags/bash/</guid>
       <description></description>
     </item>
     
     <item>
       <title>javascript</title>
-      <link>http://ixday.github.io/tags/javascript/</link>
+      <link>https://ixday.github.io/tags/javascript/</link>
       <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
       
-      <guid>http://ixday.github.io/tags/javascript/</guid>
+      <guid>https://ixday.github.io/tags/javascript/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
-      <link>http://ixday.github.io/tags/python/</link>
+      <link>https://ixday.github.io/tags/python/</link>
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/tags/python/</guid>
+      <guid>https://ixday.github.io/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tests</title>
-      <link>http://ixday.github.io/tags/tests/</link>
+      <link>https://ixday.github.io/tags/tests/</link>
       <pubDate>Wed, 16 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/tags/tests/</guid>
+      <guid>https://ixday.github.io/tags/tests/</guid>
       <description></description>
     </item>
     
     <item>
       <title>adminsys</title>
-      <link>http://ixday.github.io/tags/adminsys/</link>
+      <link>https://ixday.github.io/tags/adminsys/</link>
       <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/tags/adminsys/</guid>
+      <guid>https://ixday.github.io/tags/adminsys/</guid>
       <description></description>
     </item>
     
     <item>
       <title>systemd</title>
-      <link>http://ixday.github.io/tags/systemd/</link>
+      <link>https://ixday.github.io/tags/systemd/</link>
       <pubDate>Tue, 19 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/tags/systemd/</guid>
+      <guid>https://ixday.github.io/tags/systemd/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jasmine</title>
-      <link>http://ixday.github.io/tags/jasmine/</link>
+      <link>https://ixday.github.io/tags/jasmine/</link>
       <pubDate>Thu, 30 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/tags/jasmine/</guid>
+      <guid>https://ixday.github.io/tags/jasmine/</guid>
       <description></description>
     </item>
     
     <item>
       <title>angular</title>
-      <link>http://ixday.github.io/tags/angular/</link>
+      <link>https://ixday.github.io/tags/angular/</link>
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/tags/angular/</guid>
+      <guid>https://ixday.github.io/tags/angular/</guid>
       <description></description>
     </item>
     
     <item>
       <title>web</title>
-      <link>http://ixday.github.io/tags/web/</link>
+      <link>https://ixday.github.io/tags/web/</link>
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/tags/web/</guid>
+      <guid>https://ixday.github.io/tags/web/</guid>
       <description></description>
     </item>
     

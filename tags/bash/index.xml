@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>bash on Not today...</title>
-    <link>http://ixday.github.io/tags/bash/</link>
+    <link>https://ixday.github.io/tags/bash/</link>
     <description>Recent content in bash on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 27 Jul 2017 10:53:10 +0200</lastBuildDate>
     
-	<atom:link href="http://ixday.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://ixday.github.io/tags/bash/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>direnv</title>
-      <link>http://ixday.github.io/post/direnv/</link>
+      <link>https://ixday.github.io/post/direnv/</link>
       <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/direnv/</guid>
+      <guid>https://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
 Python projects This is well documented but here is what I use in python projects to set up a default virtualenv.
 layout python That&amp;rsquo;s it! It sets up a virtualenv in your .direnv directory, and load the updated PATH.
@@ -25,10 +25,10 @@ Golang projects This one is a bit trickier.</description>
     
     <item>
       <title>Start libvirt VM as unprivileged user</title>
-      <link>http://ixday.github.io/post/unprivileged_libvirt/</link>
+      <link>https://ixday.github.io/post/unprivileged_libvirt/</link>
       <pubDate>Mon, 01 May 2017 11:41:14 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/unprivileged_libvirt/</guid>
+      <guid>https://ixday.github.io/post/unprivileged_libvirt/</guid>
       <description>Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
 I want to start an alpine virt iso (from here) inside kvm through libvirt. But I am sick to run all my virsh commands prefixed with sudo.
 DISCLAIMER: This will contain some of my conclusions with my partial understanding of those tools. I am quite sure that all of this can be improved, but I don&amp;rsquo;t have time to invest on this for the moment.</description>
@@ -36,30 +36,30 @@ DISCLAIMER: This will contain some of my conclusions with my partial understandi
     
     <item>
       <title>Bash Shortcuts</title>
-      <link>http://ixday.github.io/post/bash_shortcuts/</link>
+      <link>https://ixday.github.io/post/bash_shortcuts/</link>
       <pubDate>Wed, 20 Jul 2016 09:13:58 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/bash_shortcuts/</guid>
+      <guid>https://ixday.github.io/post/bash_shortcuts/</guid>
       <description>Here is just a small reminder of common bash shortcuts for everyday use:
 Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go to the end of the line you are currently typing on Ctrl + L Clears the Screen, similar to the clear command Ctrl + U Clears the line before the cursor position. If you are at the end of the line, clears the entire line.</description>
     </item>
     
     <item>
       <title>Curl utils</title>
-      <link>http://ixday.github.io/post/curl_utils/</link>
+      <link>https://ixday.github.io/post/curl_utils/</link>
       <pubDate>Tue, 19 Jul 2016 14:24:57 +0200</pubDate>
       
-      <guid>http://ixday.github.io/post/curl_utils/</guid>
+      <guid>https://ixday.github.io/post/curl_utils/</guid>
       <description>Here are some options and command I use with curl when dealing with stuff I have to develop.
 curl -si &amp;lt;ip&amp;gt; # -s is the silent flag, it removes the progress # -i displays the headers curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -u &amp;#34;admin:admin&amp;#34; -d &amp;#39;{}&amp;#39; &amp;lt;ip&amp;gt; # -X set up the http method (here POST) # -H set up an header, format is: &amp;#34;header_name: value&amp;#34; # -u support for Basic Auth, format is: &amp;#34;user:password&amp;#34; # -d set up data to send to the server I mostly use those options, the -s is really interesting when you want to grep the content.</description>
     </item>
     
     <item>
       <title>Bash Expansion</title>
-      <link>http://ixday.github.io/post/bash_expansion/</link>
+      <link>https://ixday.github.io/post/bash_expansion/</link>
       <pubDate>Thu, 20 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/bash_expansion/</guid>
+      <guid>https://ixday.github.io/post/bash_expansion/</guid>
       <description>A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
 for i in {1..50} do echo &amp;#34;Hello World $i&amp;#34; done It will print fifty &amp;ldquo;Hello World&amp;rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
 echo something/{foo,bar} &amp;gt; something/foo something/bar Still not amazed, ok now type this one:
@@ -68,10 +68,10 @@ cp some_file{,.old} It will copy your file adding a .</description>
     
     <item>
       <title>Debian Install 3</title>
-      <link>http://ixday.github.io/post/debian_install_3/</link>
+      <link>https://ixday.github.io/post/debian_install_3/</link>
       <pubDate>Tue, 18 Aug 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/debian_install_3/</guid>
+      <guid>https://ixday.github.io/post/debian_install_3/</guid>
       <description>&lt;p&gt;Today I want to install debian on my personal server.
 And I want to crypt the FS using Luks, and add LVM on top.&lt;/p&gt;
 &lt;p&gt;I want it to look like that (like this scheme, a lot of reference
@@ -80,10 +80,10 @@ come from the &lt;a href=&#34;https://wiki.archlinux.org/index.php/Dm-crypt/Encr
     
     <item>
       <title>Debian install 2</title>
-      <link>http://ixday.github.io/post/debian_install_2/</link>
+      <link>https://ixday.github.io/post/debian_install_2/</link>
       <pubDate>Thu, 14 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/debian_install_2/</guid>
+      <guid>https://ixday.github.io/post/debian_install_2/</guid>
       <description>After many days of configuration, I finally complete the installation of my perfect &amp;ldquo;workstation&amp;rdquo; ;).
 source.list I have to directory for this, first the preferences, then the sources.list.
 Just run an aptitude update, and you will some missing gpg keys, now run
@@ -93,10 +93,10 @@ sudo A sudo file is important in order to correctly manage a computer, a simple 
     
     <item>
       <title>Small docker project</title>
-      <link>http://ixday.github.io/post/small_tool/</link>
+      <link>https://ixday.github.io/post/small_tool/</link>
       <pubDate>Mon, 30 Mar 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/small_tool/</guid>
+      <guid>https://ixday.github.io/post/small_tool/</guid>
       <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
 What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
@@ -106,10 +106,10 @@ What I have learned   Docker, especially with boot2docker (I am on MacOSX shame 
     
     <item>
       <title>ssh, rsync and fswatch</title>
-      <link>http://ixday.github.io/post/rsync_fswatch/</link>
+      <link>https://ixday.github.io/post/rsync_fswatch/</link>
       <pubDate>Mon, 02 Mar 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/rsync_fswatch/</guid>
+      <guid>https://ixday.github.io/post/rsync_fswatch/</guid>
       <description>Sometimes I just can&amp;rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&amp;hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
 ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
 ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</description>
@@ -117,10 +117,10 @@ ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.</descri
     
     <item>
       <title>Curl for REST</title>
-      <link>http://ixday.github.io/post/curl_for_rest/</link>
+      <link>https://ixday.github.io/post/curl_for_rest/</link>
       <pubDate>Wed, 07 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/curl_for_rest/</guid>
+      <guid>https://ixday.github.io/post/curl_for_rest/</guid>
       <description>It has been a long time since the last post. But today, I will just show two tools I use for debugging my REST APIs.
 First one is the well known curl and the second one is jq.
 One important feature of curl is its hability to load external files for datas with @ before file name:
@@ -129,10 +129,10 @@ curl -X POST -H &amp;#34;Content-Type: application/json&amp;#34; -d @filepath Th
     
     <item>
       <title>Bash Script</title>
-      <link>http://ixday.github.io/post/bash-script/</link>
+      <link>https://ixday.github.io/post/bash-script/</link>
       <pubDate>Sun, 19 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/bash-script/</guid>
+      <guid>https://ixday.github.io/post/bash-script/</guid>
       <description>Writting a bash script is kind of a complicated task, there is a strict syntax, multiple external tools, and some tricks which depends on the version and in some cases on the distribution itself (for example, grep is not the same either you are on BSD or Debian).
 In this article I will talk about four code habits which can improve the maintainability of your shell scripts
 Double quotes Everyone who already used a bash script will tell you to mark every variable reading with double quotes:</description>
@@ -140,10 +140,10 @@ Double quotes Everyone who already used a bash script will tell you to mark ever
     
     <item>
       <title>Debian Install</title>
-      <link>http://ixday.github.io/post/debian-install/</link>
+      <link>https://ixday.github.io/post/debian-install/</link>
       <pubDate>Sun, 12 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/debian-install/</guid>
+      <guid>https://ixday.github.io/post/debian-install/</guid>
       <description>That&amp;rsquo;s a fact: I can not install a new system without getting into troubles!
 So, here is a small tutorial in which I will aggregate the main issues I encountered and how I solved them.
 Creating a bootable USB key on a Mac # plug your USB key, then find it with diskutil list # unmount the usb key (it is mandatory), where X in diskX is the number assigned # to your USB you retrieved with the previous command diskutil unmountDisk /dev/diskX # if you are making a bootable usb key for a Mac run this command, # debian.</description>
@@ -151,10 +151,10 @@ Creating a bootable USB key on a Mac # plug your USB key, then find it with disk
     
     <item>
       <title>HTML5 Boilerplate</title>
-      <link>http://ixday.github.io/post/html5-boilerplate/</link>
+      <link>https://ixday.github.io/post/html5-boilerplate/</link>
       <pubDate>Tue, 30 Sep 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://ixday.github.io/post/html5-boilerplate/</guid>
+      <guid>https://ixday.github.io/post/html5-boilerplate/</guid>
       <description>Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
 You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
 So here is an example:
