@@ -32,7 +32,7 @@ I will cover the RSA format here, but there are also others, however, logic shou
 ### Create
 The first thing to do is to create a key pair. It is pretty straightforward in
 Go and there is plenty of examples on the internet.
-Will still put a snippet here, in order to save a search:
+Will still put a snippet here, to save a search:
 
 ```go
 package main
@@ -64,7 +64,7 @@ This is not mandatory, but it might be useful for developers.
 
 ### Marshal
 
-We now want to marshal this in order to save it to a file.
+We now want to marshal this to save it to a file.
 We also want this file to be usable by the command line tooling.
 For instance, we want to be able to load the key in the SSH agent.
 To perform this we will make our output string to be in the right format.
@@ -138,7 +138,7 @@ func unmarshalRSAPrivate(bytes []byte) (*rsa.PrivateKey, error) {
 
 And now the code for the public part.
 You can use a [line scanner](https://golang.org/pkg/bufio/#example_Scanner_lines)
-in order to parse `authorized_keys` files.
+to parse `authorized_keys` files.
 This also the format you will see when listing keys from your agent with this command: `ssh-add -L`
 
 ```go
@@ -199,7 +199,7 @@ func generateCert(pub ssh.PublicKey) *ssh.Certificate {
 
 ### Marshal
 
-In order to marshal a certificate to a valid string you will need to sign it
+To marshal a certificate to a valid string you will need to sign it
 first. Here I will self sign the certificate. Self-signing is using the private
 part of the certificate key to sign it.
 
