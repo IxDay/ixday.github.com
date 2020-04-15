@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.66.0" />
+  <meta name="generator" content="Hugo 0.68.3" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,50 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Thu Aug 20 2015
+    
+  </time>
+  <div class="comments">
+    <a href="http://ixday.github.io/post/bash_expansion/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/bash_expansion/">Bash Expansion</a></h2>
+    <p>
+    A small post just to share a useful bashism the Brace Expansion. It is really simple to make it works:
+for i in {1..50} do echo &#34;Hello World $i&#34; done It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing? Ok, now the second feature
+echo something/{foo,bar} &gt; something/foo something/bar Still not amazed, ok now type this one:
+cp some_file{,.old} It will copy your file adding a .
+    
+    <a href="/post/bash_expansion/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/bash ">bash</a>
+, <a href="/tags/cli ">cli</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -437,49 +481,6 @@ What I have learned   Docker, especially with boot2docker (I am on MacOSX shame 
     <a href="/tags/admin ">admin</a>
 , <a href="/tags/bash ">bash</a>
 , <a href="/tags/dev ">dev</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Mon Mar 2 2015
-    
-  </time>
-  <div class="comments">
-    <a href="http://ixday.github.io/post/rsync_fswatch/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/tuto">Tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/rsync_fswatch/">ssh, rsync and fswatch</a></h2>
-    <p>
-    Sometimes I just can&rsquo;t work on a local environment (particular architecture, particular services, local configuration too complex, etc&hellip;). So, I have to synchronize my local directory with a remote one and test the web interface on my local machine.
-ssh First, ssh! For this I need a ssh connection to the remote server, here I use a particular ssh key.
-ssh -i ~/.ssh/my_ssh.key mylogin@192.168.0.1 # urls also work ssh -i ~/.
-    
-    <a href="/post/rsync_fswatch/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-, <a href="/tags/bash ">bash</a>
 
     </p>
     
