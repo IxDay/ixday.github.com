@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Apr 2020 15:55:12 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2020 10:12:56 +0200</lastBuildDate>
     
 	<atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>bash</title>
+      <link>https://ixday.github.io/tags/bash/</link>
+      <pubDate>Tue, 08 Sep 2020 10:12:56 +0200</pubDate>
+      
+      <guid>https://ixday.github.io/tags/bash/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://ixday.github.io/tags/golang/</link>
+      <pubDate>Tue, 08 Sep 2020 10:12:56 +0200</pubDate>
+      
+      <guid>https://ixday.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>dev</title>
@@ -17,15 +35,6 @@
       <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
       
       <guid>https://ixday.github.io/tags/dev/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>golang</title>
-      <link>https://ixday.github.io/tags/golang/</link>
-      <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
-      
-      <guid>https://ixday.github.io/tags/golang/</guid>
       <description></description>
     </item>
     
@@ -62,15 +71,6 @@
       <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
       
       <guid>https://ixday.github.io/tags/git/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bash</title>
-      <link>https://ixday.github.io/tags/bash/</link>
-      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
-      
-      <guid>https://ixday.github.io/tags/bash/</guid>
       <description></description>
     </item>
     

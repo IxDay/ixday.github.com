@@ -6,10 +6,20 @@
     <description>Recent content on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Apr 2020 15:55:12 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 08 Sep 2020 10:12:56 +0200</lastBuildDate>
     
 	<atom:link href="https://ixday.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RSA OAEP in Go and Openssl equivalent</title>
+      <link>https://ixday.github.io/post/rsa_oaep_golang_openssl/</link>
+      <pubDate>Tue, 08 Sep 2020 10:12:56 +0200</pubDate>
+      
+      <guid>https://ixday.github.io/post/rsa_oaep_golang_openssl/</guid>
+      <description>From time to time you write some code to deal with data that will be stored somewhere on a drive. When debugging it may be nice to have &amp;ldquo;shell&amp;rdquo; commands to mimic code and help understanding what is going on.
+When it comes to encryption the swiss army knife you will most probably have in your shell environment is openssl. But reading and understanding the documentation can sometimes be &amp;ldquo;challenging&amp;rdquo;.</description>
+    </item>
     
     <item>
       <title>Golang SSH, marshalling, unmarshalling</title>

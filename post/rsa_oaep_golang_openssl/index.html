@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - RSA OAEP in Go and Openssl equivalent</title>
+  <meta property='og:title' content="RSA OAEP in Go and Openssl equivalent - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Tue Sep 8 2020
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/rsa_oaep_golang_openssl/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>RSA OAEP in Go and Openssl equivalent</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/golang ">golang</a>
+, <a href="/tags/bash ">bash</a>
+
+      </p>
+      
+
+    </header>
+    <p>From time to time you write some code to deal with data that will be stored
+somewhere on a drive. When debugging it may be nice to have <em>&ldquo;shell&rdquo;</em> commands
+to mimic code and help understanding what is going on.</p>
+<p>When it comes to encryption the swiss army knife you will most probably have
+in your shell environment is <code>openssl</code>. But reading and understanding the documentation
+can sometimes be &ldquo;challenging&rdquo;.</p>
+<h2 id="lets-cook">Let&rsquo;s cook</h2>
+<p>First, I generated a RSA key in order to encrypt our cipher:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl genrsa -out rsa.priv <span class="m">2048</span>
+</code></pre></div><p>You will use the following Golang code to load this key:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;crypto/rsa&#34;</span>
+	<span class="s">&#34;crypto/x509&#34;</span>
+	<span class="s">&#34;encoding/pem&#34;</span>
+	<span class="s">&#34;fmt&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">DecodeRSAKey</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">block</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">pem</span><span class="p">.</span><span class="nf">Decode</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">block</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to decode PEM block containing private key&#34;</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="nx">x509</span><span class="p">.</span><span class="nf">ParsePKCS1PrivateKey</span><span class="p">(</span><span class="nx">block</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p>We will use <a href="https://golang.org/pkg/crypto/rsa/#EncryptOAEP">the encrypt function from the standard lib</a>.
+Usage will be as follow:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;crypto/rand&#34;</span>
+	<span class="s">&#34;crypto/rsa&#34;</span>
+	<span class="s">&#34;crypto/sha256&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">EncryptRSAOAEP</span><span class="p">(</span><span class="nx">key</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">,</span> <span class="nx">data</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">([]</span><span class="kt">byte</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">EncryptOAEP</span><span class="p">(</span><span class="nx">sha256</span><span class="p">.</span><span class="nf">New</span><span class="p">(),</span> <span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;&#34;</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div><p>You now want decrypt this using <code>openssl</code>. If you saved the bytes to a file
+you can use the following snippet:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat &lt;file&gt; <span class="p">|</span> openssl pkeyutl -decrypt -inkey key.rsa  <span class="se">\
+</span><span class="se"></span>	-pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 <span class="se">\
+</span><span class="se"></span>	-pkeyopt rsa_mgf1_md:sha256
+</code></pre></div><h2 id="testing-it-out">Testing it out!</h2>
+<p>I created <a href="https://github.com/IxDay/ixday.github.com/tree/source/content/code/golang_openssl_rsa_oaep">a directory in the blog repo</a>
+with a simple golang file reading from stdin and encoding using the private key
+present in the directory.</p>
+<p>Here is how to use it:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># encrypt stdin</span>
+<span class="nb">echo</span> <span class="s2">&#34;foo&#34;</span> <span class="p">|</span> go run rsa_oaep.go
+
+<span class="c1"># encrypt from stdin and decrypt right away</span>
+<span class="nb">echo</span> <span class="s2">&#34;foo&#34;</span> <span class="p">|</span> go run rsa_oaep.go <span class="p">|</span> openssl pkeyutl -decrypt -inkey rsa.priv <span class="se">\
+</span><span class="se"></span>	-pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 <span class="se">\
+</span><span class="se"></span>	-pkeyopt rsa_mgf1_md:sha256
+</code></pre></div>
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2020 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+  </body>
+</html>
