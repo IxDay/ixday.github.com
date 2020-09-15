@@ -22,16 +22,6 @@ I added the magical set -x line at the beginning to understand what was going on
     </item>
     
     <item>
-      <title>Wireguard on a Linux Alpine with Docker</title>
-      <link>https://ixday.github.io/post/alpine_docker_wireguard/</link>
-      <pubDate>Sat, 12 Sep 2020 16:51:22 +0200</pubDate>
-      
-      <guid>https://ixday.github.io/post/alpine_docker_wireguard/</guid>
-      <description>For most of my personal infrastructure I am now using Alpine Linux. I like it because it only has a small number of moving parts. It&amp;rsquo;s easy to know and master them, making my life better :).
-So, I decided to install on one of my VPS a VPN. Like my distro I wanted it to be simple and small. For all those reasons I went for Wireguard. The fact that it is the new cool kid, may also have helped.</description>
-    </item>
-    
-    <item>
       <title>RSA OAEP in Go and Openssl equivalent</title>
       <link>https://ixday.github.io/post/rsa_oaep_golang_openssl/</link>
       <pubDate>Tue, 08 Sep 2020 10:12:56 +0200</pubDate>

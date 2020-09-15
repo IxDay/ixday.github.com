@@ -38,26 +38,6 @@
   </url>
   
   <url>
-    <loc>https://ixday.github.io/tags/admin/</loc>
-    <lastmod>2020-09-12T16:51:22+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/tags/alpine/</loc>
-    <lastmod>2020-09-12T16:51:22+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/categories/tuto/</loc>
-    <lastmod>2020-09-12T16:51:22+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/post/alpine_docker_wireguard/</loc>
-    <lastmod>2020-09-12T16:51:22+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://ixday.github.io/tags/golang/</loc>
     <lastmod>2020-09-08T10:12:56+02:00</lastmod>
   </url>
@@ -83,12 +63,22 @@
   </url>
   
   <url>
+    <loc>https://ixday.github.io/tags/admin/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ixday.github.io/tags/cli/</loc>
     <lastmod>2020-03-10T11:20:59+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://ixday.github.io/post/gopass/</loc>
+    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/categories/tuto/</loc>
     <lastmod>2020-03-10T11:20:59+01:00</lastmod>
   </url>
   
