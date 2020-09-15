@@ -12,5 +12,12 @@ Here is a list of potential future posts:
 - [ ] livereload using hugo implementation
 - [ ] writing a web microframework in go
 - [ ] proxy pattern in go for debug logs
-- [ ] ssh with go (certificates, tunneling)
+- [X] ssh certificates with go
+- [ ] ssh tunneling with go
 - [ ] workers, throttling, concurrent access in Golang
+- [ ] es6 module and global variables
+- [ ] gprc-web proxy
+- [ ] openssl cheatsheet
+- [ ] alpine wireguard
+
+	sed -n -e 's|PrivateKey = ||p' /etc/wireguard/rulz.conf
