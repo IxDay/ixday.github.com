@@ -19,5 +19,3 @@ Here is a list of potential future posts:
 - [ ] gprc-web proxy
 - [ ] openssl cheatsheet
 - [ ] alpine wireguard
-
-	sed -n -e 's|PrivateKey = ||p' /etc/wireguard/rulz.conf
