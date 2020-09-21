@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.75.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -49,7 +49,7 @@
   <div class="meta">
   <time class="date">
     
-    Sat Sep 12 2020
+    Tue Sep 22 2020
     
   </time>
   <div class="comments">
@@ -80,13 +80,202 @@
       
 
     </header>
-    <p>For most of my personal infrastructure I am now using <a href="https://alpinelinux.org/">Alpine Linux</a>.
+    <p>For most of my infrastructure, I am now using <a href="https://alpinelinux.org/">Alpine Linux</a>.
 I like it because it only has a small number of moving parts. It&rsquo;s easy to
-know and master them, making my life better :).</p>
-<p>So, I decided to install on one of my VPS a VPN. Like my distro I wanted it to
+know and master them, it is making my life easier :).</p>
+<p>So, I decided to install one on my VPS. Like my distro I wanted it to
 be simple and small. For all those reasons I went for <a href="https://www.wireguard.com/">Wireguard</a>.
 The fact that it is the new cool kid, may also have helped.</p>
+<p>Last but not least, I want this VPN to run inside a docker container which is
+running Alpine as well!</p>
+<p><strong>My cloud provider:</strong> Like everything here I wanted my cloud provider to be
+simple to use. Also, I needed to be able to launch an Alpine Linux VPS. I tried
+OVH (would not recommend), then Digital Ocean, but it was too expensive even
+for the most simple setup. Finally, I discovered <a href="https://www.scaleway.com/en/">Scaleway</a>.
+I am using the smallest instance, plus an IPv4 address plus a 50GB SSD volume.
+This cost me less than 5€ per month. Needless to say that I am pretty happy!</p>
+<h2 id="setup-of-the-host">Setup of the host</h2>
+<p>To run Wireguard in a container we need to configure the underlying host.
+Since containers share the host kernel you have to do some changes to make it work.</p>
+<p>First, you have to install the kernel module:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># first check your kernel version</span>
+uname -r
 
+<span class="c1"># install wireguard kernel module</span>
+apk add wireguard-<span class="si">${</span><span class="nv">your_kernel_version</span><span class="si">}</span>
+</code></pre></div><p>Once this is done, we also need to configure kernel parameters to allow IP forwarding.
+I want the VPN to tunnel all traffic. I will forward IPv4 and IPv6.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># temporary set up</span>
+sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+sysctl -w net.ipv6.conf.all.forwarding<span class="o">=</span><span class="m">1</span>
+</code></pre></div><p>I want those changes to be permanent. I first looked at writing this to
+<code>/etc/sysctl.conf</code>. However, the change was not picked up at boot. This is
+mostly due, as far as I get it, to the fact that the IPv6 support is a kernel
+module that is loaded after the kernel config is called. I found some
+reports <a href="https://www.raspberrypi.org/forums/viewtopic.php?t=113560">here</a>
+and <a href="https://bugs.launchpad.net/ubuntu/+source/procps/+bug/50093">here</a>.</p>
+<p>I decided to use a local startup script from OpenRC. You only need to create
+a shell script in <code>/etc/local.d</code> and make it executable
+(it also needs to have a <code>.start</code> suffix).</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
+</span><span class="cp"></span><span class="c1"># 60-forward.start script, set up the IP forward kernel parameter</span>
+
+sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+sysctl -w net.ipv6.conf.all.forwarding<span class="o">=</span><span class="m">1</span>
+</code></pre></div><p>The last step here is to activate the local scripts at boot with this command:
+<code>rc-update add local default</code>.
+Now that we have IP forwarding, it&rsquo;s time to set up iptables.
+Here the configuration is easy, you need to let iptables know about the forwarding
+of packets for both IPv4 and IPv6:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables -P FORWARD ACCEPT
+rc-update add iptables
+/etc/init.d/iptables save
+
+ip6tables -P FORWARD ACCEPT
+rc-update add ip6tables
+/etc/init.d/ip6tables save
+</code></pre></div><p><strong>Important:</strong> The saving of the forwarding rules may be disabled in your
+configuration, ensure that <code>IPFORWARD=&quot;yes&quot;</code> is properly set in the files:
+<code>/etc/conf.d/iptables</code> and <code>/etc/conf.d/ip6tables</code></p>
+<h2 id="setup-the-container">Setup the container</h2>
+<p>This will be a bit more straightforward. We first need to create the container
+Dockerfile:</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.12</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> apk add --no-cache wireguard-tools ip6tables<span class="err">
+</span><span class="err"></span><span class="k">COPY</span> server.sh /usr/local/bin/wireguard<span class="err">
+</span><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 5555</span><span class="err">
+</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;wireguard&#34;</span><span class="p">]</span><span class="err">
+</span></code></pre></div><p>For the container, I am using the same version as my host system. Since Wireguard
+is using a kernel module on the host system I would like to avoid any incompatibility.
+I am also installing iptables because the Wireguard script needs to add a
+few more rules at startup and shutdown.
+You would have noticed that I am using a custom script as the executable, this
+is because I need extra configuration to be generated at startup. Here is the content:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/sh
+</span><span class="cp"></span>
+<span class="c1">#  10.0.0.x, fd47:d1a9:8d26:c99b:xxxx:xxxx:xxxx:xxxx</span>
+cat &gt; /etc/wireguard/wg0.conf <span class="s">&lt;&lt; EOF
+</span><span class="s">[Interface]
+</span><span class="s">PrivateKey = $(wg genkey)
+</span><span class="s">Address = 10.0.0.1/24, fd47:d1a9:8d26:c99b::/64
+</span><span class="s">ListenPort = 5555
+</span><span class="s">PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</span><span class="s">PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+</span><span class="s">SaveConfig = true
+</span><span class="s">
+</span><span class="s">EOF</span>
+
+wg-quick up wg0
+watch wg
+</code></pre></div><p>Let&rsquo;s explain what I am doing:</p>
+<ul>
+<li>I am first putting in the comment the network blocks I am using for the VPN.
+I am doing IPv4 and IPv6 so I describe both of them.</li>
+<li>Next, I am generating the config file. I want to create the <code>wg0</code> interface like the default one
+from documentation. You can of course replace it with another naming convention.</li>
+<li>I am generating a private key for my peer. This is why I am using a script,
+the key is generated at startup and is unique to every restart. You can change
+the logic if it does not fit your need.</li>
+<li>Then, I configure the addresses blocks for IPv4 and IPv6. I am also putting the
+port to listen to. It is the same as the Dockerfile.</li>
+<li>The <code>PostUp</code> and <code>PostDown</code> sections are just copy-pasted from the <a href="https://www.linode.com/docs/networking/vpn/set-up-wireguard-vpn-on-ubuntu/#configure-wireguard-server">Linode documentation</a>
+(most of my configuration is coming from there).</li>
+<li>Last line will save configuration to file, I am keeping this here for debug
+purpose, and <strong>it&rsquo;s not required for this to work</strong>. Also, notice that any change
+to the file when Wireguard is running will be erased at shutdown since the program
+is writing the current running state to the file.</li>
+</ul>
+<p>Once the container is built (with a command like <code>docker build -t wireguard .</code>)
+we can start it with the following command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">docker run --rm --detach --name wireguard <span class="se">\
+</span><span class="se"></span>	--cap-add<span class="o">=</span>NET_ADMIN --cap-add<span class="o">=</span>SYS_MODULE <span class="se">\
+</span><span class="se"></span>	--network<span class="o">=</span>host --volume /lib/modules:/lib/modules <span class="se">\
+</span><span class="se"></span>	wireguard
+</code></pre></div><p>This command may need a bit of clarification. First, I am running the container
+with <code>--rm</code>, <code>--detach</code> and <code>--name</code>. This is a kind of convention I am using
+for most of my <em>&ldquo;production&rdquo;</em> containers. This allows me to always start with
+a clean state. The <code>--rm</code> and <code>--name</code> are a good flags combination, I can always
+connect to the same containers using the same commands which speed
+up my operations and it properly delete my container at the end of the use so
+I can easily re-use the name. The <code>--detach</code> option is mostly here to not block
+the shell and copy-paste those commands to a script file without effort.</p>
+<p>Then, the capabilities, here I want to pass the bare minimum to the container.
+I usually run with <code>--privileged</code> when I don&rsquo;t know the tooling and need to experiment.
+However, in my <em>&ldquo;production&rdquo;</em> environment, containers run with the smallest
+amount of privileges possible. You can check Docker documentation for a
+short introduction on the <a href="https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities">various capabilities</a>.</p>
+<h2 id="synchronize-configuration">Synchronize configuration</h2>
+<p>Now our server is running, we need to configure the client and synchronize both
+endpoints to make them communicate properly.</p>
+<p>To do that I run the following command:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">ssh &lt;remote host&gt; docker <span class="nb">exec</span> -i wireguard wg show wg0 public-key <span class="p">|</span> <span class="se">\
+</span><span class="se"></span>	sudo xargs ./setup.sh <span class="p">|</span> <span class="se">\
+</span><span class="se"></span>	xargs -rI<span class="o">{}</span> ssh &lt;remote host&gt; docker <span class="nb">exec</span> -i wireguard <span class="se">\
+</span><span class="se"></span>		wg <span class="nb">set</span> wg0 peer <span class="o">{}</span> allowed-ips 10.0.0.2/32 allowed-ips fd47:d1a9:8d26:c99b::1/128
+</code></pre></div><p>This will use the following script:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/sh
+</span><span class="cp"></span>
+<span class="nv">public</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">&#34;</span>
+<span class="nv">private</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>wg genkey<span class="k">)</span><span class="s2">&#34;</span>
+
+cat &gt; /etc/wireguard/wg0.conf <span class="s">&lt;&lt; EOF
+</span><span class="s">[Interface]
+</span><span class="s">PrivateKey = ${private}
+</span><span class="s">Address = 10.0.0.2/15, fd47:d1a9:8d26:c99b::1/64
+</span><span class="s">DNS = 8.8.8.8
+</span><span class="s">
+</span><span class="s">[Peer]
+</span><span class="s">PublicKey = ${public}
+</span><span class="s">AllowedIPs = 0.0.0.0/0, ::/0
+</span><span class="s">Endpoint = &lt;remote host&gt;:5555
+</span><span class="s">EOF</span>
+
+<span class="nb">echo</span> <span class="s2">&#34;</span><span class="si">${</span><span class="nv">private</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">|</span> wg pubkey
+</code></pre></div><p>Now let&rsquo;s do a bit of explanation. In the first line of the shell command,
+I retrieve the public part of the server key over the network using ssh.
+It is then piped to the script. The script captures the input and store the
+public key in the <code>public</code> variable. Once this is done, it generates its own
+key-pair for the client side and store it in the <code>private</code> variable.</p>
+<p>Now that we have all the keys, we generate the client config file. We set up
+the IPv4 and IPv6 address of our current client endpoint as well as a DNS. Later
+I will use my internal DNS with <a href="https://www.hashicorp.com/products/consul">Hashicorp Consul</a>, but for now
+I am using Google&rsquo;s one.</p>
+<p>The second part of the configuration is the connection with the server. First,
+we populate the public key of our remote host. Next line, we define the network
+traffic we want to direct through Wireguard. Here, I redirect absolutely everything,
+IPv4 and IPv6 traffic will go through our VPN. Last line, we indicate the endpoint
+of our server. It is using port <code>5555</code> and you will have to indicate the IP address
+or DNS name.</p>
+<p>Once the configuration file is properly set up, we echo the public part of our client.
+This is passed up to the shell process and pipe to our last command (the <code>xargs</code> part).
+It is a bit convoluted but I will try to explain what it does.</p>
+<p>I use <a href="https://man7.org/linux/man-pages/man1/xargs.1.html">xargs</a> to capture the script output, here it will get the public key
+of my client peer. I assign this value to the <code>{}</code> symbol, it will allow me to
+inject the value in the middle of my command later on. The next part of the line
+is the <code>ssh</code> + <code>docker exec</code> combo. Since I am running my VPN on a remote host
+inside a Docker container, this should make sense, otherwise check the previous
+sections. The last part is the interesting one. I am calling the <code>wg</code> binary
+to add a peer to my <code>wg0</code> interface. This interface will use the injected public
+key and have an IPv4 and IPv6 address.</p>
+<p>If on the remote host you run <code>docker logs -f wireguard</code>, you should see something like that:</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">interface: wg0
+  public key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  private key: (hidden)
+  listening port: 5555
+
+peer: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  endpoint: &lt;your_ip_address&gt;
+  allowed ips: 10.0.0.2/32, fd47:d1a9:8d26:c99b::1/128
+</code></pre></div><p>Everything is ready! Just running <code>wg-quick up wg0</code> should bring the VPN up and
+you can browse the Internet from wherever you are ;)</p>
+<h2 id="miscellaneous">Miscellaneous</h2>
+<p>Sometimes I want to echo the private key of a Wireguard
+configuration. I want to read directly from the file to pipe to a potential
+following command. Thus to avoid leaking the key to the bash history for example
+(a shell recorder may also be present). Here is the more portable one-liner I found:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">sed -n -e <span class="s1">&#39;s|PrivateKey = ||p&#39;</span> /etc/wireguard/wg0.conf
+</code></pre></div>
   </div>
 </article>
 <div id="disqus_thread"></div>
@@ -120,5 +309,19 @@ The fact that it is the new cool kid, may also have helped.</p>
 </footer>
 
     </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
   </body>
 </html>

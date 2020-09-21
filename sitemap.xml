@@ -3,6 +3,46 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://ixday.github.io/tags/admin/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/tags/alpine/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/categories/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/post/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/tags/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/categories/tuto/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/post/alpine_docker_wireguard/</loc>
+    <lastmod>2020-09-22T16:51:22+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://ixday.github.io/tags/bash/</loc>
     <lastmod>2020-09-12T17:01:52+02:00</lastmod>
   </url>
@@ -13,27 +53,7 @@
   </url>
   
   <url>
-    <loc>https://ixday.github.io/categories/</loc>
-    <lastmod>2020-09-12T17:01:52+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/</loc>
-    <lastmod>2020-09-12T17:01:52+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://ixday.github.io/categories/os/</loc>
-    <lastmod>2020-09-12T17:01:52+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/post/</loc>
-    <lastmod>2020-09-12T17:01:52+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/tags/</loc>
     <lastmod>2020-09-12T17:01:52+02:00</lastmod>
   </url>
   
@@ -63,22 +83,12 @@
   </url>
   
   <url>
-    <loc>https://ixday.github.io/tags/admin/</loc>
-    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://ixday.github.io/tags/cli/</loc>
     <lastmod>2020-03-10T11:20:59+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://ixday.github.io/post/gopass/</loc>
-    <lastmod>2020-03-10T11:20:59+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/categories/tuto/</loc>
     <lastmod>2020-03-10T11:20:59+01:00</lastmod>
   </url>
   

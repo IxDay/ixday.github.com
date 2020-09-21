@@ -6,10 +6,16 @@
     <description>Recent content on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 12 Sep 2020 17:01:52 +0200</lastBuildDate>
-    
-	<atom:link href="https://ixday.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Tue, 22 Sep 2020 16:51:22 +0200</lastBuildDate><atom:link href="https://ixday.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Wireguard on a Linux Alpine with Docker</title>
+      <link>https://ixday.github.io/post/alpine_docker_wireguard/</link>
+      <pubDate>Tue, 22 Sep 2020 16:51:22 +0200</pubDate>
+      
+      <guid>https://ixday.github.io/post/alpine_docker_wireguard/</guid>
+      <description>For most of my infrastructure, I am now using Alpine Linux. I like it because it only has a small number of moving parts. It&amp;rsquo;s easy to know and master them, it is making my life easier :).
+So, I decided to install one on my VPS. Like my distro I wanted it to be simple and small. For all those reasons I went for Wireguard. The fact that it is the new cool kid, may also have helped.</description>
+    </item>
     
     <item>
       <title>Bash process substitution failure</title>
@@ -346,7 +352,7 @@ I really loved experienced with it, it does not require a lot of dependencies on
       
       <guid>https://ixday.github.io/post/pop_up_with_xmobar/</guid>
       <description>Sometimes I just want to click, even for simple things. So I created a little popup to shutdown, restart, suspend my computer, which looks like this:
-{:.image-process-article-image}{:target=&amp;rdquo;_blank&amp;rdquo;}
+{:.image-process-article-image}{:target=&amp;quot;_blank&amp;quot;}
 Preparation First of all install xmobar, apt-get install xmobar/testing. Here I will use testing because I need the multiple fonts support, see here for the release note.
 The second thing I will need is an iconic font for the power button. Font Awesome fits my need.</description>
     </item>

@@ -6,11 +6,7 @@
     <description>Recent content in golang on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Sep 2020 10:12:56 +0200</lastBuildDate>
-    
-	<atom:link href="https://ixday.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 08 Sep 2020 10:12:56 +0200</lastBuildDate><atom:link href="https://ixday.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RSA OAEP in Go and Openssl equivalent</title>
       <link>https://ixday.github.io/post/rsa_oaep_golang_openssl/</link>

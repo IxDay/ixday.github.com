@@ -6,11 +6,7 @@
     <description>Recent content in systemd on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 May 2015 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://ixday.github.io/tags/systemd/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 19 May 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/systemd/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Systemd-nspawn</title>
       <link>https://ixday.github.io/post/systemd_nspawn/</link>

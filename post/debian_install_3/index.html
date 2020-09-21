@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.74.3" />
+  <meta name="generator" content="Hugo 0.75.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -193,11 +193,11 @@ ssd             /dev/sda2               none            luks
 </code></pre></div><p>Install grub on /dev/sda (on disk, not on partition) <code>apt-get install grub2</code></p>
 <p>Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.</p>
 <p>In file <code>/etc/initramfs-tools/initramfs.conf</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">#
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1">#</span>
 <span class="c1"># KEYMAP: [ y | n ]</span>
-#
+<span class="c1">#</span>
 <span class="c1"># Charger une configuration de clavier à l&#39;étape d&#39;initramfs.</span>
-#
+<span class="c1">#</span>
 
 <span class="nv">KEYMAP</span><span class="o">=</span>y
 

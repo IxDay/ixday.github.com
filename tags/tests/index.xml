@@ -6,11 +6,7 @@
     <description>Recent content in tests on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 16 Mar 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://ixday.github.io/tags/tests/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 16 Mar 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/tests/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pytest command line</title>
       <link>https://ixday.github.io/post/pytest_command_line/</link>

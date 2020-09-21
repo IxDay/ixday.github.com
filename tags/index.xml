@@ -6,10 +6,24 @@
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 12 Sep 2020 17:01:52 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 22 Sep 2020 16:51:22 +0200</lastBuildDate><atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>admin</title>
+      <link>https://ixday.github.io/tags/admin/</link>
+      <pubDate>Tue, 22 Sep 2020 16:51:22 +0200</pubDate>
+      
+      <guid>https://ixday.github.io/tags/admin/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>alpine</title>
+      <link>https://ixday.github.io/tags/alpine/</link>
+      <pubDate>Tue, 22 Sep 2020 16:51:22 +0200</pubDate>
+      
+      <guid>https://ixday.github.io/tags/alpine/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>bash</title>
@@ -35,15 +49,6 @@
       <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
       
       <guid>https://ixday.github.io/tags/dev/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>admin</title>
-      <link>https://ixday.github.io/tags/admin/</link>
-      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
-      
-      <guid>https://ixday.github.io/tags/admin/</guid>
       <description></description>
     </item>
     

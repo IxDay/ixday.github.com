@@ -5,11 +5,7 @@
     <link>https://ixday.github.io/code/</link>
     <description>Recent content in Codes on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    
-	<atom:link href="https://ixday.github.io/code/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <language>en-us</language><atom:link href="https://ixday.github.io/code/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
       <link>https://ixday.github.io/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/</link>
