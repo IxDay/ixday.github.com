@@ -13,9 +13,10 @@ Here is a list of potential future posts:
 - [ ] writing a web microframework in go
 - [ ] proxy pattern in go for debug logs
 - [X] ssh certificates with go
-- [ ] ssh tunneling with go
+- [X] ssh tunneling with go
 - [ ] workers, throttling, concurrent access in Golang
 - [ ] es6 module and global variables
 - [ ] gprc-web proxy
 - [ ] openssl cheatsheet
-- [ ] alpine wireguard
+- [X] alpine wireguard
+- [ ] age encryption
