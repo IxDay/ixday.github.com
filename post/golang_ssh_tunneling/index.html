@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.75.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Golang SSH tunneling</title>
+  <meta property='og:title' content="Golang SSH tunneling - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Sun Oct 4 2020
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/golang_ssh_tunneling/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Golang SSH tunneling</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/dev ">dev</a>
+, <a href="/tags/golang ">golang</a>
+
+      </p>
+      
+
+    </header>
+    <p>I already did <a href="https://ixday.github.io/post/golang_ssh_certs/">an article around Golang and SSH previously</a>,
+since it is a huge part of my current work. Today, I will share a small
+snippet which can be quite handy when automating stuff. This is how to
+perform a <a href="https://help.ubuntu.com/community/SSH/OpenSSH/PortForwarding">SSH tunnel</a> using Golang. I will not explain what it is
+or what it is useful for, if you need more details please check the <a href="https://help.ubuntu.com/community/SSH/OpenSSH/PortForwarding">doc</a>.
+In this tutorial, I will use the official <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh">SSH library</a> from Google.</p>
+<h2 id="setup-remote">Setup remote</h2>
+<p>To be sure that our tunneling is working we will need a small service to reach.
+Here is a small shell snippet to display the current time over HTTP:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span>
+  <span class="nb">echo</span> -e <span class="s2">&#34;HTTP/1.1 200 OK\n\n </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> nc -l -p <span class="m">1500</span>
+<span class="k">done</span>
+</code></pre></div><p>Just run this on your remote host. You can then check if it works using curl:
+<code>curl &lt;remote_host&gt;:1500</code>. You will also be sure to have a properly configured
+SSH server. Check this by using: <code>ssh &lt;remote_host&gt;</code>.</p>
+<h2 id="connect-to-local-agent">Connect to local agent</h2>
+<p>If you have some keys in your local agent you may want to use them to connect.
+This has to be done in the code, and I will use the <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh/agent">agent module</a>
+from the Golang SSH library.</p>
+<p>Here is a quick way to instantiate an SSH-agent client connection, it re-uses
+the code from the <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh/agent#NewClient">client example</a>, I am also directly casting it as an <code>AuthMethod</code>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;net&#34;</span>
+	<span class="s">&#34;os&#34;</span>
+
+	<span class="s">&#34;golang.org/x/crypto/ssh/agent&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">const</span> <span class="nx">EnvSSHAuthSock</span> <span class="p">=</span> <span class="s">&#34;SSH_AUTH_SOCK&#34;</span>
+
+<span class="kd">func</span> <span class="nf">AuthAgent</span><span class="p">()</span> <span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">AuthMethod</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="nx">conn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;unix&#34;</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Getenv</span><span class="p">(</span><span class="nx">EnvSSHAuthSock</span><span class="p">))</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">agent</span><span class="p">.</span><span class="nf">NewClient</span><span class="p">(</span><span class="nx">conn</span><span class="p">),</span> <span class="nx">err</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">PublicKeysCallback</span><span class="p">(</span><span class="nx">client</span><span class="p">.</span><span class="nx">Signers</span><span class="p">),</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="keyboard-interactive">Keyboard interactive</h2>
+<p>Another way of authenticating to a server is by using a keyboard-interactive challenge.
+This may be necessary for additional authentication methods like 2FA.
+For this snippet, we want to let the user enter its answers and pass it to the server.
+Since code may be a bit complicated to understand I will comment as best as I
+can to help understanding the flow. Also, check the <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh#KeyboardInteractiveChallenge">documentation</a>
+of the challenge function to understand the arguments.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;syscall&#34;</span>
+
+	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+	<span class="s">&#34;golang.org/x/crypto/ssh/terminal&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">AuthInteractive</span><span class="p">()</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">AuthMethod</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">KeyboardInteractive</span><span class="p">(</span>
+		<span class="kd">func</span><span class="p">(</span><span class="nx">user</span><span class="p">,</span> <span class="nx">instruction</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">questions</span> <span class="p">[]</span><span class="kt">string</span><span class="p">,</span> <span class="nx">echos</span> <span class="p">[]</span><span class="kt">bool</span><span class="p">)</span> <span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+			<span class="c1">// this part is not really clear, as far as I get it we should print this
+</span><span class="c1"></span>			<span class="c1">// only if no question is provided
+</span><span class="c1"></span>			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">questions</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;%s %s\n&#34;</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">instruction</span><span class="p">)</span>
+			<span class="p">}</span>
+			<span class="c1">// instanciate the answers slice
+</span><span class="c1"></span>			<span class="nx">answers</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">questions</span><span class="p">))</span>
+
+			<span class="c1">// we iterate over each question and print it to the console
+</span><span class="c1"></span>			<span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">question</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">questions</span> <span class="p">{</span>
+				<span class="nx">fmt</span><span class="p">.</span><span class="nf">Print</span><span class="p">(</span><span class="nx">question</span><span class="p">)</span>
+
+				<span class="c1">// here is the trick, if the echo is true, we want to display user input
+</span><span class="c1"></span>				<span class="c1">// otherwise we want to hide it and use the terminal module to perform this
+</span><span class="c1"></span>				<span class="k">if</span> <span class="nx">echos</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">{</span>
+
+					<span class="c1">// simple scan over the console
+</span><span class="c1"></span>					<span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Scan</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">answers</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+						<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+					<span class="p">}</span>
+				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+					<span class="c1">// here we use the ReadPassword function to hide user input
+</span><span class="c1"></span>					<span class="nx">answer</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">terminal</span><span class="p">.</span><span class="nf">ReadPassword</span><span class="p">(</span><span class="nx">syscall</span><span class="p">.</span><span class="nx">Stdin</span><span class="p">)</span>
+					<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+						<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+					<span class="p">}</span>
+					<span class="nx">answers</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">=</span> <span class="nb">string</span><span class="p">(</span><span class="nx">answer</span><span class="p">)</span>
+				<span class="p">}</span>
+			<span class="p">}</span>
+			<span class="k">return</span> <span class="nx">answers</span><span class="p">,</span> <span class="kc">nil</span>
+		<span class="p">})</span>
+<span class="p">}</span>
+</code></pre></div><p><strong>NOTE:</strong> If you want to implement the password authentication method you
+should also use the <code>terminal.ReadPassword</code> function to hide the user input.</p>
+<h2 id="initiate-ssh-connection">Initiate ssh connection</h2>
+<p>Now we are going to create our SSH connection which we will use to
+tunnel our traffic. We need a raw connection to perform byte copies. Looking
+at the <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh">SSH library</a> we will use the <code>Dial</code> function. It takes
+three arguments, the network (which is TCP), an address (which is your remote SSH server),
+and a configuration. Let&rsquo;s take a look at this structure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;os/user&#34;</span>
+
+	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">config</span><span class="p">(</span><span class="nx">methods</span> <span class="o">...</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">AuthMethod</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">ClientConfig</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// here I am retrieving user from current execution,
+</span><span class="c1"></span>	<span class="c1">// you can pass it as argument if you want
+</span><span class="c1"></span>	<span class="nx">current</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">user</span><span class="p">.</span><span class="nf">Current</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">ClientConfig</span><span class="p">{</span>
+		<span class="nx">User</span><span class="p">:</span> <span class="nx">current</span><span class="p">.</span><span class="nx">Username</span><span class="p">,</span>
+		<span class="nx">Auth</span><span class="p">:</span> <span class="nx">methods</span><span class="p">,</span>
+		<span class="c1">// you should not pass this option, but for the sake of simplicity
+</span><span class="c1"></span>		<span class="c1">// we use it here
+</span><span class="c1"></span>		<span class="nx">HostKeyCallback</span><span class="p">:</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">InsecureIgnoreHostKey</span><span class="p">(),</span>
+	<span class="p">},</span> <span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div><p>Once config is ready we can create our connection instance. Take a look at the
+last section to see how this is performed.</p>
+<h2 id="tunnel">Tunnel</h2>
+<p>This is where the magic happens. We want to tunnel traffic from local
+to remote endpoint. The first step is to initialize a TCP server, it will listen
+on a specific port. Once we receive a connection to our local port, we
+open a connection over the SSH connection to the remote address. We now have
+two network connections, we just need to pipe each one to the other.
+<strong>NOTE:</strong> Most of the code has to be asynchronous to not block on
+one side or another, however, in this example I am taking shortcuts and this
+is not solid at all! Use with caution!</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go">
+<span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;io&#34;</span>
+	<span class="s">&#34;log&#34;</span>
+	<span class="s">&#34;net&#34;</span>
+
+	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">tunnel</span><span class="p">(</span><span class="nx">conn</span> <span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Client</span><span class="p">,</span> <span class="nx">local</span><span class="p">,</span> <span class="nx">remote</span> <span class="kt">string</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+	<span class="nx">pipe</span> <span class="o">:=</span> <span class="kd">func</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span> <span class="nx">reader</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">defer</span> <span class="nx">writer</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+		<span class="k">defer</span> <span class="nx">reader</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+
+		<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">io</span><span class="p">.</span><span class="nf">Copy</span><span class="p">(</span><span class="nx">writer</span><span class="p">,</span> <span class="nx">reader</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;failed to copy: %s&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="nx">listener</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">local</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="nx">err</span>
+	<span class="p">}</span>
+	<span class="k">for</span> <span class="p">{</span>
+		<span class="nx">here</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">listener</span><span class="p">.</span><span class="nf">Accept</span><span class="p">()</span>
+		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+			<span class="k">return</span> <span class="nx">err</span>
+		<span class="p">}</span>
+		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">here</span> <span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">)</span> <span class="p">{</span>
+			<span class="nx">there</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">conn</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="nx">remote</span><span class="p">)</span>
+			<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+				<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to dial to remote: %q&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+			<span class="p">}</span>
+			<span class="k">go</span> <span class="nf">pipe</span><span class="p">(</span><span class="nx">there</span><span class="p">,</span> <span class="nx">here</span><span class="p">)</span>
+			<span class="k">go</span> <span class="nf">pipe</span><span class="p">(</span><span class="nx">here</span><span class="p">,</span> <span class="nx">there</span><span class="p">)</span>
+		<span class="p">}(</span><span class="nx">here</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><h2 id="plugging-everything-together">Plugging everything together</h2>
+<p>It&rsquo;s now time to write our main function to bring everything together.
+We set up our authentications methods, then initiate the SSH connection
+to the remote host. Once the link has been established we tunnel our traffic
+between our local and remote hosts.</p>
+<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+	<span class="s">&#34;log&#34;</span>
+
+	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// initiate auths methods
+</span><span class="c1"></span>	<span class="nx">authInteractive</span> <span class="o">:=</span> <span class="nf">AuthInteractive</span><span class="p">()</span>
+	<span class="nx">authAgent</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">AuthAgent</span><span class="p">()</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to connect to the ssh agent: %q&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// initialize SSH connection
+</span><span class="c1"></span>	<span class="nx">clientConfig</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">config</span><span class="p">(</span><span class="nx">authAgent</span><span class="p">,</span> <span class="nx">authInteractive</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to create ssh config: %q&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="nx">clientConn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="s">&#34;&lt;remote_host&gt;:22&#34;</span><span class="p">,</span> <span class="nx">clientConfig</span><span class="p">)</span>
+	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to connect to the ssh server: %q&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+
+	<span class="c1">// tunnel traffic between local port 1600 and remote port 1500
+</span><span class="c1"></span>	<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">tunnel</span><span class="p">(</span><span class="nx">clientConn</span><span class="p">,</span> <span class="s">&#34;localhost:1600&#34;</span><span class="p">,</span> <span class="s">&#34;localhost:1500&#34;</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+		<span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;failed to tunnel traffic: %q&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p>You can now test the connection. Just run <code>curl localhost:1600</code> and you should
+see the same thing as you would have by requesting the remote host
+with <code>curl &lt;remote_host&gt;:1500</code>.</p>
+<p>As always this code is not production-ready by any means. It falls short on
+a lot of things, like error handling, or connection pool management.
+However, this is the basic you will need to iterate onto. As always you
+can find <a href="/code/golang_ssh_certs/ssh_tunneling.go">the code in the blog Github repository</a>. Hope this will help.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2020 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>
