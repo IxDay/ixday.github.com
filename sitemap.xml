@@ -4,17 +4,42 @@
   
   <url>
     <loc>https://ixday.github.io/categories/</loc>
-    <lastmod>2020-10-04T00:00:00+02:00</lastmod>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://ixday.github.io/tags/dev/</loc>
-    <lastmod>2020-10-04T00:00:00+02:00</lastmod>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
   </url>
   
   <url>
     <loc>https://ixday.github.io/tags/golang/</loc>
-    <lastmod>2020-10-04T00:00:00+02:00</lastmod>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/post/janus/</loc>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/</loc>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/post/</loc>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/categories/project/</loc>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://ixday.github.io/tags/</loc>
+    <lastmod>2020-11-02T00:00:00+01:00</lastmod>
   </url>
   
   <url>
@@ -23,22 +48,7 @@
   </url>
   
   <url>
-    <loc>https://ixday.github.io/</loc>
-    <lastmod>2020-10-04T00:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/post/</loc>
-    <lastmod>2020-10-04T00:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://ixday.github.io/categories/snippet/</loc>
-    <lastmod>2020-10-04T00:00:00+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/tags/</loc>
     <lastmod>2020-10-04T00:00:00+02:00</lastmod>
   </url>
   
@@ -109,11 +119,6 @@
   
   <url>
     <loc>https://ixday.github.io/post/y2j/</loc>
-    <lastmod>2019-07-20T11:12:02+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/categories/project/</loc>
     <lastmod>2019-07-20T11:12:02+02:00</lastmod>
   </url>
   
@@ -380,14 +385,6 @@
   <url>
     <loc>https://ixday.github.io/post/html5-boilerplate/</loc>
     <lastmod>2014-09-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/code/microframework_in_go/part_02/vendor/src/github.com/julienschmidt/httprouter/readme/</loc>
-  </url>
-  
-  <url>
-    <loc>https://ixday.github.io/code/</loc>
   </url>
   
 </urlset>

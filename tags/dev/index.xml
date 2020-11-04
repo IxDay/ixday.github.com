@@ -6,7 +6,17 @@
     <description>Recent content in dev on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Oct 2020 00:00:00 +0200</lastBuildDate><atom:link href="https://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Nov 2020 00:00:00 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducing Janus (SSH Agent written in Go)</title>
+      <link>https://ixday.github.io/post/janus/</link>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      
+      <guid>https://ixday.github.io/post/janus/</guid>
+      <description>Why this project I am currently using gopass to store and share my passwords. I was relying on GPG to handle the encryption side of the process. Then a colleague of mine introduced me to age. This encryption specification allows the use of SSH keys and specifically the ED25519 ones. I decided to make the switch and moved all my stores to age encryption.
+I am protecting my private key with a password and only loading it inside my agent.</description>
+    </item>
+    
     <item>
       <title>Golang SSH tunneling</title>
       <link>https://ixday.github.io/post/golang_ssh_tunneling/</link>
