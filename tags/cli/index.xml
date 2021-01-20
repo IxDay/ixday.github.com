@@ -6,7 +6,17 @@
     <description>Recent content in cli on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Mar 2020 11:20:59 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/cli/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jan 2021 16:55:23 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/cli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The wild kubectl logs issue</title>
+      <link>https://ixday.github.io/post/kubectl_logs/</link>
+      <pubDate>Wed, 20 Jan 2021 16:55:23 +0100</pubDate>
+      
+      <guid>https://ixday.github.io/post/kubectl_logs/</guid>
+      <description>A quick post to present one of my finding during my Kubernetes journey. It may help people since it took me some time to find this out. I am currently using Kubernetes a lot for my job. I am part of the infrastructure team and need to debug some setups. I am using kubectl logs extensively and I found a few interesting options I&amp;rsquo;d like to share.
+Most of the time you will have multiple containers handling requests and you want to see what is happening in all of them.</description>
+    </item>
+    
     <item>
       <title>Gopass</title>
       <link>https://ixday.github.io/post/gopass/</link>

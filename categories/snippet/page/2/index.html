@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.76.5" />
+  <meta name="generator" content="Hugo 0.80.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,49 @@
     <h2 class="taxonomy-title">Filed under Snippet...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Jul 25 2017
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/golang-err-shadowing/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/golang-err-shadowing/">golang err shadowing</a></h2>
+    <p>
+    A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
+foo := &#34;bar&#34; Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &#34;bar&#34;; foo == &#34;baz&#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:
+    
+    <a href="/post/golang-err-shadowing/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/golang ">golang</a>
+, <a href="/tags/dev ">dev</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -421,57 +464,15 @@ It is pretty simple, but not well known (I checked some stackoverflow threads be
 </article>
 
   
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Tue Sep 30 2014
-    
-  </time>
-  <div class="comments">
-    <a href="https://ixday.github.io/post/html5-boilerplate/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/html5-boilerplate/">HTML5 Boilerplate</a></h2>
-    <p>
-    Sometimes we only need to have a boilerplate quickly to test it through a browser. We only want to have the basis, and having it working fine.
-You can find here a good generator for what you want. But sometimes, having a snippet in the bash prompt can be needed.
-So here is an example:
-# stop script if something bad happen set -e # unzip need to have a tempfile to extract properly TMPFILE=&#34;/tmp/tempfile.
-    
-    <a href="/post/html5-boilerplate/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/bash ">bash</a>
-, <a href="/tags/web ">web</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
 
     </div>
     
   
 <nav class="pagination">
   
-  <a class="hidden"></a>
+  <a href="/categories/snippet/page/3" rel="nofollow">
+    « Older posts
+  </a>
   
   
   <a href="/categories/snippet/page/1" rel="nofollow">
@@ -484,7 +485,7 @@ So here is an example:
 
 
     <footer id="footer">
-	<p>&copy; 2020 IxDay</p>
+	<p>&copy; 2021 IxDay</p>
 	<p>Done with love... and beer</p>
   <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
 </footer>

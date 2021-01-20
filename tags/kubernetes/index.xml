@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubernetes on Not today...</title>
+    <link>https://ixday.github.io/tags/kubernetes/</link>
+    <description>Recent content in kubernetes on Not today...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Jan 2021 16:55:23 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The wild kubectl logs issue</title>
+      <link>https://ixday.github.io/post/kubectl_logs/</link>
+      <pubDate>Wed, 20 Jan 2021 16:55:23 +0100</pubDate>
+      
+      <guid>https://ixday.github.io/post/kubectl_logs/</guid>
+      <description>A quick post to present one of my finding during my Kubernetes journey. It may help people since it took me some time to find this out. I am currently using Kubernetes a lot for my job. I am part of the infrastructure team and need to debug some setups. I am using kubectl logs extensively and I found a few interesting options I&amp;rsquo;d like to share.
+Most of the time you will have multiple containers handling requests and you want to see what is happening in all of them.</description>
+    </item>
+    
+  </channel>
+</rss>

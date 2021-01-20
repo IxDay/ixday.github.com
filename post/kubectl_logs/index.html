@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.80.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - The wild kubectl logs issue</title>
+  <meta property='og:title' content="The wild kubectl logs issue - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Jan 20 2021
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/kubectl_logs/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>The wild kubectl logs issue</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/kubernetes ">kubernetes</a>
+, <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+
+      </p>
+      
+
+    </header>
+    <p>A quick post to present one of my finding during my Kubernetes journey. It may
+help people since it took me some time to find this out.
+I am currently using Kubernetes a lot for my job. I am part of the infrastructure team
+and need to debug some setups. I am using <code>kubectl logs</code> extensively and I found a few
+interesting options I&rsquo;d like to share.</p>
+<p>Most of the time you will have multiple containers handling requests and you want
+to see what is happening in all of them. I did a bit of Googling and found out
+that you can pass a label selector: <code>kubectl logs -l app.kubernetes.io/name=foobar</code></p>
+<p>This is handy but I also wanted to see from which pod the log line is coming from.
+I checked the man page and found the <code>--prefix</code> which gives me this information.</p>
+<p>For a moment everything was perfect, I used this command for some of my testing and it worked well.</p>
+<h2 id="a-wild-issue-appears">A wild issue appears!</h2>
+<p>Later on I had to debug an application receiving a lot of traffic. I used the label
+selector and was not able to <code>grep</code> my entries. I extended the <code>--since</code> duration
+but the amount of logs I received was not matching what I was asking for.
+I wondered myself what I did wrong? Was there some environment variables messing things up?
+One of my alias is conflicting and introduce an unexpected behavior?</p>
+<p><strong>Is <code>kubectl logs</code> command broken when used with label filters!?</strong></p>
+<p>Actually, &hellip; it is totally expected.
+I checked the man page and read it entirely to find out an interesting option and
+its default value: <code>--tail</code>. Here is what the documentation says:</p>
+<div class="highlight"><pre class="chroma"><code class="language-txt" data-lang="txt">--tail=-1       Lines  of recent log file to display. Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided.
+</code></pre></div><p>So, everything was working as expected it&rsquo;s just that this option is different when
+a selector is present. <strong>GREAT!</strong></p>
+<p>I am now using the following alias to handle logs:
+<code>alias klog='kubectl logs --tail=-1 --prefix --timestamps'</code></p>
+<p>And my life is wonderful since then :).</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2021 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>
