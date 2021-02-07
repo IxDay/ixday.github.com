@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.80.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Debug Terraform</title>
+  <meta property='og:title' content="Debug Terraform - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Sun Feb 7 2021
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/debug_terraform/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Debug Terraform</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/cli ">cli</a>
+
+      </p>
+      
+
+    </header>
+    <p>How to easily debug Terraform? This was one of my biggest problem when dealing with the tool.
+I followed instructions to use some <code>output</code> ressources or browse the <em>&ldquo;debug&rdquo;</em> logs.
+Disclaimer: none of it was working properly.</p>
+<p>So here is what I am actually doing and I am perfectly happy with.
+Oh! And just before starting to enable <code>debug</code> logs you have to pass the
+environment variable <code>TF_LOG=debug</code> (because there is no man page and it is not
+written in the <code>--help</code> content).</p>
+<h2 id="before-starting">Before starting</h2>
+<p>The way Terraform is working is by applying some changes to your infrastructure
+and writting it to a state file (I am simplifying here). Terraform will not
+display any information until this state has been written down. Namely: generated
+ressource ids, names or anything related to resource creation.</p>
+<p>My way of debugging will then be pretty simple. I will apply my terraform changes
+until the point I am blocked (so all the remote resources will be created and
+saved in the state file), then ask Terraform to display this information nicely :).</p>
+<h2 id="the-actual-way">The actual way</h2>
+<p>If you have read the previous section and knows a bit how terraform is working
+you will not be surprised here.</p>
+<p>So for the sake of simplicity let&rsquo;s say that I am working with a file looking
+like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-tf" data-lang="tf"><span class="kr">resource</span> <span class="s2">&#34;a&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
+	<span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
+<span class="p">}</span>
+<span class="kr">
+</span><span class="kr">resource</span> <span class="s2">&#34;b&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
+	<span class="na">some_config</span> = <span class="nx">a</span><span class="p">.</span><span class="nx">this</span><span class="p">.</span><span class="nx">id</span>
+	<span class="na">another_config</span> = <span class="nx">a</span><span class="p">.</span><span class="nx">this</span><span class="p">.</span><span class="nx">name</span>
+<span class="p">}</span>
+</code></pre></div><p>Let&rsquo;s say that when running my <code>terraform apply</code> I get an error saying that <code>a.this.id</code> does not exist.
+It is possible that I made a mistake and want to know what is actually held by
+the resource <code>a</code> to fix the instructions.</p>
+<p>Here is what I will run:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># this will generate the state up until my error which is at the next step</span>
+terraform apply -target a.this
+
+<span class="c1"># and now I can display what is held by the resource a</span>
+terraform show
+</code></pre></div><p>As simple as that, but it took me quite some time to figure this out. Hope it
+can help someone out there.</p>
+<h2 id="bonus">Bonus</h2>
+<p>Sometimes it is obvious but sometimes it may be complicated to understand the
+dependency path of a resource. Usually, if I want to visualize this I run the
+following command: <code>terraform graph | dot -Tsvg &gt; dependencies.svg</code></p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2021 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+  </body>
+</html>

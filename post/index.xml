@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jan 2021 16:55:23 +0100</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Feb 2021 08:25:05 +0100</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debug Terraform</title>
+      <link>https://ixday.github.io/post/debug_terraform/</link>
+      <pubDate>Sun, 07 Feb 2021 08:25:05 +0100</pubDate>
+      
+      <guid>https://ixday.github.io/post/debug_terraform/</guid>
+      <description>How to easily debug Terraform? This was one of my biggest problem when dealing with the tool. I followed instructions to use some output ressources or browse the &amp;ldquo;debug&amp;rdquo; logs. Disclaimer: none of it was working properly.
+So here is what I am actually doing and I am perfectly happy with. Oh! And just before starting to enable debug logs you have to pass the environment variable TF_LOG=debug (because there is no man page and it is not written in the --help content).</description>
+    </item>
+    
     <item>
       <title>The wild kubectl logs issue</title>
       <link>https://ixday.github.io/post/kubectl_logs/</link>
