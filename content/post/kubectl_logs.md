@@ -35,9 +35,8 @@ Actually, ... it is totally expected.
 I checked the man page and read it entirely to find out an interesting option and
 its default value: `--tail`. Here is what the documentation says:
 
-```
---tail=-1       Lines  of recent log file to display. Defaults to -1 with no selector,
-showing all log lines otherwise 10, if a selector is provided.
+```txt
+--tail=-1       Lines  of recent log file to display. Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided.
 ```
 
 So, everything was working as expected it's just that this option is different when
