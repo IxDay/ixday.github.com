@@ -3,6 +3,7 @@ title = "Curl for REST"
 date = 2015-01-07
 categories = ["tuto"]
 tags = ["admin", "cli", "bash"]
+url = "post/curl_for_rest"
 +++
 
 It has been a long time since the last post. But today, I will just show two

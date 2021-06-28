@@ -3,6 +3,7 @@ title = "Outside Angular"
 date = 2014-10-05
 categories = ["Tuto"]
 tags = ["javascript", "angular", "web"]
+url = "post/outside-angular"
 +++
 
 There are some cases when angular is accessible but we just want to access a

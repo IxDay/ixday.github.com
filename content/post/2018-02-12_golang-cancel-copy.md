@@ -3,6 +3,7 @@ title = "Cancel copy of huge file in Go"
 date = 2018-02-12
 categories = ["Snippet"]
 tags = ["dev", "golang"]
+url = "post/golang-cancel-copy"
 +++
 
 I recently came across [this video](https://www.youtube.com/watch?v=xyDkyFjzFVc) on Golang programming.

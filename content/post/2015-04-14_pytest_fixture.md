@@ -3,6 +3,7 @@ title = "Pytest Fixture"
 date = 2015-04-14
 categories = ["tuto"]
 tags = ["python", "dev"]
+url = "post/pytest_fixture"
 +++
 
 I am a huge fan of python (one of the best language in my toolbox). And

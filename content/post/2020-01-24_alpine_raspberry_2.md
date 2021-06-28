@@ -3,6 +3,7 @@ title = "Alpine on a Raspberry (part 2)"
 date = 2020-01-24
 categories = ["OS"]
 tags = ["admin"]
+url = "post/alpine_raspberry_2"
 +++
 
 I had to buy a new raspberry (the old one did not survive :p), a version 3 A+.

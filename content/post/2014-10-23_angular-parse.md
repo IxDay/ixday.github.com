@@ -3,6 +3,7 @@ title = "Angular $parse"
 date = 2014-10-23
 categories = ["Tuto"]
 tags = ["javascript" , "angular", "web"]
+url = "post/angular-parse"
 +++
 
 Hey there, I have started to be tired of weak example of angular power,

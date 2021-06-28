@@ -3,6 +3,7 @@ title = "ssh, rsync and fswatch"
 date = 2015-03-02
 categories = ["Tuto"]
 tags = ["admin", "bash"]
+url = "post/rsync_fswatch"
 +++
 
 Sometimes I just can't work on a local environment (particular architecture,

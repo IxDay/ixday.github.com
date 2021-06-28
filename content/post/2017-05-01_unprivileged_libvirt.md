@@ -3,7 +3,7 @@ date = 2017-05-01
 title = "Start libvirt VM as unprivileged user"
 tags = ["admin", "bash"]
 categories = ["os"]
-
+url = "post/unprivileged_libvirt"
 +++
 
 Quick post for starting a VM inside libvirt as a non-root user. Also contains

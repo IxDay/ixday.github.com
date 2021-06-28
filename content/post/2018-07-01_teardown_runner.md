@@ -3,6 +3,7 @@ title: "Parallel runners with teardown in go"
 date: 2018-07-01
 tags: ["golang", "dev"]
 categories: ["Snippet"]
+url: "post/teardown_runner"
 ---
 
 From time to time in go I have to start multiple small services acting in

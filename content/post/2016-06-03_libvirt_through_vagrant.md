@@ -3,6 +3,7 @@ date = 2016-06-03
 title = "Libvirt through vagrant"
 tags = ["admin"]
 categories = ["Tuto"]
+url = "post/libvirt_through_vagrant"
 +++
 
 I will not install VirtualBox! That's all (nor VMWare, don't be ridiculous).

@@ -3,6 +3,7 @@ title = "Debian Install 3"
 date = 2015-08-18
 categories = ["OS"]
 tags = ["bash", "adminsys"]
+url = "post/debian_install_3"
 +++
 
 Today I want to install debian on my personal server.

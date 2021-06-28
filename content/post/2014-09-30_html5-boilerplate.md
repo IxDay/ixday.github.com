@@ -3,6 +3,7 @@ title = "HTML5 Boilerplate"
 date = 2014-09-30
 categories =  ["Snippet"]
 tags = ["bash", "web"]
+url = "post/html5-boilerplate"
 +++
 
 Sometimes we only need to have a boilerplate quickly to test it through a

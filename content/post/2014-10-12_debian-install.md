@@ -3,6 +3,7 @@ title = "Debian Install"
 date = 2014-10-12
 categories = ["OS"]
 tags = ["bash", "admin"]
+url = "post/debian-install"
 +++
 
 That's a fact: I can not install a new system without getting into troubles!

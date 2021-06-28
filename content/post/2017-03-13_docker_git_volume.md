@@ -3,7 +3,7 @@ date = 2017-03-13
 title = "Git clone inside a mounted volume with Docker"
 tags = ["dev"]
 categories = ["Snippet"]
-
+url = "post/docker_git_volume"
 +++
 
 **DISCLAIMER:** This is now fixed in git new releases and does not need to be done

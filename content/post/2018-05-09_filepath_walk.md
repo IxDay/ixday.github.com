@@ -1,9 +1,10 @@
-+++
-title = "Filepath Walk bug?"
-date = 2018-05-09
-categories = ["Snippet"]
-tags = ["golang"]
-+++
+---
+title: "Filepath Walk bug?"
+date: 2018-05-09
+categories: ["Snippet"]
+tags: ["golang"]
+url:  "post/filepath_walk"
+---
 
 During the development of a small project I noticed something strange with
 golang's function [filepath.Walk](https://golang.org/pkg/path/filepath/#Walk).

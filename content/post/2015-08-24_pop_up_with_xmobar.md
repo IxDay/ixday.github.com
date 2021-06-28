@@ -3,6 +3,7 @@ title = "Pop-up with xmobar"
 date = 2015-08-24
 categories = []
 tags = []
+url = "post/pop_up_with_xmobar"
 +++
 
 Sometimes I just want to click, even for simple things.

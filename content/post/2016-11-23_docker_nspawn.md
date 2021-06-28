@@ -3,7 +3,7 @@ categories = ["snippet"]
 date = 2016-11-23
 tags = []
 title = "Docker Nspawn"
-
+url = "url/docker_nspawn"
 +++
 
 Don't want to use Docker? Still want to start containers for tests or whatever?

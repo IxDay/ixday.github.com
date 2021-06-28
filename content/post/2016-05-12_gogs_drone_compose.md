@@ -3,6 +3,7 @@ title = "Gogs + Drone"
 date = 2016-05-12
 categories = ["Snippet", "Tuto"]
 tags = ["admin"]
+url = "post/gogs_drone_compose"
 +++
 
 Jenkins is everywhere now, but I really don't like it. So I am looking at

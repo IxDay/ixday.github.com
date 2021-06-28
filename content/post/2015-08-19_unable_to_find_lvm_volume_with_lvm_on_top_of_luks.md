@@ -3,6 +3,7 @@ title = "Unable to find LVM volume... with LVM on top of Luks"
 date = 2015-08-19
 categories = ["OS"]
 tags = ["admin"]
+url = "post/unable_to_find_lvm_volume_with_lvm_on_top_of_luks"
 +++
 
 

@@ -3,6 +3,7 @@ title = "Alpine on a Raspberry"
 date = 2020-01-05
 categories = ["OS"]
 tags = ["admin"]
+url = "post/alpine_raspberry"
 +++
 
 Lately, I decided to re-install my old [Raspberry Pi](https://www.raspberrypi.org/)

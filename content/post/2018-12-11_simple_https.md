@@ -3,6 +3,7 @@ title = "Simple HTTPs server"
 date = 2018-12-11
 categories = ["Snippet"]
 tags = ["cli", "admin"]
+url = "post/simple_https"
 +++
 
 Sometimes we need to create a simple server saying hello through https.

@@ -3,7 +3,7 @@ categories = ["OS"]
 date = 2016-07-20
 tags = ["bash", "cli"]
 title = "Bash Shortcuts"
-
+url = "post/bash_shortcuts"
 +++
 
 Here is just a small reminder of common bash shortcuts for everyday use:
