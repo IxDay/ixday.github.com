@@ -1,10 +1,10 @@
-+++
-title = "Test promises with jasmine"
-date = 2014-10-30
-categories = ["Snippet"]
-tags = ["jasmine", "tests"]
-url = "post/jasmine_promises"
-+++
+---
+title:      "Test promises with jasmine"
+date:       2014-10-30
+categories: ["Snippet"]
+tags:       ["jasmine", "tests"]
+url:        "post/jasmine_promises"
+---
 
 Jasmine is a good testing framework, which I really like, it is really powerfull
 and has just the amount of features to perform a huge variety of tests.

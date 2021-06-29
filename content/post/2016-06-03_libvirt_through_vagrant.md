@@ -1,10 +1,10 @@
-+++
-date = 2016-06-03
-title = "Libvirt through vagrant"
-tags = ["admin"]
-categories = ["Tuto"]
-url = "post/libvirt_through_vagrant"
-+++
+---
+date:       2016-06-03
+title:      "Libvirt through vagrant"
+tags:       ["admin"]
+categories: ["Tuto"]
+url:        "post/libvirt_through_vagrant"
+---
 
 I will not install VirtualBox! That's all (nor VMWare, don't be ridiculous).
 But I really like [Vagrant](https://www.vagrantup.com/), and use it every time

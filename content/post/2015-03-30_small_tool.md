@@ -1,10 +1,10 @@
-+++
-title = "Small docker project"
-date = 2015-03-30
-categories = ["Project"]
-tags = ["admin", "bash", "dev"]
-url = "post/small_tool"
-+++
+---
+title:      "Small docker project"
+date:       2015-03-30
+categories: ["Project"]
+tags:       ["admin", "bash", "dev"]
+url:        "post/small_tool"
+---
 
 I really like docker (even if I will look at
 [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/

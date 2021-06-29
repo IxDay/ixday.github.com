@@ -1,10 +1,10 @@
-+++
-title = "Curl for REST"
-date = 2015-01-07
-categories = ["tuto"]
-tags = ["admin", "cli", "bash"]
-url = "post/curl_for_rest"
-+++
+---
+title:      "Curl for REST"
+date:       2015-01-07
+categories: ["tuto"]
+tags:       ["admin", "cli", "bash"]
+url:        "post/curl_for_rest"
+---
 
 It has been a long time since the last post. But today, I will just show two
 tools I use for debugging my REST APIs.

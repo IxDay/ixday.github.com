@@ -1,10 +1,10 @@
-+++
-title = "Pytest command line"
-date = 2016-03-16
-categories = ["Snippet"]
-tags = ["tests", "python", "cli"]
-url = "post/pytest_command_line"
-+++
+---
+title:      "Pytest command line"
+date:       2016-03-16
+categories: ["Snippet"]
+tags:       ["tests", "python", "cli"]
+url:        "post/pytest_command_line"
+---
 
 I have recently dug into pytest documentation, and moreover into
 the command line arguments and I finally found a better workflow

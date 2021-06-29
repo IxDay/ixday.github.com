@@ -1,10 +1,10 @@
-+++
-title = "Bash Script"
-date = 2014-10-19
-categories = ["Tuto"]
-tags = ["bash"]
-url = "post/bash-script"
-+++
+---
+title:      "Bash Script"
+date:       2014-10-19
+categories: ["Tuto"]
+tags:       ["bash"]
+url:        "post/bash-script"
+---
 
 Writting a bash script is kind of a complicated task, there is a strict
 syntax, multiple external tools, and some tricks which depends on the version

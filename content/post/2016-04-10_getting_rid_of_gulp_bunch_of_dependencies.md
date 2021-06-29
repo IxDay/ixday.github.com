@@ -1,10 +1,10 @@
-+++
-title = "Getting rid of gulp bunch of dependencies"
-date = 2016-04-10
-categories = ["Snippet"]
-tags = ["dev", "javascript"]
-url = "post/getting_rid_of_gulp_bunch_of_dependencies"
-+++
+---
+title:      "Getting rid of gulp bunch of dependencies"
+date:       2016-04-10
+categories: ["Snippet"]
+tags:       ["dev", "javascript"]
+url:        "post/getting_rid_of_gulp_bunch_of_dependencies"
+---
 
 Recently Nodejs environment broke due the removal from npm
 of a small library (11 SLOC): `leftpad`. As it hit the world

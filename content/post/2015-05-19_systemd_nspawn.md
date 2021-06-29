@@ -1,10 +1,10 @@
-+++
-title = "Systemd-nspawn"
-date = 2015-05-19
-categories = ["Tuto"]
-tags = ["systemd", "admin"]
-url = "post/systemd_nspawn"
-+++
+---
+title:      "Systemd-nspawn"
+date:       2015-05-19
+categories: ["Tuto"]
+tags:       ["systemd", "admin"]
+url:        "post/systemd_nspawn"
+---
 
 I am a huge fan of docker for my dev environments, it helps me keeping things
 clear and understanding what are the ressources needed for a project.

@@ -1,9 +1,9 @@
 ---
-title: "Filepath Walk bug?"
-date: 2018-05-09
+title:      "Filepath Walk bug?"
+date:       2018-05-09
 categories: ["Snippet"]
-tags: ["golang"]
-url:  "post/filepath_walk"
+tags:       ["golang"]
+url:        "post/filepath_walk"
 ---
 
 During the development of a small project I noticed something strange with

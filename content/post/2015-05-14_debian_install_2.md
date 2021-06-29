@@ -1,10 +1,10 @@
-+++
-title = "Debian install 2"
-date = 2015-05-14
-categories = ["OS"]
-tags = ["bash", "adminsys"]
-url = "post/debian_install_2"
-+++
+---
+title:      "Debian install 2"
+date:       2015-05-14
+categories: ["OS"]
+tags:       ["bash", "adminsys"]
+url:        "post/debian_install_2"
+---
 
 After many days of configuration, I finally complete the installation of my
 perfect "workstation" ;).

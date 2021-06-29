@@ -1,10 +1,10 @@
-+++
-title = "Patch dependency"
-date = 2015-06-09
-categories = ["Tuto"]
-tags = ["dev", "python"]
-url = "post/patch_dependency"
-+++
+---
+title:      "Patch dependency"
+date:       2015-06-09
+categories: ["Tuto"]
+tags:       ["dev", "python"]
+url:        "post/patch_dependency"
+---
 
 When developing on a project it is possible that a dependency can have an issue.
 First you want to be able to debug it (pdb, ipdb), then modify it if you find

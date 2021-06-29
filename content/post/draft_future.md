@@ -1,10 +1,10 @@
-+++
-title = "Future posts"
-date = 2018-06-06
-draft = true
-categories = []
-tags = []
-+++
+---
+title:      "Future posts"
+date:       2018-06-06
+draft:      true
+categories: []
+tags:       []
+---
 
 Here is a list of potential future posts:
 

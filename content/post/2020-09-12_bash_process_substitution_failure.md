@@ -1,10 +1,10 @@
-+++
-title = "Bash process substitution failure"
-date = 2020-09-12
-categories = ["OS"]
-tags = ["bash"]
-url = "post/bash_process_substitution_failure"
-+++
+---
+title:      "Bash process substitution failure"
+date:       2020-09-12
+categories: ["OS"]
+tags:       ["bash"]
+url:        "post/bash_process_substitution_failure"
+---
 
 This is just a problem I encountered running my Alpine box, so I publish the fix
 for others to not loose time like I did.

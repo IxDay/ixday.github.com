@@ -1,10 +1,10 @@
-+++
-title = "The wild kubectl logs issue"
-date = 2021-01-20
-categories = ["Snippet"]
-tags = ["kubernetes", "admin", "cli"]
-url = "post/kubectl_logs"
-+++
+---
+title:      "The wild kubectl logs issue"
+date:       2021-01-20
+categories: ["Snippet"]
+tags:       ["kubernetes", "admin", "cli"]
+url:        "post/kubectl_logs"
+---
 
 A quick post to present one of my finding during my Kubernetes journey. It may
 help people since it took me some time to find this out.

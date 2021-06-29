@@ -1,10 +1,10 @@
-+++
-title = "My_linux_config"
-date = 2020-11-12
-draft = true
-categories = []
-tags = []
-+++
+---
+title:      "My_linux_config"
+date:       2020-11-12
+draft:      true
+categories: []
+tags:       []
+---
 
 Here are all the packages I installed for my Archlinux config
 

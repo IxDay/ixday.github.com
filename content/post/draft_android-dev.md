@@ -1,11 +1,11 @@
-+++
-date = 2017-07-08
-title = "android dev"
-tags = []
-categories = []
-draft = true
-
-+++
+---
+date:       2017-07-08
+title:      "android dev"
+tags:       []
+categories: []
+draft:      true
+url:        "post/android-dev"
+---
 
 https://aur.archlinux.org/packages/android-sdk/
 https://wiki.archlinux.org/index.php/android

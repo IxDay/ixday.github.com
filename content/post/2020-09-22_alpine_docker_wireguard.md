@@ -1,10 +1,10 @@
-+++
-title = "Wireguard on a Linux Alpine with Docker"
-date = 2020-09-22
-categories = ["Tuto"]
-tags = ["alpine", "admin"]
-url = "post/alpine_docker_wireguard"
-+++
+---
+title:      "Wireguard on a Linux Alpine with Docker"
+date:       2020-09-22
+categories: ["Tuto"]
+tags:       ["alpine", "admin"]
+url:        "post/alpine_docker_wireguard"
+---
 
 For most of my infrastructure, I am now using [Alpine Linux](https://alpinelinux.org/).
 I like it because it only has a small number of moving parts. It's easy to

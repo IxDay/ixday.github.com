@@ -1,10 +1,10 @@
-+++
-title = "Debug Terraform"
-date = 2021-02-07
-categories = ["Tuto"]
-tags = ["cli"]
-url = "post/debug_terraform"
-+++
+---
+title:      "Debug Terraform"
+date:       2021-02-07
+categories: ["Tuto"]
+tags:       ["cli"]
+url:        "post/debug_terraform"
+---
 
 How to easily debug Terraform? This was one of my biggest problem when dealing with the tool.
 I followed instructions to use some `output` ressources or browse the _"debug"_ logs.

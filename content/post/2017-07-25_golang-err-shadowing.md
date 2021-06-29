@@ -1,10 +1,10 @@
-+++
-date = 2017-07-25
-title = "golang err shadowing"
-tags = ["golang", "dev"]
-categories = ["Snippet"]
-url = "post/golang-err-shadowing"
-+++
+---
+date:       2017-07-25
+title:      "Golang err shadowing"
+tags:       ["golang", "dev"]
+categories: ["Snippet"]
+url:        "post/golang-err-shadowing"
+---
 
 A feature I like in golang is the hability to declare a variable at the
 assignation time. Something like this:

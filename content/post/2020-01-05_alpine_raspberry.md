@@ -1,10 +1,10 @@
-+++
-title = "Alpine on a Raspberry"
-date = 2020-01-05
-categories = ["OS"]
-tags = ["admin"]
-url = "post/alpine_raspberry"
-+++
+---
+title:      "Alpine on a Raspberry"
+date:       2020-01-05
+categories: ["OS"]
+tags:       ["admin"]
+url:        "post/alpine_raspberry"
+---
 
 Lately, I decided to re-install my old [Raspberry Pi](https://www.raspberrypi.org/)
 (version 1, yes I'm that old) to create a small home server.

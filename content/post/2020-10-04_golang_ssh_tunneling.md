@@ -1,10 +1,10 @@
-+++
-title = "Golang SSH tunneling"
-date = 2020-10-04
-categories = ["Snippet"]
-tags = ["dev", "golang"]
-url = "post/golang_ssh_tunneling"
-+++
+---
+title:      "Golang SSH tunneling"
+date:       2020-10-04
+categories: ["Snippet"]
+tags:       ["dev", "golang"]
+url:        "post/golang_ssh_tunneling"
+---
 
 I already did [an article around Golang and SSH previously][post_certs],
 since it is a huge part of my current work. Today, I will share a small

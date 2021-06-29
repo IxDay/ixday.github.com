@@ -1,10 +1,10 @@
-+++
-title = "Linux Mint"
-date = 2016-02-22
-categories = ["OS"]
-tags = ["admin"]
-url = "post/linux_mint"
-+++
+---
+title:      "Linux Mint"
+date:       2016-02-22
+categories: ["OS"]
+tags:       ["admin"]
+url:        "post/linux_mint"
+---
 
 After a long journey, I finally found the distribution which fits
 all my need: **Linux Mint Debian Edition**

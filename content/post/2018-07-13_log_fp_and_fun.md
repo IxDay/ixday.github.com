@@ -1,8 +1,8 @@
-+++
-title = "Log, FP and fun in Golang"
-date = 2018-07-13
-url = "post/log_fp_and_fun"
-+++
+---
+title: "Log, FP and fun in Golang"
+date:  2018-07-13
+url:   "post/log_fp_and_fun"
+---
 
 Golang implementation of a simple logger is subject to some criticism. First,
 it does not use any extendable pattern, the only interface we can inject to

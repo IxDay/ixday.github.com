@@ -1,10 +1,10 @@
-+++
-categories = ["Snippet"]
-date = 2016-07-19
-tags = ["bash"]
-title = "Curl utils"
-url = "post/curl_utils"
-+++
+---
+categories: ["Snippet"]
+date:       2016-07-19
+tags:       ["bash"]
+title:      "Curl utils"
+url:        "post/curl_utils"
+---
 
 Here are some options and command I use with `curl` when dealing with stuff
 I have to develop.

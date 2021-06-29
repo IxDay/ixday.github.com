@@ -1,10 +1,10 @@
-+++
-title = "Bash Expansion"
-date = 2015-08-20
-categories = ["Snippet"]
-tags = ["bash", "cli"]
-url = "post/bash_expansion"
-+++
+---
+title:      "Bash Expansion"
+date:       2015-08-20
+categories: ["Snippet"]
+tags:       ["bash", "cli"]
+url:        "post/bash_expansion"
+---
 
 A small post just to share a useful bashism the
 [Brace Expansion](http://wiki.bash-hackers.org/syntax/expansion/brace).

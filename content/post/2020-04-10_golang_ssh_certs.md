@@ -1,10 +1,10 @@
-+++
-title = "Golang SSH, marshalling, unmarshalling"
-date = 2020-04-10
-categories = ["Snippet"]
-tags = ["golang", "dev"]
-url = "post/golang_ssh_certs"
-+++
+---
+title:      "Golang SSH, marshalling, unmarshalling"
+date:       2020-04-10
+categories: ["Snippet"]
+tags:       ["golang", "dev"]
+url:        "post/golang_ssh_certs"
+---
 
 Golang is a wonderful language to deal with the SSH protocol. It's mostly due
 to the [SSH library](https://pkg.go.dev/golang.org/x/crypto/ssh?tab=doc) which

@@ -1,10 +1,10 @@
-+++
-categories = ["tuto"]
-date = 2017-02-02
-tags = ["admin"]
-title = "Alpine iPXE"
-url = "post/alpine_ipxe"
-+++
+---
+categories: ["tuto"]
+date:       2017-02-02
+tags:       ["admin"]
+title:      "Alpine iPXE"
+url:        "post/alpine_ipxe"
+---
 
 For a personal project I want to iPXE boot alpine. I did not found any step by
 step guide, so I ended up testing multiple solutions until it works. This

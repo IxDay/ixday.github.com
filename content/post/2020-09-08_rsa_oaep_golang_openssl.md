@@ -1,10 +1,10 @@
-+++
-title = "RSA OAEP in Go and Openssl equivalent"
-date = 2020-09-08
-categories = ["Snippet"]
-tags = ["golang", "bash"]
-url = "post/rsa_oaep_golang_openssl"
-+++
+---
+title:      "RSA OAEP in Go and Openssl equivalent"
+date:       2020-09-08
+categories: ["Snippet"]
+tags:       ["golang", "bash"]
+url:        "post/rsa_oaep_golang_openssl"
+---
 
 From time to time you write some code to deal with data that will be stored
 somewhere on a drive. When debugging it may be nice to have _"shell"_ commands

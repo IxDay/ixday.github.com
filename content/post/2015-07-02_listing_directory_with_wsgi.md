@@ -1,10 +1,10 @@
-+++
-title = "Listing directory with wsgi"
-date = 2015-07-02
-categories = ["Project"]
-tags = ["dev", "python"]
-url = "post/listing_directory_with_wsgi"
-+++
+---
+title:      "Listing directory with wsgi"
+date:       2015-07-02
+categories: ["Project"]
+tags:       ["dev", "python"]
+url:        "post/listing_directory_with_wsgi"
+---
 
 Recently I ran into an issue with my blog and pelican
 (the blogging engine I use). For some reasons (which I explain [here]())
