@@ -2,7 +2,7 @@
 title:      "Debug Terraform"
 date:       2021-02-07
 categories: ["Tuto"]
-tags:       ["cli"]
+tags:       ["cli", "terraform"]
 url:        "post/debug_terraform"
 ---
 
