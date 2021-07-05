@@ -6,11 +6,11 @@
     <description>Recent content in admin on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jan 2021 16:55:23 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/admin/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/admin/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The wild kubectl logs issue</title>
       <link>https://ixday.github.io/post/kubectl_logs/</link>
-      <pubDate>Wed, 20 Jan 2021 16:55:23 +0100</pubDate>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/kubectl_logs/</guid>
       <description>A quick post to present one of my finding during my Kubernetes journey. It may help people since it took me some time to find this out. I am currently using Kubernetes a lot for my job. I am part of the infrastructure team and need to debug some setups. I am using kubectl logs extensively and I found a few interesting options I&amp;rsquo;d like to share.
@@ -20,7 +20,7 @@ Most of the time you will have multiple containers handling requests and you wan
     <item>
       <title>Wireguard on a Linux Alpine with Docker</title>
       <link>https://ixday.github.io/post/alpine_docker_wireguard/</link>
-      <pubDate>Tue, 22 Sep 2020 16:51:22 +0200</pubDate>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_docker_wireguard/</guid>
       <description>For most of my infrastructure, I am now using Alpine Linux. I like it because it only has a small number of moving parts. It&amp;rsquo;s easy to know and master them, it is making my life easier :).
@@ -30,7 +30,7 @@ So, I decided to install one on my VPS. Like my distro I wanted it to be simple 
     <item>
       <title>Gopass</title>
       <link>https://ixday.github.io/post/gopass/</link>
-      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/gopass/</guid>
       <description>A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
@@ -40,7 +40,7 @@ First of all, let me say it right away, the CLI interface is not that good. Took
     <item>
       <title>Alpine on a Raspberry (part 2)</title>
       <link>https://ixday.github.io/post/alpine_raspberry_2/</link>
-      <pubDate>Fri, 24 Jan 2020 12:59:34 +0100</pubDate>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_raspberry_2/</guid>
       <description>I had to buy a new raspberry (the old one did not survive :p), a version 3 A+. Now, I will go over again the installation process. Since I encountered a few new problems.
@@ -51,7 +51,7 @@ First boot and in-memory setup Here a few changes, using a version 3A+ requires 
     <item>
       <title>Alpine on a Raspberry</title>
       <link>https://ixday.github.io/post/alpine_raspberry/</link>
-      <pubDate>Sun, 05 Jan 2020 17:46:45 +0100</pubDate>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_raspberry/</guid>
       <description>Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&amp;rsquo;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
@@ -62,7 +62,7 @@ Setup SD Card This one was quite tricky because if anything is not exactly what 
     <item>
       <title>Simple HTTPs server</title>
       <link>https://ixday.github.io/post/simple_https/</link>
-      <pubDate>Tue, 11 Dec 2018 15:46:28 +0100</pubDate>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
@@ -72,7 +72,7 @@ Setup SD Card This one was quite tricky because if anything is not exactly what 
     <item>
       <title>Start libvirt VM as unprivileged user</title>
       <link>https://ixday.github.io/post/unprivileged_libvirt/</link>
-      <pubDate>Mon, 01 May 2017 11:41:14 +0200</pubDate>
+      <pubDate>Mon, 01 May 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/unprivileged_libvirt/</guid>
       <description>Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
@@ -83,7 +83,7 @@ DISCLAIMER: This will contain some of my conclusions with my partial understandi
     <item>
       <title>Alpine iPXE</title>
       <link>https://ixday.github.io/post/alpine_ipxe/</link>
-      <pubDate>Thu, 02 Feb 2017 10:08:35 +0100</pubDate>
+      <pubDate>Thu, 02 Feb 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_ipxe/</guid>
       <description>&lt;p&gt;For a personal project I want to iPXE boot alpine. I did not found any step by
@@ -96,7 +96,7 @@ main entry used:&lt;/p&gt;</description>
     <item>
       <title>Linux Mint 2</title>
       <link>https://ixday.github.io/post/linux_mint_2/</link>
-      <pubDate>Mon, 08 Aug 2016 15:23:34 +0200</pubDate>
+      <pubDate>Mon, 08 Aug 2016 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/linux_mint_2/</guid>
       <description>&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),

@@ -6,11 +6,11 @@
     <description>Recent content in Tuto on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Feb 2021 08:25:05 +0100</lastBuildDate><atom:link href="https://ixday.github.io/categories/tuto/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 07 Feb 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/categories/tuto/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Debug Terraform</title>
       <link>https://ixday.github.io/post/debug_terraform/</link>
-      <pubDate>Sun, 07 Feb 2021 08:25:05 +0100</pubDate>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/debug_terraform/</guid>
       <description>How to easily debug Terraform? This was one of my biggest problem when dealing with the tool. I followed instructions to use some output ressources or browse the &amp;ldquo;debug&amp;rdquo; logs. Disclaimer: none of it was working properly.
@@ -20,7 +20,7 @@ So here is what I am actually doing and I am perfectly happy with. Oh! And just 
     <item>
       <title>Wireguard on a Linux Alpine with Docker</title>
       <link>https://ixday.github.io/post/alpine_docker_wireguard/</link>
-      <pubDate>Tue, 22 Sep 2020 16:51:22 +0200</pubDate>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_docker_wireguard/</guid>
       <description>For most of my infrastructure, I am now using Alpine Linux. I like it because it only has a small number of moving parts. It&amp;rsquo;s easy to know and master them, it is making my life easier :).
@@ -30,7 +30,7 @@ So, I decided to install one on my VPS. Like my distro I wanted it to be simple 
     <item>
       <title>Gopass</title>
       <link>https://ixday.github.io/post/gopass/</link>
-      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/gopass/</guid>
       <description>A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
@@ -40,7 +40,7 @@ First of all, let me say it right away, the CLI interface is not that good. Took
     <item>
       <title>Alpine iPXE</title>
       <link>https://ixday.github.io/post/alpine_ipxe/</link>
-      <pubDate>Thu, 02 Feb 2017 10:08:35 +0100</pubDate>
+      <pubDate>Thu, 02 Feb 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_ipxe/</guid>
       <description>&lt;p&gt;For a personal project I want to iPXE boot alpine. I did not found any step by
@@ -79,7 +79,7 @@ So I decided to make them work together in order to test that.</description>
       <guid>https://ixday.github.io/post/pdbpp/</guid>
       <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
-  This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
+ This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
     </item>
     
     <item>

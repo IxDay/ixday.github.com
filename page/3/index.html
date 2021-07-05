@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.80.0" />
+  <meta name="generator" content="Hugo 0.84.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,49 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Jul 25 2017
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/golang-err-shadowing/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/golang-err-shadowing/">Golang err shadowing</a></h2>
+    <p>
+    A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
+foo := &#34;bar&#34; Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
+if foo := &#34;bar&#34;; foo == &#34;baz&#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:
+    
+    <a href="/post/golang-err-shadowing/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/golang ">golang</a>
+, <a href="/tags/dev ">dev</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -265,7 +308,7 @@ main entry used:</p>
     
   </time>
   <div class="comments">
-    <a href="https://ixday.github.io/post/docker_nspawn/#disqus_thread">
+    <a href="https://ixday.github.io/url/docker_nspawn/#disqus_thread">
       <span class="disqus-comment-count" data-disqus-identifier="IxDay">
       </span>
       comments
@@ -279,12 +322,12 @@ main entry used:</p>
 </div>
 
     <div class="caption">
-    <h2 class="caption-title"><a href="/post/docker_nspawn/">Docker Nspawn</a></h2>
+    <h2 class="caption-title"><a href="/url/docker_nspawn/">Docker Nspawn</a></h2>
     <p>
     Don&rsquo;t want to use Docker? Still want to start containers for tests or whatever? Don&rsquo;t want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
 Thanks to the CoreOS team (love those guys) a new hub for storing container now exists: quay. The other good news is the ACI, the container image format defined in the App Container (appc) spec.
     
-    <a href="/post/docker_nspawn/">Read More...</a>
+    <a href="/url/docker_nspawn/">Read More...</a>
     
     </p>
     
@@ -418,47 +461,6 @@ curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displa
 </article>
 
   
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Fri Jun 3 2016
-    
-  </time>
-  <div class="comments">
-    <a href="https://ixday.github.io/post/libvirt_through_vagrant/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/tuto">Tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/libvirt_through_vagrant/">Libvirt through vagrant</a></h2>
-    <p>
-    I will not install VirtualBox! That&rsquo;s all (nor VMWare, don&rsquo;t be ridiculous). But I really like Vagrant, and use it every time I need something closer to a running machine. So, I dig up the internet and found that there is an unofficial support of libvirt.
-Installation I do not remember where I found the documentation to do this or if I did it by myself, so no link here, just what I do in order to make this work.
-    
-    <a href="/post/libvirt_through_vagrant/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
 
     </div>
     
@@ -501,6 +503,5 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
   </body>
 </html>

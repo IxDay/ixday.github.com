@@ -6,11 +6,11 @@
     <description>Recent content in javascript on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 01 Jul 2017 11:46:41 +0200</lastBuildDate><atom:link href="https://ixday.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 01 Jul 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>vuecc</title>
       <link>https://ixday.github.io/post/vuecc/</link>
-      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      <pubDate>Sat, 01 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/vuecc/</guid>
       <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.

@@ -6,11 +6,11 @@
     <description>Recent content in dev on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Nov 2020 00:00:00 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducing Janus (SSH Agent written in Go)</title>
       <link>https://ixday.github.io/post/janus/</link>
-      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/janus/</guid>
       <description>Why this project I am currently using gopass to store and share my passwords. I was relying on GPG to handle the encryption side of the process. Then a colleague of mine introduced me to age. This encryption specification allows the use of SSH keys and specifically the ED25519 ones. I decided to make the switch and moved all my stores to age encryption.
@@ -20,7 +20,7 @@ I am protecting my private key with a password and only loading it inside my age
     <item>
       <title>Golang SSH tunneling</title>
       <link>https://ixday.github.io/post/golang_ssh_tunneling/</link>
-      <pubDate>Sun, 04 Oct 2020 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang_ssh_tunneling/</guid>
       <description>I already did an article around Golang and SSH previously, since it is a huge part of my current work. Today, I will share a small snippet which can be quite handy when automating stuff. This is how to perform a SSH tunnel using Golang. I will not explain what it is or what it is useful for, if you need more details please check the doc. In this tutorial, I will use the official SSH library from Google.</description>
@@ -29,7 +29,7 @@ I am protecting my private key with a password and only loading it inside my age
     <item>
       <title>Golang SSH, marshalling, unmarshalling</title>
       <link>https://ixday.github.io/post/golang_ssh_certs/</link>
-      <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
+      <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang_ssh_certs/</guid>
       <description>Golang is a wonderful language to deal with the SSH protocol. It&amp;rsquo;s mostly due to the SSH library which is pretty exhaustive.
@@ -40,7 +40,7 @@ In this article we will see how to exchange keys between a program written in Go
     <item>
       <title>Introducing Y2J (Yaml to Json converter)</title>
       <link>https://ixday.github.io/post/y2j/</link>
-      <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
+      <pubDate>Sat, 20 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/y2j/</guid>
       <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
@@ -50,7 +50,7 @@ Why this project I am massively using jq in my shell scripts to deal with APIs. 
     <item>
       <title>Parallel runners with teardown in go</title>
       <link>https://ixday.github.io/post/teardown_runner/</link>
-      <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/teardown_runner/</guid>
       <description>From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.</description>
@@ -59,7 +59,7 @@ Why this project I am massively using jq in my shell scripts to deal with APIs. 
     <item>
       <title>Cancel copy of huge file in Go</title>
       <link>https://ixday.github.io/post/golang-cancel-copy/</link>
-      <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
+      <pubDate>Mon, 12 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang-cancel-copy/</guid>
       <description>I recently came across this video on Golang programming. I think this was the moment I finally fully understood the power of Go. It is smart, simple and elegant, I love it.
@@ -69,7 +69,7 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     <item>
       <title>direnv</title>
       <link>https://ixday.github.io/post/direnv/</link>
-      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
+      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
@@ -79,9 +79,9 @@ Golang projects This one is a bit trickier.</description>
     </item>
     
     <item>
-      <title>golang err shadowing</title>
+      <title>Golang err shadowing</title>
       <link>https://ixday.github.io/post/golang-err-shadowing/</link>
-      <pubDate>Tue, 25 Jul 2017 10:44:02 +0200</pubDate>
+      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
@@ -92,7 +92,7 @@ if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something 
     <item>
       <title>vuecc</title>
       <link>https://ixday.github.io/post/vuecc/</link>
-      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      <pubDate>Sat, 01 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/vuecc/</guid>
       <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
@@ -102,7 +102,7 @@ After a few hours of development, I decided to use SFC (Single File Components) 
     <item>
       <title>Git clone inside a mounted volume with Docker</title>
       <link>https://ixday.github.io/post/docker_git_volume/</link>
-      <pubDate>Mon, 13 Mar 2017 14:52:21 +0100</pubDate>
+      <pubDate>Mon, 13 Mar 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/docker_git_volume/</guid>
       <description>DISCLAIMER: This is now fixed in git new releases and does not need to be done anymore. I use an old version of alpine in order to have an unpached version of git.
@@ -112,7 +112,7 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
     <item>
       <title>Makefile</title>
       <link>https://ixday.github.io/post/makefile/</link>
-      <pubDate>Wed, 15 Feb 2017 10:57:00 +0100</pubDate>
+      <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/makefile/</guid>
       <description>Recently, I had to build some project involving a lot of files. Two choices were possible:
@@ -137,7 +137,7 @@ The problem For developing my frontend I use a tool which I really like: Gulp. T
       <guid>https://ixday.github.io/post/pdbpp/</guid>
       <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
-  This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
+ This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
     </item>
     
     <item>

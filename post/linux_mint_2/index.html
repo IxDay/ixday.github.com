@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.80.0" />
+  <meta name="generator" content="Hugo 0.84.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -86,7 +86,7 @@ I needed to fixup when installing LMDE on my Macbook.</p>
 <h2 id="installation">Installation</h2>
 <p>First, for the creation of the usb key, I ended up using the method described
 in the <a href="https://wiki.archlinux.org/index.php/USB_flash_installation_media#In_GNU.2FLinux">archlinux wiki</a>. Basically, this was the command line I entered:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">dd <span class="nv">bs</span><span class="o">=</span>4M <span class="k">if</span><span class="o">=</span>/path/to/lmde.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="c1"># /dev/sdb is my usb key (lsblk FTW) </span>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">dd <span class="nv">bs</span><span class="o">=</span>4M <span class="k">if</span><span class="o">=</span>/path/to/lmde.iso <span class="nv">of</span><span class="o">=</span>/dev/sdb <span class="c1"># /dev/sdb is my usb key (lsblk FTW)</span>
 </code></pre></div><p>Then, for the partitioning I forgot to tell the filesystem needed by each part,
 so here is lsblk to the rescue:</p>
 <div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ sudo lsblk -o NAME,FSTYPE,MOUNTPOINT
@@ -234,6 +234,5 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
   </body>
 </html>

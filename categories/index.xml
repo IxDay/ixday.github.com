@@ -6,29 +6,29 @@
     <description>Recent content in Categories on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Feb 2021 08:25:05 +0100</lastBuildDate><atom:link href="https://ixday.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Tuto</title>
-      <link>https://ixday.github.io/categories/tuto/</link>
-      <pubDate>Sun, 07 Feb 2021 08:25:05 +0100</pubDate>
-      
-      <guid>https://ixday.github.io/categories/tuto/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Snippet</title>
       <link>https://ixday.github.io/categories/snippet/</link>
-      <pubDate>Wed, 20 Jan 2021 16:55:23 +0100</pubDate>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/categories/snippet/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Tuto</title>
+      <link>https://ixday.github.io/categories/tuto/</link>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/categories/tuto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Project</title>
       <link>https://ixday.github.io/categories/project/</link>
-      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/categories/project/</guid>
       <description></description>
@@ -37,7 +37,7 @@
     <item>
       <title>OS</title>
       <link>https://ixday.github.io/categories/os/</link>
-      <pubDate>Sat, 12 Sep 2020 17:01:52 +0200</pubDate>
+      <pubDate>Sat, 12 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/categories/os/</guid>
       <description></description>

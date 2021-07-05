@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.80.0" />
+  <meta name="generator" content="Hugo 0.84.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,48 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Fri Jan 24 2020
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/alpine_raspberry_2/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/alpine_raspberry_2/">Alpine on a Raspberry (part 2)</a></h2>
+    <p>
+    I had to buy a new raspberry (the old one did not survive :p), a version 3 A+. Now, I will go over again the installation process. Since I encountered a few new problems.
+Setup SD Card This is exactly the same as the previous version. So I let you check out the other article.
+First boot and in-memory setup Here a few changes, using a version 3A+ requires to setup the wifi.
+    
+    <a href="/post/alpine_raspberry_2/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -96,48 +138,6 @@ Setup SD Card This one was quite tricky because if anything is not exactly what 
     
   </time>
   <div class="comments">
-    <a href="https://ixday.github.io/post/y2j/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/project">Project</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/y2j/">Introducing Y2J (Yaml to Json converter)</a></h2>
-    <p>
-    This post is only to present a small project and the reasons behind it. Hope it can help other people.
-Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.
-    
-    <a href="/post/y2j/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/dev ">dev</a>
-, <a href="/tags/rust ">rust</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Sat Jul 20 2019
-    
-  </time>
-  <div class="comments">
     <a href="https://ixday.github.io/post/git_patch/#disqus_thread">
       <span class="disqus-comment-count" data-disqus-identifier="IxDay">
       </span>
@@ -166,6 +166,48 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
     <strong>Tagged</strong>
     <a href="/tags/cli ">cli</a>
 , <a href="/tags/git ">git</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Sat Jul 20 2019
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/y2j/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/project">Project</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/y2j/">Introducing Y2J (Yaml to Json converter)</a></h2>
+    <p>
+    This post is only to present a small project and the reasons behind it. Hope it can help other people.
+Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.
+    
+    <a href="/post/y2j/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/dev ">dev</a>
+, <a href="/tags/rust ">rust</a>
 
     </p>
     
@@ -419,49 +461,6 @@ Golang projects This one is a bit trickier.
 </article>
 
   
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Tue Jul 25 2017
-    
-  </time>
-  <div class="comments">
-    <a href="https://ixday.github.io/post/golang-err-shadowing/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/golang-err-shadowing/">golang err shadowing</a></h2>
-    <p>
-    A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
-foo := &#34;bar&#34; Here the variable foo will automatically set up as a string with the value &ldquo;bar&rdquo;. One more feature is to be able to allocate on same line as doing a comparison. Like this:
-if foo := &#34;bar&#34;; foo == &#34;baz&#34; { // do something } else { // do something else } This is really handy when it comes to catch errors from an other function:
-    
-    <a href="/post/golang-err-shadowing/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/golang ">golang</a>
-, <a href="/tags/dev ">dev</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
 
     </div>
     
@@ -504,6 +503,5 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
   </body>
 </html>

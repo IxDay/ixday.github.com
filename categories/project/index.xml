@@ -6,11 +6,11 @@
     <description>Recent content in Project on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Nov 2020 00:00:00 +0100</lastBuildDate><atom:link href="https://ixday.github.io/categories/project/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/categories/project/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducing Janus (SSH Agent written in Go)</title>
       <link>https://ixday.github.io/post/janus/</link>
-      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/janus/</guid>
       <description>Why this project I am currently using gopass to store and share my passwords. I was relying on GPG to handle the encryption side of the process. Then a colleague of mine introduced me to age. This encryption specification allows the use of SSH keys and specifically the ED25519 ones. I decided to make the switch and moved all my stores to age encryption.
@@ -20,7 +20,7 @@ I am protecting my private key with a password and only loading it inside my age
     <item>
       <title>Introducing Y2J (Yaml to Json converter)</title>
       <link>https://ixday.github.io/post/y2j/</link>
-      <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
+      <pubDate>Sat, 20 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/y2j/</guid>
       <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
@@ -30,7 +30,7 @@ Why this project I am massively using jq in my shell scripts to deal with APIs. 
     <item>
       <title>vuecc</title>
       <link>https://ixday.github.io/post/vuecc/</link>
-      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      <pubDate>Sat, 01 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/vuecc/</guid>
       <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.

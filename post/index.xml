@@ -6,11 +6,21 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Feb 2021 08:25:05 +0100</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraform retrieve sensible data</title>
+      <link>https://ixday.github.io/post/terraform_sensitive/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/terraform_sensitive/</guid>
+      <description>Another post on Terraform. Here to share a little snippet to retrieve some data from your Terraform state. When you are dealing with some Terraform resources or writing modules you may encounter the sensitive keyword/value (here is a bit of doc). This is handy to avoid leaking some data, but from time to time you may want to extract one of those.
+Code For this article let&amp;rsquo;s imagine I am creating an aws_iam_user for another team to access some specific resources.</description>
+    </item>
+    
     <item>
       <title>Debug Terraform</title>
       <link>https://ixday.github.io/post/debug_terraform/</link>
-      <pubDate>Sun, 07 Feb 2021 08:25:05 +0100</pubDate>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/debug_terraform/</guid>
       <description>How to easily debug Terraform? This was one of my biggest problem when dealing with the tool. I followed instructions to use some output ressources or browse the &amp;ldquo;debug&amp;rdquo; logs. Disclaimer: none of it was working properly.
@@ -20,7 +30,7 @@ So here is what I am actually doing and I am perfectly happy with. Oh! And just 
     <item>
       <title>The wild kubectl logs issue</title>
       <link>https://ixday.github.io/post/kubectl_logs/</link>
-      <pubDate>Wed, 20 Jan 2021 16:55:23 +0100</pubDate>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/kubectl_logs/</guid>
       <description>A quick post to present one of my finding during my Kubernetes journey. It may help people since it took me some time to find this out. I am currently using Kubernetes a lot for my job. I am part of the infrastructure team and need to debug some setups. I am using kubectl logs extensively and I found a few interesting options I&amp;rsquo;d like to share.
@@ -30,7 +40,7 @@ Most of the time you will have multiple containers handling requests and you wan
     <item>
       <title>Introducing Janus (SSH Agent written in Go)</title>
       <link>https://ixday.github.io/post/janus/</link>
-      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/janus/</guid>
       <description>Why this project I am currently using gopass to store and share my passwords. I was relying on GPG to handle the encryption side of the process. Then a colleague of mine introduced me to age. This encryption specification allows the use of SSH keys and specifically the ED25519 ones. I decided to make the switch and moved all my stores to age encryption.
@@ -40,7 +50,7 @@ I am protecting my private key with a password and only loading it inside my age
     <item>
       <title>Golang SSH tunneling</title>
       <link>https://ixday.github.io/post/golang_ssh_tunneling/</link>
-      <pubDate>Sun, 04 Oct 2020 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang_ssh_tunneling/</guid>
       <description>I already did an article around Golang and SSH previously, since it is a huge part of my current work. Today, I will share a small snippet which can be quite handy when automating stuff. This is how to perform a SSH tunnel using Golang. I will not explain what it is or what it is useful for, if you need more details please check the doc. In this tutorial, I will use the official SSH library from Google.</description>
@@ -49,7 +59,7 @@ I am protecting my private key with a password and only loading it inside my age
     <item>
       <title>Wireguard on a Linux Alpine with Docker</title>
       <link>https://ixday.github.io/post/alpine_docker_wireguard/</link>
-      <pubDate>Tue, 22 Sep 2020 16:51:22 +0200</pubDate>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_docker_wireguard/</guid>
       <description>For most of my infrastructure, I am now using Alpine Linux. I like it because it only has a small number of moving parts. It&amp;rsquo;s easy to know and master them, it is making my life easier :).
@@ -59,7 +69,7 @@ So, I decided to install one on my VPS. Like my distro I wanted it to be simple 
     <item>
       <title>Bash process substitution failure</title>
       <link>https://ixday.github.io/post/bash_process_substitution_failure/</link>
-      <pubDate>Sat, 12 Sep 2020 17:01:52 +0200</pubDate>
+      <pubDate>Sat, 12 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/bash_process_substitution_failure/</guid>
       <description>This is just a problem I encountered running my Alpine box, so I publish the fix for others to not loose time like I did. I had a software that came with a bash script and got a problem when I tried to run it. It was failing with the following error: fopen: No such file or directory
@@ -69,7 +79,7 @@ I added the magical set -x line at the beginning to understand what was going on
     <item>
       <title>RSA OAEP in Go and Openssl equivalent</title>
       <link>https://ixday.github.io/post/rsa_oaep_golang_openssl/</link>
-      <pubDate>Tue, 08 Sep 2020 10:12:56 +0200</pubDate>
+      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/rsa_oaep_golang_openssl/</guid>
       <description>From time to time you write some code to deal with data that will be stored somewhere on a drive. When debugging it may be nice to have &amp;ldquo;shell&amp;rdquo; commands to mimic code and help understanding what is going on.
@@ -79,7 +89,7 @@ When it comes to encryption the swiss army knife you will most probably have in 
     <item>
       <title>Golang SSH, marshalling, unmarshalling</title>
       <link>https://ixday.github.io/post/golang_ssh_certs/</link>
-      <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
+      <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang_ssh_certs/</guid>
       <description>Golang is a wonderful language to deal with the SSH protocol. It&amp;rsquo;s mostly due to the SSH library which is pretty exhaustive.
@@ -90,7 +100,7 @@ In this article we will see how to exchange keys between a program written in Go
     <item>
       <title>Gopass</title>
       <link>https://ixday.github.io/post/gopass/</link>
-      <pubDate>Tue, 10 Mar 2020 11:20:59 +0100</pubDate>
+      <pubDate>Tue, 10 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/gopass/</guid>
       <description>A pretty good security advice would be to never write down a password unencrypted on disk. This can be pretty tricky to achieve, especially on personal and development environments. So let me introduce gopass which is a tool aiming to help with this problem.
@@ -100,7 +110,7 @@ First of all, let me say it right away, the CLI interface is not that good. Took
     <item>
       <title>Alpine on a Raspberry (part 2)</title>
       <link>https://ixday.github.io/post/alpine_raspberry_2/</link>
-      <pubDate>Fri, 24 Jan 2020 12:59:34 +0100</pubDate>
+      <pubDate>Fri, 24 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_raspberry_2/</guid>
       <description>I had to buy a new raspberry (the old one did not survive :p), a version 3 A+. Now, I will go over again the installation process. Since I encountered a few new problems.
@@ -111,7 +121,7 @@ First boot and in-memory setup Here a few changes, using a version 3A+ requires 
     <item>
       <title>Alpine on a Raspberry</title>
       <link>https://ixday.github.io/post/alpine_raspberry/</link>
-      <pubDate>Sun, 05 Jan 2020 17:46:45 +0100</pubDate>
+      <pubDate>Sun, 05 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_raspberry/</guid>
       <description>Lately, I decided to re-install my old Raspberry Pi (version 1, yes I&amp;rsquo;m that old) to create a small home server. Since I am using Alpine and liking it quite a lot, I wanted to install it on my new little toy project.
@@ -120,19 +130,9 @@ Setup SD Card This one was quite tricky because if anything is not exactly what 
     </item>
     
     <item>
-      <title>Introducing Y2J (Yaml to Json converter)</title>
-      <link>https://ixday.github.io/post/y2j/</link>
-      <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
-      
-      <guid>https://ixday.github.io/post/y2j/</guid>
-      <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
-Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.</description>
-    </item>
-    
-    <item>
       <title>Git amend history</title>
       <link>https://ixday.github.io/post/git_patch/</link>
-      <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
+      <pubDate>Sat, 20 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/git_patch/</guid>
       <description>This post is a simple copy of this answer, go there to see the original.
@@ -141,9 +141,19 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
     </item>
     
     <item>
+      <title>Introducing Y2J (Yaml to Json converter)</title>
+      <link>https://ixday.github.io/post/y2j/</link>
+      <pubDate>Sat, 20 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/y2j/</guid>
+      <description>This post is only to present a small project and the reasons behind it. Hope it can help other people.
+Why this project I am massively using jq in my shell scripts to deal with APIs. It is a powerfull tool and really help my day to day work. A few weeks ago I had to do the same kind of operations on a Yaml file, I started looking out there for alternative, and found some tooling which are translating Yaml to Json then push it to jq: here is an example.</description>
+    </item>
+    
+    <item>
       <title>Simple HTTPs server</title>
       <link>https://ixday.github.io/post/simple_https/</link>
-      <pubDate>Tue, 11 Dec 2018 15:46:28 +0100</pubDate>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
@@ -153,7 +163,7 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
     <item>
       <title>Log, FP and fun in Golang</title>
       <link>https://ixday.github.io/post/log_fp_and_fun/</link>
-      <pubDate>Fri, 13 Jul 2018 12:09:32 +0200</pubDate>
+      <pubDate>Fri, 13 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/log_fp_and_fun/</guid>
       <description>Golang implementation of a simple logger is subject to some criticism. First, it does not use any extendable pattern, the only interface we can inject to modify the behavior of the logger is a writer interface. Also, the lack of a proper log level control is a subject of discussion in the community here, here, or this blog post.
@@ -163,7 +173,7 @@ This post is more a reflexion around APIs and tricks in Golang than a production
     <item>
       <title>Parallel runners with teardown in go</title>
       <link>https://ixday.github.io/post/teardown_runner/</link>
-      <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/teardown_runner/</guid>
       <description>From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.</description>
@@ -172,7 +182,7 @@ This post is more a reflexion around APIs and tricks in Golang than a production
     <item>
       <title>Filepath Walk bug?</title>
       <link>https://ixday.github.io/post/filepath_walk/</link>
-      <pubDate>Wed, 09 May 2018 10:22:33 +0200</pubDate>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/filepath_walk/</guid>
       <description>During the development of a small project I noticed something strange with golang&amp;rsquo;s function filepath.Walk.
@@ -184,7 +194,7 @@ mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&amp;rsq
     <item>
       <title>Cancel copy of huge file in Go</title>
       <link>https://ixday.github.io/post/golang-cancel-copy/</link>
-      <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
+      <pubDate>Mon, 12 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang-cancel-copy/</guid>
       <description>I recently came across this video on Golang programming. I think this was the moment I finally fully understood the power of Go. It is smart, simple and elegant, I love it.
@@ -194,7 +204,7 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     <item>
       <title>direnv</title>
       <link>https://ixday.github.io/post/direnv/</link>
-      <pubDate>Thu, 27 Jul 2017 10:53:10 +0200</pubDate>
+      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/direnv/</guid>
       <description>I recently discovered the direnv project. Which helped me a lot for setting up my development environments. I will share a bit of things I use in my daily basis.
@@ -204,9 +214,9 @@ Golang projects This one is a bit trickier.</description>
     </item>
     
     <item>
-      <title>golang err shadowing</title>
+      <title>Golang err shadowing</title>
       <link>https://ixday.github.io/post/golang-err-shadowing/</link>
-      <pubDate>Tue, 25 Jul 2017 10:44:02 +0200</pubDate>
+      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:
@@ -217,7 +227,7 @@ if foo := &amp;#34;bar&amp;#34;; foo == &amp;#34;baz&amp;#34; { // do something 
     <item>
       <title>vuecc</title>
       <link>https://ixday.github.io/post/vuecc/</link>
-      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      <pubDate>Sat, 01 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/vuecc/</guid>
       <description>I recently discovered Vue.js and I really liked it. You just have to add a script tag and you can start coding using this framework.
@@ -227,7 +237,7 @@ After a few hours of development, I decided to use SFC (Single File Components) 
     <item>
       <title>Start libvirt VM as unprivileged user</title>
       <link>https://ixday.github.io/post/unprivileged_libvirt/</link>
-      <pubDate>Mon, 01 May 2017 11:41:14 +0200</pubDate>
+      <pubDate>Mon, 01 May 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/unprivileged_libvirt/</guid>
       <description>Quick post for starting a VM inside libvirt as a non-root user. Also contains some useful snippets.
@@ -238,7 +248,7 @@ DISCLAIMER: This will contain some of my conclusions with my partial understandi
     <item>
       <title>Git clone inside a mounted volume with Docker</title>
       <link>https://ixday.github.io/post/docker_git_volume/</link>
-      <pubDate>Mon, 13 Mar 2017 14:52:21 +0100</pubDate>
+      <pubDate>Mon, 13 Mar 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/docker_git_volume/</guid>
       <description>DISCLAIMER: This is now fixed in git new releases and does not need to be done anymore. I use an old version of alpine in order to have an unpached version of git.
@@ -248,7 +258,7 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
     <item>
       <title>Makefile</title>
       <link>https://ixday.github.io/post/makefile/</link>
-      <pubDate>Wed, 15 Feb 2017 10:57:00 +0100</pubDate>
+      <pubDate>Wed, 15 Feb 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/makefile/</guid>
       <description>Recently, I had to build some project involving a lot of files. Two choices were possible:
@@ -258,7 +268,7 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
     <item>
       <title>Alpine iPXE</title>
       <link>https://ixday.github.io/post/alpine_ipxe/</link>
-      <pubDate>Thu, 02 Feb 2017 10:08:35 +0100</pubDate>
+      <pubDate>Thu, 02 Feb 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/alpine_ipxe/</guid>
       <description>&lt;p&gt;For a personal project I want to iPXE boot alpine. I did not found any step by
@@ -270,10 +280,10 @@ main entry used:&lt;/p&gt;</description>
     
     <item>
       <title>Docker Nspawn</title>
-      <link>https://ixday.github.io/post/docker_nspawn/</link>
-      <pubDate>Wed, 23 Nov 2016 09:48:08 +0100</pubDate>
+      <link>https://ixday.github.io/url/docker_nspawn/</link>
+      <pubDate>Wed, 23 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://ixday.github.io/post/docker_nspawn/</guid>
+      <guid>https://ixday.github.io/url/docker_nspawn/</guid>
       <description>Don&amp;rsquo;t want to use Docker? Still want to start containers for tests or whatever? Don&amp;rsquo;t want to install yet another software to perform this? Want to understand a bit of how all those things work? Great! I will show you how to boot a container from the internet only through systemd-nspawn
 Thanks to the CoreOS team (love those guys) a new hub for storing container now exists: quay. The other good news is the ACI, the container image format defined in the App Container (appc) spec.</description>
     </item>
@@ -281,7 +291,7 @@ Thanks to the CoreOS team (love those guys) a new hub for storing container now 
     <item>
       <title>Linux Mint 2</title>
       <link>https://ixday.github.io/post/linux_mint_2/</link>
-      <pubDate>Mon, 08 Aug 2016 15:23:34 +0200</pubDate>
+      <pubDate>Mon, 08 Aug 2016 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/linux_mint_2/</guid>
       <description>&lt;p&gt;I recently messed up my laptop (do not play with &lt;code&gt;/etc/apt/preferences&lt;/code&gt; too much!),
@@ -293,7 +303,7 @@ I needed to fixup when installing LMDE on my Macbook.&lt;/p&gt;</description>
     <item>
       <title>Bash Shortcuts</title>
       <link>https://ixday.github.io/post/bash_shortcuts/</link>
-      <pubDate>Wed, 20 Jul 2016 09:13:58 +0200</pubDate>
+      <pubDate>Wed, 20 Jul 2016 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/bash_shortcuts/</guid>
       <description>Here is just a small reminder of common bash shortcuts for everyday use:
@@ -303,7 +313,7 @@ Ctrl + A Go to the beginning of the line you are currently typing on Ctrl + E Go
     <item>
       <title>Curl utils</title>
       <link>https://ixday.github.io/post/curl_utils/</link>
-      <pubDate>Tue, 19 Jul 2016 14:24:57 +0200</pubDate>
+      <pubDate>Tue, 19 Jul 2016 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/curl_utils/</guid>
       <description>Here are some options and command I use with curl when dealing with stuff I have to develop.
@@ -360,7 +370,7 @@ Here is the command I run when I just made some devs: py.test -xvvvs --tb=line -
       <guid>https://ixday.github.io/post/pdbpp/</guid>
       <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
-  This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
+ This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
     </item>
     
     <item>

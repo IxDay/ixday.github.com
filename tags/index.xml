@@ -6,20 +6,29 @@
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Feb 2021 08:25:05 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>cli</title>
       <link>https://ixday.github.io/tags/cli/</link>
-      <pubDate>Sun, 07 Feb 2021 08:25:05 +0100</pubDate>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/cli/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>terraform</title>
+      <link>https://ixday.github.io/tags/terraform/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/tags/terraform/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>admin</title>
       <link>https://ixday.github.io/tags/admin/</link>
-      <pubDate>Wed, 20 Jan 2021 16:55:23 +0100</pubDate>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/admin/</guid>
       <description></description>
@@ -28,7 +37,7 @@
     <item>
       <title>kubernetes</title>
       <link>https://ixday.github.io/tags/kubernetes/</link>
-      <pubDate>Wed, 20 Jan 2021 16:55:23 +0100</pubDate>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/kubernetes/</guid>
       <description></description>
@@ -37,7 +46,7 @@
     <item>
       <title>dev</title>
       <link>https://ixday.github.io/tags/dev/</link>
-      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/dev/</guid>
       <description></description>
@@ -46,7 +55,7 @@
     <item>
       <title>golang</title>
       <link>https://ixday.github.io/tags/golang/</link>
-      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/golang/</guid>
       <description></description>
@@ -55,7 +64,7 @@
     <item>
       <title>alpine</title>
       <link>https://ixday.github.io/tags/alpine/</link>
-      <pubDate>Tue, 22 Sep 2020 16:51:22 +0200</pubDate>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/alpine/</guid>
       <description></description>
@@ -64,34 +73,34 @@
     <item>
       <title>bash</title>
       <link>https://ixday.github.io/tags/bash/</link>
-      <pubDate>Sat, 12 Sep 2020 17:01:52 +0200</pubDate>
+      <pubDate>Sat, 12 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/bash/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>rust</title>
-      <link>https://ixday.github.io/tags/rust/</link>
-      <pubDate>Sat, 20 Jul 2019 11:12:02 +0200</pubDate>
-      
-      <guid>https://ixday.github.io/tags/rust/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>git</title>
       <link>https://ixday.github.io/tags/git/</link>
-      <pubDate>Sat, 20 Jul 2019 09:51:29 +0200</pubDate>
+      <pubDate>Sat, 20 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/git/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>rust</title>
+      <link>https://ixday.github.io/tags/rust/</link>
+      <pubDate>Sat, 20 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/tags/rust/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>javascript</title>
       <link>https://ixday.github.io/tags/javascript/</link>
-      <pubDate>Sat, 01 Jul 2017 11:46:41 +0200</pubDate>
+      <pubDate>Sat, 01 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/javascript/</guid>
       <description></description>

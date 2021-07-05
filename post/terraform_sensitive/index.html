@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Terraform retrieve sensible data</title>
+  <meta property='og:title' content="Terraform retrieve sensible data - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Sat Jul 3 2021
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/terraform_sensitive/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Terraform retrieve sensible data</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/cli ">cli</a>
+, <a href="/tags/terraform ">terraform</a>
+
+      </p>
+      
+
+    </header>
+    <p>Another post on Terraform. Here to share a little snippet to retrieve some data from
+your Terraform state.
+When you are dealing with some Terraform resources or writing modules you may
+encounter the <code>sensitive</code> keyword/value (<a href="https://learn.hashicorp.com/tutorials/terraform/sensitive-variables">here</a> is a bit of doc).
+This is handy to avoid leaking some data, but from time to time you may want to
+extract one of those.</p>
+<h2 id="code">Code</h2>
+<p>For this article let&rsquo;s imagine I am creating an <code>aws_iam_user</code>
+for another team to access some specific resources. I need to share the
+<code>AWS_SECRET_ACCESS_KEY</code> and <code>AWS_ACCESS_KEY_ID</code> values but it is actually classified
+as sensistive.
+Here is the terraform code I am using:</p>
+<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_user&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
+  <span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
+<span class="p">}</span>
+<span class="kr">
+</span><span class="kr">resource</span> <span class="s2">&#34;aws_iam_access_key&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
+  <span class="na">user</span> = <span class="nx">aws_iam_user</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span>
+<span class="p">}</span>
+</code></pre></div><p>And here is the command to retrieve the info but it will be obfuscated:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">terraform state show aws_iam_access_key.foo
+
+...
+<span class="c1"># aws_iam_access_key.foo:</span>
+resource <span class="s2">&#34;aws_iam_access_key&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="o">{</span>
+    <span class="nv">id</span>                   <span class="o">=</span> <span class="s2">&#34;AKIAEXAMPLE&#34;</span>
+    <span class="nv">secret</span>               <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
+    <span class="nv">ses_smtp_password</span>    <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
+    <span class="nv">ses_smtp_password_v4</span> <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
+    <span class="nv">status</span>               <span class="o">=</span> <span class="s2">&#34;Active&#34;</span>
+    <span class="nv">user</span>                 <span class="o">=</span> <span class="s2">&#34;foo&#34;</span>
+<span class="o">}</span>
+</code></pre></div><h2 id="snippet">Snippet</h2>
+<p>The trick is to use the <code>-json</code> flag when running <code>terraform show</code>.
+<a href="https://www.terraform.io/docs/cli/commands/show.html">Here</a> is the doc explaining that sensitive data can be displayed when
+passing the proper flag (see the blue note block).</p>
+<p>The last thing to do is to use the <code>jq</code> command to extract what we are looking for:</p>
+<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">terraform show -json <span class="p">|</span> <span class="se">\
+</span><span class="se"></span>	jq <span class="s1">&#39;.values.root_module.resources[] | select(.address == &#34;aws_iam_access_key.foo&#34;) | .values&#39;</span>
+</code></pre></div>
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2021 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  </body>
+</html>

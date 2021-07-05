@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>terraform on Not today...</title>
+    <link>https://ixday.github.io/tags/terraform/</link>
+    <description>Recent content in terraform on Not today...</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/terraform/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraform retrieve sensible data</title>
+      <link>https://ixday.github.io/post/terraform_sensitive/</link>
+      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/terraform_sensitive/</guid>
+      <description>Another post on Terraform. Here to share a little snippet to retrieve some data from your Terraform state. When you are dealing with some Terraform resources or writing modules you may encounter the sensitive keyword/value (here is a bit of doc). This is handy to avoid leaking some data, but from time to time you may want to extract one of those.
+Code For this article let&amp;rsquo;s imagine I am creating an aws_iam_user for another team to access some specific resources.</description>
+    </item>
+    
+    <item>
+      <title>Debug Terraform</title>
+      <link>https://ixday.github.io/post/debug_terraform/</link>
+      <pubDate>Sun, 07 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/debug_terraform/</guid>
+      <description>How to easily debug Terraform? This was one of my biggest problem when dealing with the tool. I followed instructions to use some output ressources or browse the &amp;ldquo;debug&amp;rdquo; logs. Disclaimer: none of it was working properly.
+So here is what I am actually doing and I am perfectly happy with. Oh! And just before starting to enable debug logs you have to pass the environment variable TF_LOG=debug (because there is no man page and it is not written in the --help content).</description>
+    </item>
+    
+  </channel>
+</rss>

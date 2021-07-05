@@ -6,11 +6,11 @@
     <description>Recent content in golang on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 02 Nov 2020 00:00:00 +0100</lastBuildDate><atom:link href="https://ixday.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introducing Janus (SSH Agent written in Go)</title>
       <link>https://ixday.github.io/post/janus/</link>
-      <pubDate>Mon, 02 Nov 2020 00:00:00 +0100</pubDate>
+      <pubDate>Mon, 02 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/janus/</guid>
       <description>Why this project I am currently using gopass to store and share my passwords. I was relying on GPG to handle the encryption side of the process. Then a colleague of mine introduced me to age. This encryption specification allows the use of SSH keys and specifically the ED25519 ones. I decided to make the switch and moved all my stores to age encryption.
@@ -20,7 +20,7 @@ I am protecting my private key with a password and only loading it inside my age
     <item>
       <title>Golang SSH tunneling</title>
       <link>https://ixday.github.io/post/golang_ssh_tunneling/</link>
-      <pubDate>Sun, 04 Oct 2020 00:00:00 +0200</pubDate>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang_ssh_tunneling/</guid>
       <description>I already did an article around Golang and SSH previously, since it is a huge part of my current work. Today, I will share a small snippet which can be quite handy when automating stuff. This is how to perform a SSH tunnel using Golang. I will not explain what it is or what it is useful for, if you need more details please check the doc. In this tutorial, I will use the official SSH library from Google.</description>
@@ -29,7 +29,7 @@ I am protecting my private key with a password and only loading it inside my age
     <item>
       <title>RSA OAEP in Go and Openssl equivalent</title>
       <link>https://ixday.github.io/post/rsa_oaep_golang_openssl/</link>
-      <pubDate>Tue, 08 Sep 2020 10:12:56 +0200</pubDate>
+      <pubDate>Tue, 08 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/rsa_oaep_golang_openssl/</guid>
       <description>From time to time you write some code to deal with data that will be stored somewhere on a drive. When debugging it may be nice to have &amp;ldquo;shell&amp;rdquo; commands to mimic code and help understanding what is going on.
@@ -39,7 +39,7 @@ When it comes to encryption the swiss army knife you will most probably have in 
     <item>
       <title>Golang SSH, marshalling, unmarshalling</title>
       <link>https://ixday.github.io/post/golang_ssh_certs/</link>
-      <pubDate>Fri, 10 Apr 2020 15:55:12 +0200</pubDate>
+      <pubDate>Fri, 10 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang_ssh_certs/</guid>
       <description>Golang is a wonderful language to deal with the SSH protocol. It&amp;rsquo;s mostly due to the SSH library which is pretty exhaustive.
@@ -50,7 +50,7 @@ In this article we will see how to exchange keys between a program written in Go
     <item>
       <title>Parallel runners with teardown in go</title>
       <link>https://ixday.github.io/post/teardown_runner/</link>
-      <pubDate>Sun, 01 Jul 2018 17:28:16 +0200</pubDate>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/teardown_runner/</guid>
       <description>From time to time in go I have to start multiple small services acting in parallel. For example, a ssh server tied to an administration console (one is running on port 80 the other on port 22), or a kafka consumer pushing to a database and a website to serve those informations. You can decouple this in multiple programs, or run them through some kind of a manager and handle everything at the same place.</description>
@@ -59,7 +59,7 @@ In this article we will see how to exchange keys between a program written in Go
     <item>
       <title>Filepath Walk bug?</title>
       <link>https://ixday.github.io/post/filepath_walk/</link>
-      <pubDate>Wed, 09 May 2018 10:22:33 +0200</pubDate>
+      <pubDate>Wed, 09 May 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/filepath_walk/</guid>
       <description>During the development of a small project I noticed something strange with golang&amp;rsquo;s function filepath.Walk.
@@ -71,7 +71,7 @@ mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&amp;rsq
     <item>
       <title>Cancel copy of huge file in Go</title>
       <link>https://ixday.github.io/post/golang-cancel-copy/</link>
-      <pubDate>Mon, 12 Feb 2018 11:48:04 +0100</pubDate>
+      <pubDate>Mon, 12 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang-cancel-copy/</guid>
       <description>I recently came across this video on Golang programming. I think this was the moment I finally fully understood the power of Go. It is smart, simple and elegant, I love it.
@@ -79,9 +79,9 @@ Then, a few days later, I was coding on a toy project and I was doing some stuff
     </item>
     
     <item>
-      <title>golang err shadowing</title>
+      <title>Golang err shadowing</title>
       <link>https://ixday.github.io/post/golang-err-shadowing/</link>
-      <pubDate>Tue, 25 Jul 2017 10:44:02 +0200</pubDate>
+      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/golang-err-shadowing/</guid>
       <description>A feature I like in golang is the hability to declare a variable at the assignation time. Something like this:

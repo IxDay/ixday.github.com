@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.80.0" />
+  <meta name="generator" content="Hugo 0.84.1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -85,11 +85,11 @@ when it comes to tests, <a href="http://pytest.org/">pytest</a> is <em>THE</em> 
 <p>I also use <a href="http://flask.pocoo.org/">Flask</a> a lot, so today I will show you
 some of my snippets.</p>
 <p>First one the app fixture:</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">app</span><span class="p">():</span>
     <span class="s2">&#34;&#34;&#34;Load flask in testing mode&#34;&#34;&#34;</span>
     <span class="n">app_test</span> <span class="o">=</span> <span class="n">myapp</span>
-    <span class="n">app_test</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">app_test</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;TESTING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">app_test</span><span class="o">.</span><span class="n">json_encoder</span> <span class="o">=</span> <span class="n">my_encoder</span>
 
     <span class="k">return</span> <span class="n">app_test</span><span class="o">.</span><span class="n">test_client</span><span class="p">()</span>
@@ -99,7 +99,7 @@ returns a test client to interact with my Flask application.</p>
 (<a href="http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton">http://flask.pocoo.org/docs/0.10/testing/#the-testing-skeleton</a>)</p>
 <p>I also replace the json encoder by a custom one (it allows me to dump mock
 object for example).</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pytest.yield_fixture</span>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pytest</span><span class="o">.</span><span class="n">yield_fixture</span>
 <span class="k">def</span> <span class="nf">request_context</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
     <span class="s2">&#34;&#34;&#34;Provide a Flask request context for testing purpose&#34;&#34;&#34;</span>
 
@@ -126,7 +126,7 @@ So, here is an example on how you can replace the decorator
 
 <span class="kn">import</span> <span class="nn">database</span>
 
-<span class="nd">@pytest.fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s1">&#39;session&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">mock_transaction</span><span class="p">():</span>
     <span class="s2">&#34;&#34;&#34;Replace the atomic decorator from peewee to a noop one&#34;&#34;&#34;</span>
 
@@ -180,6 +180,5 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
   </body>
 </html>
