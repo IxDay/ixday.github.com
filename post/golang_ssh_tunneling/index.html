@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -89,7 +89,7 @@ In this tutorial, I will use the official <a href="https://pkg.go.dev/golang.org
 <h2 id="setup-remote">Setup remote</h2>
 <p>To be sure that our tunneling is working we will need a small service to reach.
 Here is a small shell snippet to display the current time over HTTP:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span>
   <span class="nb">echo</span> -e <span class="s2">&#34;HTTP/1.1 200 OK\n\n </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&#34;</span> <span class="p">|</span> nc -l -p <span class="m">1500</span>
 <span class="k">done</span>
 </code></pre></div><p>Just run this on your remote host. You can then check if it works using curl:
@@ -101,7 +101,7 @@ This has to be done in the code, and I will use the <a href="https://pkg.go.dev/
 from the Golang SSH library.</p>
 <p>Here is a quick way to instantiate an SSH-agent client connection, it re-uses
 the code from the <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh/agent#NewClient">client example</a>, I am also directly casting it as an <code>AuthMethod</code>:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;net&#34;</span>
 	<span class="s">&#34;os&#34;</span>
 
@@ -128,7 +128,7 @@ For this snippet, we want to let the user enter its answers and pass it to the s
 Since code may be a bit complicated to understand I will comment as best as I
 can to help understanding the flow. Also, check the <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh#KeyboardInteractiveChallenge">documentation</a>
 of the challenge function to understand the arguments.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;syscall&#34;</span>
 
 	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
@@ -178,7 +178,7 @@ tunnel our traffic. We need a raw connection to perform byte copies. Looking
 at the <a href="https://pkg.go.dev/golang.org/x/crypto@v0.0.0-20200930160638-afb6bcd081ae/ssh">SSH library</a> we will use the <code>Dial</code> function. It takes
 three arguments, the network (which is TCP), an address (which is your remote SSH server),
 and a configuration. Let&rsquo;s take a look at this structure.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;os/user&#34;</span>
 
 	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
@@ -210,7 +210,7 @@ two network connections, we just need to pipe each one to the other.
 <strong>NOTE:</strong> Most of the code has to be asynchronous to not block on
 one side or another, however, in this example I am taking shortcuts and this
 is not solid at all! Use with caution!</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go">
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;io&#34;</span>
 	<span class="s">&#34;log&#34;</span>
@@ -253,7 +253,7 @@ is not solid at all! Use with caution!</p>
 We set up our authentications methods, then initiate the SSH connection
 to the remote host. Once the link has been established we tunnel our traffic
 between our local and remote hosts.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;log&#34;</span>
 
 	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>

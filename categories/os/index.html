@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -367,7 +367,7 @@ Why ?  It is based on debian a distribution which I really like (and not Ubuntu)
     <p>Following <a href="%7Bfilename%7D/2015-08-18.debian-install-2.md">this article</a>
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
 </code></pre></div><p>It appears that LVM is started before I open the crypted partition and display this error.

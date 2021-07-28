@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.86.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - KVM with Docker bridge</title>
+  <meta property='og:title' content="KVM with Docker bridge - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Jul 14 2021
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/kvm_docker/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>KVM with Docker bridge</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/admin ">admin</a>
+, <a href="/tags/cli ">cli</a>
+
+      </p>
+      
+
+    </header>
+    <p>This post will explain how to use the docker bridge as a KVM bridge. In this
+post I will use the Qemu command line to manage my VMs.
+There is a lot of ways to connect a VM to the internet. The most common one
+is via network address translation (<a href="https://en.wikipedia.org/wiki/Network_address_translation">NAT</a>). This method has a few
+down side, the main one being that you need to explicitely configure port
+forwarding for your VM services to be reachable from the host.</p>
+<p>I wasn&rsquo;t a network person when I first started playing with docker. So when I
+did the first installation I discovered its bridge networking. I found the solution
+to better fit my needs. Every container has a specific IP and I can reach them
+from my laptop. I want the same for my VM but this is a bit less user friendly
+since you have to create and maintain the bridge by yourself. But on the other
+hand the bridge is not managed by Qemu making it possible to reuse the one from
+Docker.</p>
+<h2 id="the-command">The command</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 -m 4G -smp <span class="m">4</span> -cpu host -accel kvm <span class="se">\
+</span><span class="se"></span>	-monitor unix:<span class="nv">$@</span>,server,nowait <span class="se">\
+</span><span class="se"></span>	-netdev <span class="s2">&#34;bridge,id=user.1,br=docker0&#34;</span> <span class="se">\
+</span><span class="se"></span>	-device <span class="s2">&#34;virtio-net,netdev=user.1&#34;</span> <span class="se">\
+</span><span class="se"></span>	-hda &lt;your_qcow_file&gt;
+</code></pre></div>
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2021 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  </body>
+</html>

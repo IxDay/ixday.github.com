@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -115,14 +115,14 @@ dependencies as it is a requirements for basically all the gulp plugins).</p>
 <p>I will create a simple <code>utils.js</code> file aside my <code>gulpfile.js</code> to store
 those implementations.</p>
 <p>Here is the requirementents of the file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">through</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;through2&#39;</span><span class="p">);</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">through</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;through2&#39;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">gutil</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-util&#39;</span><span class="p">);</span>
 </code></pre></div><h3 id="vinyl-source-stream">vinyl-source-stream</h3>
 <p>According to its presentation this module only provide a convenient wrapper
 in order to link legacy nodejs streams and gulp implementation of streams
 vinyl.</p>
 <p>Here is the code I use:</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">source</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">source</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span> <span class="p">{</span>
 
   <span class="c1">// this is basically a stream, I will use the javascript scoping for
 </span><span class="c1"></span>  <span class="c1">// convenience
@@ -163,7 +163,7 @@ understanding on how nodejs streams work, and on gulp plugins implementation.</p
 <h3 id="merge-streams">merge-streams</h3>
 <p>This module simply merge multiple streams in a single one, this allow the
 developper to compose with multiple inputs.</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js">
 <span class="c1">// the function treats arguments as a list of streams
 </span><span class="c1"></span><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">merge</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="cm">/* streams... */</span><span class="p">)</span> <span class="p">{</span>
 
@@ -207,7 +207,7 @@ developper to compose with multiple inputs.</p>
 from a stream and return them as a nodejs buffer. Like the others, this
 one is quite simple and only requires to know a bit of node internal
 operations and libraries.</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js">
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
   <span class="c1">// like the others we will create a stream object
@@ -253,7 +253,7 @@ lot of people ran in this problem before.</p>
 globbing module which does exactly the same things
 (one dependency removed, Yay \o/).</p>
 <p>Here is how I implemented this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// we need the browserify module
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-js" data-lang="js"><span class="c1">// we need the browserify module
 </span><span class="c1"></span><span class="kd">var</span> <span class="nx">browserify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;browserify&#39;</span><span class="p">);</span>
 
 <span class="c1">// we create a utils.browserify kind of plugin here, which can take options

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -91,7 +91,7 @@ as it is mentionned in
 <h2 id="environment">Environment</h2>
 <p>We want to test them in a temporary location with a simple &ldquo;Hello world&rdquo; test.
 Here is the architecture we will use:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">  /tmp/drone_gogs_test      # just a custom directory for our test
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  /tmp/drone_gogs_test      # just a custom directory for our test
   |-- test                  # the git repository with the file to test
   |   |-- hello.py          # simple python file with a doctest test
   |-- gogs                  # directory which will be used by gogs to store
@@ -102,7 +102,7 @@ Here is the architecture we will use:</p>
 </code></pre></div><h2 id="test-repo">Test repo</h2>
 <p>We just use the doctest feature of python here, this allow us to perform a
 simple test without bootstraping a bunch of code</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="s2">&#34;&#34;&#34;Simple hello world function testing with doctest&#34;&#34;&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="s2">&#34;&#34;&#34;Simple hello world function testing with doctest&#34;&#34;&#34;</span>
 
 <span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
     <span class="s2">&#34;&#34;&#34;Simple hello world function
@@ -118,7 +118,7 @@ simple test without bootstraping a bunch of code</p>
     <span class="kn">import</span> <span class="nn">doctest</span>
     <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </code></pre></div><p>And this is the run</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">$ python hello.py -v
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ python hello.py -v
 Trying:
     hello<span class="o">()</span>
 Expecting:
@@ -151,13 +151,13 @@ use this as your day to day git repo).</p>
 <h2 id="drone">Drone</h2>
 <p>This one is a bit more complicated, first we have to create a dronerc file
 with the following content:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">REMOTE_DRIVER</span><span class="o">=</span>gogs
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">REMOTE_DRIVER</span><span class="o">=</span>gogs
 <span class="nv">REMOTE_CONFIG</span><span class="o">=</span>http://172.17.0.3:3000
 <span class="nv">DEBUG</span><span class="o">=</span><span class="nb">true</span>
 </code></pre></div><p>Here I put the application in debug mode, this is not mandatory, but I like
 to have outputs if something goes bad.</p>
 <p>Now we can start the container:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">docker run \
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">docker run \
         --volume $(pwd)/drone/var:/var/lib/drone \
         --volume /var/run/docker.sock:/var/run/docker.sock \
         --env-file $(pwd)/drone/dronerc \

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -87,12 +87,12 @@ things I use in my daily basis.</p>
 <h2 id="python-projects">Python projects</h2>
 <p>This is well documented but here is what I use in python projects to set up
 a default virtualenv.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">layout python
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">layout python
 </code></pre></div><p>That&rsquo;s it! It sets up a virtualenv in your <code>.direnv</code> directory,
 and load the updated <code>PATH</code>.</p>
 <h2 id="golang-projects">Golang projects</h2>
 <p>This one is a bit trickier.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">GOPATH</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/.go&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">GOPATH</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/.go&#34;</span>
 <span class="nb">export</span> <span class="nv">GOBIN</span><span class="o">=</span><span class="s2">&#34;</span><span class="nv">$GOPATH</span><span class="s2">/bin&#34;</span>
 PATH_add <span class="s2">&#34;</span><span class="nv">$GOBIN</span><span class="s2">&#34;</span>
 </code></pre></div><p>I usually put my <code>$GOPATH</code> in an hidden directory, here it&rsquo;s <code>.go</code> and link
@@ -101,9 +101,9 @@ depending on your needs.</p>
 <h2 id="misc">Misc</h2>
 <p>This is a trick I use with a bunch of project to move quickly around. I set up
 this in <code>.envrc</code> file:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PROJECT</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">PROJECT</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&#34;</span>
 </code></pre></div><p>And then in the <code>.zshrc</code> (works also with <code>.bashrc</code>), I put this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">alias</span> <span class="nv">cd</span><span class="o">=</span><span class="s1">&#39;HOME=${PROJECT:-$HOME} cd&#39;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">alias</span> <span class="nv">cd</span><span class="o">=</span><span class="s1">&#39;HOME=${PROJECT:-$HOME} cd&#39;</span>
 </code></pre></div><p>This will make my <code>cd</code> command to go back to the root of my project (where the
 <code>.envrc</code> file lands) instead of going to <code>$HOME</code>. But only inside my project
 and without overriding my <code>$HOME</code> variable globally. Which is something you

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -102,7 +102,7 @@ we will use some of its points.</p>
 <a href="https://github.com/IxDay/snippets/tree/master/golang/src/runner">my snippet repo</a>.</p>
 <h2 id="first-draft-build-base-interface">First draft, build base interface</h2>
 <p>Let&rsquo;s define what we will provide to the outside world as a simple interface.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;context&#34;</span>
 <span class="p">)</span>
 <span class="kd">type</span> <span class="p">(</span>
@@ -121,7 +121,7 @@ we will use some of its points.</p>
 <span class="kd">func</span> <span class="p">(</span><span class="nx">rf</span> <span class="nx">RunnerFunc</span><span class="p">)</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">rf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span> <span class="p">}</span>
 </code></pre></div><p>Okay, let&rsquo;s check what a simple implementation can look like. An example is
 worth a thousand words.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;context&#34;</span>
 	<span class="s">&#34;fmt&#34;</span>
 	<span class="s">&#34;time&#34;</span>
@@ -158,7 +158,7 @@ worth a thousand words.</p>
 	<span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div><p>We can now implement the interrupt logic:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;context&#34;</span>
 	<span class="s">&#34;os&#34;</span>
 	<span class="s">&#34;os/signal&#34;</span>
@@ -183,7 +183,7 @@ worth a thousand words.</p>
 </code></pre></div><p>And finally, the service consumming this runner thing and handling the logic.
 As I said we will use the <code>sync</code> package here and rely on <code>go</code> keyword for
 the parallelization.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;context&#34;</span>
 	<span class="s">&#34;sync&#34;</span>
 <span class="p">)</span>
@@ -241,7 +241,7 @@ the parallelization.</p>
 <span class="p">}</span>
 </code></pre></div><h2 id="how-to-use-it">How to use it</h2>
 <p>Now, let&rsquo;s write our main function to see how all of this perform.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;fmt&#34;</span>
 <span class="p">)</span>
 
@@ -255,7 +255,7 @@ the parallelization.</p>
 <h3 id="better-error-handling">Better error handling</h3>
 <p>We may need to record all errors and return them.
 To do so we will define a new kind of error based on an array.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="p">(</span>
 	<span class="c1">// Simple type, just a list of errors
 </span><span class="c1"></span>	<span class="nx">Errors</span> <span class="p">[]</span><span class="kt">error</span>
 <span class="p">)</span>
@@ -296,7 +296,7 @@ To do so we will define a new kind of error based on an array.</p>
 complex context usage. Basically, our API allows you to run stuff in a blocking
 way, and then to teardown resources. Let&rsquo;s create a new interface with those
 attributes, and a function in case someone does not need a <code>struct</code>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;context&#34;</span>
 <span class="p">)</span>
 
@@ -323,7 +323,7 @@ attributes, and a function in case someone does not need a <code>struct</code>.<
 	<span class="p">})</span>
 <span class="p">}</span>
 </code></pre></div><p>And here the interface with a function to cast it to a runner:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Define an interface with the two function needed.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Define an interface with the two function needed.
 </span><span class="c1"></span><span class="kd">type</span> <span class="nx">TeardownRunner</span> <span class="kd">interface</span> <span class="p">{</span>
 	<span class="nf">Run</span><span class="p">()</span> <span class="kt">error</span>
 	<span class="nf">Teardown</span><span class="p">()</span> <span class="kt">error</span>

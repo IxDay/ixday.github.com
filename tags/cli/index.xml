@@ -6,7 +6,18 @@
     <description>Recent content in cli on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/cli/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/cli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Socat, Telnet and Unix sockets</title>
+      <link>https://ixday.github.io/post/socat_telnet/</link>
+      <pubDate>Wed, 28 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/socat_telnet/</guid>
+      <description>Once in a while I use telnet, mostly to check if a port is open (the infamous telnet localhost 22) and sometimes to send a random http request.
+However, telnet has a few caveats which are:
+ not able to read from stdin not able to deal with https not able to handle unix sockets  Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
+    </item>
+    
     <item>
       <title>Terraform retrieve sensible data</title>
       <link>https://ixday.github.io/post/terraform_sensitive/</link>

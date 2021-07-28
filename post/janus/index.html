@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -93,13 +93,13 @@ issues. I decided to &ldquo;fork&rdquo; it and implements all the stuff I needed
 usable.</p>
 <h2 id="how-to-use-it">How to use it</h2>
 <p>From the current repo, I just installed it under <code>/usr/local/bin</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">git clone <span class="s2">&#34;https://github.com/IxDay/janus&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">git clone <span class="s2">&#34;https://github.com/IxDay/janus&#34;</span>
 <span class="nb">cd</span> janus
 make
 <span class="nv">PREFIX</span><span class="o">=</span>/usr/local make install
 </code></pre></div><p>My current laptop is using Archlinux I just replaced my SystemD unit file with
 my new binary (previous version from <a href="https://wiki.archlinux.org/index.php/SSH_keys#Start_ssh-agent_with_systemd_user">Archlinux wiki</a>):</p>
-<div class="highlight"><pre class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
 <span class="na">Description</span><span class="o">=</span><span class="s">SSH key agent (Janus)</span>
 
 <span class="k">[Service]</span>

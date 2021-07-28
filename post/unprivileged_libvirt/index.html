@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -116,7 +116,7 @@ the network is started.</p>
 <p>What we will do is reuse this bridge for the VMs we will start in our user space.
 To perform that we have to ensure that this network is started by libvirt at
 startup:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># start libvirt at computer startup</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># start libvirt at computer startup</span>
 sudo systemctl <span class="nb">enable</span> libvirtd
 <span class="c1"># ensure network is started by default</span>
 sudo virsh net-autostart default
@@ -124,7 +124,7 @@ sudo virsh net-autostart default
 interact with parts of it, we will modificate it to add access to the virtual
 bridge. We also have to set suid on the qemu bridge command so a simple user
 can get permissions for setting up bridge configuration.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># create ACL directory and set the value</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># create ACL directory and set the value</span>
 sudo mkdir -p /etc/qemu <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&#34;allow virbr0&#34;</span> <span class="p">|</span> sudo tee /etc/qemu/bridge.conf
 <span class="c1"># enable suid on qemu bridge tool</span>
 locate qemu-bridge-helper <span class="p">|</span> sudo xargs chmod +s
@@ -133,7 +133,7 @@ check if it is the one from your default network.</p>
 <h2 id="shoot">Shoot!</h2>
 <p>We just have to start our new VM now, be sure to have correctly logged out and
 in again before running the following commands (it makes the group changes effective).</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># download the ISO</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># download the ISO</span>
 wget https://nl.alpinelinux.org/alpine/v3.5/releases/x86_64/alpine-virt-3.5.2-x86_64.iso
 <span class="c1"># start it</span>
 virt-install			<span class="c1"># create a new VM through libvirt \</span>
@@ -152,7 +152,7 @@ virsh console --domain alpine <span class="c1"># attach our console to the VM co
 Yay \o/</p>
 <h2 id="some-snippets">Some snippets</h2>
 <p>I use some shell snippets to control the destruction of my VM.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">vm</span><span class="o">=</span>alpine
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">vm</span><span class="o">=</span>alpine
 <span class="c1"># stop a dedicated vm</span>
 virsh list <span class="p">|</span> awk <span class="s1">&#39;$2 ~ /&#39;</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">vm</span><span class="si">}</span><span class="s2">&#34;</span><span class="s1">&#39;/ {system(&#34;virsh destroy &#34; $2)}&#39;</span>
 <span class="c1"># delete it</span>

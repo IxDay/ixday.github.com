@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -84,7 +84,7 @@
 And I want to crypt the FS using Luks, and add LVM on top.</p>
 <p>I want it to look like that (like this scheme, a lot of reference
 come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">arch wiki</a></p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">+-----------------------------------------------+ +----------------+
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">+-----------------------------------------------+ +----------------+
 |Logical volume1        | Logical volume2       | |                |
 |/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
 |_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
@@ -95,7 +95,7 @@ come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_
 </code></pre></div><h2 id="prepare-disks">Prepare disks</h2>
 <p>I use parted for this configuration, I left 1MB at the start of the device
 to be compliant with <code>parted &lt;disk&gt; align-check optimal &lt;partition&gt;</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">apt install cryptsetup lvm2
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">apt install cryptsetup lvm2
 
 parted /dev/sda mkpart primary 1MB 201MB <span class="c1"># boot partition</span>
 parted /dev/sda mkpart primary 201MB 100% <span class="c1"># lvm partition</span>
@@ -122,7 +122,7 @@ mkswap /dev/mapper/vg_ssd-lv_swap
 <p>In order to prepare the base system I will use the <code>debootstrap</code> tool,
 which will take care of creating base files. Then I will <code>chroot</code> in the new
 system in order to setup packages and boot initialisation</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># mount new filesystem and debootstrap</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># mount new filesystem and debootstrap</span>
 mount /dev/mapper/&lt;vg_name&gt;-root /mnt
 mkdir /mnt/boot
 mount /dev/sda1 /mnt/boot
@@ -145,7 +145,7 @@ chroot /mnt/ /bin/bash
 <p>First install vim! <code>apt-get install vim</code></p>
 <p>Then create the fstab file, I use the UUID notation for this part.
 Basically, I run two commands in order to get the needed informations</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">ls -l /dev/disks/by-uuid
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">ls -l /dev/disks/by-uuid
 
 total <span class="m">0</span>
 lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&gt; ../../sda1
@@ -162,13 +162,13 @@ lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug
 lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:53 vg_ssd-lv_swap -&gt; ../dm-1
 
 </code></pre></div><p>Which will give me the following /etc/fstab.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">UUID</span><span class="o">=</span>de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    <span class="m">0</span>  <span class="m">1</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">UUID</span><span class="o">=</span>de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    <span class="m">0</span>  <span class="m">1</span>
 <span class="nv">UUID</span><span class="o">=</span>2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    <span class="m">0</span>  <span class="m">2</span>
 <span class="nv">UUID</span><span class="o">=</span>f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    <span class="m">0</span>  <span class="m">0</span>
 </code></pre></div><p>Edit the /etc/apt/sources.list file to set up basic packages and update package list: <code>apt-get update</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">deb http://ftp.us.debian.org/debian stable main contrib non-free
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">deb http://ftp.us.debian.org/debian stable main contrib non-free
 </code></pre></div><p>Install needed packages</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install the package</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install the package</span>
 apt-get install locales console-data keyboard-configuration
 
 <span class="c1"># set the variables up, select the ones you want with space</span>
@@ -188,12 +188,12 @@ apt-get install firmware-realtek
 <p>Now we want to make the new system bootable, to perform this the system needs a kernel
 <code>apt-get install linux-image-amd64</code></p>
 <p>Set up the /etc/crypttab file, which will tell how to map the crypted partition</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># &lt;target name&gt; &lt;source device&gt;         &lt;key file&gt;      &lt;options&gt;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># &lt;target name&gt; &lt;source device&gt;         &lt;key file&gt;      &lt;options&gt;</span>
 ssd             /dev/sda2               none            luks
 </code></pre></div><p>Install grub on /dev/sda (on disk, not on partition) <code>apt-get install grub2</code></p>
 <p>Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.</p>
 <p>In file <code>/etc/initramfs-tools/initramfs.conf</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1">#</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1">#</span>
 <span class="c1"># KEYMAP: [ y | n ]</span>
 <span class="c1">#</span>
 <span class="c1"># Charger une configuration de clavier à l&#39;étape d&#39;initramfs.</span>
@@ -205,7 +205,7 @@ ssd             /dev/sda2               none            luks
 <h2 id="the-end">The end!</h2>
 <p>Exit the <code>chroot</code> unmount partitions and reboot on your new fresh installed system.</p>
 <p>If at startup you get an error message like:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
 </code></pre></div><p>You can look at <a href="%7Bfilename%7D/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md">this article</a> which explain how to fix this issue</p>

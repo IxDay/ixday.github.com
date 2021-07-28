@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.86.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Kvm Hello World</title>
+  <meta property='og:title' content="Kvm Hello World - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Jul 14 2021
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/kvm_hello_world/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/tuto">Tuto</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Kvm Hello World</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/kvm ">kvm</a>
+, <a href="/tags/cli ">cli</a>
+
+      </p>
+      
+
+    </header>
+    <p>Let&rsquo;s start a small serie of post on KVM. It is a tool I sometime need to use
+when Docker is too simple for the problem at hand, or if I really need virtualization
+(to emulate another arch or a totally different system).</p>
+<p>I will start by giving a series of snippets to quick start your KVM usage. I am
+doing this because I often struggle to retrieve simple information when I want
+to come back on this kind of technology. Most of the articles are deep diving
+on a specific option and I always wonder what are all those options passed to
+the CLI.</p>
+<p>For this serie of articles I will use the <a href="https://www.qemu.org/">Qemu</a> CLI since it is
+the simplest and most used tool out there.</p>
+<h2 id="the-hard-disk-drive">The hard disk drive</h2>
+<p>Qemu mostly rely on the <a href="https://en.wikipedia.org/wiki/Qcow">qcow</a> format for the data persistence.
+It offers a variety of capabilities I will not dig into in this article.
+Let&rsquo;s keep things simple, and create a simple disk for our example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-img create -f qcow2 hdd.qcow2 10G
+</code></pre></div><p>This will generate a new file which will grow up to 10G. It will be of qcow2 format
+as indicated by the option <code>-f qcow2</code>.</p>
+<p>Another useful option is to create a new file backed by another one. This new
+file will only record the difference from the previous one. This is handy when
+you have finished the installation of the base image and start doing some configuration.
+It will allow you to go back to the initial state easily without the need of
+reinstalling everything:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># let&#39;s create our base image</span>
+qemu-img create -f qcow2 base.qcow2 10G
+<span class="c1"># we do what has to be done to have a clean install</span>
+qemu-system-x86_64 ...
+<span class="c1"># now we create a new image based on the previous one</span>
+qemu-img create -F qcow2 -f qcow2 -b base.qcow2 hdd.qcow2
+</code></pre></div><p>We will now use <code>hdd.qcow2</code> for our VM, keeping <code>base.qcow2</code> safe from subsequent
+modifications. It will ease our development because we can now come back to
+a clean install by running the same command (beware it will erase <code>hdd.qcow2</code>):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># reset the hdd.qcow2 image</span>
+qemu-img create -F qcow2 -f qcow2 -b base.qcow2 hdd.qcow2
+</code></pre></div><h2 id="the-options">The options</h2>
+<p>Qemu comes with a lot of options, making it highly configurable. However, it
+may be overwhelming at first. I will share here the default values I use when
+starting a VM:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 -m 4G -smp <span class="m">4</span> -cpu host -accel kvm <span class="se">\
+</span><span class="se"></span>	-monitor <span class="s2">&#34;unix:monitor.sock,server=on,wait=off&#34;</span> <span class="se">\
+</span><span class="se"></span>	-serial <span class="s2">&#34;chardev:serial0&#34;</span> <span class="se">\
+</span><span class="se"></span>	-chardev <span class="s2">&#34;socket,id=serial0,path=console.sock,server=on,wait=off&#34;</span> <span class="se">\
+</span><span class="se"></span>	-netdev <span class="s2">&#34;user,id=user.1&#34;</span> <span class="se">\
+</span><span class="se"></span>	-device <span class="s2">&#34;virtio-net,netdev=user.1&#34;</span> <span class="se">\
+</span><span class="se"></span>	-hda hdd.qcow2 -display none
+</code></pre></div><p>The options are:</p>
+<ul>
+<li><code>-m 4G</code>: amount of RAM, here 4G</li>
+<li><code>-smp 4</code>: number of CPUs, here 4</li>
+<li><code>-cpu host</code>: CPU model, use the same as the host</li>
+<li><code>-accel kvm</code>: virtualization accelerator, here we use KVM</li>
+<li><code>-monitor unix:monitor.sock,server=on,wait=off</code>: we want a qemu console monitor,
+this helps managing the VM and allow the user to send commands
+(to shutwdown the system for example).
+This option contains a few instructions, because you will need a two way communication link.
+For this example we will use a unix socket, but it can also be a regular socket
+which can be reachable over the network (I will show an example of this a bit later).
+<ul>
+<li><code>unix:monitor.sock</code>: This is the kind of socket we want (unix),
+with the path for the file to create.</li>
+<li><code>server=on</code> indicates to qemu that it should be a listening socket. You want to connect to it, not the other way around (not sure this sentence makes any sense).</li>
+<li><code>wait=off</code> tells qemu to not block waiting for the client to connect. If this
+option is set to true, you will have to connect to the socket before qemu can
+go further (it will not boot the VM until you connect).</li>
+</ul>
+</li>
+<li><code>-serial &quot;chardev:serial0&quot;</code> redirect a serial port to a specified device.
+Here we use a named device called <code>serial0</code> and define it as a unix socket with
+the next option. We could have directly defined it as a <code>unix:console.sock,...</code>
+and it would have been equivalent. I am just showing a different notation here.</li>
+<li><code>-chardev &quot;socket,id=serial0,path=console.sock,server=on,wait=off&quot;</code> describe
+a character device (this is a synonym for a two way communication link). It will
+be a unix <code>socket</code> with id <code>serial0</code>, the path for the socket will be <code>console.sock</code>. This device has the same options as the monitoring one.</li>
+<li><code>-netdev &quot;user,id=user.1&quot;</code> define a network device with id <code>user.1</code> in user mode.
+User mode is the simplest connectivity setup and requires no additional privilege to run. On the downside performance is poor and the guest is not accessible
+from the host, you can check the <a href="https://wiki.qemu.org/Documentation/Networking#User_Networking_.28SLIRP.29">official doc</a> for more info.
+You can still define some port forwarding (we will do this a bit later in the post).</li>
+<li><code>-device &quot;virtio-net,netdev=user.1&quot;</code> attach the network device <code>user.1</code> using
+the driver <code>virtio-net</code>.</li>
+<li><code>-hda hdd.qcow2</code> use the <code>hdd.qcow2</code> as a block device
+(<code>-hda</code>, <code>-hdb</code>, &hellip; should map to <code>/dev/vda</code>, <code>/dev/vdb</code>, &hellip;).</li>
+<li><code>-display none</code> we do not want to attach something here since we already have
+a unix socket <code>console.sock</code>.</li>
+</ul>
+<p><strong>Disclaimer</strong>: <code>server,nowait</code> is equivalent to <code>server=on,wait=off</code> and can be found
+out there on the internet. This has to be confirmed but it should be the legacy
+way of declaring those options.</p>
+<h3 id="some-variation">Some variation</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat file:<span class="sb">`</span>tty<span class="sb">`</span>,raw,echo<span class="o">=</span>0,escape<span class="o">=</span>0x1d unix-connect:console.sock
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 ... <span class="se">\
+</span><span class="se"></span>	-chardev <span class="s2">&#34;socket,id=serial0,port=4444,host=localhost,telnet=on,server=on,wait=off&#34;</span> <span class="se">\
+</span><span class="se"></span>	-serial <span class="s2">&#34;chardev:serial0&#34;</span>
+</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">telnet localhost <span class="m">4444</span>
+</code></pre></div><h2 id="the-first-boot">The first boot</h2>
+<p>Unless you are getting an image with a system already installed you will have
+to do it from an <a href="https://en.wikipedia.org/wiki/Optical_disc_image">ISO file</a>.</p>
+
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2021 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  </body>
+</html>

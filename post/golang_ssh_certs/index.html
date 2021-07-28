@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -100,7 +100,7 @@ I will cover the RSA format here, but there are also others, however, logic shou
 <p>The first thing to do is to create a key pair. It is pretty straightforward in
 Go and there is plenty of examples on the internet.
 Will still put a snippet here, to save a search:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rand&#34;</span>
@@ -129,7 +129,7 @@ This is not mandatory, but it might be useful for developers.</p>
 We also want this file to be usable by the command line tooling.
 For instance, we want to be able to load the key in the SSH agent.
 To perform this we will make our output string to be in the right format.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rsa&#34;</span>
@@ -150,7 +150,7 @@ following command: <code>ssh-add &lt;output_file&gt;</code></p>
 to grant access to a user. It is usually the format you can find in the
 <code>~/.ssh/authorized_keys</code> file.
 Here is a quick snippet on how to generate this string.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;bytes&#34;</span>
@@ -165,7 +165,7 @@ Here is a quick snippet on how to generate this string.</p>
 <p>Same as the previous section but now we are loading from a file. To simplify
 the snippets I will use a slice of bytes, and remove the file handling logic.</p>
 <p>Here is the code for the private key:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rsa&#34;</span>
@@ -186,7 +186,7 @@ the snippets I will use a slice of bytes, and remove the file handling logic.</p
 You can use a <a href="https://golang.org/pkg/bufio/#example_Scanner_lines">line scanner</a>
 to parse <code>authorized_keys</code> files.
 This also the format you will see when listing keys from your agent with this command: <code>ssh-add -L</code></p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
@@ -213,7 +213,7 @@ The certificate structure contains way more fields than what I am showing here,
 I strongly advise you to add a time validity window and a serial number for proper
 security and tracking.
 Check out <a href="https://pkg.go.dev/golang.org/x/crypto/ssh?tab=doc#Certificate">the documentation</a> for more information.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
@@ -233,7 +233,7 @@ Check out <a href="https://pkg.go.dev/golang.org/x/crypto/ssh?tab=doc#Certificat
 first. Here I will self sign the certificate. Self-signing is using the private
 part of the certificate key to sign it.</p>
 <p>We first need to create a signer interface from our private key:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rsa&#34;</span>
@@ -255,7 +255,7 @@ overkill. However, the purpose of this post is to show you how
 all those structures, interfaces and types plug together.
 This is in case you load the key from a file and thus from a slice of bytes.</p>
 <p>Once we have the signer we will use it to sign the certificate:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rsa&#34;</span>
@@ -280,7 +280,7 @@ This is in case you load the key from a file and thus from a slice of bytes.</p>
 if we did not do the previous steps the certificate would not be complete.
 Therefore it would not have been possible to marshal it.</p>
 <p>Marshaling is actually quite simple, but the function name does not make it obvious:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
@@ -294,7 +294,7 @@ purpose.</p>
 <h3 id="unmarshal-1">Unmarshal</h3>
 <p>Unmarshaling is the opposite operation, we just need to additionally cast to
 the structure we want to have:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
@@ -336,7 +336,7 @@ If we take a close look at this agent we see a <code>List</code> function. This 
 actually returns an <code>agent.Key</code> pointer. We can transform this structure into
 an <code>ssh.PublicKey</code> interface and potentially cast it to an <code>ssh.Certificate</code> pointer.
 Here is an example on how to do this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rsa&#34;</span>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -93,7 +93,7 @@ I am now writing it down so I remember what has been achieved.</p>
 your raspberry will never boot! I am copy-pasting here the commands executed
 to properly setup the SD card partitions
 (I took the fdisk automation from <a href="https://superuser.com/questions/332252/how-to-create-and-format-a-partition-using-a-bash-script#answer-984637">this stack overflow answer</a>):</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># replace /dev/...  with your sdcard entry</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># replace /dev/...  with your sdcard entry</span>
 sed -e <span class="s1">&#39;s/\s*\([\+0-9a-zA-Z]*\).*/\1/&#39;</span> <span class="s">&lt;&lt; EOF | fdisk /dev/mmcblk0
 </span><span class="s">  o # clear the in memory partition table
 </span><span class="s">  n # new partition
@@ -118,7 +118,7 @@ sed -e <span class="s1">&#39;s/\s*\([\+0-9a-zA-Z]*\).*/\1/&#39;</span> <span cla
 mkfs.vfat /dev/mmcblk0p1
 mkfs.ext4 /dev/mmcblk0p2
 </code></pre></div><p>Now, we have to run some commands because the raspberry I am using need so.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p1 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p1 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
 curl -o - http://dl-cdn.alpinelinux.org/alpine/v3.11/releases/armhf/alpine-rpi-3.11.2-armhf.tar.gz <span class="p">|</span> <span class="se">\
 </span><span class="se"></span>	tar xzf -
 rm boot/*-rpi2
@@ -136,7 +136,7 @@ cat &gt; config.txt <span class="s">&lt;&lt;-EOF
 <h2 id="first-boot-and-in-memory-setup">First boot and in-memory setup</h2>
 <p>When the booting is done, you will get a prompt, user is <code>root</code> and no password
 should be required.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># run the setup and answer the various questions</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># run the setup and answer the various questions</span>
 setup-alpine
 
 <span class="c1"># be sure to have properly installed ssh as it ease the administration,</span>
@@ -153,7 +153,7 @@ reboot
 </code></pre></div><h2 id="doing-the-persistent-install">Doing the persistent install</h2>
 <p>The <code>sys</code> install is the next phase, it will allow your installation to survive
 reboots (as you would expect from a regular machine).</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># we mount the ext4 partition</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># we mount the ext4 partition</span>
 <span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p2 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
 
 <span class="c1"># we copy from the previous commited image (you can ignore the syslinux/extlinux errors)</span>
@@ -164,7 +164,7 @@ setup-disk -o /media/mmcblk0p1/MYHOSTNAME.apkovl.tar.gz <span class="k">$(</span
 
 </code></pre></div><p>We now need to change the boot partition a bit in order to switch to our newly
 installed system.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mount -o remount,rw /media/mmcblk0p1 <span class="o">&amp;&amp;</span> <span class="nb">cd</span> media/mmcblk0p1
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">mount -o remount,rw /media/mmcblk0p1 <span class="o">&amp;&amp;</span> <span class="nb">cd</span> media/mmcblk0p1
 sed -i <span class="s1">&#39;$ s/^/root=\/dev\/mmcblk0p2 /&#39;</span> /media/mmcblk0p1/cmdline.txt
 
 mkdir kernel-installer

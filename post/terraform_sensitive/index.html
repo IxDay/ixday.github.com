@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -92,7 +92,7 @@ for another team to access some specific resources. I need to share the
 <code>AWS_SECRET_ACCESS_KEY</code> and <code>AWS_ACCESS_KEY_ID</code> values but it is actually classified
 as sensistive.
 Here is the terraform code I am using:</p>
-<div class="highlight"><pre class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_user&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_user&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
   <span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
 <span class="p">}</span>
 <span class="kr">
@@ -100,7 +100,7 @@ Here is the terraform code I am using:</p>
   <span class="na">user</span> = <span class="nx">aws_iam_user</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span>
 <span class="p">}</span>
 </code></pre></div><p>And here is the command to retrieve the info but it will be obfuscated:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">terraform state show aws_iam_access_key.foo
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">terraform state show aws_iam_access_key.foo
 
 ...
 <span class="c1"># aws_iam_access_key.foo:</span>
@@ -117,7 +117,7 @@ resource <span class="s2">&#34;aws_iam_access_key&#34;</span> <span class="s2">&
 <a href="https://www.terraform.io/docs/cli/commands/show.html">Here</a> is the doc explaining that sensitive data can be displayed when
 passing the proper flag (see the blue note block).</p>
 <p>The last thing to do is to use the <code>jq</code> command to extract what we are looking for:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">terraform show -json <span class="p">|</span> <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">terraform show -json <span class="p">|</span> <span class="se">\
 </span><span class="se"></span>	jq <span class="s1">&#39;.values.root_module.resources[] | select(.address == &#34;aws_iam_access_key.foo&#34;) | .values&#39;</span>
 </code></pre></div>
   </div>

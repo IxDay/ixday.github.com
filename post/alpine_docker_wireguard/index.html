@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -98,14 +98,14 @@ This cost me less than 5€ per month. Needless to say that I am pretty happy!</
 <p>To run Wireguard in a container we need to configure the underlying host.
 Since containers share the host kernel you have to do some changes to make it work.</p>
 <p>First, you have to install the kernel module:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># first check your kernel version</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># first check your kernel version</span>
 uname -r
 
 <span class="c1"># install wireguard kernel module</span>
 apk add wireguard-<span class="si">${</span><span class="nv">your_kernel_version</span><span class="si">}</span>
 </code></pre></div><p>Once this is done, we also need to configure kernel parameters to allow IP forwarding.
 I want the VPN to tunnel all traffic. I will forward IPv4 and IPv6.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># temporary set up</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># temporary set up</span>
 sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
 sysctl -w net.ipv6.conf.all.forwarding<span class="o">=</span><span class="m">1</span>
 </code></pre></div><p>I want those changes to be permanent. I first looked at writing this to
@@ -117,7 +117,7 @@ and <a href="https://bugs.launchpad.net/ubuntu/+source/procps/+bug/50093">here</
 <p>I decided to use a local startup script from OpenRC. You only need to create
 a shell script in <code>/etc/local.d</code> and make it executable
 (it also needs to have a <code>.start</code> suffix).</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="cp">#!/bin/sh
 </span><span class="cp"></span><span class="c1"># 60-forward.start script, set up the IP forward kernel parameter</span>
 
 sysctl -w net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
@@ -127,7 +127,7 @@ sysctl -w net.ipv6.conf.all.forwarding<span class="o">=</span><span class="m">1<
 Now that we have IP forwarding, it&rsquo;s time to set up iptables.
 Here the configuration is easy, you need to let iptables know about the forwarding
 of packets for both IPv4 and IPv6:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">iptables -P FORWARD ACCEPT
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">iptables -P FORWARD ACCEPT
 rc-update add iptables
 /etc/init.d/iptables save
 
@@ -140,7 +140,7 @@ configuration, ensure that <code>IPFORWARD=&quot;yes&quot;</code> is properly se
 <h2 id="setup-the-container">Setup the container</h2>
 <p>This will be a bit more straightforward. We first need to create the container
 Dockerfile:</p>
-<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.12</span><span class="err">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.12</span><span class="err">
 </span><span class="err">
 </span><span class="err"></span><span class="k">RUN</span> apk add --no-cache wireguard-tools ip6tables<span class="err">
 </span><span class="err"></span><span class="k">COPY</span> server.sh /usr/local/bin/wireguard<span class="err">
@@ -152,7 +152,7 @@ I am also installing iptables because the Wireguard script needs to add a
 few more rules at startup and shutdown.
 You would have noticed that I am using a custom script as the executable, this
 is because I need extra configuration to be generated at startup. Here is the content:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/sh
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/sh
 </span><span class="cp"></span>
 <span class="c1">#  10.0.0.x, fd47:d1a9:8d26:c99b:xxxx:xxxx:xxxx:xxxx</span>
 cat &gt; /etc/wireguard/wg0.conf <span class="s">&lt;&lt; EOF
@@ -188,7 +188,7 @@ is writing the current running state to the file.</li>
 </ul>
 <p>Once the container is built (with a command like <code>docker build -t wireguard .</code>)
 we can start it with the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">docker run --rm --detach --name wireguard <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">docker run --rm --detach --name wireguard <span class="se">\
 </span><span class="se"></span>	--cap-add<span class="o">=</span>NET_ADMIN --cap-add<span class="o">=</span>SYS_MODULE <span class="se">\
 </span><span class="se"></span>	--network<span class="o">=</span>host --volume /lib/modules:/lib/modules <span class="se">\
 </span><span class="se"></span>	wireguard
@@ -209,12 +209,12 @@ short introduction on the <a href="https://docs.docker.com/engine/reference/run/
 <p>Now our server is running, we need to configure the client and synchronize both
 endpoints to make them communicate properly.</p>
 <p>To do that I run the following command:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">ssh &lt;remote host&gt; docker <span class="nb">exec</span> -i wireguard wg show wg0 public-key <span class="p">|</span> <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">ssh &lt;remote host&gt; docker <span class="nb">exec</span> -i wireguard wg show wg0 public-key <span class="p">|</span> <span class="se">\
 </span><span class="se"></span>	sudo xargs ./setup.sh <span class="p">|</span> <span class="se">\
 </span><span class="se"></span>	xargs -rI<span class="o">{}</span> ssh &lt;remote host&gt; docker <span class="nb">exec</span> -i wireguard <span class="se">\
 </span><span class="se"></span>		wg <span class="nb">set</span> wg0 peer <span class="o">{}</span> allowed-ips 10.0.0.2/32 allowed-ips fd47:d1a9:8d26:c99b::1/128
 </code></pre></div><p>This will use the following script:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/sh
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="cp">#!/bin/sh
 </span><span class="cp"></span>
 <span class="nv">public</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">&#34;</span>
 <span class="nv">private</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>wg genkey<span class="k">)</span><span class="s2">&#34;</span>
@@ -259,7 +259,7 @@ sections. The last part is the interesting one. I am calling the <code>wg</code>
 to add a peer to my <code>wg0</code> interface. This interface will use the injected public
 key and have an IPv4 and IPv6 address.</p>
 <p>If on the remote host you run <code>docker logs -f wireguard</code>, you should see something like that:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">interface: wg0
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">interface: wg0
   public key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
   private key: (hidden)
   listening port: 5555
@@ -274,7 +274,7 @@ you can browse the Internet from wherever you are ;)</p>
 configuration. I want to read directly from the file to pipe to a potential
 following command. Thus to avoid leaking the key to the bash history for example
 (a shell recorder may also be present). Here is the more portable one-liner I found:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh">sed -n -e <span class="s1">&#39;s|PrivateKey = ||p&#39;</span> /etc/wireguard/wg0.conf
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">sed -n -e <span class="s1">&#39;s|PrivateKey = ||p&#39;</span> /etc/wireguard/wg0.conf
 </code></pre></div>
   </div>
 </article>

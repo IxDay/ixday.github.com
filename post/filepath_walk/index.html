@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -85,14 +85,14 @@ golang&rsquo;s function <a href="https://golang.org/pkg/path/filepath/#Walk">fil
 a file entry. The walker will stop.</p>
 <h2 id="setup-directory">Setup directory</h2>
 <p>First, set up a simple directory to walk</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">mkdir -p foo/baz
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">mkdir -p foo/baz
 touch foo/bar
 touch foo/baz/qux
 </code></pre></div><h2 id="run-the-script">Run the script</h2>
 <p>Now, let&rsquo;s run this example script, with the previous directory as the entry
 argument. I will reuse the example from golang documentation website with small
 changes.</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
 
 <span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;fmt&#34;</span>
@@ -121,18 +121,18 @@ changes.</p>
 	<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p>This will output:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">visited file: &#34;foo&#34;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">visited file: &#34;foo&#34;
 skipping a dir without errors: bar
 </code></pre></div><p>As you can notice, there&rsquo;s no trace of subdir <code>baz</code> and file <code>baz/qux</code>.</p>
 <h2 id="fix-the-script">Fix the script</h2>
 <p>To make this work <em>&ldquo;as expected&rdquo;</em> you will have to change line 17. With:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nx">info</span><span class="p">.</span><span class="nf">IsDir</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nx">info</span><span class="p">.</span><span class="nf">Name</span><span class="p">()</span> <span class="o">==</span> <span class="nx">fileToSkip</span> <span class="p">{</span> <span class="c1">// now test on entry type
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="k">if</span> <span class="nx">info</span><span class="p">.</span><span class="nf">IsDir</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nx">info</span><span class="p">.</span><span class="nf">Name</span><span class="p">()</span> <span class="o">==</span> <span class="nx">fileToSkip</span> <span class="p">{</span> <span class="c1">// now test on entry type
 </span><span class="c1"></span>	<span class="c1">//unchanged
 </span><span class="c1"></span>	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;skipping a dir without errors: %+v \n&#34;</span><span class="p">,</span> <span class="nx">info</span><span class="p">.</span><span class="nf">Name</span><span class="p">())</span>
 	<span class="k">return</span> <span class="nx">filepath</span><span class="p">.</span><span class="nx">SkipDir</span>
 <span class="p">}</span>
 </code></pre></div><p>Output is now:</p>
-<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">visited file: &#34;foo&#34;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">visited file: &#34;foo&#34;
 visited file: &#34;foo/bar&#34;
 visited file: &#34;foo/baz&#34;
 visited file: &#34;foo/baz/qux&#34;

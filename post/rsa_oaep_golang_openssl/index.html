@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -88,9 +88,9 @@ in your shell environment is <code>openssl</code>. But reading and understanding
 can sometimes be &ldquo;challenging&rdquo;.</p>
 <h2 id="lets-cook">Let&rsquo;s cook</h2>
 <p>First, I generated a RSA key in order to encrypt our cipher:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">openssl genrsa -out rsa.priv <span class="m">2048</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">openssl genrsa -out rsa.priv <span class="m">2048</span>
 </code></pre></div><p>You will use the following Golang code to load this key:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rsa&#34;</span>
 	<span class="s">&#34;crypto/x509&#34;</span>
 	<span class="s">&#34;encoding/pem&#34;</span>
@@ -107,7 +107,7 @@ can sometimes be &ldquo;challenging&rdquo;.</p>
 <span class="p">}</span>
 </code></pre></div><p>We will use <a href="https://golang.org/pkg/crypto/rsa/#EncryptOAEP">the encrypt function from the standard lib</a>.
 Usage will be as follow:</p>
-<div class="highlight"><pre class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
 	<span class="s">&#34;crypto/rand&#34;</span>
 	<span class="s">&#34;crypto/rsa&#34;</span>
 	<span class="s">&#34;crypto/sha256&#34;</span>
@@ -118,7 +118,7 @@ Usage will be as follow:</p>
 <span class="p">}</span>
 </code></pre></div><p>You now want decrypt this using <code>openssl</code>. If you saved the bytes to a file
 you can use the following snippet:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cat &lt;file&gt; <span class="p">|</span> openssl pkeyutl -decrypt -inkey key.rsa  <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">cat &lt;file&gt; <span class="p">|</span> openssl pkeyutl -decrypt -inkey key.rsa  <span class="se">\
 </span><span class="se"></span>	-pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 <span class="se">\
 </span><span class="se"></span>	-pkeyopt rsa_mgf1_md:sha256
 </code></pre></div><h2 id="testing-it-out">Testing it out!</h2>
@@ -126,7 +126,7 @@ you can use the following snippet:</p>
 with a simple golang file reading from stdin and encoding using the private key
 present in the directory.</p>
 <p>Here is how to use it:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># encrypt stdin</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># encrypt stdin</span>
 <span class="nb">echo</span> <span class="s2">&#34;foo&#34;</span> <span class="p">|</span> go run rsa_oaep.go
 
 <span class="c1"># encrypt from stdin and decrypt right away</span>

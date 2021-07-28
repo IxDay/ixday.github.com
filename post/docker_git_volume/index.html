@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -87,7 +87,7 @@ a container and clone a repo in it. I also wanted to avoid messing with the
 permissions and pass my user to the container as well.</p>
 <h2 id="set-test-env">Set test env</h2>
 <p>Here is my setup, a Dockerfile with a container and git installed</p>
-<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
 </span><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
 </span></code></pre></div><p>Then simply run the git clone command inside a volume mounted with correct uid
 and gid.</p>
@@ -120,7 +120,7 @@ we need a generic setup, whereas <code>--global</code> as root will only set the
 for the root user.</p>
 <h2 id="final-setup">Final setup</h2>
 <p>We modify our Dockerfile according to the last results.</p>
-<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
 </span><span class="err">
 </span><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
 </span><span class="err"></span><span class="k">RUN</span> git config --system core.logallrefupdates false<span class="err">

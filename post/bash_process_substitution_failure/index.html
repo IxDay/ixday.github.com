@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -85,13 +85,13 @@ I had a software that came with a bash script and got a problem when I tried
 to run it. It was failing with the following error: <code>fopen: No such file or directory</code></p>
 <p>I added the magical <code>set -x</code> line at the beginning to understand what
 was going on. I re-ran the script and saw the following output:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">+ wg setconf wg0 /dev/fd/63
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">+ wg setconf wg0 /dev/fd/63
 fopen: No such file or directory
 </code></pre></div><p>I checked the script to retrieve the line and here is what was written:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">cmd wg setconf <span class="s2">&#34;</span><span class="nv">$INTERFACE</span><span class="s2">&#34;</span> &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$WG_CONFIG</span><span class="s2">&#34;</span><span class="o">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">cmd wg setconf <span class="s2">&#34;</span><span class="nv">$INTERFACE</span><span class="s2">&#34;</span> &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$WG_CONFIG</span><span class="s2">&#34;</span><span class="o">)</span>
 </code></pre></div><p>The problem is coming from the process substitution part.
 I quickly checked that it was really what I was suspecting:</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ensure I am properly using bash first since ash do not support process substitution</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ensure I am properly using bash first since ash do not support process substitution</span>
 /bin/bash
 
 <span class="c1"># this should echo something like 5.0.17(1)-release</span>

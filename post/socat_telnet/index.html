@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.86.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Socat, Telnet and Unix sockets</title>
+  <meta property='og:title' content="Socat, Telnet and Unix sockets - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Wed Jul 28 2021
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/socat_telnet/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Socat, Telnet and Unix sockets</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/cli ">cli</a>
+, <a href="/tags/admin ">admin</a>
+, <a href="/tags/bash ">bash</a>
+
+      </p>
+      
+
+    </header>
+    <p>Once in a while I use <code>telnet</code>, mostly to check if a port is open
+(the infamous <code>telnet localhost 22</code>) and sometimes to send a random http request.</p>
+<p>However, <code>telnet</code> has a few caveats which are:</p>
+<ul>
+<li>not able to read from stdin</li>
+<li>not able to deal with https</li>
+<li>not able to handle unix sockets</li>
+</ul>
+<p>Those limitations are pushing me towards the use of the <code>socat</code> utility.
+Here I will show a few situations in which I am now using <code>socat</code>. As always
+I recommend to read the <a href="https://linux.die.net/man/1/socat">man page</a> to get a good idea of the
+various options.</p>
+<p>Now let&rsquo;s get started!</p>
+<h2 id="the-escape-sequence">The escape sequence</h2>
+<p>First of all <code>socat</code> does not provide the <code>^]</code> escape sequence by default.
+This means that if you connect to an interactive shell you will close the
+connection when pressing <code>^C</code> or <code>^D</code> (the <code>^</code> notation represents the <code>Ctrl</code> button,
+it is equivalent to <code>Ctrl+]</code>, <code>Ctrl+C</code>, <code>Ctrl+D</code>).
+However, you can mimic this feature with the following
+flags: <code>,rawer,escape=0x1d</code>.</p>
+<ul>
+<li>The <code>rawer</code> option will avoid closing the <code>socat</code> process by pressing <code>^C</code> or <code>^D</code>,
+and will pass it through the connection allowing
+you to control remote processes.</li>
+<li>The <code>escape=0x1d</code> option is here to actually close the process by pressing
+<code>^]</code>.</li>
+</ul>
+<h2 id="some-examples">Some examples</h2>
+<p>All those examples use <code>socat</code> in a client configuration. However, <code>socat</code>
+provides a lot of additional use cases, notably as a server
+(I wrote a <a href="/post/simple_https/">small post</a> a while ago).
+Now that all is clear, let&rsquo;s introduce the examples:</p>
+<p><strong>Connect to remote port:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="p">|</span> socat - tcp:foo.bar:22
+</code></pre></div><p><strong>Connect to remote virtual terminal over TCP:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat -,rawer,escape<span class="o">=</span>0x1d tcp:foo.bar:23
+</code></pre></div><p><strong>Connect to a local virtual terminal over a Unix socket:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat file:<span class="sb">`</span>tty<span class="sb">`</span>,rawer,escape<span class="o">=</span>0x1d unix-connect:console.sock
+</code></pre></div><p>The option <code>file:`tty`</code> is equivalent to <code>-</code> here. The following command will
+have the same behavior:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat -,rawer,escape<span class="o">=</span>0x1d unix-connect:console.sock
+</code></pre></div><p><strong>Issue an http request:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> -e <span class="s2">&#34;GET / HTTP/1.1\nHost: www.example.com\n&#34;</span> <span class="p">|</span> socat - tcp:www.example.com:80
+</code></pre></div><p><strong>Issue an https request:</strong></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> -e <span class="s2">&#34;GET / HTTP/1.1\nHost:github.com\n&#34;</span> <span class="p">|</span> socat - openssl:github.com:443
+</code></pre></div><p><strong>Moar examples:</strong> follow <a href="http://technostuff.blogspot.com/2008/10/some-useful-socat-commands.html">this link</a> for more ideas on how to
+use <code>socat</code>.</p>
+<h2 id="one-last-thing">One last thing</h2>
+<p>During my investigation around <code>socat</code> I noticed a weird
+potential bug. It seems that https connection is broken when connecting
+to a website with a wildcard certificate. You can check if that&rsquo;s the case
+by running:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> <span class="p">|</span> openssl s_client -connect google.com:443 2&gt; /dev/null <span class="p">|</span> grep -i subject
+</code></pre></div><p>When running socat against this domain using https you will get the following
+error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">socat[26639] E SSL_connect(): error:1416F086:SSL routines:tls_process_server_certificate:certificate verify failed
+</code></pre></div><p>I managed to make it work by piping <code>socat</code> to <code>cat</code>, I have no idea why this
+happen or the reason why the piping fixes it (I discovered this out of pure luck). So the final working command will be:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="nb">echo</span> -e <span class="s2">&#34;GET / HTTP/1.1\nHost:google.com\n&#34;</span> <span class="p">|</span> socat - openssl:google.com:443  <span class="p">|</span> cat
+</code></pre></div>
+  </div>
+</article>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "IxDay" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </div>
+    
+
+    <footer id="footer">
+	<p>&copy; 2021 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  </body>
+</html>

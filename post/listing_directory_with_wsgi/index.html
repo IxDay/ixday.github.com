@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -105,7 +105,7 @@ handling all the interactions with the FS.</li>
 </ul>
 <h2 id="hello-world">Hello world!</h2>
 <p>First of all, making it works for the most simple use case</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">wsgiref.simple_server</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">wsgiref.simple_server</span>
 
 <span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
 	<span class="s2">&#34;&#34;&#34;Return a simple Hello World when accessing an url (anyone) on the server
@@ -123,7 +123,7 @@ handling all the interactions with the FS.</li>
 </code></pre></div><h2 id="routing">Routing</h2>
 <p>Then I have to handle the request, translate the url in a possible path in the
 FS, and dispatch to the different choices available.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">wsgiref.simple_server</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">wsgiref.simple_server</span>
 <span class="kn">import</span> <span class="nn">path</span>
 
 <span class="n">ROOT</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">path</span><span class="p">(</span><span class="s1">&#39;/tmp&#39;</span><span class="p">)</span> <span class="c1"># The root directory from which I will serve the files</span>
@@ -162,13 +162,13 @@ FS, and dispatch to the different choices available.</p>
 </code></pre></div><h2 id="serve-content">Serve content</h2>
 <h3 id="return-404">Return 404</h3>
 <p>Most simple use case, return a 404 error and a small message</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python">	<span class="k">def</span> <span class="nf">not_found</span><span class="p">(</span><span class="n">start_response</span><span class="p">):</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">	<span class="k">def</span> <span class="nf">not_found</span><span class="p">(</span><span class="n">start_response</span><span class="p">):</span>
 		<span class="c1"># status code and header</span>
         <span class="n">start_response</span><span class="p">(</span><span class="s1">&#39;404 NOT FOUND&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">)])</span>
 		<span class="c1"># simplest message ever</span>
         <span class="k">return</span> <span class="p">[</span><span class="s1">&#39;Not Found&#39;</span><span class="p">]</span>
 </code></pre></div><h3 id="serve-file">Serve file</h3>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">mimetypes</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">mimetypes</span>
 
 <span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">*</span> <span class="mi">1024</span>
 
@@ -184,7 +184,7 @@ FS, and dispatch to the different choices available.</p>
 </code></pre></div><h3 id="list-directory">List directory</h3>
 <p>Last but not least, the listing of the directory. Here I use Jinja for the
 templating.</p>
-<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">jinja2</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">jinja2</span>
 
 <span class="c1"># setup my jinja environment with the templates directory containing my</span>
 <span class="c1"># template files</span>
@@ -208,7 +208,7 @@ templating.</p>
 	<span class="k">return</span> <span class="n">env</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s1">&#39;list_dir.tplt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">))</span>
 
 </code></pre></div><p>Here is the <code>list_dir.tplt</code> file</p>
-<div class="highlight"><pre class="chroma"><code class="language-jinja" data-lang="jinja"><span class="x">&lt;html&gt;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-jinja" data-lang="jinja"><span class="x">&lt;html&gt;
 </span><span class="x">&lt;head&gt;
 </span><span class="x">  &lt;title&gt;Directory listing for </span><span class="cp">{{</span><span class="nv">directory</span><span class="cp">}}</span><span class="x">&lt;/title&gt;
 </span><span class="x">&lt;/head&gt;

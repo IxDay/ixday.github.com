@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -127,7 +127,7 @@ Here is the command to download the script:</p>
 <p>Relauch weechat or type <code>/script load chanlist.rb</code>.
 We now have the buffer list on the left, but there is some commands to run in order to
 have something good.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># It is mandatory and appears in the chanlist documentation.</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># It is mandatory and appears in the chanlist documentation.</span>
 /set irc.look.server_buffer independent
 
 <span class="c1"># Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).</span>
@@ -145,7 +145,7 @@ modify the source code. Run the following line for changing this:</p>
 <p><a href="%7Bfilename%7D/images/weechat_chanlist.png"><img src="%7Bfilename%7D/images/weechat_chanlist.png" alt="chanlist screen">{:.image-process-article-image}</a>{:target=&quot;_blank&quot;}</p>
 <h2 id="connect-to-a-server-and-a-channel">Connect to a server and a channel</h2>
 <p>Now we can visualize the buffers we will connect to a server.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Setup nickname and connect</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Setup nickname and connect</span>
 /set irc.server_default.nicks <span class="s2">&#34;MaxV, MaxV_, MaxV__&#34;</span>
 /connect freenode
 /join <span class="c1">#freenode</span>
@@ -159,7 +159,7 @@ modify the source code. Run the following line for changing this:</p>
 <h2 id="bars">Bars</h2>
 <p>I will now customize the bars (because I can :p), this is inspired by
 <a href="http://pascalpoitras.com/my-weechat-configuration/">Pascal Poitras blog entry</a>.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Change original separator (need UTF8 support)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Change original separator (need UTF8 support)</span>
 /set weechat.look.separator_horizontal <span class="s2">&#34;—&#34;</span>
 
 <span class="c1"># Create and customize activetitle bar</span>
@@ -190,7 +190,7 @@ modify the source code. Run the following line for changing this:</p>
 <p><a href="%7Bfilename%7D/images/weechat_bars.png"><img src="%7Bfilename%7D/images/weechat_bars.png" alt="bars screen">{:.image-process-article-image}</a>{:target=&quot;_blank&quot;}</p>
 <h2 id="layout">Layout</h2>
 <p>I want to display 4 buffers at a time, I will change the layout to fit my needs.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">/window splith <span class="m">50</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">/window splith <span class="m">50</span>
 /window splitv <span class="m">50</span>
 /window <span class="m">1</span>
 /window splitv <span class="m">50</span>
@@ -200,7 +200,7 @@ modify the source code. Run the following line for changing this:</p>
 <h2 id="key-bindings">Key bindings</h2>
 <p>I have a few key bindings, at this point it fits my needs,
 maybe I will add some in the future and edit this post accordingly.</p>
-<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Activate the mouse on Alt + x, desactivate by pressing a second time</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Activate the mouse on Alt + x, desactivate by pressing a second time</span>
 /key <span class="nb">bind</span> meta-x /mouse toggle
 
 <span class="c1"># Navigate through windows by pressing Alt + right, Alt + left</span>

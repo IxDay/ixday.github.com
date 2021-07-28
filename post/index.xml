@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Socat, Telnet and Unix sockets</title>
+      <link>https://ixday.github.io/post/socat_telnet/</link>
+      <pubDate>Wed, 28 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/socat_telnet/</guid>
+      <description>Once in a while I use telnet, mostly to check if a port is open (the infamous telnet localhost 22) and sometimes to send a random http request.
+However, telnet has a few caveats which are:
+ not able to read from stdin not able to deal with https not able to handle unix sockets  Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
+    </item>
+    
     <item>
       <title>Terraform retrieve sensible data</title>
       <link>https://ixday.github.io/post/terraform_sensitive/</link>
@@ -427,7 +438,7 @@ cp some_file{,.old} It will copy your file adding a .</description>
       <description>&lt;p&gt;Following &lt;a href=&#34;%7Bfilename%7D/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
   Skipping volume group vg_ssd
 Unable to find LVM volume vg_ssd/lv_root
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.

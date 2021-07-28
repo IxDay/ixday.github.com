@@ -6,11 +6,29 @@
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>admin</title>
+      <link>https://ixday.github.io/tags/admin/</link>
+      <pubDate>Wed, 28 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/tags/admin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>bash</title>
+      <link>https://ixday.github.io/tags/bash/</link>
+      <pubDate>Wed, 28 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/tags/bash/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>cli</title>
       <link>https://ixday.github.io/tags/cli/</link>
-      <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 28 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/cli/</guid>
       <description></description>
@@ -22,15 +40,6 @@
       <pubDate>Sat, 03 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/terraform/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>admin</title>
-      <link>https://ixday.github.io/tags/admin/</link>
-      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://ixday.github.io/tags/admin/</guid>
       <description></description>
     </item>
     
@@ -67,15 +76,6 @@
       <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/alpine/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bash</title>
-      <link>https://ixday.github.io/tags/bash/</link>
-      <pubDate>Sat, 12 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://ixday.github.io/tags/bash/</guid>
       <description></description>
     </item>
     

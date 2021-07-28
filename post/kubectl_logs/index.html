@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -102,7 +102,7 @@ One of my alias is conflicting and introduce an unexpected behavior?</p>
 <p>Actually, &hellip; it is totally expected.
 I checked the man page and read it entirely to find out an interesting option and
 its default value: <code>--tail</code>. Here is what the documentation says:</p>
-<div class="highlight"><pre class="chroma"><code class="language-txt" data-lang="txt">--tail=-1       Lines  of recent log file to display. Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">--tail=-1       Lines  of recent log file to display. Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided.
 </code></pre></div><p>So, everything was working as expected it&rsquo;s just that this option is different when
 a selector is present. <strong>GREAT!</strong></p>
 <p>I am now using the following alias to handle logs:

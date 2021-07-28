@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.84.1" />
+  <meta name="generator" content="Hugo 0.86.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -100,7 +100,7 @@ saved in the state file), then ask Terraform to display this information nicely 
 you will not be surprised here.</p>
 <p>So for the sake of simplicity let&rsquo;s say that I am working with a file looking
 like this:</p>
-<div class="highlight"><pre class="chroma"><code class="language-tf" data-lang="tf"><span class="kr">resource</span> <span class="s2">&#34;a&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="kr">resource</span> <span class="s2">&#34;a&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
 	<span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
 <span class="p">}</span>
 <span class="kr">
@@ -112,7 +112,7 @@ like this:</p>
 It is possible that I made a mistake and want to know what is actually held by
 the resource <code>a</code> to fix the instructions.</p>
 <p>Here is what I will run:</p>
-<div class="highlight"><pre class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># this will generate the state up until my error which is at the next step</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># this will generate the state up until my error which is at the next step</span>
 terraform apply -target a.this
 
 <span class="c1"># and now I can display what is held by the resource a</span>
