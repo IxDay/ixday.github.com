@@ -6,11 +6,11 @@
     <description>Recent content in kvm on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 14 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/kvm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 31 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/kvm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kvm Hello World</title>
       <link>https://ixday.github.io/post/kvm_hello_world/</link>
-      <pubDate>Wed, 14 Jul 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 31 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/post/kvm_hello_world/</guid>
       <description>Let&amp;rsquo;s start a small serie of post on KVM. It is a tool I sometime need to use when Docker is too simple for the problem at hand, or if I really need virtualization (to emulate another arch or a totally different system).

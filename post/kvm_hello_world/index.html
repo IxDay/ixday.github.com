@@ -49,7 +49,7 @@
   <div class="meta">
   <time class="date">
     
-    Wed Jul 14 2021
+    Sat Jul 31 2021
     
   </time>
   <div class="comments">
@@ -166,15 +166,62 @@ a unix socket <code>console.sock</code>.</li>
 <p><strong>Disclaimer</strong>: <code>server,nowait</code> is equivalent to <code>server=on,wait=off</code> and can be found
 out there on the internet. This has to be confirmed but it should be the legacy
 way of declaring those options.</p>
-<h3 id="some-variation">Some variation</h3>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat file:<span class="sb">`</span>tty<span class="sb">`</span>,raw,echo<span class="o">=</span>0,escape<span class="o">=</span>0x1d unix-connect:console.sock
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 ... <span class="se">\
+<h3 id="connecting-to-the-control-sockets">Connecting to the control sockets</h3>
+<p>In this example I defined two unix sockets:</p>
+<ul>
+<li><code>console.sock</code>: this is the serial console of the emulated machine, it will
+behave as a regular shell once you properly connect to it.</li>
+<li><code>monitor.sock</code>: this is the Qemu controller interface, you can use it to control
+the VM (shutdown, inpect, connect stuff).</li>
+</ul>
+<p>I wrote <a href="/post/socat_telnet">a small post</a> explaining the options of the next command,
+check it out if you need details. Here is an example I am using personally to
+properly connect:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat -,rawer,escape<span class="o">=</span>0x1d unix-connect:console.sock
+</code></pre></div><h3 id="some-variation">Some variation</h3>
+<p>If you do not want to use a unix socket you can directly publish the serial
+console to a local tcp port instead. Here is the proper option:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 ... <span class="se">\
 </span><span class="se"></span>	-chardev <span class="s2">&#34;socket,id=serial0,port=4444,host=localhost,telnet=on,server=on,wait=off&#34;</span> <span class="se">\
 </span><span class="se"></span>	-serial <span class="s2">&#34;chardev:serial0&#34;</span>
-</code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">telnet localhost <span class="m">4444</span>
+</code></pre></div><p>The connection string will become:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat -,rawer,escape<span class="o">=</span>0x1d tcp:localhost:4444
 </code></pre></div><h2 id="the-first-boot">The first boot</h2>
 <p>Unless you are getting an image with a system already installed you will have
-to do it from an <a href="https://en.wikipedia.org/wiki/Optical_disc_image">ISO file</a>.</p>
+to first boot from an <a href="https://en.wikipedia.org/wiki/Optical_disc_image">ISO file</a>. Since we are using an ISO the
+bootable device will be an emulated CD-ROM drive. You need to pass 2 additional
+options to Qemu. The boot order with <code>-boot</code> option, here we set it to <code>d</code> for
+drive. The second option is <code>-cdrom</code> to pass an ISO which will be mounted in
+the guest VM at <code>/dev/cdrom</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 ... <span class="se">\
+</span><span class="se"></span>	-boot <span class="s2">&#34;d&#34;</span> -cdrom <span class="s2">&#34;&lt;your_distro&gt;.iso&#34;</span>
+</code></pre></div><p>You will need to remove those options once the installation is done, otherwise,
+you will keep booting using the CD-ROM drive.</p>
+<p><strong>Alternatively:</strong> you can keep the option in the command line, to always run the
+same command even after the first installation by prefixing <code>d</code> with the <code>once:</code>
+keyword. It will become:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 ... <span class="se">\
+</span><span class="se"></span>	-boot <span class="s2">&#34;once:d&#34;</span> -cdrom <span class="s2">&#34;&lt;your_distro&gt;.iso&#34;</span>
+</code></pre></div><p>You will need to be sure that installation is properly done because this will
+only boot once using the CD-ROM drive.</p>
+<h2 id="publishing-services-and-make-them-reachable-from-the-host">Publishing services and make them reachable from the host</h2>
+<p>Last part of this post will be about reaching the guest VM from the host.
+Given the current networking configuration, it will not be possible to connect
+through <code>ssh</code> or expose a web service.</p>
+<p>The solution will be to perform a port forward from the guest to the host.
+This can be achieved when defining the network interface by passing an additional
+<code>hostfwd</code> option. Here is an example using the <code>-netdev</code> configuration I
+presented with the default options I set in one of the previous section:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 ... <span class="se">\
+</span><span class="se"></span>	-netdev <span class="s2">&#34;user,id=user.1,hostfwd=tcp::2222-:22&#34;</span> <span class="se">\
+</span><span class="se"></span>	-device <span class="s2">&#34;virtio-net,netdev=user.1&#34;</span>
+</code></pre></div><p>This will publish the port 22 from the guest to the port 2222 of the host.
+You can combine as much <code>hostfwd</code> options as you want to publish all the services
+you need.</p>
+<h2 id="thats-all-folks">That&rsquo;s all folks</h2>
+<p>This conclude this post with the options I would have loved to know when I started
+using Qemu. I hope it could help someone out there and save a lot of time when
+dealing with something as complicated as virtualization.</p>
 
   </div>
 </article>

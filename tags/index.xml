@@ -6,7 +6,25 @@
     <description>Recent content in Tags on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 31 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>cli</title>
+      <link>https://ixday.github.io/tags/cli/</link>
+      <pubDate>Sat, 31 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/tags/cli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kvm</title>
+      <link>https://ixday.github.io/tags/kvm/</link>
+      <pubDate>Sat, 31 Jul 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/tags/kvm/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>admin</title>
       <link>https://ixday.github.io/tags/admin/</link>
@@ -22,15 +40,6 @@
       <pubDate>Wed, 28 Jul 2021 00:00:00 +0000</pubDate>
       
       <guid>https://ixday.github.io/tags/bash/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>cli</title>
-      <link>https://ixday.github.io/tags/cli/</link>
-      <pubDate>Wed, 28 Jul 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://ixday.github.io/tags/cli/</guid>
       <description></description>
     </item>
     
