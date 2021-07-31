@@ -1,7 +1,6 @@
 ---
 title:      "Kvm Hello World"
-date:       2021-07-14
-draft:      true
+date:       2021-07-31
 categories: ["Tuto"]
 tags:       ["kvm", "cli"]
 url:        "post/kvm_hello_world"
@@ -113,12 +112,26 @@ __Disclaimer__: `server,nowait` is equivalent to `server=on,wait=off` and can be
 out there on the internet. This has to be confirmed but it should be the legacy
 way of declaring those options.
 
-### Some variation
+### Connecting to the control sockets
 
+In this example I defined two unix sockets:
+- `console.sock`: this is the serial console of the emulated machine, it will
+  behave as a regular shell once you properly connect to it.
+- `monitor.sock`: this is the Qemu controller interface, you can use it to control
+  the VM (shutdown, inpect, connect stuff).
+
+I wrote [a small post][socat_post] explaining the options of the next command,
+check it out if you need details. Here is an example I am using personally to
+properly connect:
 
 ```sh
-socat file:`tty`,raw,echo=0,escape=0x1d unix-connect:console.sock
+socat -,rawer,escape=0x1d unix-connect:console.sock
 ```
+
+### Some variation
+
+If you do not want to use a unix socket you can directly publish the serial
+console to a local tcp port instead. Here is the proper option:
 
 ```sh
 qemu-system-x86_64 ... \
@@ -126,19 +139,72 @@ qemu-system-x86_64 ... \
 	-serial "chardev:serial0"
 ```
 
+The connection string will become:
+
 ```sh
-telnet localhost 4444
+socat -,rawer,escape=0x1d tcp:localhost:4444
 ```
+
 
 ## The first boot
 
 Unless you are getting an image with a system already installed you will have
-to do it from an [ISO file][iso_wiki].
+to first boot from an [ISO file][iso_wiki]. Since we are using an ISO the
+bootable device will be an emulated CD-ROM drive. You need to pass 2 additional
+options to Qemu. The boot order with `-boot` option, here we set it to `d` for
+drive. The second option is `-cdrom` to pass an ISO which will be mounted in
+the guest VM at `/dev/cdrom`.
 
+```sh
+qemu-system-x86_64 ... \
+	-boot "d" -cdrom "<your_distro>.iso"
+```
 
+You will need to remove those options once the installation is done, otherwise,
+you will keep booting using the CD-ROM drive.
+
+__Alternatively:__ you can keep the option in the command line, to always run the
+same command even after the first installation by prefixing `d` with the `once:`
+keyword. It will become:
+
+```sh
+qemu-system-x86_64 ... \
+	-boot "once:d" -cdrom "<your_distro>.iso"
+```
+
+You will need to be sure that installation is properly done because this will
+only boot once using the CD-ROM drive.
+
+## Publishing services and make them reachable from the host
+
+Last part of this post will be about reaching the guest VM from the host.
+Given the current networking configuration, it will not be possible to connect
+through `ssh` or expose a web service.
+
+The solution will be to perform a port forward from the guest to the host.
+This can be achieved when defining the network interface by passing an additional
+`hostfwd` option. Here is an example using the `-netdev` configuration I
+presented with the default options I set in one of the previous section:
+
+```sh
+qemu-system-x86_64 ... \
+	-netdev "user,id=user.1,hostfwd=tcp::2222-:22" \
+	-device "virtio-net,netdev=user.1"
+```
+
+This will publish the port 22 from the guest to the port 2222 of the host.
+You can combine as much `hostfwd` options as you want to publish all the services
+you need.
+
+## That's all folks
+
+This conclude this post with the options I would have loved to know when I started
+using Qemu. I hope it could help someone out there and save a lot of time when
+dealing with something as complicated as virtualization.
 
 
 [qemu_website]: https://www.qemu.org/
 [qcow_wiki]: https://en.wikipedia.org/wiki/Qcow
 [iso_wiki]: https://en.wikipedia.org/wiki/Optical_disc_image
 [qemu_wiki]: https://wiki.qemu.org/Documentation/Networking#User_Networking_.28SLIRP.29
+[socat_post]: /post/socat_telnet
