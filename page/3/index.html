@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.86.0" />
+  <meta name="generator" content="Hugo 0.87.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,49 @@
     
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Wed May 9 2018
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/filepath_walk/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/filepath_walk/">Filepath Walk bug?</a></h2>
+    <p>
+    During the development of a small project I noticed something strange with golang&rsquo;s function filepath.Walk.
+If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
+Setup directory First, set up a simple directory to walk
+mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
+    
+    <a href="/post/filepath_walk/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/golang ">golang</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -416,49 +459,6 @@ Thanks to the CoreOS team (love those guys) a new hub for storing container now 
     
     <a href="/url/docker_nspawn/">Read More...</a>
     
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Mon Aug 8 2016
-    
-  </time>
-  <div class="comments">
-    <a href="https://ixday.github.io/post/linux_mint_2/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/os">OS</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/linux_mint_2/">Linux Mint 2</a></h2>
-    <p>
-    <p>I recently messed up my laptop (do not play with <code>/etc/apt/preferences</code> too much!),
-and I had to reinstall my distro. I checked my <a href="https://ixday.github.io/post/linux_mint/">previous article</a>
-and noticed some missing informations. So here is a second article of things
-I needed to fixup when installing LMDE on my Macbook.</p>
-    
-    <a href="/post/linux_mint_2/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-
     </p>
     
   </div>

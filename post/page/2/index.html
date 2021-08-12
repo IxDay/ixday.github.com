@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.86.0" />
+  <meta name="generator" content="Hugo 0.87.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -45,6 +45,48 @@
     <h2 class="taxonomy-title">Filed under Posts...</h2>
     <div class="contents">
       
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
+    Tue Sep 8 2020
+    
+  </time>
+  <div class="comments">
+    <a href="https://ixday.github.io/post/rsa_oaep_golang_openssl/#disqus_thread">
+      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
+      </span>
+      comments
+    </a>
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/rsa_oaep_golang_openssl/">RSA OAEP in Go and Openssl equivalent</a></h2>
+    <p>
+    From time to time you write some code to deal with data that will be stored somewhere on a drive. When debugging it may be nice to have &ldquo;shell&rdquo; commands to mimic code and help understanding what is going on.
+When it comes to encryption the swiss army knife you will most probably have in your shell environment is openssl. But reading and understanding the documentation can sometimes be &ldquo;challenging&rdquo;.
+    
+    <a href="/post/rsa_oaep_golang_openssl/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/golang ">golang</a>
+, <a href="/tags/bash ">bash</a>
+
+    </p>
+    
+  </div>
+</article>
+
   
     <article>
     <div class="meta">
@@ -409,49 +451,6 @@ This post is more a reflexion around APIs and tricks in Golang than a production
     <strong>Tagged</strong>
     <a href="/tags/golang ">golang</a>
 , <a href="/tags/dev ">dev</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Wed May 9 2018
-    
-  </time>
-  <div class="comments">
-    <a href="https://ixday.github.io/post/filepath_walk/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/filepath_walk/">Filepath Walk bug?</a></h2>
-    <p>
-    During the development of a small project I noticed something strange with golang&rsquo;s function filepath.Walk.
-If you are going over a directory, and return filepath.SkipDir error on a file entry. The walker will stop.
-Setup directory First, set up a simple directory to walk
-mkdir -p foo/baz touch foo/bar touch foo/baz/qux Run the script Now, let&rsquo;s run this example script, with the previous directory as the entry argument. I will reuse the example from golang documentation website with small changes.
-    
-    <a href="/post/filepath_walk/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/golang ">golang</a>
 
     </p>
     

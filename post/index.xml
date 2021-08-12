@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 31 Jul 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 10 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>KVM with Docker bridge</title>
+      <link>https://ixday.github.io/post/kvm_docker/</link>
+      <pubDate>Tue, 10 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/kvm_docker/</guid>
+      <description>This post will explain how to use the docker bridge as a KVM bridge. In this post I will use the Qemu command line to manage my VMs.
+There is a lot of ways to connect a VM to the internet. The most common one is via network address translation (NAT). This method has a few down side, the main one being that you need to explicitely configure port forwarding for your VM services to be reachable from the host.</description>
+    </item>
+    
     <item>
       <title>Kvm Hello World</title>
       <link>https://ixday.github.io/post/kvm_hello_world/</link>

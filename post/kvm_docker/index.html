@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.86.0" />
+  <meta name="generator" content="Hugo 0.87.0" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -49,7 +49,7 @@
   <div class="meta">
   <time class="date">
     
-    Wed Jul 14 2021
+    Tue Aug 10 2021
     
   </time>
   <div class="comments">
@@ -61,7 +61,7 @@
   </div>
   <p class="categories">
   
-  <a href="/categories/tuto">Tuto</a>
+  <a href="/categories/snippet">Snippet</a>
   
   </p>
 </div>
@@ -81,8 +81,8 @@
 
     </header>
     <p>This post will explain how to use the docker bridge as a KVM bridge. In this
-post I will use the Qemu command line to manage my VMs.
-There is a lot of ways to connect a VM to the internet. The most common one
+post I will use the Qemu command line to manage my VMs.</p>
+<p>There is a lot of ways to connect a VM to the internet. The most common one
 is via network address translation (<a href="https://en.wikipedia.org/wiki/Network_address_translation">NAT</a>). This method has a few
 down side, the main one being that you need to explicitely configure port
 forwarding for your VM services to be reachable from the host.</p>
@@ -94,12 +94,39 @@ since you have to create and maintain the bridge by yourself. But on the other
 hand the bridge is not managed by Qemu making it possible to reuse the one from
 Docker.</p>
 <h2 id="the-command">The command</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 -m 4G -smp <span class="m">4</span> -cpu host -accel kvm <span class="se">\
-</span><span class="se"></span>	-monitor unix:<span class="nv">$@</span>,server,nowait <span class="se">\
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">qemu-system-x86_64 ... <span class="se">\
 </span><span class="se"></span>	-netdev <span class="s2">&#34;bridge,id=user.1,br=docker0&#34;</span> <span class="se">\
-</span><span class="se"></span>	-device <span class="s2">&#34;virtio-net,netdev=user.1&#34;</span> <span class="se">\
-</span><span class="se"></span>	-hda &lt;your_qcow_file&gt;
-</code></pre></div>
+</span><span class="se"></span>	-device <span class="s2">&#34;virtio-net,netdev=user.1&#34;</span>
+</code></pre></div><p>If you want a proper explanation of the options I use, I will let you check
+my <a href="/post/kvm_hello_world#the-options">previous post</a> where I explain this in details.
+For now the options we are looking into are:</p>
+<ul>
+<li><code>-netdev &quot;bridge,id=user.1,br=docker0&quot;</code> this define a network device with
+<code>id</code>: <code>user.1</code> of type bridge called <code>docker0</code>. Which is the bridge created by the
+docker daemon. Here, we will reuse that bridge to connect our VM.</li>
+<li><code>-device &quot;virtio-net,netdev=user.1&quot;</code> second option is here to attach the device
+to our VM. We define the network driver and the device id. As previously shown
+in the other post you need two options to fully describe and attach a network device.</li>
+</ul>
+<h2 id="the-configuration">The configuration</h2>
+<p>To make this properly work you will need a configuration step. Since the docker
+bridge do not provide you with dynamics IPs you will have to set up a static one.
+This is easily done using the <code>/etc/network/interfaces</code> file:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+    address 172.17.1.1/16
+    gateway 172.17.0.1
+</code></pre></div><p>In this example I am setting up a static IP of <code>172.17.1.1</code> using the default
+docker bridge network (<code>172.17.0.0/16</code>). This configuration will allow you to reach the internet
+through the bridge, but also the containers you might start in this network as well.</p>
+<p><strong>Disclaimer:</strong> As far as I know the docker daemon will not be aware of this setup
+and might start a container with the same IP. I am using the address <code>172.17.1.1</code>
+because I will need to have 254 containers registered in this network before
+it conflicts. Keep this in mind when you are setting this up!</p>
+
   </div>
 </article>
 <div id="disqus_thread"></div>
