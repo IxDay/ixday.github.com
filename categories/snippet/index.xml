@@ -6,7 +6,17 @@
     <description>Recent content in Snippet on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 10 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 18 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Viper Multi Config</title>
+      <link>https://ixday.github.io/post/viper_multi_config/</link>
+      <pubDate>Wed, 18 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/viper_multi_config/</guid>
+      <description>This post will explain how to overload configurations in Golang using viper and cobra libraries. The use case may be a niche one, but I find this to be an easy to understand and pretty clear way to do configuration merge.
+The problem and the expectation I am deploying most of my application on Kubernetes nowadays (I also moved my personal infrastructure to it a few weeks ago). This solution come with a big tooling ecosystem and a really opiniated way to deploy.</description>
+    </item>
+    
     <item>
       <title>KVM with Docker bridge</title>
       <link>https://ixday.github.io/post/kvm_docker/</link>
