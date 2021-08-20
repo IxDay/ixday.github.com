@@ -54,11 +54,8 @@
     
   </time>
   <div class="comments">
-    <a href="https://ixday.github.io/post/angular-parse/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/angular-parse/"></span>
+    comments
   </div>
   <p class="categories">
   
@@ -98,11 +95,8 @@ So, we will illustrate with some examples:
     
   </time>
   <div class="comments">
-    <a href="https://ixday.github.io/post/outside-angular/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/outside-angular/"></span>
+    comments
   </div>
   <p class="categories">
   
@@ -143,11 +137,8 @@ It is pretty simple to do that, but it is not clearly explained in the angular d
     
   </time>
   <div class="comments">
-    <a href="https://ixday.github.io/post/html5-boilerplate/#disqus_thread">
-      <span class="disqus-comment-count" data-disqus-identifier="IxDay">
-      </span>
-      comments
-    </a>
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/html5-boilerplate/"></span>
+    comments
   </div>
   <p class="categories">
   
@@ -183,6 +174,27 @@ So here is an example:
     </div>
     
   
+
+  
+  
+<script>
+  var remark_config = {
+    host: "https://remark42.rulz.xyz",
+    site_id: "blog",
+    url: "https://ixday.github.io/tags/web/",
+    locale: "en"
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' + c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ["counter"]);
+</script>
+
 
 
 
