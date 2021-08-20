@@ -8,7 +8,7 @@ theme = "chunk"
 pygmentsUseClassic=true
 pygmentsUseClasses = true
 PygmentsCodeFences = true
-disqusShortname = "IxDay"
+
 
 [[menu.main]]
   name = "github"
@@ -19,3 +19,5 @@ disqusShortname = "IxDay"
   author = "IxDay"
   epitaph = "Done with love... and beer"
   showCategories = true
+  remark42SiteID = "blog"
+  remark42Url = "https://remark42.rulz.xyz"
