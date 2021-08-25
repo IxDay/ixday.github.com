@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 18 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 25 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraform PKI</title>
+      <link>https://ixday.github.io/post/terraform_pki/</link>
+      <pubDate>Wed, 25 Aug 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/terraform_pki/</guid>
+      <description>Once upon a time, I tried to setup an infrastructure using Terraform and Docker. Spoiler alert: I reevaluated my setup to go for a Kubernetes approach which is easier and more robust. However, this experiment gave me the opportunity to better understand a really important part of a self hosted infrastructure: how to set up a PKI.
+Disclaimer: I may not use the proper terms or be sloppy on some concepts.</description>
+    </item>
+    
     <item>
       <title>Viper Multi Config</title>
       <link>https://ixday.github.io/post/viper_multi_config/</link>

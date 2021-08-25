@@ -50,6 +50,45 @@
     <div class="meta">
   <time class="date">
     
+    Tue Dec 11 2018
+    
+  </time>
+  <div class="comments">
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/simple_https/"></span>
+    comments
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/simple_https/">Simple HTTPs server</a></h2>
+    <p>
+    Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &#34;/CN=foo.com&#34; # then we start a server using socat sudo socat &#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&#34; \ 	SYSTEM:&#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!
+    
+    <a href="/post/simple_https/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/cli ">cli</a>
+, <a href="/tags/admin ">admin</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Sun Jul 1 2018
     
   </time>
@@ -391,47 +430,6 @@ curl -si &lt;ip&gt; # -s is the silent flag, it removes the progress # -i displa
 </article>
 
   
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Thu May 12 2016
-    
-  </time>
-  <div class="comments">
-    <span class="remark42__counter" data-url="https://ixday.github.io/post/gogs_drone_compose/"></span>
-    comments
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  <a href="/categories/tuto">Tuto</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/gogs_drone_compose/">Gogs &#43; Drone</a></h2>
-    <p>
-    Jenkins is everywhere now, but I really don&rsquo;t like it. So I am looking at a replacement from day to day. I discovered Gogs an I though that a CI is also a good use case for the Golang language.
-And I finally found Drone (which was not really difficult as it is mentionned in a ticket on gogs github).
-So I decided to make them work together in order to test that.
-    
-    <a href="/post/gogs_drone_compose/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/admin ">admin</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
 
     </div>
     
@@ -451,7 +449,8 @@ So I decided to make them work together in order to test that.
 
 
   
-  
+    
+    
 <script>
   var remark_config = {
     host: "https://remark42.rulz.xyz",
@@ -471,6 +470,7 @@ So I decided to make them work together in order to test that.
 </script>
 
 
+  
 
 
     <footer id="footer">
