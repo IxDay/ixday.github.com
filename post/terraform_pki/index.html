@@ -219,12 +219,13 @@ the certificates and keys to my filesystem:</p>
 <p>First we need to output our root CA to a file which will be distributed across
 the whole infrastructure.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="nx">locals</span> <span class="p">{</span>
-  <span class="na">path</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nb">module</span><span class="p">.</span><span class="nx">path</span><span class="si">}</span><span class="s2">/ca_certificate.pem&#34;</span>
+  <span class="na">path</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/ca_certificate.pem&#34;</span>
 <span class="p">}</span>
 <span class="kr">
 </span><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_ca&#34;</span> <span class="p">{</span>
-  <span class="na">filename</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">path</span>
-  <span class="na">content</span>  = <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span>
+  <span class="na">filename</span>        = <span class="nx">local</span><span class="p">.</span><span class="nx">path</span>
+  <span class="na">content</span>         = <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span>
+  <span class="na">file_permission</span> = <span class="s2">&#34;0644&#34;</span>
 <span class="kr">
 </span><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span><span class="c1">  # I want to remove the certificate when I destroy the infra
 </span><span class="c1"></span>    <span class="na">when</span>    = <span class="nx">destroy</span>
@@ -258,11 +259,12 @@ any repercussion.</p>
 <span class="kr">
 </span><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_child_cert&#34;</span> <span class="p">{</span>
   <span class="na">filename</span>        = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/child.crt.pem&#34;</span>
+  <span class="na">file_permission</span> = <span class="s2">&#34;0644&#34;</span>
 
   <span class="na">content</span> = <span class="nb">join</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="p">[</span>
     <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
     <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
-    <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">ca</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
+    <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
   <span class="p">])</span>
 <span class="kr">
 </span><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
@@ -277,7 +279,10 @@ any repercussion.</p>
 </code></pre></div><p>And now we can use <code>curl</code> in another terminal to check if our setup is valid:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl --cacert ca_certificate.pem --resolve <span class="s2">&#34;child.rulz.xyz:8443:127.0.0.1&#34;</span> https://child.rulz.xyz:8443
 </code></pre></div><p>That&rsquo;s it! It should be a good introduction to KPI and also explain just enough
-to have a basic understanding of certificate chain trust. Happy deployment!</p>
+to have a basic understanding of certificate chain trust.
+You can find the code of this post on the <a href="https://raw.githubusercontent.com/IxDay/ixday.github.com/source/content/code/terraform_pki/pki.tf">github repository</a>, and
+launch it with <code>terraform init &amp;&amp; terraform apply</code>.
+Happy deployment!</p>
 
   </div>
 </article>
