@@ -176,12 +176,13 @@ the whole infrastructure.
 
 ```tf
 locals {
-  path = "${module.path}/ca_certificate.pem"
+  path = "${path.module}/ca_certificate.pem"
 }
 
 resource "local_file" "rulz_ca" {
-  filename = local.path
-  content  = tls_self_signed_cert.rulz_ca.cert_pem
+  filename        = local.path
+  content         = tls_self_signed_cert.rulz_ca.cert_pem
+  file_permission = "0644"
 
   provisioner "local-exec" {  # I want to remove the certificate when I destroy the infra
     when    = destroy
@@ -221,11 +222,12 @@ resource "local_file" "rulz_child_key" {
 
 resource "local_file" "rulz_child_cert" {
   filename        = "${path.module}/child.crt.pem"
+  file_permission = "0644"
 
   content = join("", [
     tls_locally_signed_cert.rulz_child.cert_pem,
     tls_locally_signed_cert.rulz_int.cert_pem,
-    tls_self_signed_cert.ca.cert_pem,
+    tls_self_signed_cert.rulz_ca.cert_pem,
   ])
 
   provisioner "local-exec" {
@@ -250,8 +252,12 @@ curl --cacert ca_certificate.pem --resolve "child.rulz.xyz:8443:127.0.0.1" https
 ```
 
 That's it! It should be a good introduction to KPI and also explain just enough
-to have a basic understanding of certificate chain trust. Happy deployment!
+to have a basic understanding of certificate chain trust.
+You can find the code of this post on the [github repository][post_code], and
+launch it with `terraform init && terraform apply`.
+Happy deployment!
 
 [vault_pki]: https://www.vaultproject.io/docs/secrets/pki
 [tls_provider]: https://registry.terraform.io/providers/hashicorp/tls/latest/docs
 [socat_post]: /post/simple_https/
+[post_code]: https://raw.githubusercontent.com/IxDay/ixday.github.com/source/content/code/terraform_pki/pki.tf
