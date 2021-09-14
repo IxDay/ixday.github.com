@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
   <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
   
-  <title>Not today... - Categories</title>
-  <meta property='og:title' content="Categories - Not today...">
+  <title>Not today... - Install custom certificate with mkcert</title>
+  <meta property='og:title' content="Install custom certificate with mkcert - Not today...">
   <meta property="og:type" content="article">
   
 
@@ -42,131 +42,71 @@
   </nav>
 </header>
 
-    <h2 class="taxonomy-title">Filed under Categories...</h2>
+    
     <div class="contents">
       
-  
-    <article>
-    <div class="meta">
+<article>
+  <div class="meta">
   <time class="date">
     
     Tue Sep 14 2021
     
   </time>
   <div class="comments">
-    <span class="remark42__counter" data-url="https://ixday.github.io/categories/snippet/"></span>
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/mkcert_install/"></span>
     comments
   </div>
   <p class="categories">
   
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/categories/snippet/">Snippet</a></h2>
-    <p>
-    
-    
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Sat Jul 31 2021
-    
-  </time>
-  <div class="comments">
-    <span class="remark42__counter" data-url="https://ixday.github.io/categories/tuto/"></span>
-    comments
-  </div>
-  <p class="categories">
+  <a href="/categories/snippet">Snippet</a>
   
   </p>
 </div>
 
-    <div class="caption">
-    <h2 class="caption-title"><a href="/categories/tuto/">Tuto</a></h2>
-    <p>
-    
-    
-    </p>
-    
+  <div class="caption">
+    <header>
+      <h2>Install custom certificate with mkcert</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/bash ">bash</a>
+, <a href="/tags/admin ">admin</a>
+
+      </p>
+      
+
+    </header>
+    <p>Following my <a href="/post/terraform_pki">previous post</a> about generating a custom root certificate and a
+PKI. I will share today a small snippet to install your self made certificate on
+your laptop (or fleet) to be used by the system or the browsers.
+It works on OSX, Linux and Windows by using a nice hidden feature of <a href="https://github.com/FiloSottile/mkcert"><code>mkcert</code></a>.</p>
+<p>Following <a href="https://github.com/FiloSottile/mkcert#installing-the-ca-on-other-systems">the documentation</a>, we can see that we can install a certificate
+from a custom location. The idea here will be to rename our custom certificate
+to <code>rootCA.pem</code> and pass the folder to the environment variable.</p>
+<p>If I was starting from <a href="/post/terraform_pki">my previous post</a> terraform directory,
+I would run the following commands to install the certificate on my system:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">cp <span class="o">{</span>ca_certificate,rootCA<span class="o">}</span>.pem
+<span class="nv">CAROOT</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&#34;</span> mkcert -install
+</code></pre></div><p>And that&rsquo;s it! It should work out of the box, you can check by running <code>curl</code> without
+the need of the <code>--cacert</code> option from now on.</p>
+
   </div>
 </article>
 
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Mon Nov 2 2020
-    
-  </time>
-  <div class="comments">
-    <span class="remark42__counter" data-url="https://ixday.github.io/categories/project/"></span>
-    comments
-  </div>
-  <p class="categories">
-  
-  </p>
-</div>
+  <div id="remark42"></div>
 
-    <div class="caption">
-    <h2 class="caption-title"><a href="/categories/project/">Project</a></h2>
-    <p>
-    
-    
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Sat Sep 12 2020
-    
-  </time>
-  <div class="comments">
-    <span class="remark42__counter" data-url="https://ixday.github.io/categories/os/"></span>
-    comments
-  </div>
-  <p class="categories">
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/categories/os/">OS</a></h2>
-    <p>
-    
-    
-    </p>
-    
-  </div>
-</article>
-
-  
 
     </div>
     
-  
 
   
-    
-    
+  
 <script>
   var remark_config = {
     host: "https://remark42.rulz.xyz",
     site_id: "blog",
-    url: "https://ixday.github.io/categories/",
+    url: "https://ixday.github.io/post/mkcert_install/",
     locale: "en"
   };
 
@@ -177,11 +117,11 @@
       s.defer = true;
       (d.head || d.body).appendChild(s);
     }
-  })(remark_config.components || ["counter"]);
+  })(remark_config.components || ["embed","counter"]);
 </script>
 
 
-  
+
 
 
     <footer id="footer">

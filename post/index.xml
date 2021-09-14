@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 Aug 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Install custom certificate with mkcert</title>
+      <link>https://ixday.github.io/post/mkcert_install/</link>
+      <pubDate>Tue, 14 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/mkcert_install/</guid>
+      <description>Following my previous post about generating a custom root certificate and a PKI. I will share today a small snippet to install your self made certificate on your laptop (or fleet) to be used by the system or the browsers. It works on OSX, Linux and Windows by using a nice hidden feature of mkcert.
+Following the documentation, we can see that we can install a certificate from a custom location.</description>
+    </item>
+    
     <item>
       <title>Terraform PKI</title>
       <link>https://ixday.github.io/post/terraform_pki/</link>

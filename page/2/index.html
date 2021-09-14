@@ -50,6 +50,44 @@
     <div class="meta">
   <time class="date">
     
+    Sun Oct 4 2020
+    
+  </time>
+  <div class="comments">
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/golang_ssh_tunneling/"></span>
+    comments
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+    <div class="caption">
+    <h2 class="caption-title"><a href="/post/golang_ssh_tunneling/">Golang SSH tunneling</a></h2>
+    <p>
+    I already did an article around Golang and SSH previously, since it is a huge part of my current work. Today, I will share a small snippet which can be quite handy when automating stuff. This is how to perform a SSH tunnel using Golang. I will not explain what it is or what it is useful for, if you need more details please check the doc. In this tutorial, I will use the official SSH library from Google.
+    
+    <a href="/post/golang_ssh_tunneling/">Read More...</a>
+    
+    </p>
+    
+    <p class="tags">
+    <strong>Tagged</strong>
+    <a href="/tags/dev ">dev</a>
+, <a href="/tags/golang ">golang</a>
+
+    </p>
+    
+  </div>
+</article>
+
+  
+    <article>
+    <div class="meta">
+  <time class="date">
+    
     Tue Sep 22 2020
     
   </time>
@@ -391,45 +429,6 @@ Why this project I am massively using jq in my shell scripts to deal with APIs. 
     <strong>Tagged</strong>
     <a href="/tags/dev ">dev</a>
 , <a href="/tags/rust ">rust</a>
-
-    </p>
-    
-  </div>
-</article>
-
-  
-    <article>
-    <div class="meta">
-  <time class="date">
-    
-    Tue Dec 11 2018
-    
-  </time>
-  <div class="comments">
-    <span class="remark42__counter" data-url="https://ixday.github.io/post/simple_https/"></span>
-    comments
-  </div>
-  <p class="categories">
-  
-  <a href="/categories/snippet">Snippet</a>
-  
-  </p>
-</div>
-
-    <div class="caption">
-    <h2 class="caption-title"><a href="/post/simple_https/">Simple HTTPs server</a></h2>
-    <p>
-    Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &#34;/CN=foo.com&#34; # then we start a server using socat sudo socat &#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&#34; \ 	SYSTEM:&#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!
-    
-    <a href="/post/simple_https/">Read More...</a>
-    
-    </p>
-    
-    <p class="tags">
-    <strong>Tagged</strong>
-    <a href="/tags/cli ">cli</a>
-, <a href="/tags/admin ">admin</a>
 
     </p>
     
