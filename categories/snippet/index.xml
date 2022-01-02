@@ -6,7 +6,17 @@
     <description>Recent content in Snippet on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 14 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/categories/snippet/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bash base64 padding</title>
+      <link>https://ixday.github.io/post/bash_base64_padding/</link>
+      <pubDate>Thu, 30 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/bash_base64_padding/</guid>
+      <description>Disclaimer: I am not 100% percent sure of my formula. It works every time I use it but I may have misunderstood some concepts. Take this article with a grain of salt.
+It happens that sometimes I have to process some base64 encoded strings which are not padded correctly (here is the wikipedia explanation of base64 padding). When using the base64 -d command I end up getting the following error: base64: invalid input and a non zero exit code.</description>
+    </item>
+    
     <item>
       <title>Install custom certificate with mkcert</title>
       <link>https://ixday.github.io/post/mkcert_install/</link>

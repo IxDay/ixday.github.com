@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.89.4" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Bash base64 padding</title>
+  <meta property='og:title' content="Bash base64 padding - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Thu Dec 30 2021
+    
+  </time>
+  <div class="comments">
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/bash_base64_padding/"></span>
+    comments
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/snippet">Snippet</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Bash base64 padding</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/bash ">bash</a>
+
+      </p>
+      
+
+    </header>
+    <p><strong>Disclaimer:</strong> I am not 100% percent sure of my formula. It works every time
+I use it but I may have misunderstood some concepts. Take this article with a grain
+of salt.</p>
+<p>It happens that sometimes I have to process some base64 encoded strings which
+are not padded correctly (<a href="https://en.wikipedia.org/wiki/Base64#Output_padding">here</a> is the wikipedia explanation of base64 padding).
+When using the <code>base64 -d</code> command I end up getting
+the following error: <code>base64: invalid input</code> and a non zero exit code.</p>
+<p><strong>Note:</strong> This only happen with the GNU version of the <code>base64</code> utilitary. On
+BSD it seems to support invalid padding.</p>
+<p>Since I am relying on the exit code I can&rsquo;t ignore the error and need to fix the
+padding before processing the string. Also, I would like this fix to be rather
+short to insert it in a pipe flow without creating a monstruous line.
+After a few experimentations I came up with a satisfying solution relying on <code>awk</code>.</p>
+<p>In this example I will show a real life use case I encountered.
+I had a <a href="https://en.wikipedia.org/wiki/JSON_Web_Token">JWT</a> token stored in a file on my machine. This token come
+with an expiration time and I would like to check if the token has expired before
+requesting a new one. This will avoid going over the network if my token is still
+valid.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">	cat my_jwt_token.txt <span class="se">\
+</span><span class="se"></span>		<span class="p">|</span> awk -F<span class="s1">&#39;.&#39;</span> <span class="s1">&#39;{l=length($2)+2; print substr($2&#34;==&#34;,1,l-l%4)}&#39;</span> <span class="se">\
+</span><span class="se"></span>		<span class="p">|</span> base64 -d <span class="p">|</span> jq -r <span class="s1">&#39;.exp&#39;</span> <span class="se">\
+</span><span class="se"></span>		<span class="p">|</span> xargs <span class="nb">test</span> <span class="s2">&#34;</span><span class="k">$(</span>date +%s<span class="k">)</span><span class="s2">&#34;</span> -lt
+</code></pre></div><ul>
+<li>The padding happens on the second line here is a quick explanation:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">       ┌──── We are decoding a JWT token, base64 encoded fields are separated by a dot
+       │                                    ┌─── We add two padding characters to the second field
+       │                                    │     (the one we want to decode), which is the maximum possible padding
+       │          ┌─ We calculate the new length with the additional padding
+       │          │                         │
+awk -F&#39;.&#39; &#39;{l=length($2)+2; print substr($2&#34;==&#34;,1,l-l%4)}&#39;
+                                                     │
+  This is where we compute how much padding we need. ┘
+  We calculate the modulo 4 of the string with extra padding and use it to
+  truncate the length and remove the non required characters.
+  The resulting string will contains the required padding characters to be base64 valid
+</code></pre></div><ul>
+<li>The third line decode the string and we use <a href="https://stedolan.github.io/jq/">jq</a> to retrieve the proper field.</li>
+<li>Fourth line is a test against current time to determine if we are past the expiration date.</li>
+</ul>
+<p>Even if I am not sure of my formula I ran a few tests using the <a href="https://en.wikipedia.org/wiki/Base64#Output_padding">wiki article</a>
+to validate it works with most of the cases:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">decode<span class="o">()</span> <span class="o">{</span>
+    awk -vstr<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s1">&#39;BEGIN {l=length(str)+2; print substr(str&#34;==&#34;,1,l-l%4)}&#39;</span> <span class="se">\
+</span><span class="se"></span>        <span class="p">|</span> base64 -d <span class="se">\
+</span><span class="se"></span>        <span class="p">|</span> <span class="o">{</span> cat<span class="p">;</span> echo<span class="p">;</span> <span class="o">}</span>
+<span class="o">}</span>
+
+decode <span class="s2">&#34;bGlnaHQgd29yay4&#34;</span>
+decode <span class="s2">&#34;bGlnaHQgd29yaw&#34;</span>
+decode <span class="s2">&#34;bGlnaHQgd29y&#34;</span>
+decode <span class="s2">&#34;bGlnaHQgd28&#34;</span>
+decode <span class="s2">&#34;bGlnaHQgdw&#34;</span>
+</code></pre></div><p>I hope this could help someone out there, I am keeping it here for my future self
+to not forget about all those tricks.</p>
+
+  </div>
+</article>
+
+  <div id="remark42"></div>
+
+
+    </div>
+    
+
+  
+  
+<script>
+  var remark_config = {
+    host: "https://remark42.rulz.xyz",
+    site_id: "blog",
+    url: "https://ixday.github.io/post/bash_base64_padding/",
+    locale: "en"
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' + c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ["embed","counter"]);
+</script>
+
+
+
+
+
+    <footer id="footer">
+	<p>&copy; 2021 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  </body>
+</html>

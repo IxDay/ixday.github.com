@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.87.0" />
+  <meta name="generator" content="Hugo 0.89.4" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -107,7 +107,7 @@ to provide everything I need and was all writen in pure Rust.</p>
 </span><span class="w"></span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
 </span><span class="w">	</span><span class="kd">let</span><span class="w"> </span><span class="n">value</span>: <span class="nc">serde_json</span>::<span class="n">Value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_yaml</span>::<span class="n">from_reader</span><span class="p">(</span><span class="n">io</span>::<span class="n">stdin</span><span class="p">()).</span><span class="n">unwrap</span><span class="p">();</span><span class="w">
 </span><span class="w">	</span><span class="c1">// Write out the JSON.
-</span><span class="c1"></span><span class="w">	</span><span class="n">println</span><span class="o">!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span><span class="w">
+</span><span class="c1"></span><span class="w">	</span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;{}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span><span class="w">
 </span><span class="w"></span><span class="p">}</span><span class="w">
 </span></code></pre></div><p><strong>TADA! It works!</strong> I did not even have to learn Rust syntax at all.
 The only knowledge I had to collect was around the Cargo toolchain, which was

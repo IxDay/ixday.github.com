@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.87.0" />
+  <meta name="generator" content="Hugo 0.89.4" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -129,12 +129,12 @@ vinyl.</p>
 </span><span class="c1"></span>  <span class="c1">// will push a vinyl file in it.
 </span><span class="c1"></span>  <span class="c1">// The use will be the following:
 </span><span class="c1"></span>  <span class="c1">// someLegacyStream.pipe(utils.source()).pipe(whateverInGulpWorld);
-</span><span class="c1"></span>  <span class="k">return</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="mi">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span>  <span class="k">return</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">chunk</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="c1">// Checks if we have initialized the stream with a vinyl file
 </span><span class="c1"></span>    <span class="c1">// basically, this just happen once at startup of streaming.
-</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="mi">_</span><span class="nx">ins</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">this</span><span class="p">.</span><span class="mi">_</span><span class="nx">ins</span> <span class="o">=</span> <span class="nx">ins</span><span class="p">;</span> <span class="c1">// this is just a convenient way of keeping a state
+</span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">_ins</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">_ins</span> <span class="o">=</span> <span class="nx">ins</span><span class="p">;</span> <span class="c1">// this is just a convenient way of keeping a state
 </span><span class="c1"></span>
       <span class="c1">// Create a vinyl file and pass &#34;ins&#34; stream as a content,
 </span><span class="c1"></span>      <span class="c1">// and an optional filename
@@ -208,7 +208,7 @@ operations and libraries.</p>
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">buffer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 
   <span class="c1">// like the others we will create a stream object
-</span><span class="c1"></span>  <span class="k">return</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="mi">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span>  <span class="k">return</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
 
     <span class="kd">var</span> <span class="nx">that</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span> <span class="c1">// keep an internal reference of this across js scoping
 </span><span class="c1"></span>    <span class="kd">var</span> <span class="nx">bufs</span> <span class="o">=</span> <span class="p">[];</span> <span class="c1">// array of buffer we will populate
@@ -221,7 +221,7 @@ operations and libraries.</p>
 
     <span class="c1">// otherwise we take the content of the stream and we pipe it
 </span><span class="c1"></span>    <span class="nx">file</span><span class="p">.</span><span class="nx">contents</span><span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span>
-      <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="mi">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// create a new buffer with data if it is not and push it to our array
 </span><span class="c1"></span>        <span class="nx">bufs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">Buffer</span><span class="p">.</span><span class="nx">isBuffer</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">?</span> <span class="nx">data</span> <span class="o">:</span> <span class="k">new</span> <span class="nx">Buffer</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
         <span class="nx">cb</span><span class="p">();</span>
@@ -267,7 +267,7 @@ globbing module which does exactly the same things
 </span><span class="c1"></span>  <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="nx">through</span><span class="p">.</span><span class="nx">obj</span><span class="p">(</span>
 
     <span class="c1">// here we only retrieve the files provided by the stream
-</span><span class="c1"></span>    <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="mi">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span>    <span class="kd">function</span><span class="p">(</span><span class="nx">file</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">b</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">);</span>
       <span class="nx">cb</span><span class="p">();</span>
     <span class="p">},</span>

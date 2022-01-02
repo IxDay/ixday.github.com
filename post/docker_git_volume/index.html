@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.87.0" />
+  <meta name="generator" content="Hugo 0.89.4" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -88,10 +88,10 @@ permissions and pass my user to the container as well.</p>
 </span><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
 </span></code></pre></div><p>Then simply run the git clone command inside a volume mounted with correct uid
 and gid.</p>
-<pre><code class="language-console" data-lang="console">docker build -t foo --rm .
-docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \
-	git clone https://github.com/octocat/Spoon-Knife
-</code></pre><p>And I get the following error:
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">docker build -t foo --rm .
+</span><span class="go">docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \
+</span><span class="go">	git clone https://github.com/octocat/Spoon-Knife
+</span></code></pre></div><p>And I get the following error:
 <code>fatal: unable to look up current user in the passwd file: no such user</code>. This
 is actually right, my user only exists on the host and not into my container.</p>
 <h2 id="googling">Googling</h2>
