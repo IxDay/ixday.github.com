@@ -26,3 +26,13 @@ git add -A
 git commit -m "whatever"
 git push
 ```
+
+Create a new post
+-----------------
+
+You can run: `hugo new <name_of_the_post>`, to create a new post file with the
+proper path and file name. This is due to the `script/wrapper.sh` file in
+conjunction with `.envrc` which allows wrapping of the Hugo CLI.
+
+__Do not forget:__ you have to remove the `draft=true` in order for the post
+to be properly published.
