@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/style.css" type='text/css' media='all'>
+  <link rel="stylesheet" href="https://ixday.github.io/css/pygment.css" type='text/css' media='all'>
+  
+  <title>Not today... - Shared Mount</title>
+  <meta property='og:title' content="Shared Mount - Not today...">
+  <meta property="og:type" content="article">
+  
+
+</head>
+
+  <body>
+    <div class="container">
+    <header>
+  <h1 id="site-title"><a href="https://ixday.github.io/">Not today...</a></h1>
+  <nav id="menu">
+    <ul>
+      
+        
+          <li><a href="https://github.com/IxDay">github</a></li>
+        
+      
+      
+      
+      <li><a href="/categories/os">os</a></li>
+      
+      <li><a href="/categories/project">project</a></li>
+      
+      <li><a href="/categories/snippet">snippet</a></li>
+      
+      <li><a href="/categories/tuto">tuto</a></li>
+      
+      
+    </ul>
+  </nav>
+</header>
+
+    
+    <div class="contents">
+      
+<article>
+  <div class="meta">
+  <time class="date">
+    
+    Sun Jan 16 2022
+    
+  </time>
+  <div class="comments">
+    <span class="remark42__counter" data-url="https://ixday.github.io/post/shared_mount/"></span>
+    comments
+  </div>
+  <p class="categories">
+  
+  <a href="/categories/os">OS</a>
+  
+  </p>
+</div>
+
+  <div class="caption">
+    <header>
+      <h2>Shared Mount</h2>
+
+      
+      <p class="tags">
+      <strong>Tagged</strong>
+      <a href="/tags/kubernetes ">kubernetes</a>
+, <a href="/tags/alpine ">alpine</a>
+
+      </p>
+      
+
+    </header>
+    <p>I have Kubernetes at home. I use it for my own infrastructure and my own server.
+I will maybe start a series of post about it in the future. However, today I will
+speak about a really specific issue I ran into.</p>
+<p>For my Kubernetes cluster I needed to deploy a monitoring stack. I am using the
+now standard prometheus + grafana (and some others services) to handle this.
+To monitor my host machine I am using the <a href="https://github.com/prometheus/node_exporter">node exporter</a> project in a <code>daemon-set</code>
+and mount the entire host system in it so it can be monitored.</p>
+<p>During the deployment the node exporter pod was crashing with the following error:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">Error: failed to start container &#34;node-exporter&#34;: Error response from daemon:
+	path / is mounted on / but it is not a shared or slave mount
+Error: failed to start container &#34;node-exporter&#34;: Error response from daemon:
+	path /sys is mounted on /sys but it is not a shared or slave mount
+</code></pre></div><p>Little did I know about this kind of issue or even what was a <code>slave mount</code> or
+a <code>shared mount</code>. I ended up checking the world wide web and found out a bunch
+of explanation about it.
+<a href="https://unix.stackexchange.com/questions/659941/what-do-mount-slave-and-rslave-option-do">Here is the stack exchange</a> page which describe it
+the best in the most concise way.</p>
+<p>Now that I knew about it, it was only one command away:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">mount --make-rshared /
+</code></pre></div><p>Since this is recursive and I will need the root directory for node exporter, I
+only need to run it once (no need to go for <code>/sys</code> or <code>/run</code> as they are below <code>/</code>). However, there might be security considerations here
+so use this line with caution. If I find better info I will amend this article.</p>
+<p>Next step is to make me able to check if a specific directory is shared or not.
+I wanted this check to be as simple as possible (so no extra command to install).
+I ended up finding this information in the <code>/proc</code> directory.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">cat /proc/self/mountinfo <span class="p">|</span> grep &lt;path_to_check&gt;
+</code></pre></div><p>Another thing is to make this change permanent. At first, I thought this was
+some kind of a mount option. I ended up reading (not properly I have to confess)
+<code>/etc/fstab</code> without finding any evidence on how to do this. It appeared that
+you may have to run the <code>--make-shared</code> option at every boot phase.
+Since I am using alpine linux I followed <a href="https://unix.stackexchange.com/questions/442020/alpine-linux-run-a-startup-script-to-change-the-etc-issue">those instructions</a> to
+ensure my filesystem was mounted properly:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">install -D -m <span class="m">0755</span> /dev/stderr /etc/local.d/10-mount.start 2<span class="s">&lt;&lt;-EOF
+</span><span class="s">	#!/bin/sh
+</span><span class="s">	mount --make-rshared /
+</span><span class="s">EOF</span>
+rc-update add <span class="nb">local</span> default
+</code></pre></div><p>This conclude this small article, I hope it could be useful for someone else.
+All in all this is a good personal reminder of what I did and how I managed to
+make it work.  Cheers!</p>
+
+  </div>
+</article>
+
+  <div id="remark42"></div>
+
+
+    </div>
+    
+
+  
+  
+<script>
+  var remark_config = {
+    host: "https://remark42.rulz.xyz",
+    site_id: "blog",
+    url: "https://ixday.github.io/post/shared_mount/",
+    locale: "en"
+  };
+
+  (function(c) {
+    for(var i = 0; i < c.length; i++){
+      var d = document, s = d.createElement('script');
+      s.src = remark_config.host + '/web/' + c[i] +'.js';
+      s.defer = true;
+      (d.head || d.body).appendChild(s);
+    }
+  })(remark_config.components || ["embed","counter"]);
+</script>
+
+
+
+
+
+    <footer id="footer">
+	<p>&copy; 2022 IxDay</p>
+	<p>Done with love... and beer</p>
+  <p>Powered by <a href="http://gohugo.io" target="_blank">Hugo</a>,</p>
+</footer>
+
+    </div>
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-38228870-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+  </body>
+</html>

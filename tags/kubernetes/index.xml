@@ -6,7 +6,17 @@
     <description>Recent content in kubernetes on Not today...</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://ixday.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Shared Mount</title>
+      <link>https://ixday.github.io/post/shared_mount/</link>
+      <pubDate>Sun, 16 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://ixday.github.io/post/shared_mount/</guid>
+      <description>I have Kubernetes at home. I use it for my own infrastructure and my own server. I will maybe start a series of post about it in the future. However, today I will speak about a really specific issue I ran into.
+For my Kubernetes cluster I needed to deploy a monitoring stack. I am using the now standard prometheus + grafana (and some others services) to handle this. To monitor my host machine I am using the node exporter project in a daemon-set and mount the entire host system in it so it can be monitored.</description>
+    </item>
+    
     <item>
       <title>The wild kubectl logs issue</title>
       <link>https://ixday.github.io/post/kubectl_logs/</link>
