@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -81,131 +81,129 @@
 And I want to crypt the FS using Luks, and add LVM on top.</p>
 <p>I want it to look like that (like this scheme, a lot of reference
 come from the <a href="https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system">arch wiki</a></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">+-----------------------------------------------+ +----------------+
-|Logical volume1        | Logical volume2       | |                |
-|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
-|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
-|                                               | |                |
-|        LUKS encrypted partition               | |                |
-|               /dev/sda2                       | |   /dev/sda1    |
-+-----------------------------------------------+ +----------------+
-</code></pre></div><h2 id="prepare-disks">Prepare disks</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">+-----------------------------------------------+ +----------------+
+</span></span><span class="line"><span class="cl">|Logical volume1        | Logical volume2       | |                |
+</span></span><span class="line"><span class="cl">|/dev/vg_ssd/lv_swap    | /dev/vg_ssd/lv_root   | | Boot partition |
+</span></span><span class="line"><span class="cl">|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| |                |
+</span></span><span class="line"><span class="cl">|                                               | |                |
+</span></span><span class="line"><span class="cl">|        LUKS encrypted partition               | |                |
+</span></span><span class="line"><span class="cl">|               /dev/sda2                       | |   /dev/sda1    |
+</span></span><span class="line"><span class="cl">+-----------------------------------------------+ +----------------+
+</span></span></code></pre></div><h2 id="prepare-disks">Prepare disks</h2>
 <p>I use parted for this configuration, I left 1MB at the start of the device
 to be compliant with <code>parted &lt;disk&gt; align-check optimal &lt;partition&gt;</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">apt install cryptsetup lvm2
-
-parted /dev/sda mkpart primary 1MB 201MB <span class="c1"># boot partition</span>
-parted /dev/sda mkpart primary 201MB 100% <span class="c1"># lvm partition</span>
-parted /dev/sda toggle <span class="m">1</span> boot
-parted /dev/sda toggle <span class="m">2</span> lvm
-
-cryptsetup -c aes-xts-plain -y -s <span class="m">512</span> luksFormat /dev/sda2
-<span class="c1"># enter passphrase</span>
-
-<span class="c1"># this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper</span>
-cryptsetup luksOpen /dev/sda2 ssd
-
-lvm pvcreate /dev/mapper/ssd
-lvm vgcreate vg_ssd /dev/mapper/ssd
-
-lvm lvcreate -L 4GB -n swap vg_ssd
-lvm lvcreate -l 100%FREE -n root vg_ssd
-
-<span class="c1"># now format the partitions</span>
-mkfs.ext4 /dev/sda1 <span class="c1"># boot partition</span>
-mkfs.ext4 /dev/mapper/vg_ssd-lv_root
-mkswap /dev/mapper/vg_ssd-lv_swap
-</code></pre></div><h2 id="prepare-base-system">Prepare base system</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apt install cryptsetup lvm2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">parted /dev/sda mkpart primary 1MB 201MB <span class="c1"># boot partition</span>
+</span></span><span class="line"><span class="cl">parted /dev/sda mkpart primary 201MB 100% <span class="c1"># lvm partition</span>
+</span></span><span class="line"><span class="cl">parted /dev/sda toggle <span class="m">1</span> boot
+</span></span><span class="line"><span class="cl">parted /dev/sda toggle <span class="m">2</span> lvm
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cryptsetup -c aes-xts-plain -y -s <span class="m">512</span> luksFormat /dev/sda2
+</span></span><span class="line"><span class="cl"><span class="c1"># enter passphrase</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># this command will open the crypted /dev/sda2 partition and link it to ssd in /dev/mapper</span>
+</span></span><span class="line"><span class="cl">cryptsetup luksOpen /dev/sda2 ssd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">lvm pvcreate /dev/mapper/ssd
+</span></span><span class="line"><span class="cl">lvm vgcreate vg_ssd /dev/mapper/ssd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">lvm lvcreate -L 4GB -n swap vg_ssd
+</span></span><span class="line"><span class="cl">lvm lvcreate -l 100%FREE -n root vg_ssd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># now format the partitions</span>
+</span></span><span class="line"><span class="cl">mkfs.ext4 /dev/sda1 <span class="c1"># boot partition</span>
+</span></span><span class="line"><span class="cl">mkfs.ext4 /dev/mapper/vg_ssd-lv_root
+</span></span><span class="line"><span class="cl">mkswap /dev/mapper/vg_ssd-lv_swap
+</span></span></code></pre></div><h2 id="prepare-base-system">Prepare base system</h2>
 <p>In order to prepare the base system I will use the <code>debootstrap</code> tool,
 which will take care of creating base files. Then I will <code>chroot</code> in the new
 system in order to setup packages and boot initialisation</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># mount new filesystem and debootstrap</span>
-mount /dev/mapper/&lt;vg_name&gt;-root /mnt
-mkdir /mnt/boot
-mount /dev/sda1 /mnt/boot
-
-debootstrap --arch<span class="o">=</span>amd64 stable /mnt
-
-<span class="c1"># copy somefiles</span>
-cp /etc/resolv.conf /mnt/etc/
-cp /etc/network/interfaces /mnt/etc/network
-
-<span class="c1"># bind and chroot</span>
-mount -o <span class="nb">bind</span> /dev /mnt/dev
-mount -o <span class="nb">bind</span> /dev/pts /mnt/dev/pts
-mount -o <span class="nb">bind</span> /proc /mnt/proc
-mount -o <span class="nb">bind</span> /run /mnt/run
-mount -o <span class="nb">bind</span> /sys /mnt/sys
-
-chroot /mnt/ /bin/bash
-</code></pre></div><h2 id="configuration">Configuration</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># mount new filesystem and debootstrap</span>
+</span></span><span class="line"><span class="cl">mount /dev/mapper/&lt;vg_name&gt;-root /mnt
+</span></span><span class="line"><span class="cl">mkdir /mnt/boot
+</span></span><span class="line"><span class="cl">mount /dev/sda1 /mnt/boot
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">debootstrap --arch<span class="o">=</span>amd64 stable /mnt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># copy somefiles</span>
+</span></span><span class="line"><span class="cl">cp /etc/resolv.conf /mnt/etc/
+</span></span><span class="line"><span class="cl">cp /etc/network/interfaces /mnt/etc/network
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># bind and chroot</span>
+</span></span><span class="line"><span class="cl">mount -o <span class="nb">bind</span> /dev /mnt/dev
+</span></span><span class="line"><span class="cl">mount -o <span class="nb">bind</span> /dev/pts /mnt/dev/pts
+</span></span><span class="line"><span class="cl">mount -o <span class="nb">bind</span> /proc /mnt/proc
+</span></span><span class="line"><span class="cl">mount -o <span class="nb">bind</span> /run /mnt/run
+</span></span><span class="line"><span class="cl">mount -o <span class="nb">bind</span> /sys /mnt/sys
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">chroot /mnt/ /bin/bash
+</span></span></code></pre></div><h2 id="configuration">Configuration</h2>
 <p>First install vim! <code>apt-get install vim</code></p>
 <p>Then create the fstab file, I use the UUID notation for this part.
 Basically, I run two commands in order to get the needed informations</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">ls -l /dev/disks/by-uuid
-
-total <span class="m">0</span>
-lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&gt; ../../sda1
-lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&gt; ../../sda2
-lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&gt; ../../dm-2
-lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&gt; ../../dm-1
-lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&gt; ../../dm-0
-
-ls -l /dev/mapper
-total <span class="m">0</span>
-crw------- <span class="m">1</span> root root 10, <span class="m">236</span> Aug <span class="m">19</span> 12:37 control
-lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:51 ssd -&gt; ../dm-0
-lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:52 vg_ssd-lv_root -&gt; ../dm-2
-lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:53 vg_ssd-lv_swap -&gt; ../dm-1
-
-</code></pre></div><p>Which will give me the following /etc/fstab.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nv">UUID</span><span class="o">=</span>de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    <span class="m">0</span>  <span class="m">1</span>
-<span class="nv">UUID</span><span class="o">=</span>2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    <span class="m">0</span>  <span class="m">2</span>
-<span class="nv">UUID</span><span class="o">=</span>f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    <span class="m">0</span>  <span class="m">0</span>
-</code></pre></div><p>Edit the /etc/apt/sources.list file to set up basic packages and update package list: <code>apt-get update</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">deb http://ftp.us.debian.org/debian stable main contrib non-free
-</code></pre></div><p>Install needed packages</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install the package</span>
-apt-get install locales console-data keyboard-configuration
-
-<span class="c1"># set the variables up, select the ones you want with space</span>
-dpkg-reconfigure locales
-
-<span class="c1"># setup password</span>
-passwd
-
-<span class="c1"># change hostname</span>
-<span class="nb">echo</span> <span class="s2">&#34;suika&#34;</span> &gt; /etc/hostname
-
-apt-get install lvm2 cryptsetup
-
-<span class="c1"># this one is specific to my mothercard</span>
-apt-get install firmware-realtek
-</code></pre></div><h2 id="grub">Grub</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls -l /dev/disks/by-uuid
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">total <span class="m">0</span>
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:52 2dfb2c7a-e99b-4073-9267-8e517bc0ce82 -&gt; ../../sda1
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 13:09 59da986c-ef82-485e-bc8b-f36cc440273c -&gt; ../../sda2
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:53 de3c4d79-beb9-427e-9dea-d25726a5f492 -&gt; ../../dm-2
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:52 f7c9d9f4-671e-45be-97a9-be775196545e -&gt; ../../dm-1
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root <span class="m">10</span> Aug <span class="m">19</span> 12:40 fcc7394f-6865-4ac5-989a-f6c58dc129d5 -&gt; ../../dm-0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">ls -l /dev/mapper
+</span></span><span class="line"><span class="cl">total <span class="m">0</span>
+</span></span><span class="line"><span class="cl">crw------- <span class="m">1</span> root root 10, <span class="m">236</span> Aug <span class="m">19</span> 12:37 control
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:51 ssd -&gt; ../dm-0
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:52 vg_ssd-lv_root -&gt; ../dm-2
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root       <span class="m">7</span> Aug <span class="m">19</span> 12:53 vg_ssd-lv_swap -&gt; ../dm-1
+</span></span></code></pre></div><p>Which will give me the following /etc/fstab.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">UUID</span><span class="o">=</span>de3c4d79-beb9-427e-9dea-d25726a5f492   /       ext4    defaults    <span class="m">0</span>  <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">UUID</span><span class="o">=</span>2dfb2c7a-e99b-4073-9267-8e517bc0ce82   /boot   ext4    defaults    <span class="m">0</span>  <span class="m">2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">UUID</span><span class="o">=</span>f7c9d9f4-671e-45be-97a9-be775196545e   none    swap    defaults    <span class="m">0</span>  <span class="m">0</span>
+</span></span></code></pre></div><p>Edit the /etc/apt/sources.list file to set up basic packages and update package list: <code>apt-get update</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">deb http://ftp.us.debian.org/debian stable main contrib non-free
+</span></span></code></pre></div><p>Install needed packages</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># install the package</span>
+</span></span><span class="line"><span class="cl">apt-get install locales console-data keyboard-configuration
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># set the variables up, select the ones you want with space</span>
+</span></span><span class="line"><span class="cl">dpkg-reconfigure locales
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># setup password</span>
+</span></span><span class="line"><span class="cl">passwd
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># change hostname</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;suika&#34;</span> &gt; /etc/hostname
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">apt-get install lvm2 cryptsetup
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># this one is specific to my mothercard</span>
+</span></span><span class="line"><span class="cl">apt-get install firmware-realtek
+</span></span></code></pre></div><h2 id="grub">Grub</h2>
 <p>Now we want to make the new system bootable, to perform this the system needs a kernel
 <code>apt-get install linux-image-amd64</code></p>
 <p>Set up the /etc/crypttab file, which will tell how to map the crypted partition</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># &lt;target name&gt; &lt;source device&gt;         &lt;key file&gt;      &lt;options&gt;</span>
-ssd             /dev/sda2               none            luks
-</code></pre></div><p>Install grub on /dev/sda (on disk, not on partition) <code>apt-get install grub2</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># &lt;target name&gt; &lt;source device&gt;         &lt;key file&gt;      &lt;options&gt;</span>
+</span></span><span class="line"><span class="cl">ssd             /dev/sda2               none            luks
+</span></span></code></pre></div><p>Install grub on /dev/sda (on disk, not on partition) <code>apt-get install grub2</code></p>
 <p>Load keyboard on initramfs in order to avoid keyboard layout collision when opening luks volume.</p>
 <p>In file <code>/etc/initramfs-tools/initramfs.conf</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1">#</span>
-<span class="c1"># KEYMAP: [ y | n ]</span>
-<span class="c1">#</span>
-<span class="c1"># Charger une configuration de clavier à l&#39;étape d&#39;initramfs.</span>
-<span class="c1">#</span>
-
-<span class="nv">KEYMAP</span><span class="o">=</span>y
-
-</code></pre></div><p>Update initramfs <code>update-initramfs -u</code> to apply change on initrd.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># KEYMAP: [ y | n ]</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Charger une configuration de clavier à l&#39;étape d&#39;initramfs.</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">KEYMAP</span><span class="o">=</span>y
+</span></span></code></pre></div><p>Update initramfs <code>update-initramfs -u</code> to apply change on initrd.</p>
 <h2 id="the-end">The end!</h2>
 <p>Exit the <code>chroot</code> unmount partitions and reboot on your new fresh installed system.</p>
 <p>If at startup you get an error message like:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-</code></pre></div><p>You can look at <a href="%7Bfilename%7D/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md">this article</a> which explain how to fix this issue</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">  Volume group &#34;vg_ssd&#34; not found
+</span></span><span class="line"><span class="cl">  Skipping volume group vg_ssd
+</span></span><span class="line"><span class="cl">Unable to find LVM volume vg_ssd/lv_root
+</span></span></code></pre></div><p>You can look at <a href="%7Bfilename%7D/2015-08-19.unable-to-find-lvm-volume-with-lvm-on-top-of-luks.md">this article</a> which explain how to fix this issue</p>
   </div>
 </article>
 
@@ -219,8 +217,8 @@ Unable to find LVM volume vg_ssd/lv_root
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/debian_install_3/",
     locale: "en"
   };

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -99,238 +99,238 @@ we will use some of its points.</p>
 <a href="https://github.com/IxDay/snippets/tree/master/golang/src/runner">my snippet repo</a>.</p>
 <h2 id="first-draft-build-base-interface">First draft, build base interface</h2>
 <p>Let&rsquo;s define what we will provide to the outside world as a simple interface.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;context&#34;</span>
-<span class="p">)</span>
-<span class="kd">type</span> <span class="p">(</span>
-
-	<span class="c1">// This interface is simple enough, it gets a context which will be used
-</span><span class="c1"></span>	<span class="c1">// to propagate some event down the pipe. We also want to handle potential
-</span><span class="c1"></span>	<span class="c1">// errors.
-</span><span class="c1"></span>	<span class="nx">Runner</span> <span class="kd">interface</span> <span class="p">{</span>
-		<span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span>
-	<span class="p">}</span>
-	<span class="c1">// This is more boilerplate, it will help us write runners without needing
-</span><span class="c1"></span>	<span class="c1">// structs. This is related to Tomas Senart video.
-</span><span class="c1"></span>	<span class="nx">RunnerFunc</span>    <span class="kd">func</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="p">(</span><span class="nx">rf</span> <span class="nx">RunnerFunc</span><span class="p">)</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">rf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span> <span class="p">}</span>
-</code></pre></div><p>Okay, let&rsquo;s check what a simple implementation can look like. An example is
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// This interface is simple enough, it gets a context which will be used
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// to propagate some event down the pipe. We also want to handle potential
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// errors.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">Runner</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// This is more boilerplate, it will help us write runners without needing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// structs. This is related to Tomas Senart video.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">RunnerFunc</span>    <span class="kd">func</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">rf</span> <span class="nx">RunnerFunc</span><span class="p">)</span> <span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span> <span class="k">return</span> <span class="nf">rf</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span> <span class="p">}</span>
+</span></span></code></pre></div><p>Okay, let&rsquo;s check what a simple implementation can look like. An example is
 worth a thousand words.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;context&#34;</span>
-	<span class="s">&#34;fmt&#34;</span>
-	<span class="s">&#34;time&#34;</span>
-<span class="p">)</span>
-<span class="c1">// Miscellaneous runner because why not.
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Misc</span><span class="p">()</span> <span class="nx">Runner</span> <span class="p">{</span>
-
-	<span class="c1">// Here we use a bit of functionnal programming, to return a function implementing
-</span><span class="c1"></span>	<span class="c1">// our interface.
-</span><span class="c1"></span>	<span class="k">return</span> <span class="nf">RunnerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Starting doing something...&#34;</span><span class="p">)</span>
-
-		<span class="c1">// We will now block on two different events, either our work finish
-</span><span class="c1"></span>		<span class="c1">// normally, or we receive a done event from the context.
-</span><span class="c1"></span>		<span class="k">select</span> <span class="p">{</span>
-
-		<span class="c1">// The normal workflow need to use a channel, to allow event base handling
-</span><span class="c1"></span>		<span class="c1">// here is a good example: https://gobyexample.com/select.
-</span><span class="c1"></span>		<span class="c1">// We just use the time package to wait a fixed duration.
-</span><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">):</span>
-			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Done doing something...&#34;</span><span class="p">)</span>
-			<span class="k">return</span> <span class="kc">nil</span> <span class="c1">// nothing went wrong so no need to return an error
-</span><span class="c1"></span>
-		<span class="c1">// Here is the event received from the context, it asks to stop the current
-</span><span class="c1"></span>		<span class="c1">// work. We perform a teardown operation which takes a given time (just sleeping here).
-</span><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">():</span>
-			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Tearing down...&#34;</span><span class="p">)</span>
-			<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
-			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Tearing down, finished...&#34;</span><span class="p">)</span>
-			<span class="c1">// Everything went ok, so no need to return any error, if teardown fails
-</span><span class="c1"></span>			<span class="c1">// we can propagate error
-</span><span class="c1"></span>			<span class="k">return</span> <span class="kc">nil</span>
-		<span class="p">}</span>
-	<span class="p">})</span>
-<span class="p">}</span>
-</code></pre></div><p>We can now implement the interrupt logic:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;context&#34;</span>
-	<span class="s">&#34;os&#34;</span>
-	<span class="s">&#34;os/signal&#34;</span>
-<span class="p">)</span>
-<span class="kd">func</span> <span class="nf">Interrupt</span><span class="p">()</span> <span class="nx">Runner</span> <span class="p">{</span>
-	<span class="c1">// Plug the interrupt call to a channel, so we can easily get the event.
-</span><span class="c1"></span>	<span class="nx">interrupt</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">)</span>
-	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">interrupt</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Interrupt</span><span class="p">)</span>
-
-	<span class="c1">// Build our runner.
-</span><span class="c1"></span>	<span class="k">return</span> <span class="nf">RunnerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-
-		<span class="c1">// Here we block and return on either event is the first one to fire.
-</span><span class="c1"></span>		<span class="k">select</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">interrupt</span><span class="p">:</span>
-			<span class="k">return</span> <span class="kc">nil</span>
-		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">():</span>
-			<span class="k">return</span> <span class="kc">nil</span>
-		<span class="p">}</span>
-	<span class="p">})</span>
-<span class="p">}</span>
-</code></pre></div><p>And finally, the service consumming this runner thing and handling the logic.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// Miscellaneous runner because why not.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Misc</span><span class="p">()</span> <span class="nx">Runner</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Here we use a bit of functionnal programming, to return a function implementing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="c1">// our interface.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="nf">RunnerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Starting doing something...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// We will now block on two different events, either our work finish
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// normally, or we receive a done event from the context.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// The normal workflow need to use a channel, to allow event base handling
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// here is a good example: https://gobyexample.com/select.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// We just use the time package to wait a fixed duration.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">time</span><span class="p">.</span><span class="nf">After</span><span class="p">(</span><span class="mi">20</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Done doing something...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="kc">nil</span> <span class="c1">// nothing went wrong so no need to return an error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// Here is the event received from the context, it asks to stop the current
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// work. We perform a teardown operation which takes a given time (just sleeping here).
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Tearing down...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">time</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;Tearing down, finished...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// Everything went ok, so no need to return any error, if teardown fails
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="c1">// we can propagate error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>We can now implement the interrupt logic:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os/signal&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">Interrupt</span><span class="p">()</span> <span class="nx">Runner</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Plug the interrupt call to a channel, so we can easily get the event.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">interrupt</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Signal</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">signal</span><span class="p">.</span><span class="nf">Notify</span><span class="p">(</span><span class="nx">interrupt</span><span class="p">,</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Interrupt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Build our runner.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">return</span> <span class="nf">RunnerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// Here we block and return on either event is the first one to fire.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">interrupt</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>And finally, the service consumming this runner thing and handling the logic.
 As I said we will use the <code>sync</code> package here and rely on <code>go</code> keyword for
 the parallelization.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;context&#34;</span>
-	<span class="s">&#34;sync&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">type</span> <span class="p">(</span>
-	<span class="c1">// Our manager is just a slice of tasks which we want to run.
-</span><span class="c1"></span>	<span class="nx">RunnerManager</span> <span class="p">[]</span><span class="nx">Runner</span>
-<span class="p">)</span>
-
-<span class="c1">// Only one function required, we block the program until all execution has been done.
-</span><span class="c1">// We use a context as argument, so user can provide more constraints, like
-</span><span class="c1">// timeouts or external cancellation
-</span><span class="c1">// (see: https://golang.org/pkg/context/#WithCancel or https://golang.org/pkg/context/#WithTimeout for ideas).
-</span><span class="c1">// We also return an error, for the moment it will be the first caught one if any,
-</span><span class="c1">// we will improve this later.
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">rm</span> <span class="nx">RunnerManager</span><span class="p">)</span> <span class="nf">Wait</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-
-	<span class="c1">// Required variables:
-</span><span class="c1"></span>	<span class="nx">wg</span> <span class="o">:=</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span><span class="p">{}</span>                  <span class="c1">// WaitGroup keep tracks of running goroutines.
-</span><span class="c1"></span>	<span class="nx">ctx</span><span class="p">,</span> <span class="nx">cancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>  <span class="c1">// Enhance the base context with a cancel function.
-</span><span class="c1"></span>	<span class="nx">errors</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">error</span><span class="p">{}</span>                     <span class="c1">// We need to store errors, as multiple can come.
-</span><span class="c1"></span>
-	<span class="c1">// We loop over all the tasks we want to run
-</span><span class="c1"></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">runner</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">rm</span> <span class="p">{</span>
-		<span class="c1">// Add it to our group, this has to be done before going parallel as
-</span><span class="c1"></span>		<span class="c1">// go routines may not have started before the end of the function
-</span><span class="c1"></span>		<span class="c1">// and main function, causing program to exit before the work starts
-</span><span class="c1"></span>		<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-
-		<span class="c1">// Start a goroutine, collect errors, decrement group when task is done
-</span><span class="c1"></span>		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">runner</span> <span class="nx">Runner</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">runner</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-				<span class="nx">errors</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">errors</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-			<span class="p">}</span>
-
-			<span class="c1">// Task ended, decrement WaitGroup counter
-</span><span class="c1"></span>			<span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">()</span>
-
-			<span class="c1">// Once task is done, we want to cancel all the remaining ones.
-</span><span class="c1"></span>			<span class="c1">// This is a design choice, nothing stops you from continuing execution
-</span><span class="c1"></span>			<span class="c1">// and only cancel when an error is caught.
-</span><span class="c1"></span>			<span class="nf">cancel</span><span class="p">()</span>
-		<span class="p">}(</span><span class="nx">runner</span><span class="p">)</span>
-	<span class="p">}</span>
-
-	<span class="c1">// Use the WaitGroup counter to block execution until all tasks finished.
-</span><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
-
-	<span class="c1">// Return first caught error.
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="nx">errors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><h2 id="how-to-use-it">How to use it</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;sync&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Our manager is just a slice of tasks which we want to run.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">RunnerManager</span> <span class="p">[]</span><span class="nx">Runner</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Only one function required, we block the program until all execution has been done.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// We use a context as argument, so user can provide more constraints, like
+</span></span></span><span class="line"><span class="cl"><span class="c1">// timeouts or external cancellation
+</span></span></span><span class="line"><span class="cl"><span class="c1">// (see: https://golang.org/pkg/context/#WithCancel or https://golang.org/pkg/context/#WithTimeout for ideas).
+</span></span></span><span class="line"><span class="cl"><span class="c1">// We also return an error, for the moment it will be the first caught one if any,
+</span></span></span><span class="line"><span class="cl"><span class="c1">// we will improve this later.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">rm</span> <span class="nx">RunnerManager</span><span class="p">)</span> <span class="nf">Wait</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Required variables:
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">wg</span> <span class="o">:=</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span><span class="p">{}</span>                  <span class="c1">// WaitGroup keep tracks of running goroutines.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">ctx</span><span class="p">,</span> <span class="nx">cancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>  <span class="c1">// Enhance the base context with a cancel function.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">errors</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">error</span><span class="p">{}</span>                     <span class="c1">// We need to store errors, as multiple can come.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// We loop over all the tasks we want to run
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">runner</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">rm</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// Add it to our group, this has to be done before going parallel as
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// go routines may not have started before the end of the function
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="c1">// and main function, causing program to exit before the work starts
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">		<span class="c1">// Start a goroutine, collect errors, decrement group when task is done
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">runner</span> <span class="nx">Runner</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">runner</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">errors</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">errors</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">			<span class="c1">// Task ended, decrement WaitGroup counter
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">			<span class="c1">// Once task is done, we want to cancel all the remaining ones.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="c1">// This is a design choice, nothing stops you from continuing execution
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="c1">// and only cancel when an error is caught.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>			<span class="nf">cancel</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">runner</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Use the WaitGroup counter to block execution until all tasks finished.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="c1">// Return first caught error.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="nx">errors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="how-to-use-it">How to use it</h2>
 <p>Now, let&rsquo;s write our main function to see how all of this perform.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;fmt&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="c1">// We queue our two tasks, and use a default context
-</span><span class="c1"></span>	<span class="nx">RunnerManager</span><span class="p">{</span><span class="nf">Interrupt</span><span class="p">(),</span> <span class="nf">Misc</span><span class="p">()}.</span><span class="nf">Wait</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">())</span>
-<span class="p">}</span>
-</code></pre></div><p>Just play around, try to interrupt or let go, things should work as expected
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// We queue our two tasks, and use a default context
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">RunnerManager</span><span class="p">{</span><span class="nf">Interrupt</span><span class="p">(),</span> <span class="nf">Misc</span><span class="p">()}.</span><span class="nf">Wait</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Just play around, try to interrupt or let go, things should work as expected
 (I hope so ;)).</p>
 <h2 id="going-further">Going further</h2>
 <h3 id="better-error-handling">Better error handling</h3>
 <p>We may need to record all errors and return them.
 To do so we will define a new kind of error based on an array.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kd">type</span> <span class="p">(</span>
-	<span class="c1">// Simple type, just a list of errors
-</span><span class="c1"></span>	<span class="nx">Errors</span> <span class="p">[]</span><span class="kt">error</span>
-<span class="p">)</span>
-
-<span class="c1">// We only print the first one, yet another choice, feel free to customize according to your needs.
-</span><span class="c1">// We let it panic, cause we should have at least one error here.
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Errors</span><span class="p">)</span> <span class="nf">Error</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">e</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">Error</span><span class="p">()</span> <span class="p">}</span>
-
-<span class="c1">// Adapt the function accordingly
-</span><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">rm</span> <span class="nx">RunnerManager</span><span class="p">)</span> <span class="nf">Wait</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="nx">wg</span> <span class="o">:=</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span><span class="p">{}</span>
-	<span class="nx">ctx</span><span class="p">,</span> <span class="nx">cancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
-	<span class="nx">errors</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">error</span><span class="p">{}</span>
-
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">runner</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">rm</span> <span class="p">{</span>
-		<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">runner</span> <span class="nx">Runner</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">runner</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-				<span class="nx">errors</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">errors</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-			<span class="p">}</span>
-			<span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">()</span>
-			<span class="nf">cancel</span><span class="p">()</span>
-		<span class="p">}(</span><span class="nx">runner</span><span class="p">)</span>
-	<span class="p">}</span>
-
-	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
-	<span class="c1">// Here is our change, we check if we gathered an error
-</span><span class="c1"></span>	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
-		<span class="c1">// We cast our array to the new type
-</span><span class="c1"></span>		<span class="k">return</span> <span class="nf">Errors</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span>
-	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-		<span class="c1">// Otherwise we just return nil, as no error occured.
-</span><span class="c1"></span>		<span class="k">return</span> <span class="kc">nil</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="better-api">Better API</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Simple type, just a list of errors
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="nx">Errors</span> <span class="p">[]</span><span class="kt">error</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// We only print the first one, yet another choice, feel free to customize according to your needs.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// We let it panic, cause we should have at least one error here.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Errors</span><span class="p">)</span> <span class="nf">Error</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">e</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">Error</span><span class="p">()</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Adapt the function accordingly
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="p">(</span><span class="nx">rm</span> <span class="nx">RunnerManager</span><span class="p">)</span> <span class="nf">Wait</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">wg</span> <span class="o">:=</span> <span class="nx">sync</span><span class="p">.</span><span class="nx">WaitGroup</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">ctx</span><span class="p">,</span> <span class="nx">cancel</span> <span class="o">:=</span> <span class="nx">context</span><span class="p">.</span><span class="nf">WithCancel</span><span class="p">(</span><span class="nx">ctx</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">errors</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">error</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">runner</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">rm</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">wg</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">go</span> <span class="kd">func</span><span class="p">(</span><span class="nx">runner</span> <span class="nx">Runner</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">runner</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="nx">ctx</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="nx">errors</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">errors</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">wg</span><span class="p">.</span><span class="nf">Done</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">			<span class="nf">cancel</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}(</span><span class="nx">runner</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">wg</span><span class="p">.</span><span class="nf">Wait</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// Here is our change, we check if we gathered an error
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// We cast our array to the new type
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="nf">Errors</span><span class="p">(</span><span class="nx">errors</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// Otherwise we just return nil, as no error occured.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">return</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="better-api">Better API</h3>
 <p>We can improve the API by providing a way to deal with runners without using
 complex context usage. Basically, our API allows you to run stuff in a blocking
 way, and then to teardown resources. Let&rsquo;s create a new interface with those
 attributes, and a function in case someone does not need a <code>struct</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;context&#34;</span>
-<span class="p">)</span>
-
-<span class="c1">// Make a synchronous function asynchronous using a channel and a goroutine.
-</span><span class="c1">// We will use this in our next function.
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">Async</span><span class="p">(</span><span class="nx">cb</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span><span class="p">)</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="nx">out</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">error</span><span class="p">)</span>
-	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span> <span class="nx">out</span> <span class="o">&lt;-</span> <span class="nf">cb</span><span class="p">()</span> <span class="p">}()</span>
-	<span class="k">return</span> <span class="nx">out</span>
-<span class="p">}</span>
-
-<span class="c1">// We use here two function to create a runner. Those functions do not rely on
-</span><span class="c1">// any context logic, and are both blocking.
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">TeardownRunnerFunc</span><span class="p">(</span><span class="nx">run</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span><span class="p">,</span> <span class="nx">teardown</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span><span class="p">)</span> <span class="nx">Runner</span> <span class="p">{</span>
-
-	<span class="k">return</span> <span class="nf">RunnerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-		<span class="c1">// We make the run function asynchronous and we wait both on return and context
-</span><span class="c1"></span>		<span class="k">select</span> <span class="p">{</span>
-		<span class="k">case</span> <span class="nx">err</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nf">Async</span><span class="p">(</span><span class="nx">run</span><span class="p">):</span>
-			<span class="k">return</span> <span class="nx">err</span>
-		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">():</span>
-			<span class="k">return</span> <span class="nf">teardown</span><span class="p">()</span>
-		<span class="p">}</span>
-	<span class="p">})</span>
-<span class="p">}</span>
-</code></pre></div><p>And here the interface with a function to cast it to a runner:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="c1">// Define an interface with the two function needed.
-</span><span class="c1"></span><span class="kd">type</span> <span class="nx">TeardownRunner</span> <span class="kd">interface</span> <span class="p">{</span>
-	<span class="nf">Run</span><span class="p">()</span> <span class="kt">error</span>
-	<span class="nf">Teardown</span><span class="p">()</span> <span class="kt">error</span>
-<span class="p">}</span>
-
-<span class="c1">// Define a function to use our new interface as a runner.
-</span><span class="c1"></span><span class="kd">func</span> <span class="nf">RunnerWithTeardown</span><span class="p">(</span><span class="nx">tr</span> <span class="nx">TeardownRunner</span><span class="p">)</span> <span class="nx">Runner</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nf">TeardownRunnerFunc</span><span class="p">(</span><span class="nx">tr</span><span class="p">.</span><span class="nx">Run</span><span class="p">,</span> <span class="nx">tr</span><span class="p">.</span><span class="nx">Teardown</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>That&rsquo;s it, I tried to put the code in the simpler way I could, and brings some
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Make a synchronous function asynchronous using a channel and a goroutine.
+</span></span></span><span class="line"><span class="cl"><span class="c1">// We will use this in our next function.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">Async</span><span class="p">(</span><span class="nx">cb</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span><span class="p">)</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">out</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="kd">chan</span> <span class="kt">error</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span> <span class="nx">out</span> <span class="o">&lt;-</span> <span class="nf">cb</span><span class="p">()</span> <span class="p">}()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">out</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// We use here two function to create a runner. Those functions do not rely on
+</span></span></span><span class="line"><span class="cl"><span class="c1">// any context logic, and are both blocking.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">TeardownRunnerFunc</span><span class="p">(</span><span class="nx">run</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span><span class="p">,</span> <span class="nx">teardown</span> <span class="kd">func</span><span class="p">()</span> <span class="kt">error</span><span class="p">)</span> <span class="nx">Runner</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">RunnerFunc</span><span class="p">(</span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="c1">// We make the run function asynchronous and we wait both on return and context
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="k">select</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">case</span> <span class="nx">err</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="nf">Async</span><span class="p">(</span><span class="nx">run</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="k">case</span> <span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nf">Done</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nf">teardown</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>And here the interface with a function to cast it to a runner:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="c1">// Define an interface with the two function needed.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">type</span> <span class="nx">TeardownRunner</span> <span class="kd">interface</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">Run</span><span class="p">()</span> <span class="kt">error</span>
+</span></span><span class="line"><span class="cl">	<span class="nf">Teardown</span><span class="p">()</span> <span class="kt">error</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Define a function to use our new interface as a runner.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kd">func</span> <span class="nf">RunnerWithTeardown</span><span class="p">(</span><span class="nx">tr</span> <span class="nx">TeardownRunner</span><span class="p">)</span> <span class="nx">Runner</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nf">TeardownRunnerFunc</span><span class="p">(</span><span class="nx">tr</span><span class="p">.</span><span class="nx">Run</span><span class="p">,</span> <span class="nx">tr</span><span class="p">.</span><span class="nx">Teardown</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>That&rsquo;s it, I tried to put the code in the simpler way I could, and brings some
 way to extend it. Do not hesitate to checkout the
 <a href="https://github.com/IxDay/snippets/tree/master/golang/src/runner">repo</a>
 in order to see it complete with tests.</p>
@@ -348,8 +348,8 @@ in order to see it complete with tests.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/teardown_runner/",
     locale: "en"
   };

@@ -46,7 +46,7 @@ After a few hours of development, I decided to use SFC (Single File Components) 
       <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain here) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
 I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
 Specifications Here are the features I wanted:
- Define a directory as the root (/) directory from which all the files will be served.</description>
+Define a directory as the root (/) directory from which all the files will be served.</description>
     </item>
     
     <item>
@@ -57,9 +57,9 @@ Specifications Here are the features I wanted:
       <guid>https://ixday.github.io/post/small_tool/</guid>
       <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
-What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
-  no evaluation for environment variables
-  you can not store a variable through multiple run, you will need to do a oneliner e.</description>
+What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+no evaluation for environment variables
+you can not store a variable through multiple run, you will need to do a oneliner e.</description>
     </item>
     
   </channel>

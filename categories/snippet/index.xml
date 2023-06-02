@@ -65,7 +65,7 @@ There is a lot of ways to connect a VM to the internet. The most common one is v
       <guid>https://ixday.github.io/post/socat_telnet/</guid>
       <description>Once in a while I use telnet, mostly to check if a port is open (the infamous telnet localhost 22) and sometimes to send a random http request.
 However, telnet has a few caveats which are:
- not able to read from stdin not able to deal with https not able to handle unix sockets  Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
+not able to read from stdin not able to deal with https not able to handle unix sockets Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
     </item>
     
     <item>
@@ -136,7 +136,7 @@ I could use git rebase -i with some stashing to apply the changes at the proper 
       
       <guid>https://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ 	SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
     </item>
     
     <item>
@@ -210,7 +210,8 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
       
       <guid>https://ixday.github.io/post/makefile/</guid>
       <description>Recently, I had to build some project involving a lot of files. Two choices were possible:
- use a script to build use a Makefile  I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)</description>
+use a script to build use a Makefile I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)
+This project also learned me some tricks which can be reused, here is a little list</description>
     </item>
     
     <item>
@@ -262,7 +263,7 @@ The problem For developing my frontend I use a tool which I really like: Gulp. T
       <guid>https://ixday.github.io/post/pytest_command_line/</guid>
       <description>I have recently dug into pytest documentation, and moreover into the command line arguments and I finally found a better workflow for running tests while I develop.
 Here is the command I run when I just made some devs: py.test -xvvvs --tb=line --pdb
- -x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.</description>
+-x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.</description>
     </item>
     
     <item>

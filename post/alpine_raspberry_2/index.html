@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -86,60 +86,60 @@ article.</p>
 <p>Here a few changes, using a version 3A+ requires to setup the wifi.
 Following this <a href="https://wiki.alpinelinux.org/wiki/Connecting_to_a_wireless_access_point">wiki</a>,
 here are the steps I followed:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># first install the necessary packages</span>
-apk add wpa_supplicant
-
-<span class="c1"># setup the config file</span>
-wpa_passphrase <span class="s1">&#39;ExampleWifi&#39;</span> <span class="s1">&#39;ExampleWifiPassword&#39;</span> &gt; /etc/wpa_supplicant/wpa_supplicant.conf
-
-<span class="c1"># start the service</span>
-wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
-
-<span class="c1"># request a dhcp lease</span>
-udhcpc -i wlan0
-
-<span class="c1"># enforce the service startup at boot</span>
-rc-update add wpa_supplicant boot
-</code></pre></div><p><strong>Fix the clock:</strong> I found a better solution to the clock problem in alpine.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># first install the necessary packages</span>
+</span></span><span class="line"><span class="cl">apk add wpa_supplicant
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># setup the config file</span>
+</span></span><span class="line"><span class="cl">wpa_passphrase <span class="s1">&#39;ExampleWifi&#39;</span> <span class="s1">&#39;ExampleWifiPassword&#39;</span> &gt; /etc/wpa_supplicant/wpa_supplicant.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># start the service</span>
+</span></span><span class="line"><span class="cl">wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># request a dhcp lease</span>
+</span></span><span class="line"><span class="cl">udhcpc -i wlan0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># enforce the service startup at boot</span>
+</span></span><span class="line"><span class="cl">rc-update add wpa_supplicant boot
+</span></span></code></pre></div><p><strong>Fix the clock:</strong> I found a better solution to the clock problem in alpine.
 This is a mix of <a href="https://wiki.alpinelinux.org/wiki/Classic_install_or_sys_mode_on_Raspberry_Pi#Installation">this article</a>
 and <a href="https://gitlab.alpinelinux.org/alpine/aports/issues/8093">this one</a>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># install package</span>
-apk add chrony
-
-<span class="c1"># add the service to the boot</span>
-rc-update add chronyd boot
-
-<span class="c1"># create a file to signal usage of this hack</span>
-touch /etc/init.d/.use-swclock
-
-<span class="c1"># we need to insert a hack in the file</span>
-<span class="c1"># https://github.com/OpenRC/openrc/blob/master/sh/init.sh.Linux.in#L53</span>
-sed -i <span class="s1">&#39;53iif [ -e /etc/init.d/.use-swclock ]; then\n&#39;</span> /lib/rc/sh/init.sh
-sed -i <span class="s1">&#39;54i\t“$RC_LIBEXECDIR/sbin/swclock” /etc/init.d\n&#39;</span> /lib/rc/sh/init.sh
-sed -i <span class="s1">&#39;55ifi&#39;</span> /lib/rc/sh/init.sh
-</code></pre></div><p>Once this done, you can stick to the previous install instructions.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># install package</span>
+</span></span><span class="line"><span class="cl">apk add chrony
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># add the service to the boot</span>
+</span></span><span class="line"><span class="cl">rc-update add chronyd boot
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># create a file to signal usage of this hack</span>
+</span></span><span class="line"><span class="cl">touch /etc/init.d/.use-swclock
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># we need to insert a hack in the file</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># https://github.com/OpenRC/openrc/blob/master/sh/init.sh.Linux.in#L53</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;53iif [ -e /etc/init.d/.use-swclock ]; then\n&#39;</span> /lib/rc/sh/init.sh
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;54i\t“$RC_LIBEXECDIR/sbin/swclock” /etc/init.d\n&#39;</span> /lib/rc/sh/init.sh
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;55ifi&#39;</span> /lib/rc/sh/init.sh
+</span></span></code></pre></div><p>Once this done, you can stick to the previous install instructions.</p>
 <h2 id="doing-the-persistent-install">Doing the persistent install</h2>
 <p>The steps are the same as the previous one except for the boot part.
 I had to use those instructions <a href="https://wiki.alpinelinux.org/wiki/Classic_install_or_sys_mode_on_Raspberry_Pi#Installation">from the wiki</a>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># fix the boot directories</span>
-rm -f /media/mmcblk0p1/boot/*
-
-<span class="nb">cd</span> /mnt
-rm boot/boot
-mv boot/* /media/mmcblk0p1/boot/
-rm -Rf boot
-mkdir media/mmcblk0p1
-ln -s media/mmcblk0p1/boot boot
-
-<span class="c1"># fix the fstab</span>
-cat &gt; etc/fstab <span class="s">&lt;&lt;- EOF
-</span><span class="s">	/dev/mmcblk0p2 /                ext4 defaults 0 0
-</span><span class="s">	/dev/mmcblk0p1 /media/mmcblk0p1 vfat defaults 0 0
-</span><span class="s">EOF</span>
-
-<span class="c1"># fix the kernel boot flags</span>
-sed -i <span class="s1">&#39;s/^/root=\/dev\/mmcblk0p2 /&#39;</span> /media/mmcblk0p1/cmdline.txt
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># fix the boot directories</span>
+</span></span><span class="line"><span class="cl">rm -f /media/mmcblk0p1/boot/*
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /mnt
+</span></span><span class="line"><span class="cl">rm boot/boot
+</span></span><span class="line"><span class="cl">mv boot/* /media/mmcblk0p1/boot/
+</span></span><span class="line"><span class="cl">rm -Rf boot
+</span></span><span class="line"><span class="cl">mkdir media/mmcblk0p1
+</span></span><span class="line"><span class="cl">ln -s media/mmcblk0p1/boot boot
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># fix the fstab</span>
+</span></span><span class="line"><span class="cl">cat &gt; etc/fstab <span class="s">&lt;&lt;- EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">	/dev/mmcblk0p2 /                ext4 defaults 0 0
+</span></span></span><span class="line"><span class="cl"><span class="s">	/dev/mmcblk0p1 /media/mmcblk0p1 vfat defaults 0 0
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># fix the kernel boot flags</span>
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;s/^/root=\/dev\/mmcblk0p2 /&#39;</span> /media/mmcblk0p1/cmdline.txt
+</span></span></code></pre></div>
   </div>
 </article>
 
@@ -153,8 +153,8 @@ sed -i <span class="s1">&#39;s/^/root=\/dev\/mmcblk0p2 /&#39;</span> /media/mmcb
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/alpine_raspberry_2/",
     locale: "en"
   };

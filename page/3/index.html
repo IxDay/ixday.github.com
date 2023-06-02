@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -147,7 +147,7 @@ Why this project I am massively using jq in my shell scripts to deal with APIs. 
     <h2 class="caption-title"><a href="/post/simple_https/">Simple HTTPs server</a></h2>
     <p>
     Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &#34;/CN=foo.com&#34; # then we start a server using socat sudo socat &#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&#34; \ 	SYSTEM:&#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &#34;/CN=foo.com&#34; # then we start a server using socat sudo socat &#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&#34; \ SYSTEM:&#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!
     
     <a href="/post/simple_https/">Read More...</a>
     
@@ -455,8 +455,8 @@ After a few hours of development, I decided to use SFC (Single File Components) 
     
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/",
     locale: "en"
   };

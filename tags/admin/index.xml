@@ -35,7 +35,7 @@ There is a lot of ways to connect a VM to the internet. The most common one is v
       <guid>https://ixday.github.io/post/socat_telnet/</guid>
       <description>Once in a while I use telnet, mostly to check if a port is open (the infamous telnet localhost 22) and sometimes to send a random http request.
 However, telnet has a few caveats which are:
- not able to read from stdin not able to deal with https not able to handle unix sockets  Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
+not able to read from stdin not able to deal with https not able to handle unix sockets Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
     </item>
     
     <item>
@@ -97,7 +97,7 @@ Setup SD Card This one was quite tricky because if anything is not exactly what 
       
       <guid>https://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ 	SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
     </item>
     
     <item>
@@ -164,7 +164,7 @@ So I decided to make them work together in order to test that.</description>
       
       <guid>https://ixday.github.io/post/linux_mint/</guid>
       <description>After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition
-Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
+Why ? It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM). And a lot more Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
     </item>
     
     <item>
@@ -187,10 +187,10 @@ I really loved experienced with it, it does not require a lot of dependencies on
       <description>&lt;p&gt;Following &lt;a href=&#34;%7Bfilename%7D/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  Skipping volume group vg_ssd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Unable to find LVM volume vg_ssd/lv_root
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 &lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;</description>
     </item>
@@ -225,9 +225,9 @@ Creating your first container So like docker I wanted to first start a container
       <guid>https://ixday.github.io/post/small_tool/</guid>
       <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
-What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
-  no evaluation for environment variables
-  you can not store a variable through multiple run, you will need to do a oneliner e.</description>
+What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+no evaluation for environment variables
+you can not store a variable through multiple run, you will need to do a oneliner e.</description>
     </item>
     
     <item>

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -82,21 +82,21 @@ I had a software that came with a bash script and got a problem when I tried
 to run it. It was failing with the following error: <code>fopen: No such file or directory</code></p>
 <p>I added the magical <code>set -x</code> line at the beginning to understand what
 was going on. I re-ran the script and saw the following output:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">+ wg setconf wg0 /dev/fd/63
-fopen: No such file or directory
-</code></pre></div><p>I checked the script to retrieve the line and here is what was written:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">cmd wg setconf <span class="s2">&#34;</span><span class="nv">$INTERFACE</span><span class="s2">&#34;</span> &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$WG_CONFIG</span><span class="s2">&#34;</span><span class="o">)</span>
-</code></pre></div><p>The problem is coming from the process substitution part.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">+ wg setconf wg0 /dev/fd/63
+</span></span><span class="line"><span class="cl">fopen: No such file or directory
+</span></span></code></pre></div><p>I checked the script to retrieve the line and here is what was written:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cmd wg setconf <span class="s2">&#34;</span><span class="nv">$INTERFACE</span><span class="s2">&#34;</span> &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$WG_CONFIG</span><span class="s2">&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>The problem is coming from the process substitution part.
 I quickly checked that it was really what I was suspecting:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># ensure I am properly using bash first since ash do not support process substitution</span>
-/bin/bash
-
-<span class="c1"># this should echo something like 5.0.17(1)-release</span>
-<span class="nb">echo</span> <span class="nv">$BASH_VERSION</span>
-
-<span class="c1"># testing process substitution</span>
-cat &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;foo&#34;</span><span class="o">)</span>
-</code></pre></div><p>I got the same error: <code>fopen: No such file or directory</code>.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># ensure I am properly using bash first since ash do not support process substitution</span>
+</span></span><span class="line"><span class="cl">/bin/bash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># this should echo something like 5.0.17(1)-release</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="nv">$BASH_VERSION</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># testing process substitution</span>
+</span></span><span class="line"><span class="cl">cat &lt;<span class="o">(</span><span class="nb">echo</span> <span class="s2">&#34;foo&#34;</span><span class="o">)</span>
+</span></span></code></pre></div><p>I got the same error: <code>fopen: No such file or directory</code>.
 I then search the Internet for an answer and finally found
 <a href="https://gitlab.alpinelinux.org/alpine/aports/-/issues/1465">this issue</a>.
 I quickly ran through it and found out that it can be fixed by creating a
@@ -117,8 +117,8 @@ otherwise, you will end up with <code>/dev/fd/fd</code>.</strong></p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/bash_process_substitution_failure/",
     locale: "en"
   };

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -113,126 +113,126 @@ I may write a small article in the future to better explain this.</p>
 algorithm instead of the well known RSA one. Both are totally fine and can be
 used here, I am just using ECDSA for personal reasons and because there is still
 a lack of examples using it on the internet.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="c1">
-</span><span class="c1"># define a few values for my use case, replace it with your naming
-</span><span class="c1"></span><span class="nx">locals</span> <span class="p">{</span>
-  <span class="na">cn</span>       = <span class="s2">&#34;rulz.xyz&#34;</span>
-  <span class="na">org</span>      = <span class="s2">&#34;Rulz Corp.&#34;</span>
-  <span class="na">validity</span> = <span class="m">87600</span><span class="c1"> # This is approximatively 10 years
-</span><span class="c1"></span><span class="p">}</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># To build a certificate you actually need a private key, so we are creating it here
-</span><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_private_key&#34;</span> <span class="s2">&#34;rulz_ca&#34;</span> <span class="p">{</span>
-  <span class="na">algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">ecdsa_curve</span> = <span class="s2">&#34;P384&#34;</span>
-<span class="p">}</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># Here is our root certificate, using our private key previously created
-</span><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_self_signed_cert&#34;</span> <span class="s2">&#34;rulz_ca&#34;</span> <span class="p">{</span>
-  <span class="na">key_algorithm</span>     = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">private_key_pem</span>   = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">private_key_pem</span><span class="c1">  # we use our private key
-</span><span class="c1"></span>  <span class="na">is_ca_certificate</span> = <span class="kc">true</span><span class="c1">                                     # this is a certificate authority
-</span><span class="c1"></span>
-  <span class="nx">subject</span> <span class="p">{</span>
-    <span class="na">common_name</span>  = <span class="nx">local</span><span class="p">.</span><span class="nx">cn</span>
-    <span class="na">organization</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">org</span>
-  <span class="p">}</span>
-
-  <span class="na">validity_period_hours</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">validity</span>
-
-  <span class="na">allowed_uses</span> = <span class="p">[</span>
-    <span class="s2">&#34;cert_signing&#34;</span><span class="p">,</span><span class="c1">  # this is what will make this certificate able to sign child certificates
-</span><span class="c1"></span>  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><p>Now we want to create our intermediate certificate. Since we made the root one
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># define a few values for my use case, replace it with your naming
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="nx">locals</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">cn</span>       = <span class="s2">&#34;rulz.xyz&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">org</span>      = <span class="s2">&#34;Rulz Corp.&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">validity</span> = <span class="m">87600</span><span class="c1"> # This is approximatively 10 years
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># To build a certificate you actually need a private key, so we are creating it here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_private_key&#34;</span> <span class="s2">&#34;rulz_ca&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ecdsa_curve</span> = <span class="s2">&#34;P384&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># Here is our root certificate, using our private key previously created
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_self_signed_cert&#34;</span> <span class="s2">&#34;rulz_ca&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">key_algorithm</span>     = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">private_key_pem</span>   = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">private_key_pem</span><span class="c1">  # we use our private key
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="na">is_ca_certificate</span> = <span class="kc">true</span><span class="c1">                                     # this is a certificate authority
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="nx">subject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">common_name</span>  = <span class="nx">local</span><span class="p">.</span><span class="nx">cn</span>
+</span></span><span class="line"><span class="cl">    <span class="na">organization</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">org</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">validity_period_hours</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">validity</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">allowed_uses</span> = <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;cert_signing&#34;</span><span class="p">,</span><span class="c1">  # this is what will make this certificate able to sign child certificates
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Now we want to create our intermediate certificate. Since we made the root one
 valid for 10 years, we want this one to be valid for only one year:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="c1">
-</span><span class="c1"># We need to create a key for the intermediate cert
-</span><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_private_key&#34;</span> <span class="s2">&#34;rulz_int&#34;</span> <span class="p">{</span>
-  <span class="na">algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">ecdsa_curve</span> = <span class="s2">&#34;P384&#34;</span>
-<span class="p">}</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># Once we have the key we can create a request
-</span><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_cert_request&#34;</span> <span class="s2">&#34;rulz_int&#34;</span> <span class="p">{</span>
-  <span class="na">key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">private_key_pem</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1">  # the wildcard here does not have an impact but will help remind that this
-</span><span class="c1">  # is an intermediate signing all *.rulz.xyz certificates
-</span><span class="c1"></span>  <span class="nx">subject</span> <span class="p">{</span>
-    <span class="na">common_name</span>  = <span class="s2">&#34;*.</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">cn</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="p">}</span>
-<span class="p">}</span><span class="c1">
-</span><span class="c1">
-</span><span class="c1"># And sign the request with our root ca
-</span><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_locally_signed_cert&#34;</span> <span class="s2">&#34;rulz_int&#34;</span> <span class="p">{</span>
-  <span class="na">cert_request_pem</span>   = <span class="nx">tls_cert_request</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">cert_request_pem</span>
-  <span class="na">ca_key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">ca_private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">private_key_pem</span>
-  <span class="na">ca_cert_pem</span>        = <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span>
-  <span class="na">is_ca_certificate</span>  = <span class="kc">true</span>
-
-  <span class="na">validity_period_hours</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">validity</span> <span class="o">/</span> <span class="m">10</span><span class="c1"> # one year of validity
-</span><span class="c1"></span>
-  <span class="na">allowed_uses</span> = <span class="p">[</span>
-    <span class="s2">&#34;cert_signing&#34;</span><span class="p">,</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><p>We are now ready to create the child certificate. It will not have the signing
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># We need to create a key for the intermediate cert
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_private_key&#34;</span> <span class="s2">&#34;rulz_int&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ecdsa_curve</span> = <span class="s2">&#34;P384&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># Once we have the key we can create a request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_cert_request&#34;</span> <span class="s2">&#34;rulz_int&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">private_key_pem</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">  # the wildcard here does not have an impact but will help remind that this
+</span></span></span><span class="line"><span class="cl"><span class="c1">  # is an intermediate signing all *.rulz.xyz certificates
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="nx">subject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">common_name</span>  = <span class="s2">&#34;*.</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">cn</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1"># And sign the request with our root ca
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">resource</span> <span class="s2">&#34;tls_locally_signed_cert&#34;</span> <span class="s2">&#34;rulz_int&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">cert_request_pem</span>   = <span class="nx">tls_cert_request</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">cert_request_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ca_key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ca_private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">private_key_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ca_cert_pem</span>        = <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">is_ca_certificate</span>  = <span class="kc">true</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">validity_period_hours</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">validity</span> <span class="o">/</span> <span class="m">10</span><span class="c1"> # one year of validity
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">  <span class="na">allowed_uses</span> = <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;cert_signing&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>We are now ready to create the child certificate. It will not have the signing
 capability and will only be able to authenticate. The creation is the same as
 our intermediate certificate, only the capabilities and the fact that
 it is not a certificate authority vary.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="kr">resource</span> <span class="s2">&#34;tls_private_key&#34;</span> <span class="s2">&#34;rulz_child&#34;</span> <span class="p">{</span>
-  <span class="na">algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">ecdsa_curve</span> = <span class="s2">&#34;P384&#34;</span>
-<span class="p">}</span>
-<span class="kr">
-</span><span class="kr">resource</span> <span class="s2">&#34;tls_cert_request&#34;</span> <span class="s2">&#34;rulz_child&#34;</span> <span class="p">{</span>
-
-  <span class="na">key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">private_key_pem</span>
-  <span class="na">dns_names</span>       = <span class="p">[</span> <span class="s2">&#34;child.</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">cn</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">]</span>
-
-  <span class="nx">subject</span> <span class="p">{</span>
-    <span class="na">common_name</span> = <span class="s2">&#34;child.</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">cn</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="kr">
-</span><span class="kr">resource</span> <span class="s2">&#34;tls_locally_signed_cert&#34;</span> <span class="s2">&#34;rulz_child&#34;</span> <span class="p">{</span>
-  <span class="na">cert_request_pem</span>   = <span class="nx">tls_cert_request</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">cert_request_pem</span>
-  <span class="na">ca_key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
-  <span class="na">ca_private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">private_key_pem</span>
-  <span class="na">ca_cert_pem</span>        = <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">cert_pem</span>
-
-  <span class="na">validity_period_hours</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">validity</span> <span class="o">/</span> <span class="m">40</span><span class="c1"> # valid for ~ 3 months
-</span><span class="c1">
-</span><span class="c1">  # this will only allow to be used as a server
-</span><span class="c1"></span>  <span class="na">allowed_uses</span> = <span class="p">[</span>
-    <span class="s2">&#34;server_auth&#34;</span><span class="p">,</span>
-  <span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div><h2 id="deploy-and-test">Deploy and Test</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;tls_private_key&#34;</span> <span class="s2">&#34;rulz_child&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ecdsa_curve</span> = <span class="s2">&#34;P384&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;tls_cert_request&#34;</span> <span class="s2">&#34;rulz_child&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">private_key_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">dns_names</span>       = <span class="p">[</span> <span class="s2">&#34;child.</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">cn</span><span class="si">}</span><span class="s2">&#34;</span> <span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="nx">subject</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">common_name</span> = <span class="s2">&#34;child.</span><span class="si">${</span><span class="nx">local</span><span class="p">.</span><span class="nx">cn</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;tls_locally_signed_cert&#34;</span> <span class="s2">&#34;rulz_child&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">cert_request_pem</span>   = <span class="nx">tls_cert_request</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">cert_request_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ca_key_algorithm</span>   = <span class="s2">&#34;ECDSA&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ca_private_key_pem</span> = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">private_key_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">ca_cert_pem</span>        = <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">cert_pem</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">validity_period_hours</span> = <span class="nx">local</span><span class="p">.</span><span class="nx">validity</span> <span class="o">/</span> <span class="m">40</span><span class="c1"> # valid for ~ 3 months
+</span></span></span><span class="line"><span class="cl"><span class="c1">
+</span></span></span><span class="line"><span class="cl"><span class="c1">  # this will only allow to be used as a server
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  <span class="na">allowed_uses</span> = <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;server_auth&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="deploy-and-test">Deploy and Test</h2>
 <p>To properly use what we generated we need to output it to files to use it with
 other softwares.  Here I will use the <code>local_file</code> resource to output
 the certificates and keys to my filesystem:</p>
 <p>First we need to output our root CA to a file which will be distributed across
 the whole infrastructure.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="nx">locals</span> <span class="p">{</span>
-  <span class="na">path</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/ca_certificate.pem&#34;</span>
-<span class="p">}</span>
-<span class="kr">
-</span><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_ca&#34;</span> <span class="p">{</span>
-  <span class="na">filename</span>        = <span class="nx">local</span><span class="p">.</span><span class="nx">path</span>
-  <span class="na">content</span>         = <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span>
-  <span class="na">file_permission</span> = <span class="s2">&#34;0644&#34;</span>
-<span class="kr">
-</span><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span><span class="c1">  # I want to remove the certificate when I destroy the infra
-</span><span class="c1"></span>    <span class="na">when</span>    = <span class="nx">destroy</span>
-    <span class="na">command</span> = <span class="s2">&#34;rm </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">filename</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>Now we need to output our child certificate to a file as well. This child
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="line"><span class="cl"><span class="nx">locals</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">path</span> = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/ca_certificate.pem&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_ca&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">filename</span>        = <span class="nx">local</span><span class="p">.</span><span class="nx">path</span>
+</span></span><span class="line"><span class="cl">  <span class="na">content</span>         = <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">file_permission</span> = <span class="s2">&#34;0644&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span><span class="c1">  # I want to remove the certificate when I destroy the infra
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="na">when</span>    = <span class="nx">destroy</span>
+</span></span><span class="line"><span class="cl">    <span class="na">command</span> = <span class="s2">&#34;rm </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">filename</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Now we need to output our child certificate to a file as well. This child
 certificate will need to contain the full chain of trust.</p>
 <p><strong>Why should I need the full chain of trust:</strong> This come down to the way certificates
 are implemented. On a network infrastructure you may have as many intermediate
@@ -246,39 +246,39 @@ check it.</p>
 the child at the top. Then each intermediate must appear in order between those two.
 The extension does not have any impact you can use <code>.crt</code>, <code>.key</code>, <code>.pem</code> without
 any repercussion.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_child_key&#34;</span> <span class="p">{</span>
-  <span class="na">filename</span>        = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/child.key.pem&#34;</span>
-  <span class="na">content</span>         = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">private_key_pem</span>
-  <span class="na">file_permission</span> = <span class="s2">&#34;0600&#34;</span><span class="c1"> # we want to protect the private key from others reading
-</span><span class="c1"></span><span class="kr">
-</span><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
-    <span class="na">when</span>    = <span class="nx">destroy</span>
-    <span class="na">command</span> = <span class="s2">&#34;rm </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">filename</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-<span class="kr">
-</span><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_child_cert&#34;</span> <span class="p">{</span>
-  <span class="na">filename</span>        = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/child.crt.pem&#34;</span>
-  <span class="na">file_permission</span> = <span class="s2">&#34;0644&#34;</span>
-
-  <span class="na">content</span> = <span class="nb">join</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
-    <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
-    <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
-  <span class="p">])</span>
-<span class="kr">
-</span><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
-    <span class="na">when</span>    = <span class="nx">destroy</span>
-    <span class="na">command</span> = <span class="s2">&#34;rm </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">filename</span><span class="si">}</span><span class="s2">&#34;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p>We are now ready to start our server, I will use <code>socat</code> following one of
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_child_key&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">filename</span>        = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/child.key.pem&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">content</span>         = <span class="nx">tls_private_key</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">private_key_pem</span>
+</span></span><span class="line"><span class="cl">  <span class="na">file_permission</span> = <span class="s2">&#34;0600&#34;</span><span class="c1"> # we want to protect the private key from others reading
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">when</span>    = <span class="nx">destroy</span>
+</span></span><span class="line"><span class="cl">    <span class="na">command</span> = <span class="s2">&#34;rm </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">filename</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;local_file&#34;</span> <span class="s2">&#34;rulz_child_cert&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">filename</span>        = <span class="s2">&#34;</span><span class="si">${</span><span class="nx">path</span><span class="p">.</span><span class="nb">module</span><span class="si">}</span><span class="s2">/child.crt.pem&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="na">file_permission</span> = <span class="s2">&#34;0644&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="na">content</span> = <span class="nb">join</span><span class="p">(</span><span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_child</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tls_locally_signed_cert</span><span class="p">.</span><span class="nx">rulz_int</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">tls_self_signed_cert</span><span class="p">.</span><span class="nx">rulz_ca</span><span class="p">.</span><span class="nx">cert_pem</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">  provisioner</span> <span class="s2">&#34;local-exec&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="na">when</span>    = <span class="nx">destroy</span>
+</span></span><span class="line"><span class="cl">    <span class="na">command</span> = <span class="s2">&#34;rm </span><span class="si">${</span><span class="nx">self</span><span class="p">.</span><span class="nx">filename</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>We are now ready to start our server, I will use <code>socat</code> following one of
 <a href="/post/simple_https/">my previous post</a> setup:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">socat <span class="s2">&#34;ssl-l:8443,cert=child.crt.pem,key=child.key.pem,verify=0,fork,reuseaddr&#34;</span> <span class="se">\
-</span><span class="se"></span>        SYSTEM:<span class="s2">&#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!;&#34;</span>
-</code></pre></div><p>And now we can use <code>curl</code> in another terminal to check if our setup is valid:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">curl --cacert ca_certificate.pem --resolve <span class="s2">&#34;child.rulz.xyz:8443:127.0.0.1&#34;</span> https://child.rulz.xyz:8443
-</code></pre></div><p>That&rsquo;s it! It should be a good introduction to KPI and also explain just enough
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">socat <span class="s2">&#34;ssl-l:8443,cert=child.crt.pem,key=child.key.pem,verify=0,fork,reuseaddr&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        SYSTEM:<span class="s2">&#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!;&#34;</span>
+</span></span></code></pre></div><p>And now we can use <code>curl</code> in another terminal to check if our setup is valid:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">curl --cacert ca_certificate.pem --resolve <span class="s2">&#34;child.rulz.xyz:8443:127.0.0.1&#34;</span> https://child.rulz.xyz:8443
+</span></span></code></pre></div><p>That&rsquo;s it! It should be a good introduction to KPI and also explain just enough
 to have a basic understanding of certificate chain trust.
 You can find the code of this post on the <a href="https://raw.githubusercontent.com/IxDay/ixday.github.com/source/content/code/terraform_pki/pki.tf">github repository</a>, and
 launch it with <code>terraform init &amp;&amp; terraform apply</code>.
@@ -297,8 +297,8 @@ Happy deployment!</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/terraform_pki/",
     locale: "en"
   };

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -89,34 +89,34 @@ for another team to access some specific resources. I need to share the
 <code>AWS_SECRET_ACCESS_KEY</code> and <code>AWS_ACCESS_KEY_ID</code> values but it is actually classified
 as sensistive.
 Here is the terraform code I am using:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_user&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
-  <span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
-<span class="p">}</span>
-<span class="kr">
-</span><span class="kr">resource</span> <span class="s2">&#34;aws_iam_access_key&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
-  <span class="na">user</span> = <span class="nx">aws_iam_user</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span>
-<span class="p">}</span>
-</code></pre></div><p>And here is the command to retrieve the info but it will be obfuscated:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">terraform state show aws_iam_access_key.foo
-
-...
-<span class="c1"># aws_iam_access_key.foo:</span>
-resource <span class="s2">&#34;aws_iam_access_key&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="o">{</span>
-    <span class="nv">id</span>                   <span class="o">=</span> <span class="s2">&#34;AKIAEXAMPLE&#34;</span>
-    <span class="nv">secret</span>               <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
-    <span class="nv">ses_smtp_password</span>    <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
-    <span class="nv">ses_smtp_password_v4</span> <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
-    <span class="nv">status</span>               <span class="o">=</span> <span class="s2">&#34;Active&#34;</span>
-    <span class="nv">user</span>                 <span class="o">=</span> <span class="s2">&#34;foo&#34;</span>
-<span class="o">}</span>
-</code></pre></div><h2 id="snippet">Snippet</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-terraform" data-lang="terraform"><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_user&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;aws_iam_access_key&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="na">user</span> = <span class="nx">aws_iam_user</span><span class="p">.</span><span class="nx">foo</span><span class="p">.</span><span class="nx">name</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>And here is the command to retrieve the info but it will be obfuscated:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">terraform state show aws_iam_access_key.foo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl"><span class="c1"># aws_iam_access_key.foo:</span>
+</span></span><span class="line"><span class="cl">resource <span class="s2">&#34;aws_iam_access_key&#34;</span> <span class="s2">&#34;foo&#34;</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">id</span>                   <span class="o">=</span> <span class="s2">&#34;AKIAEXAMPLE&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">secret</span>               <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">ses_smtp_password</span>    <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">ses_smtp_password_v4</span> <span class="o">=</span> <span class="o">(</span>sensitive value<span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">status</span>               <span class="o">=</span> <span class="s2">&#34;Active&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="nv">user</span>                 <span class="o">=</span> <span class="s2">&#34;foo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span></code></pre></div><h2 id="snippet">Snippet</h2>
 <p>The trick is to use the <code>-json</code> flag when running <code>terraform show</code>.
 <a href="https://www.terraform.io/docs/cli/commands/show.html">Here</a> is the doc explaining that sensitive data can be displayed when
 passing the proper flag (see the blue note block).</p>
 <p>The last thing to do is to use the <code>jq</code> command to extract what we are looking for:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">terraform show -json <span class="p">|</span> <span class="se">\
-</span><span class="se"></span>	jq <span class="s1">&#39;.values.root_module.resources[] | select(.address == &#34;aws_iam_access_key.foo&#34;) | .values&#39;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">terraform show -json <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	jq <span class="s1">&#39;.values.root_module.resources[] | select(.address == &#34;aws_iam_access_key.foo&#34;) | .values&#39;</span>
+</span></span></code></pre></div>
   </div>
 </article>
 
@@ -130,8 +130,8 @@ passing the proper flag (see the blue note block).</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/terraform_sensitive/",
     locale: "en"
   };

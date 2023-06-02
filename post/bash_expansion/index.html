@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -80,17 +80,17 @@
     <p>A small post just to share a useful bashism the
 <a href="http://wiki.bash-hackers.org/syntax/expansion/brace">Brace Expansion</a>.
 It is really simple to make it works:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="k">for</span> i in <span class="o">{</span>1..50<span class="o">}</span>
-<span class="k">do</span>
-	<span class="nb">echo</span> <span class="s2">&#34;Hello World </span><span class="nv">$i</span><span class="s2">&#34;</span>
-<span class="k">done</span>
-</code></pre></div><p>It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing?
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">for</span> i in <span class="o">{</span>1..50<span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">do</span>
+</span></span><span class="line"><span class="cl">	<span class="nb">echo</span> <span class="s2">&#34;Hello World </span><span class="nv">$i</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">done</span>
+</span></span></code></pre></div><p>It will print fifty &ldquo;Hello World&rdquo;. Ok it seems cool but not amazing?
 Ok, now the second feature</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> something/<span class="o">{</span>foo,bar<span class="o">}</span>
-&gt; something/foo something/bar
-</code></pre></div><p>Still not amazed, ok now type this one:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">cp some_file<span class="o">{</span>,.old<span class="o">}</span>
-</code></pre></div><p>It will copy your file
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> something/<span class="o">{</span>foo,bar<span class="o">}</span>
+</span></span><span class="line"><span class="cl">&gt; something/foo something/bar
+</span></span></code></pre></div><p>Still not amazed, ok now type this one:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cp some_file<span class="o">{</span>,.old<span class="o">}</span>
+</span></span></code></pre></div><p>It will copy your file
 adding a <code>.old</code> extension. I do a lot of things like this and it saves me a lot
 of time, so think about it.</p>
 
@@ -107,8 +107,8 @@ of time, so think about it.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/bash_expansion/",
     locale: "en"
   };

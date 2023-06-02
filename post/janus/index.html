@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -90,25 +90,25 @@ issues. I decided to &ldquo;fork&rdquo; it and implements all the stuff I needed
 usable.</p>
 <h2 id="how-to-use-it">How to use it</h2>
 <p>From the current repo, I just installed it under <code>/usr/local/bin</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">git clone <span class="s2">&#34;https://github.com/IxDay/janus&#34;</span>
-<span class="nb">cd</span> janus
-make
-<span class="nv">PREFIX</span><span class="o">=</span>/usr/local make install
-</code></pre></div><p>My current laptop is using Archlinux I just replaced my SystemD unit file with
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">git clone <span class="s2">&#34;https://github.com/IxDay/janus&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> janus
+</span></span><span class="line"><span class="cl">make
+</span></span><span class="line"><span class="cl"><span class="nv">PREFIX</span><span class="o">=</span>/usr/local make install
+</span></span></code></pre></div><p>My current laptop is using Archlinux I just replaced my SystemD unit file with
 my new binary (previous version from <a href="https://wiki.archlinux.org/index.php/SSH_keys#Start_ssh-agent_with_systemd_user">Archlinux wiki</a>):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
-<span class="na">Description</span><span class="o">=</span><span class="s">SSH key agent (Janus)</span>
-
-<span class="k">[Service]</span>
-<span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
-<span class="na">Environment</span><span class="o">=</span><span class="s">SSH_AUTH_SOCK=%t/ssh-agent.socket</span>
-<span class="c1"># Display required for ssh-askpass to work</span>
-<span class="na">Environment</span><span class="o">=</span><span class="s">DISPLAY=:0</span>
-<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/janus</span>
-
-<span class="k">[Install]</span>
-<span class="na">WantedBy</span><span class="o">=</span><span class="s">default.target</span>
-</code></pre></div><p>Here a few useful commands:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">SSH key agent (Janus)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Type</span><span class="o">=</span><span class="s">simple</span>
+</span></span><span class="line"><span class="cl"><span class="na">Environment</span><span class="o">=</span><span class="s">SSH_AUTH_SOCK=%t/ssh-agent.socket</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Display required for ssh-askpass to work</span>
+</span></span><span class="line"><span class="cl"><span class="na">Environment</span><span class="o">=</span><span class="s">DISPLAY=:0</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/janus</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Install]</span>
+</span></span><span class="line"><span class="cl"><span class="na">WantedBy</span><span class="o">=</span><span class="s">default.target</span>
+</span></span></code></pre></div><p>Here a few useful commands:</p>
 <ul>
 <li>You can activate this using SystemD: <code>systemctl --user enable ssh-agent</code>.</li>
 <li>You can check the logs using the journal command: <code>journalctl --user -fu ssh-agent</code>.</li>
@@ -146,8 +146,8 @@ You can track the progress on <a href="https://github.com/IxDay/gopass">my fork<
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/janus/",
     locale: "en"
   };

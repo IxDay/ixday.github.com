@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -93,11 +93,11 @@ want in the search bar. For this example, I will retrieve an
 which is a clone of the one in the docker hub
 <a href="https://quay.io/repository/aptible/alpine">https://quay.io/repository/aptible/alpine</a>.
 In the page open the web debugger and in the console enter the following:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="nx">$</span><span class="p">(</span><span class="s2">&#34;meta[name=&#39;ac-discovery&#39;]&#34;</span><span class="p">).</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// simple jquery request
-</span><span class="c1"></span>
-<span class="c1">// this should be the output
-</span><span class="c1"></span><span class="p">[</span><span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&#34;ac-discovery&#34;</span> <span class="nx">content</span><span class="o">=</span><span class="s2">&#34;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&#34;</span><span class="o">&gt;</span><span class="p">]</span>
-</code></pre></div><p>The part between <code>{}</code> are variables, and should be replaced by what we want to
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-javascript" data-lang="javascript"><span class="line"><span class="cl"><span class="nx">$</span><span class="p">(</span><span class="s2">&#34;meta[name=&#39;ac-discovery&#39;]&#34;</span><span class="p">).</span><span class="nx">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1">// simple jquery request
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">// this should be the output
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">[</span><span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">name</span><span class="o">=</span><span class="s2">&#34;ac-discovery&#34;</span> <span class="nx">content</span><span class="o">=</span><span class="s2">&#34;quay.io https://quay.io/c1/aci/{name}/{version}/{ext}/{os}/{arch}/&#34;</span><span class="o">&gt;</span><span class="p">]</span>
+</span></span></code></pre></div><p>The part between <code>{}</code> are variables, and should be replaced by what we want to
 retrieve, spec <a href="https://github.com/appc/spec/blob/master/spec/discovery.md">here</a></p>
 <ul>
 <li><strong>name</strong>: the name of the image, here it is <code>alpine</code>, but there is a trick
@@ -115,22 +115,21 @@ the signature.</li>
 <p>Resulting URL will be:
 <code>https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64</code></p>
 <h2 id="retrieve---deflate---start">Retrieve - Deflate - Start</h2>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Download the image inside a alpine.tgz file</span>
-wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
-
-<span class="c1"># Untar it</span>
-tar xvf alpine.tgz
-
-<span class="c1"># Boot it, with systemd-nspawn</span>
-sudo systemd-nspawn -M alpine -D rootfs
-
-<span class="c1"># TADAAA! You are now inside a container </span>
-</code></pre></div><p>You can also download, untar, rename and place the directory in your tree with
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Download the image inside a alpine.tgz file</span>
+</span></span><span class="line"><span class="cl">wget -O alpine.tgz https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Untar it</span>
+</span></span><span class="line"><span class="cl">tar xvf alpine.tgz
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Boot it, with systemd-nspawn</span>
+</span></span><span class="line"><span class="cl">sudo systemd-nspawn -M alpine -D rootfs
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># TADAAA! You are now inside a container </span>
+</span></span></code></pre></div><p>You can also download, untar, rename and place the directory in your tree with
 one command:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">wget -O - <span class="s2">&#34;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&#34;</span> <span class="p">|</span> <span class="se">\
-</span><span class="se"></span>		tar -C <span class="s2">&#34;/tmp/alpine&#34;</span> --transform<span class="o">=</span><span class="s2">&#34;s|rootfs/|/|&#34;</span> -xzf -
-
-</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">wget -O - <span class="s2">&#34;https://quay.io/c1/aci/quay.io/aptible/alpine/latest/aci/linux/amd64&#34;</span> <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		tar -C <span class="s2">&#34;/tmp/alpine&#34;</span> --transform<span class="o">=</span><span class="s2">&#34;s|rootfs/|/|&#34;</span> -xzf -
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>Easy duh!?</p>
 
   </div>
@@ -146,8 +145,8 @@ one command:</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/url/docker_nspawn/",
     locale: "en"
   };

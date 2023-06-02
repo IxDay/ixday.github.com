@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -107,13 +107,13 @@ partition to hold the initram images, with an ext4 filesystem.</li>
 expert disk partioning in the installation wizard.</p>
 <p>Install LVM into the new system (with chroot), then fillup the fstab file
 to look similar to something like this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data<span class="o">=</span>ordered  <span class="m">0</span> <span class="m">1</span>
-/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          0	<span class="m">0</span>
-
-proc          /proc	    proc  defaults        0	<span class="m">0</span>
-/dev/sda3     /boot	    ext4  defaults        <span class="m">0</span> <span class="m">2</span>
-/dev/sda2     /boot/efi vfat  defaults        <span class="m">0</span> <span class="m">2</span>
-</code></pre></div><h2 id="configuration">Configuration</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/dev/mapper/vg_ssd-lv_root  /	    ext4	rw,relatime,discard,data<span class="o">=</span>ordered  <span class="m">0</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl">/dev/mapper/vg_ssd-lv_swap  none	swap	defaults                          0	<span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">proc          /proc	    proc  defaults        0	<span class="m">0</span>
+</span></span><span class="line"><span class="cl">/dev/sda3     /boot	    ext4  defaults        <span class="m">0</span> <span class="m">2</span>
+</span></span><span class="line"><span class="cl">/dev/sda2     /boot/efi vfat  defaults        <span class="m">0</span> <span class="m">2</span>
+</span></span></code></pre></div><h2 id="configuration">Configuration</h2>
 <p>Now that we have a running distribution there is some small details to fix.
 Here are some piece of configuration I needed to fix to have a satisfying
 install.</p>
@@ -124,8 +124,8 @@ setup the default.</p>
 <h3 id="microphone-issue">Microphone issue</h3>
 <p>As I use a Macbook I have an issue with my mic by default. To fix that, just
 create the <code>/etc/modprobe.d/alsa-base.conf</code> file, and just past the following:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">options snd-hda-intel model=mbp101 index=1
-</code></pre></div><p>Reboot, and tadaaa!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">options snd-hda-intel model=mbp101 index=1
+</span></span></code></pre></div><p>Reboot, and tadaaa!</p>
 <h3 id="systemd">Systemd</h3>
 <p>By default, on LMDE Betsy (my current installation), the init system is
 still sysvinit.
@@ -137,17 +137,17 @@ that: <code>systemd-sysv</code>.</p>
 <h3 id="powertop">Powertop</h3>
 <p>As systemd is already installed, here is the service file:
 <code>/etc/systemd/system/powertop.service</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="k">[Unit]</span>
-<span class="na">Description</span><span class="o">=</span><span class="s">Powertop tunings</span>
-
-<span class="k">[Service]</span>
-<span class="na">Type</span><span class="o">=</span><span class="s">oneshot</span>
-<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/sbin/powertop --auto-tune</span>
-<span class="na">Environment</span><span class="o">=</span><span class="s">&#34;TERM=xterm&#34;</span>
-
-<span class="k">[Install]</span>
-<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
-</code></pre></div><p><strong>Note</strong>: I had to install <code>xterm</code> in order to make the service work, because
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ini" data-lang="ini"><span class="line"><span class="cl"><span class="k">[Unit]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Description</span><span class="o">=</span><span class="s">Powertop tunings</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Service]</span>
+</span></span><span class="line"><span class="cl"><span class="na">Type</span><span class="o">=</span><span class="s">oneshot</span>
+</span></span><span class="line"><span class="cl"><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/sbin/powertop --auto-tune</span>
+</span></span><span class="line"><span class="cl"><span class="na">Environment</span><span class="o">=</span><span class="s">&#34;TERM=xterm&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">[Install]</span>
+</span></span><span class="line"><span class="cl"><span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</span></span></code></pre></div><p><strong>Note</strong>: I had to install <code>xterm</code> in order to make the service work, because
 powertop needs a shell at runtime to perform the auto-tune statement.</p>
 <p>It is a systemd service which will be loaded at startup, so just enable it:
 <code>systemctl enable powertop</code></p>
@@ -175,8 +175,8 @@ powertop needs a shell at runtime to perform the auto-tune statement.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/linux_mint/",
     locale: "en"
   };

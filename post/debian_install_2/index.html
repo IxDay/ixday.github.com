@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -85,16 +85,15 @@ perfect &ldquo;workstation&rdquo; ;).</p>
 then the
 <a href="https://github.com/IxDay/config_files/tree/new_conf/source.list.d">sources.list</a>.</p>
 <p>Just run an <code>aptitude update</code>, and you will some missing gpg keys, now run</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;
-</code></pre></div><p>To have your keys installed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">apt-key adv --recv-keys --keyserver keyserver.ubuntu.com &lt;key_number&gt;
+</span></span></code></pre></div><p>To have your keys installed.</p>
 <h2 id="sudo">sudo</h2>
 <p>A sudo file is important in order to correctly manage a computer, a simple
 <code>aptitude install sudo</code> will give you the tool.</p>
 <p>Then uncomment the following line</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Allow members of group sudo to execute any command</span>
-%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
-
-</code></pre></div><p>Then add your user to the group sudo <code>gpasswd -a &lt;your_user&gt; sudo</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Allow members of group sudo to execute any command</span>
+</span></span><span class="line"><span class="cl">%sudo   <span class="nv">ALL</span><span class="o">=(</span>ALL:ALL<span class="o">)</span> ALL
+</span></span></code></pre></div><p>Then add your user to the group sudo <code>gpasswd -a &lt;your_user&gt; sudo</code></p>
 <h2 id="install-all-the-packages-o">install all the packages o/</h2>
 <p>Here is the list of packages I install by default, you can click on them to go
 to the proper section</p>
@@ -182,10 +181,10 @@ Xserver startup from the <code>.xinitrc</code> file.</p>
 <li><a href="https://github.com/IxDay/config_files/blob/new_conf/gitconfig">gitignore_global</a></li>
 </ul>
 <p>After copying those files you can create a rsa key:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;your_email@example.com&#34;</span>
-</code></pre></div><p>And to manage the keys passphrase I use <code>keychain</code> in an alias</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&#34;eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&#34;</span>
-</code></pre></div><p>It is possible to configure multiple keys, in order to separate some services.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh-keygen -t rsa -b <span class="m">4096</span> -C <span class="s2">&#34;your_email@example.com&#34;</span>
+</span></span></code></pre></div><p>And to manage the keys passphrase I use <code>keychain</code> in an alias</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">alias</span> <span class="nv">keychain_default</span><span class="o">=</span><span class="s2">&#34;eval </span><span class="k">$(</span>keychain --eval --agents ssh -Q --quiet id_rsa<span class="k">)</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><p>It is possible to configure multiple keys, in order to separate some services.
 The archlinux wiki has a good article about the SSH keys management:
 <a href="https://wiki.archlinux.org/index.php/SSH_keys">here</a></p>
 <h2 id="a-namegoogle-chromeagoogle-chrome"><!-- raw HTML omitted --><!-- raw HTML omitted -->Google Chrome</h2>
@@ -212,8 +211,8 @@ awesome.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/debian_install_2/",
     locale: "en"
   };

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -97,103 +97,103 @@ I will cover the RSA format here, but there are also others, however, logic shou
 <p>The first thing to do is to create a key pair. It is pretty straightforward in
 Go and there is plenty of examples on the internet.
 Will still put a snippet here, to save a search:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;crypto/rand&#34;</span>
-	<span class="s">&#34;crypto/rsa&#34;</span>
-
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">const</span> <span class="nx">keySize</span> <span class="p">=</span> <span class="mi">2048</span>
-
-<span class="kd">func</span> <span class="nf">generateKey</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">priv</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">GenerateKey</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">keySize</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">NewPublicKey</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">priv</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="nx">priv</span><span class="p">,</span> <span class="nx">pub</span><span class="p">,</span> <span class="kc">nil</span>
-<span class="p">}</span>
-</code></pre></div><p>I also converted the public part of the key to the SSH library structure.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rand&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rsa&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">keySize</span> <span class="p">=</span> <span class="mi">2048</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">generateKey</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">priv</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rsa</span><span class="p">.</span><span class="nf">GenerateKey</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">keySize</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">NewPublicKey</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">priv</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">priv</span><span class="p">,</span> <span class="nx">pub</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>I also converted the public part of the key to the SSH library structure.
 This is not mandatory, but it might be useful for developers.</p>
 <h3 id="marshal">Marshal</h3>
 <p>We now want to marshal this to save it to a file.
 We also want this file to be usable by the command line tooling.
 For instance, we want to be able to load the key in the SSH agent.
 To perform this we will make our output string to be in the right format.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;crypto/rsa&#34;</span>
-	<span class="s">&#34;crypto/x509&#34;</span>
-	<span class="s">&#34;encoding/pem&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">const</span> <span class="nx">typePrivateKey</span> <span class="p">=</span> <span class="s">&#34;RSA PRIVATE KEY&#34;</span>
-
-<span class="kd">func</span> <span class="nf">marshalRSAPrivate</span><span class="p">(</span><span class="nx">priv</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">pem</span><span class="p">.</span><span class="nf">EncodeToMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">pem</span><span class="p">.</span><span class="nx">Block</span><span class="p">{</span>
-		<span class="nx">Type</span><span class="p">:</span> <span class="nx">typePrivateKey</span><span class="p">,</span> <span class="nx">Bytes</span><span class="p">:</span> <span class="nx">x509</span><span class="p">.</span><span class="nf">MarshalPKCS1PrivateKey</span><span class="p">(</span><span class="nx">priv</span><span class="p">),</span>
-	<span class="p">})</span>
-<span class="p">}</span>
-</code></pre></div><p>If you save the output to a file, you can load this key in your agent with the
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rsa&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/x509&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;encoding/pem&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">typePrivateKey</span> <span class="p">=</span> <span class="s">&#34;RSA PRIVATE KEY&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">marshalRSAPrivate</span><span class="p">(</span><span class="nx">priv</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">pem</span><span class="p">.</span><span class="nf">EncodeToMemory</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">pem</span><span class="p">.</span><span class="nx">Block</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Type</span><span class="p">:</span> <span class="nx">typePrivateKey</span><span class="p">,</span> <span class="nx">Bytes</span><span class="p">:</span> <span class="nx">x509</span><span class="p">.</span><span class="nf">MarshalPKCS1PrivateKey</span><span class="p">(</span><span class="nx">priv</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>If you save the output to a file, you can load this key in your agent with the
 following command: <code>ssh-add &lt;output_file&gt;</code></p>
 <p>You may want to also save the public part in a format readable by OpenSSH
 to grant access to a user. It is usually the format you can find in the
 <code>~/.ssh/authorized_keys</code> file.
 Here is a quick snippet on how to generate this string.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;bytes&#34;</span>
-
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">marshalRSAPublic</span><span class="p">(</span><span class="nx">pub</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">TrimSuffix</span><span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nf">MarshalAuthorizedKey</span><span class="p">(</span><span class="nx">pub</span><span class="p">),</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="sc">&#39;\n&#39;</span><span class="p">})</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="unmarshal">Unmarshal</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;bytes&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">marshalRSAPublic</span><span class="p">(</span><span class="nx">pub</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">bytes</span><span class="p">.</span><span class="nf">TrimSuffix</span><span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nf">MarshalAuthorizedKey</span><span class="p">(</span><span class="nx">pub</span><span class="p">),</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">{</span><span class="sc">&#39;\n&#39;</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="unmarshal">Unmarshal</h3>
 <p>Same as the previous section but now we are loading from a file. To simplify
 the snippets I will use a slice of bytes, and remove the file handling logic.</p>
 <p>Here is the code for the private key:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;crypto/rsa&#34;</span>
-	<span class="s">&#34;crypto/x509&#34;</span>
-	<span class="s">&#34;encoding/pem&#34;</span>
-	<span class="s">&#34;fmt&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">unmarshalRSAPrivate</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">block</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">pem</span><span class="p">.</span><span class="nf">Decode</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">block</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to parse PEM block containing the key&#34;</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="k">return</span> <span class="nx">x509</span><span class="p">.</span><span class="nf">ParsePKCS1PrivateKey</span><span class="p">(</span><span class="nx">block</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>And now the code for the public part.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rsa&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/x509&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;encoding/pem&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">unmarshalRSAPrivate</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">block</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">pem</span><span class="p">.</span><span class="nf">Decode</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">block</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to parse PEM block containing the key&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nx">x509</span><span class="p">.</span><span class="nf">ParsePKCS1PrivateKey</span><span class="p">(</span><span class="nx">block</span><span class="p">.</span><span class="nx">Bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>And now the code for the public part.
 You can use a <a href="https://golang.org/pkg/bufio/#example_Scanner_lines">line scanner</a>
 to parse <code>authorized_keys</code> files.
 This also the format you will see when listing keys from your agent with this command: <code>ssh-add -L</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">unmarshalRSAPublic</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">pub</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParseAuthorizedKey</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
-	<span class="k">return</span> <span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="extra">Extra</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">unmarshalRSAPublic</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pub</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParseAuthorizedKey</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="extra">Extra</h3>
 <p>The <code>~/.ssh/known_hosts</code> file, contains public keys in a format similar to the one we have seen previously.
 It appears that the encoding is the same, only a prefix is added.
 We can check this out <a href="https://github.com/golang/crypto/blob/056763e48d71/ssh/keys.go#L123">in the source code</a>.</p>
@@ -210,105 +210,105 @@ The certificate structure contains way more fields than what I am showing here,
 I strongly advise you to add a time validity window and a serial number for proper
 security and tracking.
 Check out <a href="https://pkg.go.dev/golang.org/x/crypto/ssh?tab=doc#Certificate">the documentation</a> for more information.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">generateCert</span><span class="p">(</span><span class="nx">pub</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span> <span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span> <span class="p">{</span>
-	<span class="nx">permissions</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">Permissions</span><span class="p">{</span>
-		<span class="nx">CriticalOptions</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{},</span>
-		<span class="nx">Extensions</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span> <span class="s">&#34;permit-agent-forwarding&#34;</span><span class="p">:</span> <span class="s">&#34;&#34;</span><span class="p">},</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">{</span>
-		<span class="nx">CertType</span><span class="p">:</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">UserCert</span><span class="p">,</span> <span class="nx">Permissions</span><span class="p">:</span> <span class="nx">permissions</span><span class="p">,</span> <span class="nx">Key</span><span class="p">:</span> <span class="nx">pub</span><span class="p">,</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><h3 id="marshal-1">Marshal</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">generateCert</span><span class="p">(</span><span class="nx">pub</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span> <span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">permissions</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">Permissions</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">CriticalOptions</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{},</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">Extensions</span><span class="p">:</span> <span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span> <span class="s">&#34;permit-agent-forwarding&#34;</span><span class="p">:</span> <span class="s">&#34;&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="o">&amp;</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">CertType</span><span class="p">:</span> <span class="nx">ssh</span><span class="p">.</span><span class="nx">UserCert</span><span class="p">,</span> <span class="nx">Permissions</span><span class="p">:</span> <span class="nx">permissions</span><span class="p">,</span> <span class="nx">Key</span><span class="p">:</span> <span class="nx">pub</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h3 id="marshal-1">Marshal</h3>
 <p>To marshal a certificate to a valid string you will need to sign it
 first. Here I will self sign the certificate. Self-signing is using the private
 part of the certificate key to sign it.</p>
 <p>We first need to create a signer interface from our private key:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;crypto/rsa&#34;</span>
-
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">generateSignerFromKey</span><span class="p">(</span><span class="nx">priv</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">)</span> <span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Signer</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">NewSignerFromKey</span><span class="p">(</span><span class="nx">priv</span><span class="p">)</span>
-<span class="p">}</span>
-
-<span class="kd">func</span> <span class="nf">generateSignerFromBytes</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Signer</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParsePrivateKey</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>The <code>generateSignerFromBytes</code> function can take the output of the previous
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rsa&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">generateSignerFromKey</span><span class="p">(</span><span class="nx">priv</span> <span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">)</span> <span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Signer</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">NewSignerFromKey</span><span class="p">(</span><span class="nx">priv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">generateSignerFromBytes</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Signer</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParsePrivateKey</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>The <code>generateSignerFromBytes</code> function can take the output of the previous
 <code>marshalRSAPrivate</code> function. Since you already have a <code>*rsa.PrivateKey</code>
 structure you do not want to marshal/unmarshal again, this would be a bit
 overkill. However, the purpose of this post is to show you how
 all those structures, interfaces and types plug together.
 This is in case you load the key from a file and thus from a slice of bytes.</p>
 <p>Once we have the signer we will use it to sign the certificate:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;crypto/rsa&#34;</span>
-	<span class="s">&#34;crypto/rand&#34;</span>
-
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">generateAndSign</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">priv</span><span class="p">,</span> <span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">generateKey</span><span class="p">()</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="nx">signer</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">generateSignerFromKey</span><span class="p">(</span><span class="nx">priv</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="nx">cert</span> <span class="o">:=</span> <span class="nf">generateCert</span><span class="p">(</span><span class="nx">pub</span><span class="p">)</span>
-	<span class="k">return</span> <span class="nx">priv</span><span class="p">,</span> <span class="nx">cert</span><span class="p">,</span> <span class="nx">cert</span><span class="p">.</span><span class="nf">SignCert</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">signer</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>Now that we have a self-signed certificate we can properly marshal it. Note that
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rsa&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rand&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">generateAndSign</span><span class="p">()</span> <span class="p">(</span><span class="o">*</span><span class="nx">rsa</span><span class="p">.</span><span class="nx">PrivateKey</span><span class="p">,</span> <span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">priv</span><span class="p">,</span> <span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">generateKey</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">signer</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nf">generateSignerFromKey</span><span class="p">(</span><span class="nx">priv</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cert</span> <span class="o">:=</span> <span class="nf">generateCert</span><span class="p">(</span><span class="nx">pub</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">priv</span><span class="p">,</span> <span class="nx">cert</span><span class="p">,</span> <span class="nx">cert</span><span class="p">.</span><span class="nf">SignCert</span><span class="p">(</span><span class="nx">rand</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span> <span class="nx">signer</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Now that we have a self-signed certificate we can properly marshal it. Note that
 if we did not do the previous steps the certificate would not be complete.
 Therefore it would not have been possible to marshal it.</p>
 <p>Marshaling is actually quite simple, but the function name does not make it obvious:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">marshalCert</span><span class="p">(</span><span class="nx">cert</span> <span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">MarshalAuthorizedKey</span><span class="p">(</span><span class="nx">cert</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div><p>We do not use the <code>cert.Marshal()</code> function here, we will see later what is its
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">marshalCert</span><span class="p">(</span><span class="nx">cert</span> <span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">MarshalAuthorizedKey</span><span class="p">(</span><span class="nx">cert</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>We do not use the <code>cert.Marshal()</code> function here, we will see later what is its
 purpose.</p>
 <h3 id="unmarshal-1">Unmarshal</h3>
 <p>Unmarshaling is the opposite operation, we just need to additionally cast to
 the structure we want to have:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">unmarshalCert</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">pub</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParseAuthorizedKey</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
-	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
-	<span class="p">}</span>
-	<span class="nx">cert</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">pub</span><span class="p">.(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">)</span>
-	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to cast to certificate&#34;</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="k">return</span> <span class="nx">cert</span><span class="p">,</span> <span class="kc">nil</span>
-<span class="p">}</span>
-</code></pre></div><h2 id="ssh-agent">SSH Agent</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">unmarshalCert</span><span class="p">(</span><span class="nx">bytes</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">pub</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParseAuthorizedKey</span><span class="p">(</span><span class="nx">bytes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">cert</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">pub</span><span class="p">.(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to cast to certificate&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="k">return</span> <span class="nx">cert</span><span class="p">,</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="ssh-agent">SSH Agent</h2>
 <p>Now that we have created all those slices of bytes, we can dump them into files.
 Those files can be loaded directly in your SSH agent using the command line interface.</p>
 <p>To load a certificate in your agent you will need:</p>
@@ -333,37 +333,37 @@ If we take a close look at this agent we see a <code>List</code> function. This 
 actually returns an <code>agent.Key</code> pointer. We can transform this structure into
 an <code>ssh.PublicKey</code> interface and potentially cast it to an <code>ssh.Certificate</code> pointer.
 Here is an example on how to do this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="kn">package</span> <span class="nx">main</span>
-
-<span class="kn">import</span> <span class="p">(</span>
-	<span class="s">&#34;crypto/rsa&#34;</span>
-	<span class="s">&#34;fmt&#34;</span>
-
-	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
-	<span class="s">&#34;golang.org/x/crypto/ssh/agent&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">const</span> <span class="p">(</span>
-	<span class="nx">formatCert</span> <span class="p">=</span> <span class="s">&#34;ssh-rsa-cert-v01@openssh.com&#34;</span>
-<span class="p">)</span>
-
-<span class="kd">func</span> <span class="nf">listAndCast</span><span class="p">(</span><span class="nx">keys</span> <span class="p">[]</span><span class="o">*</span><span class="nx">agent</span><span class="p">.</span><span class="nx">Key</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
-	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">keys</span> <span class="p">{</span>
-		<span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParsePublicKey</span><span class="p">(</span><span class="nx">key</span><span class="p">.</span><span class="nx">Blob</span><span class="p">)</span>
-		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
-			<span class="k">return</span> <span class="nx">err</span>
-		<span class="p">}</span>
-		<span class="k">if</span> <span class="nx">key</span><span class="p">.</span><span class="nx">Format</span> <span class="o">==</span> <span class="nx">formatCert</span> <span class="p">{</span>
-			<span class="nx">cert</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">pub</span><span class="p">.(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">)</span>
-			<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
-				<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to cast key to certificate: %q&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
-			<span class="p">}</span>
-			<span class="c1">// ... do whatever you want with the certificate
-</span><span class="c1"></span>		<span class="p">}</span>
-	<span class="p">}</span>
-
-<span class="p">}</span>
-</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;crypto/rsa&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;golang.org/x/crypto/ssh/agent&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">formatCert</span> <span class="p">=</span> <span class="s">&#34;ssh-rsa-cert-v01@openssh.com&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">listAndCast</span><span class="p">(</span><span class="nx">keys</span> <span class="p">[]</span><span class="o">*</span><span class="nx">agent</span><span class="p">.</span><span class="nx">Key</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="k">for</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">key</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">keys</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">pub</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">ssh</span><span class="p">.</span><span class="nf">ParsePublicKey</span><span class="p">(</span><span class="nx">key</span><span class="p">.</span><span class="nx">Blob</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="k">return</span> <span class="nx">err</span>
+</span></span><span class="line"><span class="cl">		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">		<span class="k">if</span> <span class="nx">key</span><span class="p">.</span><span class="nx">Format</span> <span class="o">==</span> <span class="nx">formatCert</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">			<span class="nx">cert</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">pub</span><span class="p">.(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Certificate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="k">if</span> <span class="p">!</span><span class="nx">ok</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">				<span class="k">return</span> <span class="nx">fmt</span><span class="p">.</span><span class="nf">Errorf</span><span class="p">(</span><span class="s">&#34;failed to cast key to certificate: %q&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">			<span class="p">}</span>
+</span></span><span class="line"><span class="cl">			<span class="c1">// ... do whatever you want with the certificate
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>		<span class="p">}</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>I hope this code will help other people. I am also publishing a simple
 <a href="/code/golang_ssh_certs/ssh_certs.go">go file</a> containing all the snippets
 except for the agent. The file plugs everything together creating structures,
@@ -383,8 +383,8 @@ marshaling them, then unmarshaling.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/golang_ssh_certs/",
     locale: "en"
   };

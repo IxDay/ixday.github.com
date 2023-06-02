@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -90,84 +90,83 @@ I am now writing it down so I remember what has been achieved.</p>
 your raspberry will never boot! I am copy-pasting here the commands executed
 to properly setup the SD card partitions
 (I took the fdisk automation from <a href="https://superuser.com/questions/332252/how-to-create-and-format-a-partition-using-a-bash-script#answer-984637">this stack overflow answer</a>):</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># replace /dev/...  with your sdcard entry</span>
-sed -e <span class="s1">&#39;s/\s*\([\+0-9a-zA-Z]*\).*/\1/&#39;</span> <span class="s">&lt;&lt; EOF | fdisk /dev/mmcblk0
-</span><span class="s">  o # clear the in memory partition table
-</span><span class="s">  n # new partition
-</span><span class="s">  p # primary partition
-</span><span class="s">  1 # partition number 1
-</span><span class="s">    # default - start at beginning of disk
-</span><span class="s">  +256M # 256 MB boot parttion
-</span><span class="s">  n # new partition
-</span><span class="s">  p # primary partition
-</span><span class="s">  2 # partion number 2
-</span><span class="s">    # default, start immediately after preceding partition
-</span><span class="s">    # default, extend partition to end of disk
-</span><span class="s">  t # change partition type
-</span><span class="s">  1 # for partition 1
-</span><span class="s">  c # partition type is W95 FAT32 (LBA)
-</span><span class="s">  p # print the in-memory partition table
-</span><span class="s">  w # write the partition table
-</span><span class="s">  q # and we&#39;re done
-</span><span class="s">EOF</span>
-
-<span class="c1"># here as well replace with proper path (lsblk will help you)</span>
-mkfs.vfat /dev/mmcblk0p1
-mkfs.ext4 /dev/mmcblk0p2
-</code></pre></div><p>Now, we have to run some commands because the raspberry I am using need so.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p1 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
-curl -o - http://dl-cdn.alpinelinux.org/alpine/v3.11/releases/armhf/alpine-rpi-3.11.2-armhf.tar.gz <span class="p">|</span> <span class="se">\
-</span><span class="se"></span>	tar xzf -
-rm boot/*-rpi2
-mv boot/* .
-
-cat &gt; config.txt <span class="s">&lt;&lt;-EOF
-</span><span class="s">	disable_splash=0
-</span><span class="s">	boot_delay=0
-</span><span class="s">	gpu_mem=256
-</span><span class="s">	gpu_mem_256=32
-</span><span class="s">	kernel=vmlinuz-rpi
-</span><span class="s">	initramfs initramfs-rpi
-</span><span class="s">EOF</span>
-</code></pre></div><p>Once this is done, the SD card is ready to be plugged and the Raspberry to be booted.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># replace /dev/...  with your sdcard entry</span>
+</span></span><span class="line"><span class="cl">sed -e <span class="s1">&#39;s/\s*\([\+0-9a-zA-Z]*\).*/\1/&#39;</span> <span class="s">&lt;&lt; EOF | fdisk /dev/mmcblk0
+</span></span></span><span class="line"><span class="cl"><span class="s">  o # clear the in memory partition table
+</span></span></span><span class="line"><span class="cl"><span class="s">  n # new partition
+</span></span></span><span class="line"><span class="cl"><span class="s">  p # primary partition
+</span></span></span><span class="line"><span class="cl"><span class="s">  1 # partition number 1
+</span></span></span><span class="line"><span class="cl"><span class="s">    # default - start at beginning of disk
+</span></span></span><span class="line"><span class="cl"><span class="s">  +256M # 256 MB boot parttion
+</span></span></span><span class="line"><span class="cl"><span class="s">  n # new partition
+</span></span></span><span class="line"><span class="cl"><span class="s">  p # primary partition
+</span></span></span><span class="line"><span class="cl"><span class="s">  2 # partion number 2
+</span></span></span><span class="line"><span class="cl"><span class="s">    # default, start immediately after preceding partition
+</span></span></span><span class="line"><span class="cl"><span class="s">    # default, extend partition to end of disk
+</span></span></span><span class="line"><span class="cl"><span class="s">  t # change partition type
+</span></span></span><span class="line"><span class="cl"><span class="s">  1 # for partition 1
+</span></span></span><span class="line"><span class="cl"><span class="s">  c # partition type is W95 FAT32 (LBA)
+</span></span></span><span class="line"><span class="cl"><span class="s">  p # print the in-memory partition table
+</span></span></span><span class="line"><span class="cl"><span class="s">  w # write the partition table
+</span></span></span><span class="line"><span class="cl"><span class="s">  q # and we&#39;re done
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># here as well replace with proper path (lsblk will help you)</span>
+</span></span><span class="line"><span class="cl">mkfs.vfat /dev/mmcblk0p1
+</span></span><span class="line"><span class="cl">mkfs.ext4 /dev/mmcblk0p2
+</span></span></code></pre></div><p>Now, we have to run some commands because the raspberry I am using need so.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p1 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
+</span></span><span class="line"><span class="cl">curl -o - http://dl-cdn.alpinelinux.org/alpine/v3.11/releases/armhf/alpine-rpi-3.11.2-armhf.tar.gz <span class="p">|</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>	tar xzf -
+</span></span><span class="line"><span class="cl">rm boot/*-rpi2
+</span></span><span class="line"><span class="cl">mv boot/* .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cat &gt; config.txt <span class="s">&lt;&lt;-EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">	disable_splash=0
+</span></span></span><span class="line"><span class="cl"><span class="s">	boot_delay=0
+</span></span></span><span class="line"><span class="cl"><span class="s">	gpu_mem=256
+</span></span></span><span class="line"><span class="cl"><span class="s">	gpu_mem_256=32
+</span></span></span><span class="line"><span class="cl"><span class="s">	kernel=vmlinuz-rpi
+</span></span></span><span class="line"><span class="cl"><span class="s">	initramfs initramfs-rpi
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span></code></pre></div><p>Once this is done, the SD card is ready to be plugged and the Raspberry to be booted.</p>
 <h2 id="first-boot-and-in-memory-setup">First boot and in-memory setup</h2>
 <p>When the booting is done, you will get a prompt, user is <code>root</code> and no password
 should be required.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># run the setup and answer the various questions</span>
-setup-alpine
-
-<span class="c1"># be sure to have properly installed ssh as it ease the administration,</span>
-<span class="c1"># we now create a user to be able to connect in</span>
-adduser -G wheel foo
-
-<span class="c1"># the clock may display some errors, better fix it</span>
-ntpd -q -p ptbtime1.ptb.de
-
-<span class="c1"># we can now commit the changes</span>
-lbu commit -d
-<span class="c1"># if you want reboot in order to ensure that changes are properly saved</span>
-reboot
-</code></pre></div><h2 id="doing-the-persistent-install">Doing the persistent install</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># run the setup and answer the various questions</span>
+</span></span><span class="line"><span class="cl">setup-alpine
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># be sure to have properly installed ssh as it ease the administration,</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># we now create a user to be able to connect in</span>
+</span></span><span class="line"><span class="cl">adduser -G wheel foo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># the clock may display some errors, better fix it</span>
+</span></span><span class="line"><span class="cl">ntpd -q -p ptbtime1.ptb.de
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># we can now commit the changes</span>
+</span></span><span class="line"><span class="cl">lbu commit -d
+</span></span><span class="line"><span class="cl"><span class="c1"># if you want reboot in order to ensure that changes are properly saved</span>
+</span></span><span class="line"><span class="cl">reboot
+</span></span></code></pre></div><h2 id="doing-the-persistent-install">Doing the persistent install</h2>
 <p>The <code>sys</code> install is the next phase, it will allow your installation to survive
 reboots (as you would expect from a regular machine).</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># we mount the ext4 partition</span>
-<span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p2 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
-
-<span class="c1"># we copy from the previous commited image (you can ignore the syslinux/extlinux errors)</span>
-setup-disk -o /media/mmcblk0p1/MYHOSTNAME.apkovl.tar.gz <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
-
-<span class="c1"># now we update the fstab</span>
-<span class="nb">echo</span> <span class="s2">&#34;/dev/mmcblk0p1 /media/mmcblk0p1 vfat defaults 0 0&#34;</span> &gt;&gt; ./etc/fstab
-
-</code></pre></div><p>We now need to change the boot partition a bit in order to switch to our newly
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># we mount the ext4 partition</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="k">$(</span>mktemp -d<span class="k">)</span> <span class="o">&amp;&amp;</span> mount /dev/mmcblk0p2 . <span class="o">&amp;&amp;</span> <span class="nb">cd</span> .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># we copy from the previous commited image (you can ignore the syslinux/extlinux errors)</span>
+</span></span><span class="line"><span class="cl">setup-disk -o /media/mmcblk0p1/MYHOSTNAME.apkovl.tar.gz <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># now we update the fstab</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;/dev/mmcblk0p1 /media/mmcblk0p1 vfat defaults 0 0&#34;</span> &gt;&gt; ./etc/fstab
+</span></span></code></pre></div><p>We now need to change the boot partition a bit in order to switch to our newly
 installed system.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">mount -o remount,rw /media/mmcblk0p1 <span class="o">&amp;&amp;</span> <span class="nb">cd</span> media/mmcblk0p1
-sed -i <span class="s1">&#39;$ s/^/root=\/dev\/mmcblk0p2 /&#39;</span> /media/mmcblk0p1/cmdline.txt
-
-mkdir kernel-installer
-mv System.map-rpi config-rpi initramfs-rpi vmlinuz-rpi kernel-installer
-<span class="nb">cd</span> - <span class="o">&amp;&amp;</span> cp -v ./boot/* /media/mmcblk0p1
-</code></pre></div><p><strong>Everything should now works on next boot! You have successfully installed Alpine
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mount -o remount,rw /media/mmcblk0p1 <span class="o">&amp;&amp;</span> <span class="nb">cd</span> media/mmcblk0p1
+</span></span><span class="line"><span class="cl">sed -i <span class="s1">&#39;$ s/^/root=\/dev\/mmcblk0p2 /&#39;</span> /media/mmcblk0p1/cmdline.txt
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mkdir kernel-installer
+</span></span><span class="line"><span class="cl">mv System.map-rpi config-rpi initramfs-rpi vmlinuz-rpi kernel-installer
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> - <span class="o">&amp;&amp;</span> cp -v ./boot/* /media/mmcblk0p1
+</span></span></code></pre></div><p><strong>Everything should now works on next boot! You have successfully installed Alpine
 on a Raspberry!</strong></p>
 
   </div>
@@ -183,8 +182,8 @@ on a Raspberry!</strong></p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/alpine_raspberry/",
     locale: "en"
   };

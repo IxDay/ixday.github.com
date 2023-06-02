@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -108,7 +108,7 @@ The problem For developing my frontend I use a tool which I really like: Gulp. T
     <p>
     I have recently dug into pytest documentation, and moreover into the command line arguments and I finally found a better workflow for running tests while I develop.
 Here is the command I run when I just made some devs: py.test -xvvvs --tb=line --pdb
- -x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.
+-x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.
     
     <a href="/post/pytest_command_line/">Read More...</a>
     
@@ -149,7 +149,7 @@ Here is the command I run when I just made some devs: py.test -xvvvs --tb=line -
     <p>
     I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
- This will display the code currently, executed and shows you with an arrow at which exact line you are.
+This will display the code currently, executed and shows you with an arrow at which exact line you are.
     
     <a href="/post/pdbpp/">Read More...</a>
     
@@ -188,7 +188,7 @@ More features Sticky mode Pdbpp comes with a lot of additional features which ar
     <h2 class="caption-title"><a href="/post/linux_mint/">Linux Mint</a></h2>
     <p>
     After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition
-Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&rsquo;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.
+Why ? It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&rsquo;t have with TWM). And a lot more Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.
     
     <a href="/post/linux_mint/">Read More...</a>
     
@@ -339,10 +339,10 @@ cp some_file{,.old} It will copy your file adding a .
     <p>Following <a href="%7Bfilename%7D/2015-08-18.debian-install-2.md">this article</a>
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">  Volume group &#34;vg_ssd&#34; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-</code></pre></div><p>It appears that LVM is started before I open the crypted partition and display this error.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">  Volume group &#34;vg_ssd&#34; not found
+</span></span><span class="line"><span class="cl">  Skipping volume group vg_ssd
+</span></span><span class="line"><span class="cl">Unable to find LVM volume vg_ssd/lv_root
+</span></span></code></pre></div><p>It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.</p>
 <p>The issue is in the file <code>/usr/share/initramfs-tools/scripts/local-top/cryptroot</code></p>
     
@@ -464,8 +464,8 @@ First of all the installation, apt-get install weechat will be sufficient on a r
     
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/",
     locale: "en"
   };

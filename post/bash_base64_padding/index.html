@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -94,42 +94,42 @@ I had a <a href="https://en.wikipedia.org/wiki/JSON_Web_Token">JWT</a> token sto
 with an expiration time and I would like to check if the token has expired before
 requesting a new one. This will avoid going over the network if my token is still
 valid.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">	cat my_jwt_token.txt <span class="se">\
-</span><span class="se"></span>		<span class="p">|</span> awk -F<span class="s1">&#39;.&#39;</span> <span class="s1">&#39;{l=length($2)+2; print substr($2&#34;==&#34;,1,l-l%4)}&#39;</span> <span class="se">\
-</span><span class="se"></span>		<span class="p">|</span> base64 -d <span class="p">|</span> jq -r <span class="s1">&#39;.exp&#39;</span> <span class="se">\
-</span><span class="se"></span>		<span class="p">|</span> xargs <span class="nb">test</span> <span class="s2">&#34;</span><span class="k">$(</span>date +%s<span class="k">)</span><span class="s2">&#34;</span> -lt
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">	cat my_jwt_token.txt <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		<span class="p">|</span> awk -F<span class="s1">&#39;.&#39;</span> <span class="s1">&#39;{l=length($2)+2; print substr($2&#34;==&#34;,1,l-l%4)}&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		<span class="p">|</span> base64 -d <span class="p">|</span> jq -r <span class="s1">&#39;.exp&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>		<span class="p">|</span> xargs <span class="nb">test</span> <span class="s2">&#34;</span><span class="k">$(</span>date +%s<span class="k">)</span><span class="s2">&#34;</span> -lt
+</span></span></code></pre></div><ul>
 <li>The padding happens on the second line here is a quick explanation:</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">       ┌──── We are decoding a JWT token, base64 encoded fields are separated by a dot
-       │                                    ┌─── We add two padding characters to the second field
-       │                                    │     (the one we want to decode), which is the maximum possible padding
-       │          ┌─ We calculate the new length with the additional padding
-       │          │                         │
-awk -F&#39;.&#39; &#39;{l=length($2)+2; print substr($2&#34;==&#34;,1,l-l%4)}&#39;
-                                                     │
-  This is where we compute how much padding we need. ┘
-  We calculate the modulo 4 of the string with extra padding and use it to
-  truncate the length and remove the non required characters.
-  The resulting string will contains the required padding characters to be base64 valid
-</code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">       ┌──── We are decoding a JWT token, base64 encoded fields are separated by a dot
+</span></span><span class="line"><span class="cl">       │                                    ┌─── We add two padding characters to the second field
+</span></span><span class="line"><span class="cl">       │                                    │     (the one we want to decode), which is the maximum possible padding
+</span></span><span class="line"><span class="cl">       │          ┌─ We calculate the new length with the additional padding
+</span></span><span class="line"><span class="cl">       │          │                         │
+</span></span><span class="line"><span class="cl">awk -F&#39;.&#39; &#39;{l=length($2)+2; print substr($2&#34;==&#34;,1,l-l%4)}&#39;
+</span></span><span class="line"><span class="cl">                                                     │
+</span></span><span class="line"><span class="cl">  This is where we compute how much padding we need. ┘
+</span></span><span class="line"><span class="cl">  We calculate the modulo 4 of the string with extra padding and use it to
+</span></span><span class="line"><span class="cl">  truncate the length and remove the non required characters.
+</span></span><span class="line"><span class="cl">  The resulting string will contains the required padding characters to be base64 valid
+</span></span></code></pre></div><ul>
 <li>The third line decode the string and we use <a href="https://stedolan.github.io/jq/">jq</a> to retrieve the proper field.</li>
 <li>Fourth line is a test against current time to determine if we are past the expiration date.</li>
 </ul>
 <p>Even if I am not sure of my formula I ran a few tests using the <a href="https://en.wikipedia.org/wiki/Base64#Output_padding">wiki article</a>
 to validate it works with most of the cases:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">decode<span class="o">()</span> <span class="o">{</span>
-    awk -vstr<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s1">&#39;BEGIN {l=length(str)+2; print substr(str&#34;==&#34;,1,l-l%4)}&#39;</span> <span class="se">\
-</span><span class="se"></span>        <span class="p">|</span> base64 -d <span class="se">\
-</span><span class="se"></span>        <span class="p">|</span> <span class="o">{</span> cat<span class="p">;</span> echo<span class="p">;</span> <span class="o">}</span>
-<span class="o">}</span>
-
-decode <span class="s2">&#34;bGlnaHQgd29yay4&#34;</span>
-decode <span class="s2">&#34;bGlnaHQgd29yaw&#34;</span>
-decode <span class="s2">&#34;bGlnaHQgd29y&#34;</span>
-decode <span class="s2">&#34;bGlnaHQgd28&#34;</span>
-decode <span class="s2">&#34;bGlnaHQgdw&#34;</span>
-</code></pre></div><p>I hope this could help someone out there, I am keeping it here for my future self
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">decode<span class="o">()</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    awk -vstr<span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">1</span><span class="si">}</span><span class="s2">&#34;</span> <span class="s1">&#39;BEGIN {l=length(str)+2; print substr(str&#34;==&#34;,1,l-l%4)}&#39;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="p">|</span> base64 -d <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>        <span class="p">|</span> <span class="o">{</span> cat<span class="p">;</span> echo<span class="p">;</span> <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">decode <span class="s2">&#34;bGlnaHQgd29yay4&#34;</span>
+</span></span><span class="line"><span class="cl">decode <span class="s2">&#34;bGlnaHQgd29yaw&#34;</span>
+</span></span><span class="line"><span class="cl">decode <span class="s2">&#34;bGlnaHQgd29y&#34;</span>
+</span></span><span class="line"><span class="cl">decode <span class="s2">&#34;bGlnaHQgd28&#34;</span>
+</span></span><span class="line"><span class="cl">decode <span class="s2">&#34;bGlnaHQgdw&#34;</span>
+</span></span></code></pre></div><p>I hope this could help someone out there, I am keeping it here for my future self
 to not forget about all those tricks.</p>
 
   </div>
@@ -145,8 +145,8 @@ to not forget about all those tricks.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/bash_base64_padding/",
     locale: "en"
   };

@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -127,18 +127,18 @@ main entry used:</p>
 </li>
 <li>
 <p>create your ipxe script with an adaptation of the following to your own url</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">#!ipxe
-
-dhcp
-
-set base-url http://192.168.122.0:5050
-set kernel-params ip=dhcp modules=loop,squashfs,usb-storage nomodeset
-
-kernel ${base-url}/vmlinuz-grsec ${kernel-params}
-initrd ${base-url}/initramfs-grsec
-
-boot
-</code></pre></div><p>Here again I am not sure that all the options are needed, still have to perform some tests.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">#!ipxe
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">dhcp
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">set base-url http://192.168.122.0:5050
+</span></span><span class="line"><span class="cl">set kernel-params ip=dhcp modules=loop,squashfs,usb-storage nomodeset
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">kernel ${base-url}/vmlinuz-grsec ${kernel-params}
+</span></span><span class="line"><span class="cl">initrd ${base-url}/initramfs-grsec
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">boot
+</span></span></code></pre></div><p>Here again I am not sure that all the options are needed, still have to perform some tests.</p>
 </li>
 <li>
 <p>start your network boot!</p>
@@ -157,8 +157,8 @@ boot
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/alpine_ipxe/",
     locale: "en"
   };

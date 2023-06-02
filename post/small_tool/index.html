@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -95,11 +95,11 @@ really flexible:</p>
 <li>
 <p>you can not store a variable through multiple run, you will need to do
 a oneliner e.g:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># you will need to write this in the Dockerfile</span>
-RUN <span class="nv">TMPFILE</span><span class="o">=</span><span class="k">$(</span>tempfile<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\
-</span><span class="se"></span>  <span class="nb">echo</span> <span class="s2">&#34;Hello World&#34;</span> &gt; <span class="nv">$TMPFILE</span> <span class="o">&amp;&amp;</span> <span class="se">\
-</span><span class="se"></span>  rm <span class="nv">$TMPFILE</span>
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># you will need to write this in the Dockerfile</span>
+</span></span><span class="line"><span class="cl">RUN <span class="nv">TMPFILE</span><span class="o">=</span><span class="k">$(</span>tempfile<span class="k">)</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  <span class="nb">echo</span> <span class="s2">&#34;Hello World&#34;</span> &gt; <span class="nv">$TMPFILE</span> <span class="o">&amp;&amp;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  rm <span class="nv">$TMPFILE</span>
+</span></span></code></pre></div></li>
 <li>
 <p>you cannot build remotely from a custom branch:
 [see this post](<a href="http://stackoverflow.com/questions/25509828/">http://stackoverflow.com/questions/25509828/</a>
@@ -155,8 +155,8 @@ the chain because I really use markdown all the time.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/small_tool/",
     locale: "en"
   };

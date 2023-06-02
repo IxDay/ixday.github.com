@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -78,26 +78,26 @@
     </header>
     <p>Here are some options and command I use with <code>curl</code> when dealing with stuff
 I have to develop.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">curl -si &lt;ip&gt; <span class="c1"># -s is the silent flag, it removes the progress</span>
-              <span class="c1"># -i displays the headers</span>
-
-curl -X POST -H <span class="s2">&#34;Content-Type: application/json&#34;</span> -u <span class="s2">&#34;admin:admin&#34;</span> -d <span class="s1">&#39;{}&#39;</span> &lt;ip&gt;
-<span class="c1"># -X set up the http method (here POST)</span>
-<span class="c1"># -H set up an header, format is: &#34;header_name: value&#34;</span>
-<span class="c1"># -u support for Basic Auth, format is: &#34;user:password&#34;</span>
-<span class="c1"># -d set up data to send to the server</span>
-</code></pre></div><p>I mostly use those options, the <code>-s</code> is really interesting when you want to
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -si &lt;ip&gt; <span class="c1"># -s is the silent flag, it removes the progress</span>
+</span></span><span class="line"><span class="cl">              <span class="c1"># -i displays the headers</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">curl -X POST -H <span class="s2">&#34;Content-Type: application/json&#34;</span> -u <span class="s2">&#34;admin:admin&#34;</span> -d <span class="s1">&#39;{}&#39;</span> &lt;ip&gt;
+</span></span><span class="line"><span class="cl"><span class="c1"># -X set up the http method (here POST)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -H set up an header, format is: &#34;header_name: value&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -u support for Basic Auth, format is: &#34;user:password&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># -d set up data to send to the server</span>
+</span></span></code></pre></div><p>I mostly use those options, the <code>-s</code> is really interesting when you want to
 grep the content.</p>
 <p>So, when testing availability of an http service, I use this snippet:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span> curl -si &lt;ip&gt;<span class="p">|</span>awk <span class="s1">&#39;NR==1||NR==3&#39;</span><span class="p">;</span> sleep 1<span class="p">;</span> <span class="k">done</span>
-</code></pre></div><p>This will do kind of a ping for an http service, displaying this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text">HTTP/1.1 200 OK
-Date: Tue, 19 Jul 2016 12:23:43 GMT
-HTTP/1.1 200 OK
-Date: Tue, 19 Jul 2016 12:23:45 GMT
-HTTP/1.1 200 OK
-Date: Tue, 19 Jul 2016 12:23:46 GMT
-</code></pre></div><p>The status of the http call, and the date of the call has been done.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="k">while</span> true<span class="p">;</span> <span class="k">do</span> curl -si &lt;ip&gt;<span class="p">|</span>awk <span class="s1">&#39;NR==1||NR==3&#39;</span><span class="p">;</span> sleep 1<span class="p">;</span> <span class="k">done</span>
+</span></span></code></pre></div><p>This will do kind of a ping for an http service, displaying this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">HTTP/1.1 200 OK
+</span></span><span class="line"><span class="cl">Date: Tue, 19 Jul 2016 12:23:43 GMT
+</span></span><span class="line"><span class="cl">HTTP/1.1 200 OK
+</span></span><span class="line"><span class="cl">Date: Tue, 19 Jul 2016 12:23:45 GMT
+</span></span><span class="line"><span class="cl">HTTP/1.1 200 OK
+</span></span><span class="line"><span class="cl">Date: Tue, 19 Jul 2016 12:23:46 GMT
+</span></span></code></pre></div><p>The status of the http call, and the date of the call has been done.</p>
 
   </div>
 </article>
@@ -112,8 +112,8 @@ Date: Tue, 19 Jul 2016 12:23:46 GMT
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/curl_utils/",
     locale: "en"
   };

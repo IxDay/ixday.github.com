@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -85,36 +85,36 @@ now standard prometheus + grafana (and some others services) to handle this.
 To monitor my host machine I am using the <a href="https://github.com/prometheus/node_exporter">node exporter</a> project in a <code>daemon-set</code>
 and mount the entire host system in it so it can be monitored.</p>
 <p>During the deployment the node exporter pod was crashing with the following error:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt">Error: failed to start container &#34;node-exporter&#34;: Error response from daemon:
-	path / is mounted on / but it is not a shared or slave mount
-Error: failed to start container &#34;node-exporter&#34;: Error response from daemon:
-	path /sys is mounted on /sys but it is not a shared or slave mount
-</code></pre></div><p>Little did I know about this kind of issue or even what was a <code>slave mount</code> or
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">Error: failed to start container &#34;node-exporter&#34;: Error response from daemon:
+</span></span><span class="line"><span class="cl">	path / is mounted on / but it is not a shared or slave mount
+</span></span><span class="line"><span class="cl">Error: failed to start container &#34;node-exporter&#34;: Error response from daemon:
+</span></span><span class="line"><span class="cl">	path /sys is mounted on /sys but it is not a shared or slave mount
+</span></span></code></pre></div><p>Little did I know about this kind of issue or even what was a <code>slave mount</code> or
 a <code>shared mount</code>. I ended up checking the world wide web and found out a bunch
 of explanation about it.
 <a href="https://unix.stackexchange.com/questions/659941/what-do-mount-slave-and-rslave-option-do">Here is the stack exchange</a> page which describe it
 the best in the most concise way.</p>
 <p>Now that I knew about it, it was only one command away:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">mount --make-rshared /
-</code></pre></div><p>Since this is recursive and I will need the root directory for node exporter, I
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">mount --make-rshared /
+</span></span></code></pre></div><p>Since this is recursive and I will need the root directory for node exporter, I
 only need to run it once (no need to go for <code>/sys</code> or <code>/run</code> as they are below <code>/</code>). However, there might be security considerations here
 so use this line with caution. If I find better info I will amend this article.</p>
 <p>Next step is to make me able to check if a specific directory is shared or not.
 I wanted this check to be as simple as possible (so no extra command to install).
 I ended up finding this information in the <code>/proc</code> directory.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">cat /proc/self/mountinfo <span class="p">|</span> grep &lt;path_to_check&gt;
-</code></pre></div><p>Another thing is to make this change permanent. At first, I thought this was
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cat /proc/self/mountinfo <span class="p">|</span> grep &lt;path_to_check&gt;
+</span></span></code></pre></div><p>Another thing is to make this change permanent. At first, I thought this was
 some kind of a mount option. I ended up reading (not properly I have to confess)
 <code>/etc/fstab</code> without finding any evidence on how to do this. It appeared that
 you may have to run the <code>--make-shared</code> option at every boot phase.
 Since I am using alpine linux I followed <a href="https://unix.stackexchange.com/questions/442020/alpine-linux-run-a-startup-script-to-change-the-etc-issue">those instructions</a> to
 ensure my filesystem was mounted properly:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">install -D -m <span class="m">0755</span> /dev/stderr /etc/local.d/10-mount.start 2<span class="s">&lt;&lt;-EOF
-</span><span class="s">	#!/bin/sh
-</span><span class="s">	mount --make-rshared /
-</span><span class="s">EOF</span>
-rc-update add <span class="nb">local</span> default
-</code></pre></div><p>This conclude this small article, I hope it could be useful for someone else.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">install -D -m <span class="m">0755</span> /dev/stderr /etc/local.d/10-mount.start 2<span class="s">&lt;&lt;-EOF
+</span></span></span><span class="line"><span class="cl"><span class="s">	#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="s">	mount --make-rshared /
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">rc-update add <span class="nb">local</span> default
+</span></span></code></pre></div><p>This conclude this small article, I hope it could be useful for someone else.
 All in all this is a good personal reminder of what I did and how I managed to
 make it work.  Cheers!</p>
 
@@ -131,8 +131,8 @@ make it work.  Cheers!</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/shared_mount/",
     locale: "en"
   };

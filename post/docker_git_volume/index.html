@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -84,14 +84,14 @@ a container and clone a repo in it. I also wanted to avoid messing with the
 permissions and pass my user to the container as well.</p>
 <h2 id="set-test-env">Set test env</h2>
 <p>Here is my setup, a Dockerfile with a container and git installed</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
-</span></code></pre></div><p>Then simply run the git clone command inside a volume mounted with correct uid
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
+</span></span></span></code></pre></div><p>Then simply run the git clone command inside a volume mounted with correct uid
 and gid.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">docker build -t foo --rm .
-</span><span class="go">docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \
-</span><span class="go">	git clone https://github.com/octocat/Spoon-Knife
-</span></code></pre></div><p>And I get the following error:
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">docker build -t foo --rm .
+</span></span></span><span class="line"><span class="cl"><span class="go">docker run --rm -u 1000:1000 -v $(pwd):/mnt -w /mnt test \
+</span></span></span><span class="line"><span class="cl"><span class="go">	git clone https://github.com/octocat/Spoon-Knife
+</span></span></span></code></pre></div><p>And I get the following error:
 <code>fatal: unable to look up current user in the passwd file: no such user</code>. This
 is actually right, my user only exists on the host and not into my container.</p>
 <h2 id="googling">Googling</h2>
@@ -117,11 +117,11 @@ we need a generic setup, whereas <code>--global</code> as root will only set the
 for the root user.</p>
 <h2 id="final-setup">Final setup</h2>
 <p>We modify our Dockerfile according to the last results.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
-</span><span class="err">
-</span><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
-</span><span class="err"></span><span class="k">RUN</span> git config --system core.logallrefupdates false<span class="err">
-</span></code></pre></div><p>The git config command is case insensitive, so all lowercase will work here.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="line"><span class="cl"><span class="k">FROM</span><span class="s"> alpine:3.2</span><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> apk --update add git<span class="err">
+</span></span></span><span class="line"><span class="cl"><span class="err"></span><span class="k">RUN</span> git config --system core.logallrefupdates false<span class="err">
+</span></span></span></code></pre></div><p>The git config command is case insensitive, so all lowercase will work here.
 Now just run the previous build and run again your git clone.</p>
 <p><strong>It works!</strong></p>
 
@@ -138,8 +138,8 @@ Now just run the previous build and run again your git clone.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/docker_git_volume/",
     locale: "en"
   };

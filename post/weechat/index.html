@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -124,16 +124,16 @@ Here is the command to download the script:</p>
 <p>Relauch weechat or type <code>/script load chanlist.rb</code>.
 We now have the buffer list on the left, but there is some commands to run in order to
 have something good.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># It is mandatory and appears in the chanlist documentation.</span>
-/set irc.look.server_buffer independent
-
-<span class="c1"># Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).</span>
-/set plugins.var.ruby.chanlist.utf8 on
-
-<span class="c1"># Fix chanlist size</span>
-/set weechat.bar.chanlist.size <span class="m">30</span>
-/set weechat.bar.chanlist.size_max <span class="m">30</span>
-</code></pre></div><p>The two last config fixed the weechat chanlist bar size.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># It is mandatory and appears in the chanlist documentation.</span>
+</span></span><span class="line"><span class="cl">/set irc.look.server_buffer independent
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Add UTF8 (for the delimiter) only if your terminal is UTF8 compatible (I hope so).</span>
+</span></span><span class="line"><span class="cl">/set plugins.var.ruby.chanlist.utf8 on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Fix chanlist size</span>
+</span></span><span class="line"><span class="cl">/set weechat.bar.chanlist.size <span class="m">30</span>
+</span></span><span class="line"><span class="cl">/set weechat.bar.chanlist.size_max <span class="m">30</span>
+</span></span></code></pre></div><p>The two last config fixed the weechat chanlist bar size.</p>
 <p>Finally, I do not really like the color which is used for displaying the current
 buffer. I want it magenta, chanlist is not very well developed and I will have to
 modify the source code. Run the following line for changing this:</p>
@@ -142,68 +142,68 @@ modify the source code. Run the following line for changing this:</p>
 <p><a href="%7Bfilename%7D/images/weechat_chanlist.png"><img src="%7Bfilename%7D/images/weechat_chanlist.png" alt="chanlist screen">{:.image-process-article-image}</a>{:target=&quot;_blank&quot;}</p>
 <h2 id="connect-to-a-server-and-a-channel">Connect to a server and a channel</h2>
 <p>Now we can visualize the buffers we will connect to a server.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Setup nickname and connect</span>
-/set irc.server_default.nicks <span class="s2">&#34;MaxV, MaxV_, MaxV__&#34;</span>
-/connect freenode
-/join <span class="c1">#freenode</span>
-
-<span class="c1"># Customize nicklist</span>
-/set irc.look.color_nicks_in_nicklist on
-/set weechat.bar.nicklist.size_max <span class="m">12</span>
-/set weechat.bar.nicklist.size <span class="m">12</span>
-</code></pre></div><p>Here is the result:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Setup nickname and connect</span>
+</span></span><span class="line"><span class="cl">/set irc.server_default.nicks <span class="s2">&#34;MaxV, MaxV_, MaxV__&#34;</span>
+</span></span><span class="line"><span class="cl">/connect freenode
+</span></span><span class="line"><span class="cl">/join <span class="c1">#freenode</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Customize nicklist</span>
+</span></span><span class="line"><span class="cl">/set irc.look.color_nicks_in_nicklist on
+</span></span><span class="line"><span class="cl">/set weechat.bar.nicklist.size_max <span class="m">12</span>
+</span></span><span class="line"><span class="cl">/set weechat.bar.nicklist.size <span class="m">12</span>
+</span></span></code></pre></div><p>Here is the result:</p>
 <p><a href="%7Bfilename%7D/images/weechat_nicklist.png"><img src="%7Bfilename%7D/images/weechat_nicklist.png" alt="nicklist screen">{:.image-process-article-image}</a>{:target=&quot;_blank&quot;}</p>
 <h2 id="bars">Bars</h2>
 <p>I will now customize the bars (because I can :p), this is inspired by
 <a href="http://pascalpoitras.com/my-weechat-configuration/">Pascal Poitras blog entry</a>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Change original separator (need UTF8 support)</span>
-/set weechat.look.separator_horizontal <span class="s2">&#34;—&#34;</span>
-
-<span class="c1"># Create and customize activetitle bar</span>
-/bar add activetitle window top <span class="m">1</span> <span class="m">0</span> buffer_title
-/set weechat.bar.activetitle.priority <span class="m">500</span>
-/set weechat.bar.activetitle.conditions <span class="s2">&#34;</span><span class="si">${</span><span class="nv">active</span><span class="si">}</span><span class="s2">&#34;</span>
-/set weechat.bar.activetitle.color_fg red
-/set weechat.bar.activetitle.color_bg default
-/set weechat.bar.activetitle.separator on
-
-<span class="c1"># Customize the title bar</span>
-/set weechat.bar.title.conditions <span class="s2">&#34;</span><span class="si">${</span><span class="nv">inactive</span><span class="si">}</span><span class="s2">&#34;</span>
-/set weechat.bar.title.color_fg white
-/set weechat.bar.title.color_bg default
-/set weechat.bar.title.separator on
-
-<span class="c1"># Remove status bar</span>
-/bar del status
-
-<span class="c1"># Create and customize the rootinput bar</span>
-/bar add rootinput root bottom <span class="m">1</span> <span class="m">0</span> <span class="o">[</span>buffer_name<span class="o">]</span>+<span class="o">[</span>input_prompt<span class="o">]</span>+<span class="o">(</span>away<span class="o">)</span>,<span class="se">\
-</span><span class="se"></span><span class="o">[</span>input_search<span class="o">]</span>,<span class="o">[</span>input_paste<span class="o">]</span>,input_text
-/set weechat.bar.rootinput.separator on
-
-<span class="c1"># Remove the input bar</span>
-/bar del input
-</code></pre></div><p>Here is the result:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Change original separator (need UTF8 support)</span>
+</span></span><span class="line"><span class="cl">/set weechat.look.separator_horizontal <span class="s2">&#34;—&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create and customize activetitle bar</span>
+</span></span><span class="line"><span class="cl">/bar add activetitle window top <span class="m">1</span> <span class="m">0</span> buffer_title
+</span></span><span class="line"><span class="cl">/set weechat.bar.activetitle.priority <span class="m">500</span>
+</span></span><span class="line"><span class="cl">/set weechat.bar.activetitle.conditions <span class="s2">&#34;</span><span class="si">${</span><span class="nv">active</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">/set weechat.bar.activetitle.color_fg red
+</span></span><span class="line"><span class="cl">/set weechat.bar.activetitle.color_bg default
+</span></span><span class="line"><span class="cl">/set weechat.bar.activetitle.separator on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Customize the title bar</span>
+</span></span><span class="line"><span class="cl">/set weechat.bar.title.conditions <span class="s2">&#34;</span><span class="si">${</span><span class="nv">inactive</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">/set weechat.bar.title.color_fg white
+</span></span><span class="line"><span class="cl">/set weechat.bar.title.color_bg default
+</span></span><span class="line"><span class="cl">/set weechat.bar.title.separator on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Remove status bar</span>
+</span></span><span class="line"><span class="cl">/bar del status
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Create and customize the rootinput bar</span>
+</span></span><span class="line"><span class="cl">/bar add rootinput root bottom <span class="m">1</span> <span class="m">0</span> <span class="o">[</span>buffer_name<span class="o">]</span>+<span class="o">[</span>input_prompt<span class="o">]</span>+<span class="o">(</span>away<span class="o">)</span>,<span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="o">[</span>input_search<span class="o">]</span>,<span class="o">[</span>input_paste<span class="o">]</span>,input_text
+</span></span><span class="line"><span class="cl">/set weechat.bar.rootinput.separator on
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Remove the input bar</span>
+</span></span><span class="line"><span class="cl">/bar del input
+</span></span></code></pre></div><p>Here is the result:</p>
 <p><a href="%7Bfilename%7D/images/weechat_bars.png"><img src="%7Bfilename%7D/images/weechat_bars.png" alt="bars screen">{:.image-process-article-image}</a>{:target=&quot;_blank&quot;}</p>
 <h2 id="layout">Layout</h2>
 <p>I want to display 4 buffers at a time, I will change the layout to fit my needs.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">/window splith <span class="m">50</span>
-/window splitv <span class="m">50</span>
-/window <span class="m">1</span>
-/window splitv <span class="m">50</span>
-
-/layout store default
-</code></pre></div><p><a href="%7Bfilename%7D/images/weechat_layout.png"><img src="%7Bfilename%7D/images/weechat_layout.png" alt="layout screen">{:.image-process-article-image}</a>{:target=&quot;_blank&quot;}</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/window splith <span class="m">50</span>
+</span></span><span class="line"><span class="cl">/window splitv <span class="m">50</span>
+</span></span><span class="line"><span class="cl">/window <span class="m">1</span>
+</span></span><span class="line"><span class="cl">/window splitv <span class="m">50</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/layout store default
+</span></span></code></pre></div><p><a href="%7Bfilename%7D/images/weechat_layout.png"><img src="%7Bfilename%7D/images/weechat_layout.png" alt="layout screen">{:.image-process-article-image}</a>{:target=&quot;_blank&quot;}</p>
 <h2 id="key-bindings">Key bindings</h2>
 <p>I have a few key bindings, at this point it fits my needs,
 maybe I will add some in the future and edit this post accordingly.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># Activate the mouse on Alt + x, desactivate by pressing a second time</span>
-/key <span class="nb">bind</span> meta-x /mouse toggle
-
-<span class="c1"># Navigate through windows by pressing Alt + right, Alt + left</span>
-/key <span class="nb">bind</span> meta-meta2-C /window +1
-/key <span class="nb">bind</span> meta-meta2-D /window -1
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Activate the mouse on Alt + x, desactivate by pressing a second time</span>
+</span></span><span class="line"><span class="cl">/key <span class="nb">bind</span> meta-x /mouse toggle
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Navigate through windows by pressing Alt + right, Alt + left</span>
+</span></span><span class="line"><span class="cl">/key <span class="nb">bind</span> meta-meta2-C /window +1
+</span></span><span class="line"><span class="cl">/key <span class="nb">bind</span> meta-meta2-D /window -1
+</span></span></code></pre></div>
   </div>
 </article>
 
@@ -217,8 +217,8 @@ maybe I will add some in the future and edit this post accordingly.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/weechat/",
     locale: "en"
   };

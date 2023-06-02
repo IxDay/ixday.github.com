@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -97,24 +97,24 @@ saved in the state file), then ask Terraform to display this information nicely 
 you will not be surprised here.</p>
 <p>So for the sake of simplicity let&rsquo;s say that I am working with a file looking
 like this:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="kr">resource</span> <span class="s2">&#34;a&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
-	<span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
-<span class="p">}</span>
-<span class="kr">
-</span><span class="kr">resource</span> <span class="s2">&#34;b&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
-	<span class="na">some_config</span> = <span class="nx">a</span><span class="p">.</span><span class="nx">this</span><span class="p">.</span><span class="nx">id</span>
-	<span class="na">another_config</span> = <span class="nx">a</span><span class="p">.</span><span class="nx">this</span><span class="p">.</span><span class="nx">name</span>
-<span class="p">}</span>
-</code></pre></div><p>Let&rsquo;s say that when running my <code>terraform apply</code> I get an error saying that <code>a.this.id</code> does not exist.
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-tf" data-lang="tf"><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;a&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="na">name</span> = <span class="s2">&#34;foo&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kr">
+</span></span></span><span class="line"><span class="cl"><span class="kr">resource</span> <span class="s2">&#34;b&#34;</span> <span class="s2">&#34;this&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="na">some_config</span> = <span class="nx">a</span><span class="p">.</span><span class="nx">this</span><span class="p">.</span><span class="nx">id</span>
+</span></span><span class="line"><span class="cl">	<span class="na">another_config</span> = <span class="nx">a</span><span class="p">.</span><span class="nx">this</span><span class="p">.</span><span class="nx">name</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>Let&rsquo;s say that when running my <code>terraform apply</code> I get an error saying that <code>a.this.id</code> does not exist.
 It is possible that I made a mistake and want to know what is actually held by
 the resource <code>a</code> to fix the instructions.</p>
 <p>Here is what I will run:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="c1"># this will generate the state up until my error which is at the next step</span>
-terraform apply -target a.this
-
-<span class="c1"># and now I can display what is held by the resource a</span>
-terraform show
-</code></pre></div><p>As simple as that, but it took me quite some time to figure this out. Hope it
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl"><span class="c1"># this will generate the state up until my error which is at the next step</span>
+</span></span><span class="line"><span class="cl">terraform apply -target a.this
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># and now I can display what is held by the resource a</span>
+</span></span><span class="line"><span class="cl">terraform show
+</span></span></code></pre></div><p>As simple as that, but it took me quite some time to figure this out. Hope it
 can help someone out there.</p>
 <h2 id="bonus">Bonus</h2>
 <p>Sometimes it is obvious but sometimes it may be complicated to understand the
@@ -134,8 +134,8 @@ following command: <code>terraform graph | dot -Tsvg &gt; dependencies.svg</code
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/debug_terraform/",
     locale: "en"
   };

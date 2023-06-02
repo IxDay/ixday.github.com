@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -86,9 +86,9 @@ from a custom location. The idea here will be to rename our custom certificate
 to <code>rootCA.pem</code> and pass the folder to the environment variable.</p>
 <p>If I was starting from <a href="/post/terraform_pki">my previous post</a> terraform directory,
 I would run the following commands to install the certificate on my system:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh">cp <span class="o">{</span>ca_certificate,rootCA<span class="o">}</span>.pem
-<span class="nv">CAROOT</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&#34;</span> mkcert -install
-</code></pre></div><p>And that&rsquo;s it! It should work out of the box, you can check by running <code>curl</code> without
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">cp <span class="o">{</span>ca_certificate,rootCA<span class="o">}</span>.pem
+</span></span><span class="line"><span class="cl"><span class="nv">CAROOT</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&#34;</span> mkcert -install
+</span></span></code></pre></div><p>And that&rsquo;s it! It should work out of the box, you can check by running <code>curl</code> without
 the need of the <code>--cacert</code> option from now on.</p>
 
   </div>
@@ -104,8 +104,8 @@ the need of the <code>--cacert</code> option from now on.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/mkcert_install/",
     locale: "en"
   };

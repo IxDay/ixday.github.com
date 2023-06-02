@@ -85,7 +85,7 @@ I will start by giving a series of snippets to quick start your KVM usage. I am 
       <guid>https://ixday.github.io/post/socat_telnet/</guid>
       <description>Once in a while I use telnet, mostly to check if a port is open (the infamous telnet localhost 22) and sometimes to send a random http request.
 However, telnet has a few caveats which are:
- not able to read from stdin not able to deal with https not able to handle unix sockets  Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
+not able to read from stdin not able to deal with https not able to handle unix sockets Those limitations are pushing me towards the use of the socat utility. Here I will show a few situations in which I am now using socat.</description>
     </item>
     
     <item>
@@ -238,7 +238,7 @@ Why this project I am massively using jq in my shell scripts to deal with APIs. 
       
       <guid>https://ixday.github.io/post/simple_https/</guid>
       <description>Sometimes we need to create a simple server saying hello through https. Here is a simple snippet to achieve this in a shell.
-# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ 	-out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ 	SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
+# first we generate a self signed certificate for domain foo openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \ -out foo.crt -keyout foo.key -subj &amp;#34;/CN=foo.com&amp;#34; # then we start a server using socat sudo socat &amp;#34;ssl-l:443,cert=foo.crt,key=foo.key,verify=0,fork,reuseaddr&amp;#34; \ SYSTEM:&amp;#34;echo HTTP/1.0 200; echo Content-Type\: text/plain; echo; echo Hello World\!</description>
     </item>
     
     <item>
@@ -343,7 +343,8 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
       
       <guid>https://ixday.github.io/post/makefile/</guid>
       <description>Recently, I had to build some project involving a lot of files. Two choices were possible:
- use a script to build use a Makefile  I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)</description>
+use a script to build use a Makefile I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)
+This project also learned me some tricks which can be reused, here is a little list</description>
     </item>
     
     <item>
@@ -440,7 +441,7 @@ The problem For developing my frontend I use a tool which I really like: Gulp. T
       <guid>https://ixday.github.io/post/pytest_command_line/</guid>
       <description>I have recently dug into pytest documentation, and moreover into the command line arguments and I finally found a better workflow for running tests while I develop.
 Here is the command I run when I just made some devs: py.test -xvvvs --tb=line --pdb
- -x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.</description>
+-x will stop execution on first failue, useful when debugging tests in order of appearance (recommended) -vvv will display current test path (reuasable in py.test), the path will avoid to rerun all the previous tests before going to the one you are currently working on.</description>
     </item>
     
     <item>
@@ -451,7 +452,7 @@ Here is the command I run when I just made some devs: py.test -xvvvs --tb=line -
       <guid>https://ixday.github.io/post/pdbpp/</guid>
       <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
- This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
+This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
     </item>
     
     <item>
@@ -461,7 +462,7 @@ More features Sticky mode Pdbpp comes with a lot of additional features which ar
       
       <guid>https://ixday.github.io/post/linux_mint/</guid>
       <description>After a long journey, I finally found the distribution which fits all my need: Linux Mint Debian Edition
-Why ?  It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM). And a lot more  Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
+Why ? It is based on debian a distribution which I really like (and not Ubuntu). The default tilling (similar to W7) is really comfortable. Lot of configuration can be done for shortcuts. Support for systemd (Yay \o/). Beautiful UI out of the box (which I didn&amp;rsquo;t have with TWM). And a lot more Installation As I am on Macbook (once upon a time, I was young and dumb), I need a particular configuration of the partitions for the installation.</description>
     </item>
     
     <item>
@@ -508,10 +509,10 @@ cp some_file{,.old} It will copy your file adding a .</description>
       <description>&lt;p&gt;Following &lt;a href=&#34;%7Bfilename%7D/2015-08-18.debian-install-2.md&#34;&gt;this article&lt;/a&gt;
 I have LVM on top of Luks for my system.
 When I boot I encounter the following message:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
-  Skipping volume group vg_ssd
-Unable to find LVM volume vg_ssd/lv_root
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  Volume group &amp;#34;vg_ssd&amp;#34; not found
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  Skipping volume group vg_ssd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Unable to find LVM volume vg_ssd/lv_root
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It appears that LVM is started before I open the crypted partition and display this error.
 To fix this we will manipulate the initramfs \o/.&lt;/p&gt;
 &lt;p&gt;The issue is in the file &lt;code&gt;/usr/share/initramfs-tools/scripts/local-top/cryptroot&lt;/code&gt;&lt;/p&gt;</description>
     </item>
@@ -549,7 +550,7 @@ First of all the installation, apt-get install weechat will be sufficient on a r
       <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain here) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
 I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
 Specifications Here are the features I wanted:
- Define a directory as the root (/) directory from which all the files will be served.</description>
+Define a directory as the root (/) directory from which all the files will be served.</description>
     </item>
     
     <item>
@@ -605,9 +606,9 @@ First one the app fixture:
       <guid>https://ixday.github.io/post/small_tool/</guid>
       <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
-What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
-  no evaluation for environment variables
-  you can not store a variable through multiple run, you will need to do a oneliner e.</description>
+What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+no evaluation for environment variables
+you can not store a variable through multiple run, you will need to do a oneliner e.</description>
     </item>
     
     <item>

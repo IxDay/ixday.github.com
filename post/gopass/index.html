@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -95,43 +95,43 @@ pretty straightforward as it is a single binary. Do not forget to also install
 as it contains good documentation and examples for usage of <code>gopass</code>.</p>
 <h2 id="set-up-stores-for-organizations-and-teams">Set up stores for organizations and teams</h2>
 <p>Initialization is pretty simple:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># creates a store named `foo` using binary embedded git implementation</span>
-gopass init --path ~/.local/share/password-store/foo --store foo
-
-<span class="c1"># you can then connect it to a remote git repository</span>
-gopass git remote add --store foo origin git@rulz.xyz/keys.git
-
-<span class="c1"># go to the directory and manually push, going through gopass cli is flacky</span>
-<span class="nb">cd</span>  ~/.local/share/password-store/foo <span class="o">&amp;&amp;</span> git push origin HEAD:master <span class="o">&amp;&amp;</span> <span class="nb">cd</span> -
-
-<span class="c1"># you can now sync the repo throught the cli</span>
-gopass sync
-</code></pre></div><p>If you need to clone an existing one:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">gopass clone --path ~/.local/share/password-store/foo git@rulz.xyz/keys.git foo
-</code></pre></div><h2 id="gopass-and-curl">Gopass and curl</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># creates a store named `foo` using binary embedded git implementation</span>
+</span></span><span class="line"><span class="cl">gopass init --path ~/.local/share/password-store/foo --store foo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># you can then connect it to a remote git repository</span>
+</span></span><span class="line"><span class="cl">gopass git remote add --store foo origin git@rulz.xyz/keys.git
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># go to the directory and manually push, going through gopass cli is flacky</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span>  ~/.local/share/password-store/foo <span class="o">&amp;&amp;</span> git push origin HEAD:master <span class="o">&amp;&amp;</span> <span class="nb">cd</span> -
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># you can now sync the repo throught the cli</span>
+</span></span><span class="line"><span class="cl">gopass sync
+</span></span></code></pre></div><p>If you need to clone an existing one:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">gopass clone --path ~/.local/share/password-store/foo git@rulz.xyz/keys.git foo
+</span></span></code></pre></div><h2 id="gopass-and-curl">Gopass and curl</h2>
 <p>Using <a href="https://brandur.org/fragments/gpg-curl">netrc</a> support from <code>curl</code> and
 <a href="https://github.com/gopasspw/gopass/blob/master/docs/features.md#support-for-binary-content">binary encoding</a>
 in gopass, we can run basic access authentication without leaking the password:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># first save the file (password will never hit the hdd here)</span>
-cat <span class="s">&lt;&lt; EOF |
-</span><span class="s">machine rulz.xyz
-</span><span class="s">login my_username
-</span><span class="s">password $(stty -echo; read p; echo &#34;$p&#34;; stty echo)
-</span><span class="s">EOF</span>
-gopass binary cat rulz_netrc
-
-<span class="c1"># you can now use curl and pipe the secret to it</span>
-gopass show rulz/netrc <span class="p">|</span> base64 -d <span class="p">|</span>
-	curl --netrc-file /dev/stdin -fsSL https://rulz.xyz/secrets/raw/branch/master/README.md
-</code></pre></div><h2 id="gopass-and-direnv">Gopass and direnv</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># first save the file (password will never hit the hdd here)</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt; EOF |
+</span></span></span><span class="line"><span class="cl"><span class="s">machine rulz.xyz
+</span></span></span><span class="line"><span class="cl"><span class="s">login my_username
+</span></span></span><span class="line"><span class="cl"><span class="s">password $(stty -echo; read p; echo &#34;$p&#34;; stty echo)
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">gopass binary cat rulz_netrc
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># you can now use curl and pipe the secret to it</span>
+</span></span><span class="line"><span class="cl">gopass show rulz/netrc <span class="p">|</span> base64 -d <span class="p">|</span>
+</span></span><span class="line"><span class="cl">	curl --netrc-file /dev/stdin -fsSL https://rulz.xyz/secrets/raw/branch/master/README.md
+</span></span></code></pre></div><h2 id="gopass-and-direnv">Gopass and direnv</h2>
 <p>Another thing you can do is to link it with your direnv environment
 (<a href="/post/direnv/">I wrote a post about it</a>).
 This will inject development password into environment variables, only for your
 the current directory and without the risk of committing them accidentally.</p>
 <p>Here is an example of an <code>.envrc</code> file:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">FOO</span><span class="o">=</span>BAR
-<span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="k">$(</span>gopass show foo/aws<span class="k">)</span>
-</code></pre></div><p>That&rsquo;s all for me folks! If I find other use cases, will try to post them.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">FOO</span><span class="o">=</span>BAR
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="k">$(</span>gopass show foo/aws<span class="k">)</span>
+</span></span></code></pre></div><p>That&rsquo;s all for me folks! If I find other use cases, will try to post them.</p>
 
   </div>
 </article>
@@ -146,8 +146,8 @@ the current directory and without the risk of committing them accidentally.</p>
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/gopass/",
     locale: "en"
   };

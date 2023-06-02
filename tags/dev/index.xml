@@ -126,7 +126,8 @@ I ran into an interesting issue lastly. I wanted to mount a volume inside a cont
       
       <guid>https://ixday.github.io/post/makefile/</guid>
       <description>Recently, I had to build some project involving a lot of files. Two choices were possible:
- use a script to build use a Makefile  I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)</description>
+use a script to build use a Makefile I ended up with a Makefile, which is the best solution I think. As the script has to generate a bunch of files from &amp;ldquo;source&amp;rdquo; files. (I have to confess also, I have been a bit influenced by jessfraz with those tweets: here and here)
+This project also learned me some tricks which can be reused, here is a little list</description>
     </item>
     
     <item>
@@ -147,7 +148,7 @@ The problem For developing my frontend I use a tool which I really like: Gulp. T
       <guid>https://ixday.github.io/post/pdbpp/</guid>
       <description>I am a huge fan of ipython and its debugger ipdb (I have also done a patch on it). Then I discovered pdbpp and I found it so great that I no more use ipdb, here is why.
 More features Sticky mode Pdbpp comes with a lot of additional features which are really convenient. The first and more well known is the sticky mode:
- This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
+This will display the code currently, executed and shows you with an arrow at which exact line you are.</description>
     </item>
     
     <item>
@@ -159,7 +160,7 @@ More features Sticky mode Pdbpp comes with a lot of additional features which ar
       <description>Recently I ran into an issue with my blog and pelican (the blogging engine I use). For some reasons (which I explain here) I had to develop a small wsgi app which act like the python SimpleHTTPServer.
 I tried a lot of things but they never worked as I wanted them to. So, I decided to do this by myself.
 Specifications Here are the features I wanted:
- Define a directory as the root (/) directory from which all the files will be served.</description>
+Define a directory as the root (/) directory from which all the files will be served.</description>
     </item>
     
     <item>
@@ -192,9 +193,9 @@ First one the app fixture:
       <guid>https://ixday.github.io/post/small_tool/</guid>
       <description>I really like docker (even if I will look at [systemd-nspawn](http://www.freedesktop.org/software/systemd/man/ systemd-nspawn.html)), and also gulp. So I decided to create a small tool for serving a directory with a livereload.
 The repo is available here
-What I have learned   Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
-  no evaluation for environment variables
-  you can not store a variable through multiple run, you will need to do a oneliner e.</description>
+What I have learned Docker, especially with boot2docker (I am on MacOSX shame on me), is not really flexible:
+no evaluation for environment variables
+you can not store a variable through multiple run, you will need to do a oneliner e.</description>
     </item>
     
   </channel>

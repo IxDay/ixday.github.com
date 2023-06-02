@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Hugo 0.91.2" />
+  <meta name="generator" content="Hugo 0.111.3">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
   <link rel='stylesheet' id='oswald-css'  href='//fonts.googleapis.com/css?family=Oswald&#038;ver=3.3.2' type='text/css' media='all'>
@@ -88,21 +88,21 @@ because I have too much new code and stashing would be complicated.</p>
 to apply to the old commit, and then run some magic to apply it at the proper
 moment.</p>
 <p>Here is the flow:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># add the changes you want to see there</span>
-git add -p
-
-<span class="c1"># find the hash your are looking for (use part of this command to see what happens)</span>
-<span class="nb">export</span> <span class="nv">OLDCOMMIT</span><span class="o">=</span><span class="k">$(</span>git log --oneline <span class="p">|</span> sed -e <span class="s1">&#39;s/ .*//g&#39;</span> -e <span class="s1">&#39;3q;d&#39;</span><span class="k">)</span>
-
-<span class="c1"># create a commit with it on top of your stack with a proper reference</span>
-git commit --fixup<span class="o">=</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span>
-
-<span class="c1"># you will may need to stash the rest of the changes</span>
-git stash
-
-<span class="c1"># now rework the history to apply the change</span>
-git rebase --interactive --autosquash <span class="s2">&#34;</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span><span class="s2">^&#34;</span>
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># add the changes you want to see there</span>
+</span></span><span class="line"><span class="cl">git add -p
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># find the hash your are looking for (use part of this command to see what happens)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">OLDCOMMIT</span><span class="o">=</span><span class="k">$(</span>git log --oneline <span class="p">|</span> sed -e <span class="s1">&#39;s/ .*//g&#39;</span> -e <span class="s1">&#39;3q;d&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># create a commit with it on top of your stack with a proper reference</span>
+</span></span><span class="line"><span class="cl">git commit --fixup<span class="o">=</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># you will may need to stash the rest of the changes</span>
+</span></span><span class="line"><span class="cl">git stash
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># now rework the history to apply the change</span>
+</span></span><span class="line"><span class="cl">git rebase --interactive --autosquash <span class="s2">&#34;</span><span class="si">${</span><span class="nv">OLDCOMMIT</span><span class="si">}</span><span class="s2">^&#34;</span>
+</span></span></code></pre></div>
   </div>
 </article>
 
@@ -116,8 +116,8 @@ git rebase --interactive --autosquash <span class="s2">&#34;</span><span class="
   
 <script>
   var remark_config = {
-    host: "https://remark42.rulz.xyz",
-    site_id: "blog",
+    host: "https://remark42.platipy.io",
+    site_id: "platipy",
     url: "https://ixday.github.io/post/git_patch/",
     locale: "en"
   };
